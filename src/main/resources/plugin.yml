@@ -4,3 +4,6 @@ description: Expresso pour les build battle de Buildes Coffee.
 author: Ketsu_sama
 main: eu.builderscoffee.expresso.Main
 depend: [ BuildersCoffeeAPI ]
+commands:
+  expresso:
+    description: Gerer le build battle

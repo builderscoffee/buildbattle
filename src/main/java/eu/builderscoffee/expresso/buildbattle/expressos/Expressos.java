@@ -1,5 +1,12 @@
 package eu.builderscoffee.expresso.buildbattle.expressos;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+import java.util.List;
+
+@Getter
+@AllArgsConstructor
 public enum Expressos {
     Classic("Classic"),
     Alamano("A la mano"),
@@ -14,6 +21,8 @@ public enum Expressos {
 
 
     String name;
+    List<String> description;
+
     Expressos(String name) {
         this.name = name;
     }

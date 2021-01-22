@@ -3,6 +3,8 @@ package eu.builderscoffee.expresso;
 import eu.builderscoffee.api.board.FastBoard;
 import eu.builderscoffee.api.utils.Plugins;
 import eu.builderscoffee.expresso.board.BBBoard;
+import eu.builderscoffee.expresso.buildbattle.BBGame;
+import eu.builderscoffee.expresso.buildbattle.expressos.Expressos;
 import eu.builderscoffee.expresso.commands.ExpressoCommand;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
@@ -24,6 +26,9 @@ public class Main extends JavaPlugin {
     @Getter
     public static SettingsConfiguration settings;
 
+    @Getter
+    public static BBGame bbGame;
+
     @Override
     public void onEnable() {
         instance = this;
@@ -44,6 +49,8 @@ public class Main extends JavaPlugin {
                 updateBoard(board);
             }
         }, 0, 20);
+
+        bbGame = new BBGame(Expressos.Classic);
     }
 
     @Override
