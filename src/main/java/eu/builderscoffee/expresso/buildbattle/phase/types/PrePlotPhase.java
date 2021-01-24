@@ -5,8 +5,8 @@ import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 
 public class PrePlotPhase extends BBPhase {
 
-    public PrePlotPhase(BBGame bbGame, boolean isActive) {
-        super(bbGame, isActive);
+    public PrePlotPhase(BBGame bbGame) {
+        super(bbGame);
     }
 
     @Override

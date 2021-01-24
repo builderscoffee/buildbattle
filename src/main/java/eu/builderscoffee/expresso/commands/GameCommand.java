@@ -11,18 +11,36 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExpressoCommand implements CommandExecutor {
+public class GameCommand implements CommandExecutor {
 
     MessageConfiguration messages = Main.getMessages();
     SettingsConfiguration settings = Main.getSettings();
 
     public static boolean argLength0(Player player) {
         List<String> commandList = new ArrayList<>();
-        commandList.add("§a/expresso §b: Aide du plugin Expresso");
-        commandList.add("§a/expresso bb start §b: Démarrer le build battle");
-        commandList.add("§a/expresso bb stop §b: Stopper le build battle");
+        commandList.add("§a/game §b: Aide du plugin Expresso");
+        commandList.add("§a/game start §b: Démarrer le build battle");
+        commandList.add("§a/game stop §b: Stopper le build battle");
+        commandList.add("§a/game cancel §b: Cancel le build battle");
         for (String s : commandList) {
             player.sendMessage(s);
+        }
+        return true;
+    }
+
+    public static boolean argLength1(Player player, String cmd) {
+        cmd = cmd.toLowerCase();
+        switch (cmd) {
+            case "start":
+                // Démarrer la game
+                Main.getBbGame().setReady(true);
+                break;
+            case "stop":
+                Main.getBbGame().bbGameManager.endGame();
+            case "cancel":
+                Main.getBbGame().bbGameManager.cancelLaunchCountdown("");
+            default:
+                return false;
         }
         return true;
     }
@@ -38,7 +56,7 @@ public class ExpressoCommand implements CommandExecutor {
                         ret = argLength0(player);
                         break;
                     case 1:
-                        //ret = argLength1(player, args[0]);
+                        ret = argLength1(player, args[0]);
                         break;
                     case 2:
                         //ret = argLength2(player, args[0], args[1]);

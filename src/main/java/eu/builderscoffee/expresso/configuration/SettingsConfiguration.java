@@ -7,5 +7,11 @@ import lombok.Data;
 @Configuration("settings")
 public class SettingsConfiguration {
 
+    // Global settings
+    String spawnLocation = "plotevent:0:65:0:90.0:0.0";
+
     String expressoAllPermission = "expresso.*";
+
+    // Expresso settings
+    String buildTheme = "Futuriste";
 }

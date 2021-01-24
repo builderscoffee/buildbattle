@@ -5,5 +5,7 @@ author: Ketsu_sama
 main: eu.builderscoffee.expresso.Main
 depend: [ BuildersCoffeeAPI ]
 commands:
-  expresso:
+  game:
     description: Gerer le build battle
+  jury:
+    description: Le menu jury

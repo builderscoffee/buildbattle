@@ -1,15 +1,19 @@
 package eu.builderscoffee.expresso;
 
 import eu.builderscoffee.api.board.FastBoard;
+import eu.builderscoffee.api.gui.InventoryManager;
 import eu.builderscoffee.api.utils.Plugins;
 import eu.builderscoffee.expresso.board.BBBoard;
 import eu.builderscoffee.expresso.buildbattle.BBGame;
 import eu.builderscoffee.expresso.buildbattle.expressos.Expressos;
-import eu.builderscoffee.expresso.commands.ExpressoCommand;
+import eu.builderscoffee.expresso.commands.GameCommand;
+import eu.builderscoffee.expresso.commands.JuryCommand;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
+import eu.builderscoffee.expresso.listeners.CompetitorListener;
 import eu.builderscoffee.expresso.listeners.PlayerListener;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import static eu.builderscoffee.api.configuration.Configurations.readOrCreateConfiguration;
@@ -29,6 +33,9 @@ public class Main extends JavaPlugin {
     @Getter
     public static BBGame bbGame;
 
+    @Getter
+    public static InventoryManager inventoryManager;
+
     @Override
     public void onEnable() {
         instance = this;
@@ -38,10 +45,15 @@ public class Main extends JavaPlugin {
         settings = readOrCreateConfiguration(this, SettingsConfiguration.class);
 
         // Register Listeners
-        Plugins.registerListeners(this, new PlayerListener());
+        Plugins.registerListeners(this, new PlayerListener(), new CompetitorListener());
 
         // Register Command Executors
-        this.getCommand("expresso").setExecutor(new ExpressoCommand());
+        this.getCommand("game").setExecutor(new GameCommand());
+        this.getCommand("jury").setExecutor(new JuryCommand());
+
+        // Init invt
+        inventoryManager = new InventoryManager(this);
+        inventoryManager.init();
 
         // Update scoreboard
         this.getServer().getScheduler().runTaskTimer(this, () -> {
@@ -50,7 +62,17 @@ public class Main extends JavaPlugin {
             }
         }, 0, 20);
 
-        bbGame = new BBGame(Expressos.Classic);
+        // Set game type
+        bbGame = new BBGame(Expressos.Classico);
+
+        // Check Start
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), () -> {
+            if (getBbGame() != null) {
+                getBbGame().bbGameManager.checkStart();
+            }
+        }, 0L, 20L);
+
+
     }
 
     @Override

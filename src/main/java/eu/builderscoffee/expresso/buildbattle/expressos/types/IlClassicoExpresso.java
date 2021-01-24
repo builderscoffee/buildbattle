@@ -7,21 +7,29 @@ import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.types.PrePlotPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.types.WaitingPhase;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ClassicExpresso extends Expresso {
+public class IlClassicoExpresso extends Expresso {
 
-    public ClassicExpresso(Main main) {
+    private final BBGame gameInstance = Main.getBbGame();
+    private List<BBPhase> phases;
+
+    public IlClassicoExpresso(Main main) {
         super(main);
     }
 
     @Override
-    public List<BBPhase> getPhases() {
-        List<BBPhase> phases = new ArrayList<>();
-        phases.add(new WaitingPhase(Main.getBbGame(),false));
-        phases.add(new PrePlotPhase(Main.getBbGame(),false));
+    public void onExpressoStart() {
+    }
 
+    /***
+     * Retourne les phases d'un expresso classic
+     * @return
+     */
+    @Override
+    public List<BBPhase> getPhases() {
+        phases.add(new WaitingPhase(gameInstance));
+        phases.add(new PrePlotPhase(gameInstance));
         return super.getPhases();
     }
 }

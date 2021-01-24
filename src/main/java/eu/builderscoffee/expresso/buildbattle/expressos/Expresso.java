@@ -1,28 +1,29 @@
 package eu.builderscoffee.expresso.buildbattle.expressos;
 
 import eu.builderscoffee.expresso.Main;
-import eu.builderscoffee.expresso.buildbattle.malus.Malus;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
+import lombok.Getter;
 
 import java.util.List;
 
 public abstract class Expresso {
 
-    private Main main;
-    public List<BBPhase> phases;
-    public List<Malus> malus;
+    public static List<BBPhase> phases;
+    public static BBPhase currentPhase;
+    @Getter
+    protected int count;
+    private final Main main;
 
     public Expresso(Main main) {
         this.main = main;
-        //DO SOME STUFF
+
     }
 
-    public final void startExpresso() {
-        // Start WaitingPhase
-    }
+    public abstract void onExpressoStart();
 
     /**
      * Retournes les phases d'un type d'expresso
+     *
      * @return
      */
     public List<BBPhase> getPhases() {
@@ -30,10 +31,22 @@ public abstract class Expresso {
     }
 
     /**
-     * Retour les malus d'un type d'expresso
-     * @return
+     * Avance le phases d'un cran
      */
-    public List<Malus> getMalus() {
-        return malus;
+    public void nextPhases() {
+        if (currentPhase != null) {
+            int current = phases.indexOf(currentPhase);
+            if (current < phases.size()) {
+                currentPhase = phases.get(current + 1);
+            }
+        } else {
+            currentPhase = phases.get(0);
+        }
     }
+
+    public void resetCount() {
+        count = 0;
+    }
+
+
 }
