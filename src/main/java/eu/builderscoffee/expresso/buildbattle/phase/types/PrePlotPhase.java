@@ -10,16 +10,7 @@ public class PrePlotPhase extends BBPhase {
     }
 
     @Override
-    public void onStart() {
+    public void run() {
 
-    }
-
-    @Override
-    public void onUpdate() {
-
-    }
-
-    @Override
-    public void onEnd() {
     }
 }

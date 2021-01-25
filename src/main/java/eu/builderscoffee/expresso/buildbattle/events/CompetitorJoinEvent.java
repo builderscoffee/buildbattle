@@ -25,7 +25,7 @@ public class CompetitorJoinEvent extends Event {
 
     @Override
     public String getEventName() {
-        return "CompetitorEvent";
+        return "CompetitorJoinEvent";
     }
 
     @Override

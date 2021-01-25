@@ -25,7 +25,7 @@ public class CompetitorLeaveEvent extends Event {
 
     @Override
     public String getEventName() {
-        return "CompetitorEvent";
+        return "CompetitorLeaveEvent";
     }
 
     @Override

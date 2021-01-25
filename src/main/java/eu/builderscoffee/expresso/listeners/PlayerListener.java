@@ -1,13 +1,11 @@
 package eu.builderscoffee.expresso.listeners;
 
 import eu.builderscoffee.api.board.FastBoard;
-import eu.builderscoffee.api.utils.ItemBuilder;
 import eu.builderscoffee.api.utils.LocationsUtil;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.board.BBBoard;
 import eu.builderscoffee.expresso.buildbattle.BBGameManager;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -35,6 +33,7 @@ public class PlayerListener implements Listener {
         player.setAllowFlight(true);
 
         player.getInventory().clear();
+        // If player as plot
         player.teleport(LocationsUtil.getLocationFromString(Main.getSettings().getSpawnLocation()));
 
     }
@@ -51,7 +50,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onCommand(PlayerCommandPreprocessEvent event) {
-        if(event.getMessage().equalsIgnoreCase("/plot auto")) {
+        if (event.getMessage().equalsIgnoreCase("/plot auto")) {
             Main.getBbGame().addCompetitor(event.getPlayer());
         }
     }

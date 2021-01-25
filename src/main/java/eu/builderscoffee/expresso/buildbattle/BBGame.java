@@ -22,6 +22,9 @@ public class BBGame {
     public static Expressos expressoType;
     public static Expresso expressoInstance;
     @Getter
+    private final List<Player> competitor; // La liste des compétitors
+    private final List<Player> jury;
+    @Getter
     public String display = "BuildBattle ";
     @Getter
     @Setter
@@ -29,9 +32,6 @@ public class BBGame {
     @Getter
     @Setter
     public BBGameManager bbGameManager;
-    @Getter
-    private final List<Player> competitor; // La liste des compétitors
-    private final List<Player> jury;
     @Getter
     @Setter
     private boolean isReady;

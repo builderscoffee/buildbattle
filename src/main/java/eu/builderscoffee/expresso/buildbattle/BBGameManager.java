@@ -39,11 +39,10 @@ public class BBGameManager {
         this.getStartTask().runTaskTimer(Main.getInstance(), 0L, 20L);
     }
 
-    public void cancelLaunchCountdown(final String reason) {
+    public void cancelLaunchCountdown() {
         this.getGame().setBbState(BBState.WAITING);
         this.getStartTask().cancel();
         this.getStartTask().setTime(30);
-        //this.getGame().broadcast(reason);
     }
 
     public void startGame() {
@@ -53,8 +52,10 @@ public class BBGameManager {
     }
 
     public void endGame() {
-        this.getGameTask().cancel();
-        this.getGame().setBbState(BBState.ENDING);
+        if (!this.getGameTask().isCancelled()) {
+            this.getGameTask().cancel();
+            this.getGame().setBbState(BBState.ENDING);
+        }
     }
 
     public enum BBState {

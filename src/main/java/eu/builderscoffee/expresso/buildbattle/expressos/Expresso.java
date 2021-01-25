@@ -3,15 +3,16 @@ package eu.builderscoffee.expresso.buildbattle.expressos;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import lombok.Getter;
+import lombok.Setter;
 
-import java.util.List;
+import java.util.Queue;
 
 public abstract class Expresso {
 
-    public static List<BBPhase> phases;
-    public static BBPhase currentPhase;
+    public static Queue<BBPhase> phases;
     @Getter
-    protected int count;
+    @Setter
+    public static BBPhase currentPhase;
     private final Main main;
 
     public Expresso(Main main) {
@@ -19,14 +20,12 @@ public abstract class Expresso {
 
     }
 
-    public abstract void onExpressoStart();
-
     /**
      * Retournes les phases d'un type d'expresso
      *
      * @return
      */
-    public List<BBPhase> getPhases() {
+    public Queue<BBPhase> getPhases() {
         return phases;
     }
 
@@ -34,19 +33,7 @@ public abstract class Expresso {
      * Avance le phases d'un cran
      */
     public void nextPhases() {
-        if (currentPhase != null) {
-            int current = phases.indexOf(currentPhase);
-            if (current < phases.size()) {
-                currentPhase = phases.get(current + 1);
-            }
-        } else {
-            currentPhase = phases.get(0);
-        }
+        phases.remove(currentPhase); // Retirer la phase finie
+        setCurrentPhase(phases.peek());
     }
-
-    public void resetCount() {
-        count = 0;
-    }
-
-
 }

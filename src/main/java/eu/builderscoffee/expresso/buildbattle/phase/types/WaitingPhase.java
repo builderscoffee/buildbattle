@@ -10,17 +10,7 @@ public class WaitingPhase extends BBPhase {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-    }
+    public void run() {
 
-    @Override
-    public void onUpdate() {
-        super.onUpdate();
-    }
-
-    @Override
-    public void onEnd() {
-        super.onEnd();
     }
 }

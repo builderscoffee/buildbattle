@@ -8,6 +8,7 @@ import eu.builderscoffee.expresso.buildbattle.phase.types.PrePlotPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.types.WaitingPhase;
 
 import java.util.List;
+import java.util.Queue;
 
 public class IlClassicoExpresso extends Expresso {
 
@@ -18,16 +19,12 @@ public class IlClassicoExpresso extends Expresso {
         super(main);
     }
 
-    @Override
-    public void onExpressoStart() {
-    }
-
     /***
      * Retourne les phases d'un expresso classic
      * @return
      */
     @Override
-    public List<BBPhase> getPhases() {
+    public Queue<BBPhase> getPhases() {
         phases.add(new WaitingPhase(gameInstance));
         phases.add(new PrePlotPhase(gameInstance));
         return super.getPhases();

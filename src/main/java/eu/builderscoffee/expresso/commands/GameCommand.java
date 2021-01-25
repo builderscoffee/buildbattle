@@ -20,8 +20,8 @@ public class GameCommand implements CommandExecutor {
         List<String> commandList = new ArrayList<>();
         commandList.add("§a/game §b: Aide du plugin Expresso");
         commandList.add("§a/game start §b: Démarrer le build battle");
-        commandList.add("§a/game stop §b: Stopper le build battle");
-        commandList.add("§a/game cancel §b: Cancel le build battle");
+        //commandList.add("§a/game stop §b: Stopper le build battle");
+        //commandList.add("§a/game cancel §b: Cancel le build battle");
         for (String s : commandList) {
             player.sendMessage(s);
         }
@@ -36,9 +36,9 @@ public class GameCommand implements CommandExecutor {
                 Main.getBbGame().setReady(true);
                 break;
             case "stop":
-                Main.getBbGame().bbGameManager.endGame();
+                //Main.getBbGame().bbGameManager.endGame();
             case "cancel":
-                Main.getBbGame().bbGameManager.cancelLaunchCountdown("");
+                //Main.getBbGame().bbGameManager.cancelLaunchCountdown("");
             default:
                 return false;
         }

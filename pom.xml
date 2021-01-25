@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -101,26 +101,20 @@
             <systemPath>${project.basedir}/libs/builderscoffeeapi-1.0-SNAPSHOT.jar</systemPath>
         </dependency>
 
-        <!-- PlotSquared Core API -->
         <dependency>
-            <groupId>com.plotsquared</groupId>
-            <artifactId>PlotSquared-Core</artifactId>
-            <version>5.13.3</version>
-            <scope>provided</scope>
+            <groupId>eu.builderscoffee.api</groupId>
+            <artifactId>BuildersCoffeApi</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/builderscoffeeapi-1.0-SNAPSHOT.jar</systemPath>
         </dependency>
 
-        <!-- PlotSquared Bukkit API -->
         <dependency>
-            <groupId>com.plotsquared</groupId>
-            <artifactId>PlotSquared-Bukkit</artifactId>
-            <version>5.13.3</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>PlotSquared-Core</artifactId>
-                    <groupId>*</groupId>
-                </exclusion>
-            </exclusions>
-            <scope>provided</scope>
+            <groupId>com.plotsquared.bukkit.BukkitMain</groupId>
+            <artifactId>PlotSquared-Bukkit-3.821</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/PlotSquared-Bukkit-3.821.jar</systemPath>
         </dependency>
 
     </dependencies>

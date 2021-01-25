@@ -1,8 +1,9 @@
 package eu.builderscoffee.expresso.buildbattle.phase;
 
 import eu.builderscoffee.expresso.buildbattle.BBGame;
+import org.bukkit.scheduler.BukkitRunnable;
 
-public abstract class BBPhase {
+public abstract class BBPhase extends BukkitRunnable {
 
     protected final BBGame bbGame;
 
@@ -11,21 +12,5 @@ public abstract class BBPhase {
         this.bbGame = bbGame;
     }
 
-    /**
-     * Method call when phase start
-     */
-    public void onStart() {
-    }
 
-    /**
-     * Method call when phase update
-     */
-    public void onUpdate() {
-    }
-
-    /**
-     * Methode call when phase end
-     */
-    public void onEnd() {
-    }
 }

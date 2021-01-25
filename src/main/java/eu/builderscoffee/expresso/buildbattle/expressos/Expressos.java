@@ -24,9 +24,9 @@ public enum Expressos {
     @Getter
     private final String name;
     @Getter
-    private List<String> description;
-    @Getter
     private final Class<? extends Expresso> expressoClass;
+    @Getter
+    private List<String> description;
 
     Expressos(String name, Class<? extends Expresso> expressoClass) {
         this.name = name;

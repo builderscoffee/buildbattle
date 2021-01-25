@@ -35,12 +35,12 @@ public class BBBoard {
         int hours = seconds / 3600;
         int minutes = (seconds % 3600) / 60;
         seconds = seconds % 60;
-        if(hours >= 1 && minutes >= 1) {
+        if (hours >= 1 && minutes >= 0) {
             duration = twoDigitString(hours) + "h" + twoDigitString(minutes);
-        } else if(hours <1 && minutes >=1) {
-            duration = twoDigitString(minutes) + (minutes >1 ? " mins" : " min");
+        } else if (hours < 1 && minutes >= 1) {
+            duration = twoDigitString(minutes) + (minutes > 1 ? " mins" : " min");
         } else {
-            duration = seconds + (seconds >1 ? " secs" : " sec");
+            duration = seconds + (seconds > 1 ? " secs" : " sec");
         }
         return duration;
     }
@@ -50,7 +50,7 @@ public class BBBoard {
         if (number == 0) {
             return "00";
         }
-        if(number < 10) {
+        if (number < 10) {
             return "" + number;
         } else if (number / 10 == 0) {
             return "0" + number;
