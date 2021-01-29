@@ -11,6 +11,8 @@ public class SettingsConfiguration {
     String spawnLocation = "plotevent:0:65:0:90.0:0.0";
 
     String expressoAllPermission = "expresso.*";
+    String expressoJuryPermission = "expresso.jury";
+    String expressoEplotPermission = "expresso.eplot";
 
     // Expresso settings
     String buildTheme = "Futuriste";

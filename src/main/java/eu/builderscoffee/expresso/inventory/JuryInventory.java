@@ -60,7 +60,7 @@ public class JuryInventory implements InventoryProvider {
                 e -> INVENTORY.close(player)));
         contents.set(2, 5, ClickableItem.of(new ItemBuilder(Material.ARROW).setName("§6Suivant").build(),
                 e -> INVENTORY.open(player, pagination.next().getPage())));
-        contents.set(2, 8, ClickableItem.empty(new ItemBuilder(Material.PAPER).setName("§aPage §f" + pagination.getPage()).build()));
+        contents.set(2, 8, ClickableItem.empty(new ItemBuilder(Material.PAPER).setName("§aPage §f" + pagination.getPage() +1).build()));
 
         pagination.setItems(plotsItem);
         pagination.setItemsPerPage(18);

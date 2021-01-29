@@ -9,3 +9,5 @@ commands:
     description: Gerer le build battle
   jury:
     description: Le menu jury
+  eplot:
+    description: Plot custom

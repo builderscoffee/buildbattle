@@ -25,7 +25,7 @@ public class JuryCommand implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             boolean ret = false;
-            if (player.hasPermission(settings.getExpressoAllPermission())) {
+            if (player.hasPermission(settings.getExpressoJuryPermission()) || player.hasPermission(settings.getExpressoAllPermission())) {
                 if (args.length == 0) {
                     ret = argLength0(player);
                 }
