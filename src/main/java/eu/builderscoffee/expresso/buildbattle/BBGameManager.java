@@ -3,15 +3,10 @@ package eu.builderscoffee.expresso.buildbattle;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.task.GameTask;
 import eu.builderscoffee.expresso.task.StartTask;
-import eu.builderscoffee.expresso.utils.Log;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.val;
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class BBGameManager {
@@ -94,9 +89,9 @@ public class BBGameManager {
         PluginManager pm = Main.getInstance().getServer().getPluginManager();
         List<String> pluginToDisable = Main.getSettings().getPluginEndDisable();
         pluginToDisable.forEach(s -> {
-           if(pm.getPlugin(s) != null) {
-               pm.disablePlugin(pm.getPlugin(s));
-           }
+            if (pm.getPlugin(s) != null) {
+                pm.disablePlugin(pm.getPlugin(s));
+            }
         });
     }
 

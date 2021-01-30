@@ -5,7 +5,7 @@ import eu.builderscoffee.api.gui.InventoryManager;
 import eu.builderscoffee.api.utils.Plugins;
 import eu.builderscoffee.expresso.board.BBBoard;
 import eu.builderscoffee.expresso.buildbattle.BBGame;
-import eu.builderscoffee.expresso.buildbattle.expressos.Expressos;
+import eu.builderscoffee.expresso.buildbattle.expressos.types.IlClassicoExpresso;
 import eu.builderscoffee.expresso.commands.GameCommand;
 import eu.builderscoffee.expresso.commands.JuryCommand;
 import eu.builderscoffee.expresso.commands.PlotCommand;
@@ -65,7 +65,7 @@ public class Main extends JavaPlugin {
         }, 0, 20);
 
         // Set game type
-        bbGame = new BBGame(Expressos.Classico);
+        bbGame = new BBGame(new IlClassicoExpresso(this));
 
         // Check Start
         Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), () -> {

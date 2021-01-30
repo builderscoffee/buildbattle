@@ -117,5 +117,11 @@
             <systemPath>${project.basedir}/libs/PlotSquared-Bukkit-3.821.jar</systemPath>
         </dependency>
 
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.12</version>
+        </dependency>
+
     </dependencies>
 </project>

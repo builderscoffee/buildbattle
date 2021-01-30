@@ -1,4 +1,4 @@
-package eu.builderscoffee.expresso.inventory;
+package eu.builderscoffee.expresso.inventory.jury;
 
 import com.intellectualcrafters.plot.api.PlotAPI;
 import com.intellectualcrafters.plot.object.Plot;
@@ -33,6 +33,7 @@ public class JuryInventory implements InventoryProvider {
     public void init(Player player, InventoryContents contents) {
         Pagination pagination = contents.pagination();
 
+        // Get All plots
         Set<Plot> plots = new PlotAPI().getAllPlots();
         List<Plot> list = new ArrayList<>(plots);
         int plotSize = plots.size();
@@ -44,7 +45,6 @@ public class JuryInventory implements InventoryProvider {
                     e -> {
                         Plot currentPlot = list.get(tempPlot);
                         PlotUtils.convertPlotCenterLoc(currentPlot.getCenter());
-                        //Location convertLoc = new Location(Bukkit.getWorld(currentPlot.getWorldName()), currentPlot.getCenter().getX(), currentPlot.getCenter().getY(), currentPlot.getCenter().getZ());
                         player.teleport(PlotUtils.convertPlotCenterLoc(currentPlot.getCenter()));
                     });
         }
@@ -66,10 +66,7 @@ public class JuryInventory implements InventoryProvider {
         pagination.setItemsPerPage(18);
 
         //Fill Plots Item
-        //pagination.addToIterator(contents.newIterator(SlotIterator.Type.HORIZONTAL, 0, 1));
         pagination.addToIterator(contents.newIterator(SlotIterator.Type.HORIZONTAL, SlotPos.of(0, 0)));
-        //pagination.addToIterator(contents.newIterator(SlotIterator.Type.VERTICAL,0,1));
-        //pagination.addToIterator(contents.newIterator()
 
     }
 

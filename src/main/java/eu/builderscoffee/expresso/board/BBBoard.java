@@ -7,23 +7,21 @@ import eu.builderscoffee.expresso.buildbattle.BBGameManager;
 import eu.builderscoffee.expresso.utils.TimeUtils;
 import lombok.Getter;
 import lombok.val;
-import org.bukkit.entity.Player;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class BBBoard {
 
     public static Map<UUID, FastBoard> boards = new HashMap<>();
-    @Getter
-    public static boolean hiddenTheme = true;
+
+    public static BBGame bbGame = Main.getBbGame();
 
     public static List<String> getTheme() {
         String littletheme = "§aThème : " + Main.getSettings().getBuildTheme();
-        if(littletheme.length() < 30) {
+        if (littletheme.length() < 30) {
             return Arrays.asList(littletheme);
         } else {
-            return Arrays.asList("§aThème :",Main.getSettings().getBuildTheme());
+            return Arrays.asList("§aThème :", Main.getSettings().getBuildTheme());
         }
     }
 
@@ -36,7 +34,7 @@ public class BBBoard {
             board.updateLines(
                     "§0§8§m----------§8§m------",
                     "§aSaison : " + Main.getSettings().getSeasonName(),
-                    "§aExpresso : §f" + BBGame.getExpressoType().getName(),
+                    "§aExpresso : §f" + bbGame.getExpressoType().getName(),
                     "§aThème : " + "§f§kLait",
                     "§aTimer : §fEn Attente",
                     "",
@@ -47,7 +45,7 @@ public class BBBoard {
             board.updateLines(
                     "§0§8§m----------§8§m------",
                     "§aSaison : " + Main.getSettings().getSeasonName(),
-                    "§aExpresso : §f" + BBGame.getExpressoType().getName(),
+                    "§aExpresso : §f" + bbGame.getExpressoType().getName(),
                     "§aThème : " + "§f§kLait",
                     "§aTimer : §f" + TimeUtils.getDurationString(Main.getBbGame().bbGameManager.getStartTask().getTime()),
                     "",
@@ -56,7 +54,7 @@ public class BBBoard {
             );
         } else if (Main.getBbGame().getBbState().equals(BBGameManager.BBState.IN_GAME)) {
             val _board = new ArrayList<String>();
-            val part1 = Arrays.asList("§0§8§m----------§8§m------", "§aSaison :  " + Main.getSettings().getSeasonName(), "§aExpresso : §f" + BBGame.getExpressoType().getName());
+            val part1 = Arrays.asList("§0§8§m----------§8§m------", "§aSaison :  " + Main.getSettings().getSeasonName(), "§aExpresso : §f" + bbGame.getExpressoType().getName());
             _board.addAll(part1);
             _board.addAll(getTheme());
             val part2 = Arrays.asList("§aTimer : §f" + TimeUtils.getDurationString(Main.getBbGame().bbGameManager.getGameTask().getTime()), "", Main.getSettings().getServerIp(), "§0§8§m----------§8§m------");

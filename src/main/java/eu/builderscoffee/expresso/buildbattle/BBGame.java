@@ -4,7 +4,7 @@ import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.events.CompetitorJoinEvent;
 import eu.builderscoffee.expresso.buildbattle.events.CompetitorLeaveEvent;
 import eu.builderscoffee.expresso.buildbattle.expressos.Expresso;
-import eu.builderscoffee.expresso.buildbattle.expressos.Expressos;
+import eu.builderscoffee.expresso.buildbattle.expressos.ExpressoManager;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -18,8 +18,8 @@ public class BBGame {
     /***
      * Le type d'expresso en cours !
      */
-    @Getter
-    public static Expressos expressoType;
+    @Getter @Setter
+    private Expresso expressoType;
     @Getter
     private final List<Player> competitor = new ArrayList<>(); // La liste des compétitors
     private final List<Player> jury = new ArrayList<>();
@@ -30,6 +30,8 @@ public class BBGame {
     @Setter
     public BBGameManager bbGameManager;
     @Getter
+    public ExpressoManager expressoManager;
+    @Getter
     @Setter
     private boolean isReady = false;
 
@@ -37,9 +39,10 @@ public class BBGame {
      * Créer une instance d'une BBGame
      * @param type
      */
-    public BBGame(Expressos type) {
+    public BBGame(Expresso type) {
         expressoType = type;
         bbGameManager = new BBGameManager(this);
+        expressoManager = new ExpressoManager(this);
     }
 
     public final void startExpresso() {
@@ -68,6 +71,7 @@ public class BBGame {
 
     /**
      * Ajouter un joueur à la liste des jury
+     *
      * @param player
      */
     public void addJury(Player player) {
@@ -76,6 +80,7 @@ public class BBGame {
 
     /**
      * Retirer un joueur de la liste des jury
+     *
      * @param player
      */
     public void removeJury(Player player) {

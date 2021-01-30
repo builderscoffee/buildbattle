@@ -3,6 +3,7 @@ package eu.builderscoffee.expresso.commands;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
+import eu.builderscoffee.expresso.inventory.game.GameExpressoInventory;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,9 +20,8 @@ public class GameCommand implements CommandExecutor {
     public static boolean argLength0(Player player) {
         List<String> commandList = new ArrayList<>();
         commandList.add("§a/game §b: Aide du plugin Expresso");
+        commandList.add("§a/game type §b: Choisir le build battle");
         commandList.add("§a/game start §b: Démarrer le build battle");
-        //commandList.add("§a/game stop §b: Stopper le build battle");
-        //commandList.add("§a/game cancel §b: Cancel le build battle");
         for (String s : commandList) {
             player.sendMessage(s);
         }
@@ -31,14 +31,12 @@ public class GameCommand implements CommandExecutor {
     public static boolean argLength1(Player player, String cmd) {
         cmd = cmd.toLowerCase();
         switch (cmd) {
+            case "type":
+                GameExpressoInventory.INVENTORY.open(player);
             case "start":
                 // Démarrer la game
                 Main.getBbGame().setReady(true);
                 break;
-            case "stop":
-                //Main.getBbGame().bbGameManager.endGame();
-            case "cancel":
-                //Main.getBbGame().bbGameManager.cancelLaunchCountdown("");
             default:
                 return false;
         }

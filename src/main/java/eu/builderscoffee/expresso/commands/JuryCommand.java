@@ -3,7 +3,7 @@ package eu.builderscoffee.expresso.commands;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
-import eu.builderscoffee.expresso.inventory.JuryInventory;
+import eu.builderscoffee.expresso.inventory.jury.JuryInventory;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

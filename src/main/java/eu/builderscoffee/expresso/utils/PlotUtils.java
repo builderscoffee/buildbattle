@@ -5,13 +5,15 @@ import com.intellectualcrafters.plot.object.Plot;
 import lombok.val;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class PlotUtils {
 
-    public static Set<Plot> plots = new PlotAPI().getAllPlots();
+    public static Set<Plot> allPlots = new PlotAPI().getAllPlots();
 
     /***
      * Convertir une Location Plot en Location Bukkit
@@ -23,22 +25,11 @@ public class PlotUtils {
     }
 
     /***
-     * Retourne si un joueur possède un plot !
-     * @param player
+     * Retourne la position d'un plot
+     * @param plot
      * @return
      */
-    public static boolean AsPlot(Player player) {
-        return plots.stream().anyMatch(plot -> plot.isOwner(player.getUniqueId()));
-    }
-
-    /***
-     * Teleporter un joueur à sont plot
-     * @param player
-     */
-    public static void teleportToPlot(Player player) {
-        if (AsPlot(player)) {
-            val plot = plots.stream().filter(plota -> plota.isOwner(player.getUniqueId())).findAny().get();
-            player.teleport(convertPlotCenterLoc(plot.getCenter()));
-        }
+    public static int getPlotsPos(Plot plot) {
+        return new ArrayList<>(allPlots).indexOf(plot);
     }
 }

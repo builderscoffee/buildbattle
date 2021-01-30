@@ -37,7 +37,7 @@ public class PlayerListener implements Listener {
         // If player as plot
         player.teleport(LocationsUtil.getLocationFromString(Main.getSettings().getSpawnLocation()));
 
-        if(Main.getBbGame().getBbState().equals(BBGameManager.BBState.IN_GAME)) {
+        if (Main.getBbGame().getBbState().equals(BBGameManager.BBState.IN_GAME)) {
             player.setGameMode(GameMode.CREATIVE);
             player.sendMessage(Main.getMessages().getPrefix() + "§a/plot auto pour participer");
         }
@@ -54,12 +54,13 @@ public class PlayerListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onCommand(PlayerCommandPreprocessEvent event) {
-        if (event.getMessage().equalsIgnoreCase("/plot auto")) {
+        if (event.getMessage().equalsIgnoreCase("plot auto") || event.getMessage().equalsIgnoreCase("plot claim")) {
             if (Main.getBbGame().getBbState().equals(BBGameManager.BBState.IN_GAME)) {
                 Main.getBbGame().addCompetitor(event.getPlayer());
             } else {
+                event.setCancelled(true);
                 event.getPlayer().sendMessage("§cVous devez attendre le lancement de la partie avant de créer votre plot");
             }
         }

@@ -1,12 +1,13 @@
 package eu.builderscoffee.expresso.commands;
 
-import com.intellectualcrafters.plot.object.Plot;
+import com.intellectualcrafters.plot.api.PlotAPI;
 import com.intellectualcrafters.plot.object.PlotPlayer;
 import com.intellectualcrafters.plot.util.MainUtil;
 import eu.builderscoffee.expresso.Main;
-import eu.builderscoffee.expresso.buildbattle.BBGameManager;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
+import eu.builderscoffee.expresso.utils.PlotUtils;
+import lombok.val;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -35,20 +36,17 @@ public class PlotCommand implements CommandExecutor {
         switch (cmd) {
             case "info":
                 // Informations sur le plot
-                Plot plot = MainUtil.getPlotFromString(PlotPlayer.get(player.getName()),null,false);
-                if(plot.isBasePlot()) {
+                if (new PlotAPI().isInPlot(player)) {
+                val plot = MainUtil.getPlotFromString(PlotPlayer.get(player.getName()), null, false);
                     String name = MainUtil.getName(plot.owner);
-                    player.sendMessage("§aOwner du plot : §7" + name);
+                    player.sendMessage("§0§7§m--- §fPlot §0§7§m---");
+                    player.sendMessage("§aId : §7" + PlotUtils.getPlotsPos(plot));
+                    player.sendMessage("§aOwner : §7" + name);
+                    player.sendMessage("§0§7§m------");
                 } else {
                     player.sendMessage("§cTu n'est pas sur un plot, espèce de café moulu");
                 }
                 break;
-                /*
-            case "disable":
-                Main.getBbGame().bbGameManager.disablePlugins();
-                player.sendMessage("Disable pl test");
-                break;
-                */
             default:
                 return false;
         }
