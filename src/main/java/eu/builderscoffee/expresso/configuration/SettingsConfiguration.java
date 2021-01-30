@@ -3,6 +3,9 @@ package eu.builderscoffee.expresso.configuration;
 import eu.builderscoffee.api.configuration.annotation.Configuration;
 import lombok.Data;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Data
 @Configuration("settings")
 public class SettingsConfiguration {
@@ -14,6 +17,12 @@ public class SettingsConfiguration {
     String expressoJuryPermission = "expresso.jury";
     String expressoEplotPermission = "expresso.eplot";
 
-    // Expresso settings
-    String buildTheme = "Futuriste";
+    // Board settings
+    String seasonName = "§6Torréfaction";
+    String buildTheme = "§7Les rouages de l'avenir";
+    String serverIp = " §6play.builderscoffee.eu";
+
+    // Game settings
+    List<String> pluginEndDisable = Arrays.asList("worldedit", "fastasyncworldedit", "fastasyncvoxelsniper", "voxelsniper", "betterbrushes", "gobrush", "schematicbrush", "schematicsbrowser", "arceon", "gopaint");
+
 }

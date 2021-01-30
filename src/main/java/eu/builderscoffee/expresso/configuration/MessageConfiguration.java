@@ -8,14 +8,13 @@ import lombok.Data;
 public final class MessageConfiguration {
 
     // Global
-    String prefix = "&7[&aExpresso&7]&f";
+    String prefix = "§6§lBuilders Coffee §8>> ";
 
     // Command
-    String commandMustBePlayer = "Vous devez être un joueur";
-    String commandBadSyntaxe = "bad syntaxe";
+    String commandMustBePlayer = "§cVous devez être un joueur pour executer cette commande";
+    String commandBadSyntaxe = "§cMauvaise syntaxe de la commande";
 
     // Expresso
-    String competitorJoin = "%player% a rejoins la compétition";
-    String competitorLeave = "%player% a quitté la compétition";
-    String compassName = "BuildBattle";
+    String competitorJoin = "§f%player% §aa rejoins la compétition";
+    String competitorLeave = "§f%player% §ca quitté la compétition";
 }

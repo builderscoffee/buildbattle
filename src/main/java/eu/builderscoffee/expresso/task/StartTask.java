@@ -1,6 +1,7 @@
 package eu.builderscoffee.expresso.task;
 
 import eu.builderscoffee.api.utils.Title;
+import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.BBGame;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,7 +35,7 @@ public class StartTask extends BukkitRunnable {
             }
         }
         if (this.time < 1) {
-            Bukkit.getServer().broadcastMessage(this.getGame().getDisplay() + "§eLa compétition commence ! Bonne chance !");
+            Bukkit.getServer().broadcastMessage(Main.getMessages().getPrefix() + "§eLa compétition commence ! Bonne chance !");
             Bukkit.getOnlinePlayers().forEach(p -> p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 20.0f, 20.0f));
             this.getGame().startExpresso();
             return;
@@ -42,16 +43,16 @@ public class StartTask extends BukkitRunnable {
         String message = null;
         if (this.time > 60) {
             if (this.time % 60 == 0) {
-                message = "§b" + this.time / 60 + " §eminutes.";
+                message = "§b" + this.time / 60 + " §emins.";
             }
         } else {
             final String plur = (this.time > 1) ? "s" : "";
             if (this.time % 10 == 0 || this.time == 10 || this.time == 5 || this.time == 3 || this.time == 2 || this.time == 1) {
-                message = "§b" + this.time + " §eseconde" + plur + ".";
+                message = "§b" + this.time + " §esec" + plur + "";
             }
         }
         if (message != null) {
-            Bukkit.getServer().broadcastMessage(this.getGame().getDisplay() + "§eLa compétition commence dans " + message);
+            Bukkit.getServer().broadcastMessage(Main.getMessages().getPrefix() + "§eLa compétition commence dans " + message);
             for (final Player player2 : Bukkit.getOnlinePlayers()) {
                 player2.playSound(player2.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 20.0f, 20.0f);
             }

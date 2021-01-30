@@ -12,6 +12,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -36,6 +37,11 @@ public class PlayerListener implements Listener {
         // If player as plot
         player.teleport(LocationsUtil.getLocationFromString(Main.getSettings().getSpawnLocation()));
 
+        if(Main.getBbGame().getBbState().equals(BBGameManager.BBState.IN_GAME)) {
+            player.setGameMode(GameMode.CREATIVE);
+            player.sendMessage(Main.getMessages().getPrefix() + "§a/plot auto pour participer");
+        }
+
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -51,7 +57,11 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onCommand(PlayerCommandPreprocessEvent event) {
         if (event.getMessage().equalsIgnoreCase("/plot auto")) {
-            Main.getBbGame().addCompetitor(event.getPlayer());
+            if (Main.getBbGame().getBbState().equals(BBGameManager.BBState.IN_GAME)) {
+                Main.getBbGame().addCompetitor(event.getPlayer());
+            } else {
+                event.getPlayer().sendMessage("§cVous devez attendre le lancement de la partie avant de créer votre plot");
+            }
         }
     }
 
@@ -68,5 +78,10 @@ public class PlayerListener implements Listener {
         if (!Main.getBbGame().getBbState().equals(BBGameManager.BBState.IN_GAME)) {
             event.setCancelled(true);
         }
+    }
+
+    @EventHandler
+    public void onFoodLevelChange(FoodLevelChangeEvent event) {
+        event.setCancelled(true);
     }
 }

@@ -4,6 +4,7 @@ import com.intellectualcrafters.plot.object.Plot;
 import com.intellectualcrafters.plot.object.PlotPlayer;
 import com.intellectualcrafters.plot.util.MainUtil;
 import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.buildbattle.BBGameManager;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
 import org.bukkit.command.Command;
@@ -35,9 +36,19 @@ public class PlotCommand implements CommandExecutor {
             case "info":
                 // Informations sur le plot
                 Plot plot = MainUtil.getPlotFromString(PlotPlayer.get(player.getName()),null,false);
-                String name = MainUtil.getName(plot.owner);
-                player.sendMessage("§aOwner du plot : §7" + name);
+                if(plot.isBasePlot()) {
+                    String name = MainUtil.getName(plot.owner);
+                    player.sendMessage("§aOwner du plot : §7" + name);
+                } else {
+                    player.sendMessage("§cTu n'est pas sur un plot, espèce de café moulu");
+                }
                 break;
+                /*
+            case "disable":
+                Main.getBbGame().bbGameManager.disablePlugins();
+                player.sendMessage("Disable pl test");
+                break;
+                */
             default:
                 return false;
         }

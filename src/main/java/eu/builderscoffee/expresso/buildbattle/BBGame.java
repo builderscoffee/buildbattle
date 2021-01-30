@@ -20,32 +20,25 @@ public class BBGame {
      */
     @Getter
     public static Expressos expressoType;
-    public static Expresso expressoInstance;
     @Getter
-    private final List<Player> competitor; // La liste des compétitors
-    private final List<Player> jury;
-    @Getter
-    public String display = "BuildBattle ";
+    private final List<Player> competitor = new ArrayList<>(); // La liste des compétitors
+    private final List<Player> jury = new ArrayList<>();
     @Getter
     @Setter
-    public BBGameManager.BBState bbState;
+    public BBGameManager.BBState bbState = BBGameManager.BBState.WAITING;
     @Getter
     @Setter
     public BBGameManager bbGameManager;
     @Getter
     @Setter
-    private boolean isReady;
+    private boolean isReady = false;
 
     /***
      * Créer une instance d'une BBGame
      * @param type
      */
     public BBGame(Expressos type) {
-        competitor = new ArrayList<>();
-        jury = new ArrayList<>();
         expressoType = type;
-        isReady = false;
-        bbState = BBGameManager.BBState.WAITING;
         bbGameManager = new BBGameManager(this);
     }
 
@@ -73,6 +66,26 @@ public class BBGame {
         Main.getInstance().getServer().getPluginManager().callEvent(new CompetitorLeaveEvent(player));
     }
 
+    /**
+     * Ajouter un joueur à la liste des jury
+     * @param player
+     */
+    public void addJury(Player player) {
+        jury.add(player);
+    }
+
+    /**
+     * Retirer un joueur de la liste des jury
+     * @param player
+     */
+    public void removeJury(Player player) {
+        jury.remove(player);
+    }
+
+    /***
+     * Broadcast un message dans la partie
+     * @param message
+     */
     public void broadcast(final String message) {
         Bukkit.broadcastMessage(message);
     }

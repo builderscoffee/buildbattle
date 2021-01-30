@@ -5,6 +5,7 @@ import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Queue;
 
 public abstract class Expresso {
@@ -21,6 +22,18 @@ public abstract class Expresso {
     }
 
     /**
+     * Retourne le nom de l'expresso
+     * @return
+     */
+    public abstract String getName();
+
+    /**
+     * Retourne la description de l'expresso
+     * @return
+     */
+    public abstract List<String> getDescription();
+
+    /**
      * Retournes les phases d'un type d'expresso
      *
      * @return
@@ -30,7 +43,7 @@ public abstract class Expresso {
     }
 
     /**
-     * Avance le phases d'un cran
+     * Peek la prochaine phases de la liste
      */
     public void nextPhases() {
         phases.remove(currentPhase); // Retirer la phase finie

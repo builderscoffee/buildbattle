@@ -10,15 +10,15 @@ import java.util.List;
 @AllArgsConstructor
 public enum Expressos {
     Classico("Il Classico", IlClassicoExpresso.class),
-    Alamano("A la mano", IlClassicoExpresso.class),
-    Amer("Amer", IlClassicoExpresso.class),
-    Toutnoir("Ca va faire tout noir", IlClassicoExpresso.class),
-    SwitchBuild("Switch'nd Build", IlClassicoExpresso.class),
-    SouleveCup("Soulève ta cup", IlClassicoExpresso.class),
-    BoucheTrou("Bouche trou", IlClassicoExpresso.class),
-    DeuxClassico("II Classico", IlClassicoExpresso.class),
-    Hazar("Hazar", IlClassicoExpresso.class),
-    Bingo("Bingo", IlClassicoExpresso.class);
+    Alamano("A la mano", null),
+    Amer("Amer", null),
+    Toutnoir("Ca va faire tout noir", null),
+    SwitchBuild("Switch'nd Build", null),
+    SouleveCup("Soulève ta cup", null),
+    BoucheTrou("Bouche trou", null),
+    DeuxClassico("II Classico", null),
+    Hazar("Hazar", null),
+    Bingo("Bingo", null);
 
 
     @Getter

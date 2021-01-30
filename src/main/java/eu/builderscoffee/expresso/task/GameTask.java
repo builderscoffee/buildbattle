@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import static org.bukkit.Bukkit.getOnlinePlayers;
+import static org.bukkit.GameMode.CREATIVE;
 import static org.bukkit.GameMode.SPECTATOR;
 
 
@@ -30,8 +31,10 @@ public class GameTask extends BukkitRunnable {
     public void run() {
         if (time == 0) {
             getOnlinePlayers().forEach(p -> {
-                new Title("Thèmes", Main.getSettings().getBuildTheme(), 20, 20, 20).send(p);
+                new Title("Thème", Main.getSettings().getBuildTheme(), 20, 20, 20).send(p);
+                p.setGameMode(CREATIVE);
             });
+            this.getGame().broadcast(Main.getMessages().getPrefix() + "§a/plot auto pour participer");
         }
         if (time % 60 == 0) {
             Log.get().info(" " + time / 60 + " minutes de jeux");
@@ -42,16 +45,16 @@ public class GameTask extends BukkitRunnable {
         }
         switch (time) {
             case 1800:
-                this.getGame().broadcast("§6§lBuilders Coffee §8>> §a1h30 §fde jeu restante !");
+                this.getGame().broadcast(Main.getMessages().getPrefix() + " §a1h30 §fde jeu restante !");
                 break;
             case 3600:
-                this.getGame().broadcast("§6§lBuilders Coffee §8>> §a1h §fde jeu restante !");
+                this.getGame().broadcast(Main.getMessages().getPrefix() + " §a1h §fde jeu restante !");
                 break;
             case 5400:
-                this.getGame().broadcast("§6§lBuilders Coffee §8>> §a30min §fde jeu restantes !");
+                this.getGame().broadcast(Main.getMessages().getPrefix() + " §a30min §fde jeu restantes !");
                 break;
             case 6600:
-                this.getGame().broadcast("§6§lBuilders Coffee §8>> §a10min §fde jeu restantes !");
+                this.getGame().broadcast(Main.getMessages().getPrefix() + " §a10min §fde jeu restantes !");
                 break;
             case 7140:
                 getOnlinePlayers().forEach(p -> {
