@@ -1,6 +1,8 @@
 package eu.builderscoffee.expresso.commands;
 
 import com.intellectualcrafters.plot.api.PlotAPI;
+import com.intellectualcrafters.plot.object.Location;
+import com.intellectualcrafters.plot.object.Plot;
 import com.intellectualcrafters.plot.object.PlotPlayer;
 import com.intellectualcrafters.plot.util.MainUtil;
 import eu.builderscoffee.expresso.Main;
@@ -14,6 +16,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class PlotCommand implements CommandExecutor {
@@ -40,13 +43,18 @@ public class PlotCommand implements CommandExecutor {
                 val plot = MainUtil.getPlotFromString(PlotPlayer.get(player.getName()), null, false);
                     String name = MainUtil.getName(plot.owner);
                     player.sendMessage("§0§7§m--- §fPlot §0§7§m---");
-                    player.sendMessage("§aId : §7" + PlotUtils.getPlotsPos(plot));
+                    player.sendMessage("§aId: §7" + PlotUtils.getPlotsPos(plot));
                     player.sendMessage("§aOwner : §7" + name);
                     player.sendMessage("§0§7§m------");
                 } else {
                     player.sendMessage("§cTu n'est pas sur un plot, espèce de café moulu");
                 }
                 break;
+            case "paste":
+                Location loc = PlotUtils.convertBukkitLoc(player.getTargetBlock(null, 100).getLocation());
+                final Plot plot = loc.getPlotAbs();
+                PlotUtils.pasteSchematic(Main.getSettings().getSchematicToPaste(), plot);
+                player.sendMessage("§a Paste Plot Test");
             default:
                 return false;
         }

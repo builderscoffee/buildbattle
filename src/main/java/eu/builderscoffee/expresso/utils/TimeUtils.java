@@ -1,8 +1,11 @@
 package eu.builderscoffee.expresso.utils;
 
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
 public class TimeUtils {
 
-    public static String getDurationString(int seconds) {
+    public String getDurationString(int seconds) {
         String duration = null;
         int hours = seconds / 3600;
         int minutes = (seconds % 3600) / 60;
@@ -17,7 +20,7 @@ public class TimeUtils {
         return duration;
     }
 
-    public static String twoDigitString(int number) {
+    public String twoDigitString(int number) {
 
         if (number == 0) {
             return "00";

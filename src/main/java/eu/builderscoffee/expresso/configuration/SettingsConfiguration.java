@@ -24,5 +24,6 @@ public class SettingsConfiguration {
 
     // Game settings
     List<String> pluginEndDisable = Arrays.asList("worldedit", "fastasyncworldedit", "fastasyncvoxelsniper", "voxelsniper", "betterbrushes", "gobrush", "schematicbrush", "schematicsbrowser", "arceon", "gopaint");
+    String schematicToPaste = "cobble";
 
 }

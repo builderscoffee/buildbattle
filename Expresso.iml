@@ -48,5 +48,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="Maven: org.reflections:reflections:0.9.12" level="project" />
+    <orderEntry type="library" name="Maven: org.javassist:javassist:3.26.0-GA" level="project" />
   </component>
 </module>

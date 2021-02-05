@@ -1,6 +1,5 @@
 package eu.builderscoffee.expresso.buildbattle.expressos;
 
-import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.BBGame;
 import lombok.Getter;
 import lombok.Setter;
