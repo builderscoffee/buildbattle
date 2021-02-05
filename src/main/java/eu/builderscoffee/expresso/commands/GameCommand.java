@@ -33,6 +33,7 @@ public class GameCommand implements CommandExecutor {
         switch (cmd) {
             case "type":
                 GameExpressoInventory.INVENTORY.open(player);
+                break;
             case "start":
                 // Démarrer la game
                 Main.getBbGame().setReady(true);

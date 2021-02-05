@@ -2,15 +2,15 @@ package eu.builderscoffee.expresso.inventory.game;
 
 import eu.builderscoffee.api.gui.ClickableItem;
 import eu.builderscoffee.api.gui.SmartInventory;
-import eu.builderscoffee.api.gui.content.InventoryContents;
-import eu.builderscoffee.api.gui.content.InventoryProvider;
-import eu.builderscoffee.api.utils.ItemBuilder;
+import eu.builderscoffee.api.gui.content.*;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.expressos.Expresso;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.List;
 
 public class GameExpressoInventory implements InventoryProvider {
 
@@ -26,22 +26,32 @@ public class GameExpressoInventory implements InventoryProvider {
 
     @Override
     public void init(Player player, InventoryContents contents) {
+        Pagination pagination = contents.pagination();
+
+        List<Expresso> expressoList = Main.getBbGame().getExpressoManager().getExpressos();
+        ClickableItem[] expressoItem = new ClickableItem[expressoList.size()];
+
         // Fill expresso
-        int expressoSize = Expresso.expressos.size();
-        ClickableItem[] expressoItem = new ClickableItem[expressoSize];
         for (int i = 0; i < expressoItem.length; i++) {
             int expressoIndex = i;
-            expressoItem[i] = ClickableItem.of(Expresso.expressos.get(i).getIcon(),
+            expressoItem[i] = ClickableItem.of(expressoList.get(i).getIcon(),
                     e -> {
-                Expresso expresso = Expresso.getExpressos().get(expressoIndex);
+                // do action on click
+                Expresso expresso = expressoList.get(expressoIndex);
                 Main.getBbGame().setExpressoType(expresso);
-                player.sendMessage("§aVous avez selectionné :§f" + expresso.getName());
+                player.sendMessage("§aVous avez selectionné :§f " + expresso.getName());
                     });
         }
+
         // Fill row
         contents.fillRow(2, whiteGlasses);
-        // Set validate item
-        contents.set(2,4,ClickableItem.empty(new ItemBuilder(Material.CARPET, 1, (short) 3).setName("§aValider").build()));
+
+        // Set pages
+        pagination.setItems(expressoItem);
+        pagination.setItemsPerPage(18);
+
+        // Iterate pages
+        pagination.addToIterator(contents.newIterator(SlotIterator.Type.HORIZONTAL, SlotPos.of(0, 0)));
     }
 
     @Override

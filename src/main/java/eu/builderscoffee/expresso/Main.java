@@ -65,7 +65,7 @@ public class Main extends JavaPlugin {
         }, 0, 20);
 
         // Set game type
-        bbGame = new BBGame(new IlClassicoExpresso(this));
+        bbGame = new BBGame(new IlClassicoExpresso());
 
         // Check Start
         Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), () -> {

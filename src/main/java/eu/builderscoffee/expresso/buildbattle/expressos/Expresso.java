@@ -19,14 +19,9 @@ import java.util.Queue;
 public abstract class Expresso {
 
     @Getter
-    public static List<Expresso> expressos;
     public static Queue<BBPhase> phases;
-    @Getter
-    @Setter
+    @Getter @Setter
     public static BBPhase currentPhase;
-    private final Main main;
-
-    public Expresso(Main main) { this.main = main; }
 
     /**
      * Retourne l'icone de l'expresso
