@@ -55,6 +55,7 @@ public class PlotCommand implements CommandExecutor {
                 final Plot plot = loc.getPlotAbs();
                 PlotUtils.pasteSchematic(Main.getSettings().getSchematicToPaste(), plot);
                 player.sendMessage("§a Paste Plot Test");
+                break;
             default:
                 return false;
         }

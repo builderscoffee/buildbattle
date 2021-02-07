@@ -45,15 +45,12 @@ public class PlotUtils {
                 Log.get().info("Schematic null");
                 return;
             }
-            Log.get().info("1 " + (plot.getTop().getZ() - plot.getBottom().getZ()));
-            Log.get().info("2 " + plot.getBottomAbs().getZ());
-            Log.get().info("3 " + plot.getTopAbs().getZ());
-            Log.get().info("Min build height " + plot.getArea().MIN_BUILD_HEIGHT);
-            SchematicHandler.manager.paste(schematic, plot, 0, plot.getTop().getZ() - plot.getBottom().getZ(), 0, true, new RunnableVal<Boolean>() {
+            SchematicHandler.manager.paste(schematic, plot, 0, plot.getArea().MIN_BUILD_HEIGHT, 0, false, new RunnableVal<Boolean>() {
                 @Override
                 public void run(Boolean value) {
                     if (value) {
                         Log.get().info("Schematic " + schematicLocation + " paste to " + plot.getId());
+
                     } else {
                         Log.get().severe("Schematic " + schematicLocation + " error paste from " + plot.getId());
                     }
@@ -61,8 +58,6 @@ public class PlotUtils {
             });
         });
     }
-
-
 
     /***
      * Retour si un plot a été merge avec d'autres
