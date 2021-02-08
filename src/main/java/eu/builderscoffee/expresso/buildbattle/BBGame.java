@@ -35,6 +35,7 @@ public class BBGame {
     @Setter
     private boolean isReady = false;
 
+
     /***
      * Créer une instance d'une BBGame
      * @param type

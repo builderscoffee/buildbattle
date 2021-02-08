@@ -14,7 +14,12 @@ public final class MessageConfiguration {
     String commandMustBePlayer = "§cVous devez être un joueur pour executer cette commande";
     String commandBadSyntaxe = "§cMauvaise syntaxe de la commande";
 
+    // Game Command
+    String cantedittype = "§cVous ne pouvez changer le type d'une partie en cours";
+
     // Expresso
     String competitorJoin = "§f%player% §aa rejoins la compétition";
     String competitorLeave = "§f%player% §ca quitté la compétition";
+
+    // Game
 }

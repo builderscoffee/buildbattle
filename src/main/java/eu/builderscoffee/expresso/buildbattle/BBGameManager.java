@@ -1,29 +1,64 @@
 package eu.builderscoffee.expresso.buildbattle;
 
 import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.buildbattle.expressos.Expresso;
+import eu.builderscoffee.expresso.buildbattle.expressos.ExpressoManager;
+import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
+import eu.builderscoffee.expresso.buildbattle.phase.types.LaunchingPhase;
 import eu.builderscoffee.expresso.task.GameTask;
 import eu.builderscoffee.expresso.task.StartTask;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class BBGameManager {
 
+    // Instances
+    @Getter
+    private final Main main;
     @Getter
     private final BBGame game;
+    // Managers
+    @Getter
+    private ExpressoManager expressoManager;
+    // Tasks
     @Getter
     @Setter
     private StartTask startTask;
     @Getter
     @Setter
     private GameTask gameTask;
+    @Getter
+    @Setter
+    private BukkitTask currentTask;
+    // Others
+    @Getter
+    @Setter
+    private AtomicInteger phases;
+    @Getter
+    @Setter
+    private BBPhase bbPhase;
+    private Expresso expresso;
 
     public BBGameManager(final BBGame game) {
+        // Instances
+        this.main = Main.getInstance();
         this.game = game;
+        // Managers
+        this.expressoManager = Main.getBbGame().getExpressoManager();
+        // Tasks
         this.startTask = new StartTask(getGame(), 30);
         this.gameTask = new GameTask(getGame(), 7200);
+        // Others
+        this.phases.incrementAndGet();
+        this.expresso = expressoManager.getCurrentExpresso();
     }
 
     /***
@@ -78,6 +113,37 @@ public class BBGameManager {
             this.getGameTask().cancel();
             this.getGame().setBbState(BBState.ENDING);
             this.disablePlugins();
+
+        }
+    }
+
+    // PHASE SYSTEM
+
+    /***
+     * Démarrer une nouvelle phase
+     * @param runnable - La task bukkit
+     * @throws ReflectiveOperationException - Exception d'une réflexion
+     */
+    public void startPhase(Class<? extends BukkitRunnable> runnable) throws ReflectiveOperationException {
+        setCurrentTask(((BukkitRunnable)  runnable.getDeclaredConstructors()[0].newInstance(main)).runTaskTimerAsynchronously(main, 0, 20));
+    }
+
+    /***
+     * Cancel une phase
+     */
+    public void cancelPhase() {
+        getCurrentTask().cancel();
+    }
+
+    /***
+     * Démarrer la prochaine phase
+     */
+    public void nextPhase() {
+        //this.expressoManager.getCurrentExpresso()
+    }
+
+    public void checkPhase() {
+        if(!expresso.getPhases().pollFirst().equals(LaunchingPhase.class)) {
 
         }
     }

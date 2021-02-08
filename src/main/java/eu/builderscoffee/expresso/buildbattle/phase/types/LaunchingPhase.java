@@ -10,8 +10,9 @@ import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
-public class LaunchingPhase implements BBPhase {
+public class LaunchingPhase extends BukkitRunnable implements BBPhase {
 
     @Getter
     @Setter
@@ -54,5 +55,20 @@ public class LaunchingPhase implements BBPhase {
             return;
         }
         --startTime;
+    }
+
+    @Override
+    public String name() {
+        return null;
+    }
+
+    @Override
+    public String description() {
+        return null;
+    }
+
+    @Override
+    public int time() {
+        return startTime;
     }
 }

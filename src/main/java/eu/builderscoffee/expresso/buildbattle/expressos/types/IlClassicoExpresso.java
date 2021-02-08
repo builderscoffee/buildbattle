@@ -12,6 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
+import java.util.Deque;
 import java.util.List;
 import java.util.Queue;
 
@@ -40,8 +41,8 @@ public class IlClassicoExpresso extends Expresso {
      * @return
      */
     @Override
-    public Queue<BBPhase> getPhases() {
-        phases.add(new LaunchingPhase(7200));
+    public Deque<BBPhase> getPhases() {
+        phases.add(new LaunchingPhase(30));
         phases.add(new GamePhase(7200));
         return getPhases();
     }

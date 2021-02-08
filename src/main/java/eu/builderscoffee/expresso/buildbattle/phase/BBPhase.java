@@ -1,7 +1,27 @@
 package eu.builderscoffee.expresso.buildbattle.phase;
 
+/***
+ * Représente une phase/étapes d'une partie
+ */
 public interface BBPhase {
 
-    public void run();
+    /**
+     * Représente le nom d'une phase
+     * @return
+     */
+    String name();
+
+    /**
+     * Bref description d'une phase
+     * @return
+     */
+    String description();
+
+    /**
+     * Temps maximun de la phase
+     * @return
+     */
+    int time();
+
 
 }

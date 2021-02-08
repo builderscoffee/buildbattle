@@ -28,11 +28,15 @@ public class GameCommand implements CommandExecutor {
         return true;
     }
 
-    public static boolean argLength1(Player player, String cmd) {
+    public boolean argLength1(Player player, String cmd) {
         cmd = cmd.toLowerCase();
         switch (cmd) {
             case "type":
-                GameExpressoInventory.INVENTORY.open(player);
+                if(!Main.getBbGame().isReady()) {
+                    GameExpressoInventory.INVENTORY.open(player);
+                } else {
+                    player.sendMessage(messages.getPrefix() + messages.getCantedittype());
+                }
                 break;
             case "start":
                 // Démarrer la game

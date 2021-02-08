@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Deque;
 import java.util.List;
 import java.util.Queue;
 
@@ -19,7 +20,7 @@ import java.util.Queue;
 public abstract class Expresso {
 
     @Getter
-    public static Queue<BBPhase> phases;
+    public static Deque<BBPhase> phases;
     @Getter @Setter
     public static BBPhase currentPhase;
 
@@ -49,7 +50,7 @@ public abstract class Expresso {
      *
      * @return
      */
-    public Queue<BBPhase> getPhases() {
+    public Deque<BBPhase> getPhases() {
         return phases;
     }
 
