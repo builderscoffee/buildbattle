@@ -9,12 +9,13 @@ import eu.builderscoffee.expresso.utils.TimeUtils;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import static org.bukkit.Bukkit.getOnlinePlayers;
 import static org.bukkit.GameMode.CREATIVE;
 import static org.bukkit.GameMode.SPECTATOR;
 
-public class GamePhase implements BBPhase {
+public class GamePhase extends BukkitRunnable implements BBPhase {
 
     private final int maxTime;
     @Getter
@@ -66,5 +67,20 @@ public class GamePhase implements BBPhase {
             }
         }
         ++this.time;
+    }
+
+    @Override
+    public String name() {
+        return "En jeux";
+    }
+
+    @Override
+    public String description() {
+        return "Représente une partie en cours";
+    }
+
+    @Override
+    public int time() {
+        return maxTime;
     }
 }

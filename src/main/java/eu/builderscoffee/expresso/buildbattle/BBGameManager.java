@@ -122,7 +122,7 @@ public class BBGameManager {
     /***
      * Démarrer une nouvelle phase
      * @param runnable - La task bukkit
-     * @throws ReflectiveOperationException - Exception d'une réflexion
+     * @throws ReflectiveOperationException - Exception d'une réflection
      */
     public void startPhase(Class<? extends BukkitRunnable> runnable) throws ReflectiveOperationException {
         setCurrentTask(((BukkitRunnable)  runnable.getDeclaredConstructors()[0].newInstance(main)).runTaskTimerAsynchronously(main, 0, 20));
