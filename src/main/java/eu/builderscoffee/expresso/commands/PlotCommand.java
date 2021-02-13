@@ -6,10 +6,13 @@ import com.intellectualcrafters.plot.object.Plot;
 import com.intellectualcrafters.plot.object.PlotPlayer;
 import com.intellectualcrafters.plot.util.MainUtil;
 import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.buildbattle.notation.Notation;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
+import eu.builderscoffee.expresso.inventory.jury.JuryNotationInventory;
 import eu.builderscoffee.expresso.utils.PlotUtils;
 import lombok.val;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,6 +21,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class PlotCommand implements CommandExecutor {
 
@@ -55,6 +59,16 @@ public class PlotCommand implements CommandExecutor {
                 final Plot plot = loc.getPlotAbs();
                 PlotUtils.pasteSchematic(Main.getSettings().getSchematicToPaste(), plot);
                 player.sendMessage("§a Paste Plot Test");
+                break;
+            case"invleo":
+                JuryNotationInventory.INVENTORY.open(player);
+                break;
+            case "seenote":
+                Set<Notation> a = Main.getBbGame().getNotationManager().getNotationsByPlot(PlotUtils.convertBukkitLoc(player.getLocation()).getPlotAbs());
+                player.sendMessage("Ce plot a " + "notation(s)");
+                for(Notation note: a){
+                    player.sendMessage("Juge: "+ Bukkit.getPlayer(note.getUUIDP())+ " Fun: "+ note.getFun());
+                }
                 break;
             default:
                 return false;

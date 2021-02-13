@@ -1,4 +1,4 @@
-package eu.builderscoffee.expresso.inventory.jury.notation;
+package eu.builderscoffee.expresso.buildbattle.notation;
 
 import com.intellectualcrafters.plot.object.Plot;
 

@@ -52,13 +52,13 @@ public class BBGameManager {
         this.main = Main.getInstance();
         this.game = game;
         // Managers
-        this.expressoManager = Main.getBbGame().getExpressoManager();
+        this.expressoManager = game.getExpressoManager();
         // Tasks
         this.startTask = new StartTask(getGame(), 30);
         this.gameTask = new GameTask(getGame(), 7200);
         // Others
-        this.phases.incrementAndGet();
-        this.expresso = expressoManager.getCurrentExpresso();
+        this.phases = new AtomicInteger();
+        // this.expresso = expressoManager.getCurrentExpresso();
     }
 
     /***

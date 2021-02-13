@@ -1,44 +1,18 @@
-package eu.builderscoffee.expresso.inventory.jury.notation;
+package eu.builderscoffee.expresso.buildbattle.notation;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+
+import java.util.UUID;
+
+@Data
+@AllArgsConstructor
 
 public class Notation {
-    private String UUIDP;
-    private int baute;
-    private int crea;
-    private int amenagement;
-    private int folklore;
-    private int fun;
+    private UUID UUIDP;
+    private int baute,crea,amenagement,folklore,fun;
 
-    public Notation(String UUIDP) {
-        this.UUIDP = UUIDP;
-    }
-
-    public void setUUIDP(String UUIDP) {
-        this.UUIDP = UUIDP;
-    }
-
-    public String getUUIDP() {
-        return UUIDP;
-    }
-
-    public int getBaute() {
-        return baute;
-    }
-
-    public int getCrea() {
-        return crea;
-    }
-
-    public int getAmenagement() {
-        return amenagement;
-    }
-
-    public int getFolklore() {
-        return folklore;
-    }
-
-    public int getFun() {
-        return fun;
-    }
 
     public boolean addCrea(int crea) {
         if ((this.crea = this.crea + crea) > 22){
@@ -83,6 +57,5 @@ public class Notation {
             return true;
         }
     }
-
 
 }
