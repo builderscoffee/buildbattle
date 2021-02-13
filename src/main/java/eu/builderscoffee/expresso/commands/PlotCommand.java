@@ -60,16 +60,36 @@ public class PlotCommand implements CommandExecutor {
                 PlotUtils.pasteSchematic(Main.getSettings().getSchematicToPaste(), plot);
                 player.sendMessage("§a Paste Plot Test");
                 break;
+
             case"invleo":
-                JuryNotationInventory.INVENTORY.open(player);
-                break;
-            case "seenote":
-                Set<Notation> a = Main.getBbGame().getNotationManager().getNotationsByPlot(PlotUtils.convertBukkitLoc(player.getLocation()).getPlotAbs());
-                player.sendMessage("Ce plot a " + "notation(s)");
-                for(Notation note: a){
-                    player.sendMessage("Juge: "+ Bukkit.getPlayer(note.getUUIDP())+ " Fun: "+ note.getFun());
+                //checker
+                if(new PlotAPI().isInPlot(player)){
+                    Plot plotinv = (PlotUtils.convertBukkitLoc(player.getLocation()).getPlotAbs());
+                    if (!Main.getBbGame().getNotationManager().playerHasNote(plotinv,player)){
+                        JuryNotationInventory.INVENTORY.open(player);
+                    } else {
+                        player.sendMessage("§cTu as déjà noté ce plot, espèce de café moulu");
+                    }
+                } else {
+                    player.sendMessage("§cTu n'est pas sur un plot, espèce de café moulu");
                 }
                 break;
+
+            case "seenote":
+                Plot plote = (PlotUtils.convertBukkitLoc(player.getLocation()).getPlotAbs());
+                Set<Notation> a = Main.getBbGame().getNotationManager().getNotationsByPlot(plote);
+                if (a == null ||a.isEmpty()){
+                    player.sendMessage("Ce plot a 0 notation");
+                    break;
+                }
+                player.sendMessage("Ce plot a " +a.size()+ "notation(s)");
+                for(Notation note: a){
+                    player.sendMessage("Juge: "+ Bukkit.getOfflinePlayer(note.getUUIDP()).getName()+ " Fun: "+ note.getFun());
+                }
+                break;
+
+
+
             default:
                 return false;
         }

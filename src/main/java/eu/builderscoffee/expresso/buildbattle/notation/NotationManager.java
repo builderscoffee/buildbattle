@@ -1,6 +1,8 @@
 package eu.builderscoffee.expresso.buildbattle.notation;
 
 import com.intellectualcrafters.plot.object.Plot;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,7 +16,7 @@ public class NotationManager {
     }
 
     public void addNotationInPlot(Plot plot,Notation note){
-        if(allNotation.containsValue(plot)){
+        if(getNotationsByPlot(plot) != null){
             allNotation.get(plot).add(note);
         }else{
             Set tem = new HashSet();
@@ -24,6 +26,20 @@ public class NotationManager {
     }
     public Set getNotationsByPlot(Plot plot){
         return allNotation.get(plot);
+    }
+
+    public boolean playerHasNote(Plot plot, Player pl){
+        Set<Notation> a = getNotationsByPlot(plot);
+        if (a == null || a.isEmpty()){
+            return false;
+        } else {
+            for(Notation note: a){
+                if (note.getUUIDP() == pl.getUniqueId()){
+                    return true;
+                }
+            }
+            return false;
+        }
     }
     /*public Set getNotationsByJury(Plot plot){
         return allNotation.get(plot);

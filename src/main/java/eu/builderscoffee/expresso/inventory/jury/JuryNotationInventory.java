@@ -41,7 +41,7 @@ public class JuryNotationInventory implements InventoryProvider {
         contents.fillRow(3, blackGlasses);
 
 
-        contents.set(1, 6, ClickableItem.of(new ItemBuilder(Material.RAW_FISH).setName("§bValider mon verdict").build(),
+        contents.set(3, 4, ClickableItem.of(new ItemBuilder(Material.RAW_FISH).setName("§bValider mon verdict").build(),
                 e -> {
                     Notation note = new Notation(player.getUniqueId(),beaute,crea,ame,folkore,fun);
                     Main.getBbGame().getNotationManager().addNotationInPlot(plot,note);
@@ -64,16 +64,18 @@ public class JuryNotationInventory implements InventoryProvider {
                 e -> {
                     switch (e.getClick()){
                         case LEFT:
-                            beaute = addCap4(beaute,1);
+                            beaute = addCap30(beaute,1);
                             break;
                         case RIGHT:
                             beaute = sub(beaute,1);
                             break;
                         case SHIFT_LEFT:
-                            beaute = addCap4(beaute,5);
+                            beaute = addCap30(beaute,5);
+                            player.sendMessage("oui zebi");
                             break;
                         case SHIFT_RIGHT:
                             beaute = sub(beaute,5);
+                            player.sendMessage("non zebi");
                             break;
                     }
                     INVENTORY.open(player);
@@ -82,13 +84,13 @@ public class JuryNotationInventory implements InventoryProvider {
                 e -> {
                     switch (e.getClick()){
                         case LEFT:
-                            crea = addCap4(crea,1);
+                            crea = addCap22(crea,1);
                             break;
                         case RIGHT:
                             crea = sub(crea,1);
                             break;
                         case SHIFT_LEFT:
-                            crea = addCap4(crea,5);
+                            crea = addCap22(crea,5);
                             break;
                         case SHIFT_RIGHT:
                             crea = sub(crea,5);
@@ -100,13 +102,13 @@ public class JuryNotationInventory implements InventoryProvider {
                 e -> {
                     switch (e.getClick()){
                         case LEFT:
-                            ame = addCap4(ame,1);
+                            ame = addCap22(ame,1);
                             break;
                         case RIGHT:
                             ame = sub(ame,1);
                             break;
                         case SHIFT_LEFT:
-                            ame = addCap4(ame,5);
+                            ame = addCap22(ame,5);
                             break;
                         case SHIFT_RIGHT:
                             ame = sub(ame,5);
@@ -118,13 +120,13 @@ public class JuryNotationInventory implements InventoryProvider {
                 e -> {
                     switch (e.getClick()){
                         case LEFT:
-                            folkore = addCap4(folkore,1);
+                            folkore = addCap22(folkore,1);
                             break;
                         case RIGHT:
                             folkore = sub(folkore,1);
                             break;
                         case SHIFT_LEFT:
-                            folkore = addCap4(folkore,5);
+                            folkore = addCap22(folkore,5);
                             break;
                         case SHIFT_RIGHT:
                             folkore = sub(folkore,5);
