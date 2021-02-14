@@ -10,6 +10,7 @@ import eu.builderscoffee.expresso.buildbattle.notation.Notation;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
 import eu.builderscoffee.expresso.inventory.jury.JuryNotationInventory;
+import eu.builderscoffee.expresso.inventory.jury.JuryTeleportation;
 import eu.builderscoffee.expresso.utils.PlotUtils;
 import lombok.val;
 import org.bukkit.Bukkit;
@@ -61,7 +62,7 @@ public class PlotCommand implements CommandExecutor {
                 player.sendMessage("§a Paste Plot Test");
                 break;
 
-            case"invleo":
+            case "invleo":
                 //checker
                 if(new PlotAPI().isInPlot(player)){
                     Plot plotinv = (PlotUtils.convertBukkitLoc(player.getLocation()).getPlotAbs());
@@ -88,6 +89,20 @@ public class PlotCommand implements CommandExecutor {
                 }
                 break;
 
+            case "invlist":
+                JuryTeleportation.INVENTORY.open(player);
+                break;
+
+            case "tpnext":
+                // Get plot
+                Plot plotinvtp = (PlotUtils.convertBukkitLoc(player.getLocation()).getPlotAbs());
+                int b =  PlotUtils.getPlotsPos(plotinvtp) + 1;
+                Plot current = PlotUtils.getPlotsByPos(b);
+
+                // tp player
+                PlotUtils.convertPlotCenterLoc(current.getCenter());
+                player.teleport(PlotUtils.convertPlotCenterLoc(current.getCenter()));
+                break;
 
 
             default:

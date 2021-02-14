@@ -94,4 +94,13 @@ public class PlotUtils {
     public int getPlotsPos(Plot plot) {
         return new ArrayList<>(allPlots).indexOf(plot);
     }
+
+    /***
+     * Retourne le plot par rapport a la position dans la list
+     * @param
+     * @return
+     */
+    public Plot getPlotsByPos(int in) {
+        return new ArrayList<>(allPlots).get(in);
+    }
 }

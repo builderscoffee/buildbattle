@@ -114,6 +114,7 @@ public class JuryNotationInventory implements InventoryProvider {
                             ame = sub(ame,5);
                             break;
                     }
+                    player.sendMessage(String.valueOf(e.getClick()));
                     INVENTORY.open(player);
                 }));
         contents.set(2, 5, ClickableItem.of(new ItemBuilder(Material.PAPER).setName("§6"+folkore + " Points").build(),
