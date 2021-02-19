@@ -5,20 +5,21 @@ import eu.builderscoffee.expresso.buildbattle.events.CompetitorJoinEvent;
 import eu.builderscoffee.expresso.buildbattle.events.CompetitorLeaveEvent;
 import eu.builderscoffee.expresso.buildbattle.expressos.Expresso;
 import eu.builderscoffee.expresso.buildbattle.expressos.ExpressoManager;
-import eu.builderscoffee.expresso.buildbattle.notation.NotationManager;
-import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
-import eu.builderscoffee.expresso.buildbattle.teams.TeamManager;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
 
 public class BBGame {
 
+    /***
+     * Le type d'expresso en cours !
+     */
+    @Getter @Setter
+    private Expresso expressoType;
     @Getter
     private final List<Player> competitor = new ArrayList<>(); // La liste des compétitors
     private final List<Player> jury = new ArrayList<>();
@@ -27,27 +28,9 @@ public class BBGame {
     public BBGameManager.BBState bbState = BBGameManager.BBState.WAITING;
     @Getter
     @Setter
-    private Main main;
-    /***
-     * Le type d'expresso en cours !
-     */
-    @Getter
-    private NotationManager notationManager;
-    @Getter
-    @Setter
-    private Expresso expressoType;
-    @Getter
-    @Setter
-    private Deque<BBPhase> expressoPhases;
-    @Getter
-    @Setter
     private BBGameManager bbGameManager;
     @Getter
-    @Setter
-    private ExpressoManager expressoManager;
-    @Getter
-    @Setter
-    public TeamManager teamManager;
+    public ExpressoManager expressoManager;
     @Getter
     @Setter
     private boolean isReady = false;
@@ -57,26 +40,10 @@ public class BBGame {
      * Créer une instance d'une BBGame
      * @param type
      */
-
-    public BBGame(Main main, Expresso type) {
-        setMain(main);
-        setBbGameManager(new BBGameManager(this));
-        defineExpresso(type);
-        setExpressoManager(new ExpressoManager(this));
-        //setTeamManager(new TeamManager());
-        teamManager = new TeamManager();
-        notationManager = new NotationManager();
-    }
-
-    /***
-     * Définir ou redéfinir l'expresso de la partie en cours
-     *
-     * @param expresso
-     */
-    public final void defineExpresso(Expresso expresso) {
-        setExpressoType(expresso);
-        setExpressoPhases(expresso.getPhases());
-
+    public BBGame(Expresso type) {
+        expressoType = type;
+        bbGameManager = new BBGameManager(this);
+        expressoManager = new ExpressoManager(this);
     }
 
     public final void startExpresso() {
@@ -90,7 +57,7 @@ public class BBGame {
      */
     public void addCompetitor(Player player) {
         competitor.add(player);
-        main.getInstance().getServer().getPluginManager().callEvent(new CompetitorJoinEvent(player));
+        Main.getInstance().getServer().getPluginManager().callEvent(new CompetitorJoinEvent(player));
     }
 
     /**
@@ -100,7 +67,7 @@ public class BBGame {
      */
     public void removeCompetitor(Player player) {
         competitor.remove(player);
-        main.getInstance().getServer().getPluginManager().callEvent(new CompetitorLeaveEvent(player));
+        Main.getInstance().getServer().getPluginManager().callEvent(new CompetitorLeaveEvent(player));
     }
 
     /**

@@ -50,7 +50,7 @@ public class GamePhase extends BukkitRunnable implements BBPhase {
         // Passer à l'étape suivante si le temps est écoulé
         if (time >= maxTime) {
             for (Player player : getOnlinePlayers()) player.setGameMode(SPECTATOR);
-            game.bbGameManager.endGame();
+            game.getBbGameManager().endGame();
         }
         // Tout les X temps envoyé un broadcast pour le temps de jeux restant
         for (int i : bcTime) {
