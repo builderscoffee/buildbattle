@@ -28,7 +28,7 @@ public class BBGame {
     public BBGameManager.BBState bbState = BBGameManager.BBState.WAITING;
     @Getter
     @Setter
-    public BBGameManager bbGameManager;
+    private BBGameManager bbGameManager;
     @Getter
     public ExpressoManager expressoManager;
     @Getter

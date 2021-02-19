@@ -22,7 +22,7 @@ public abstract class Expresso {
     @Getter
     public static Deque<BBPhase> phases;
     @Getter @Setter
-    public static BBPhase currentPhase;
+    public BBPhase currentPhase;
 
     /**
      * Retourne l'icone de l'expresso
