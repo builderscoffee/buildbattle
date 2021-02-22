@@ -15,6 +15,8 @@ import java.util.List;
 
 public class BBGame {
 
+    @Getter @Setter
+    private Main main;
     /***
      * Le type d'expresso en cours !
      */
@@ -26,11 +28,10 @@ public class BBGame {
     @Getter
     @Setter
     public BBGameManager.BBState bbState = BBGameManager.BBState.WAITING;
-    @Getter
-    @Setter
+    @Getter @Setter
     private BBGameManager bbGameManager;
-    @Getter
-    public ExpressoManager expressoManager;
+    @Getter @Setter
+    private ExpressoManager expressoManager;
     @Getter
     @Setter
     private boolean isReady = false;
@@ -40,10 +41,11 @@ public class BBGame {
      * Créer une instance d'une BBGame
      * @param type
      */
-    public BBGame(Expresso type) {
-        expressoType = type;
-        bbGameManager = new BBGameManager(this);
-        expressoManager = new ExpressoManager(this);
+    public BBGame(Main main, Expresso type) {
+        setMain(main);
+        setExpressoType(type);
+        setBbGameManager(new BBGameManager(this));
+        setExpressoManager(new ExpressoManager(this));
     }
 
     public final void startExpresso() {
@@ -57,7 +59,7 @@ public class BBGame {
      */
     public void addCompetitor(Player player) {
         competitor.add(player);
-        Main.getInstance().getServer().getPluginManager().callEvent(new CompetitorJoinEvent(player));
+        main.getInstance().getServer().getPluginManager().callEvent(new CompetitorJoinEvent(player));
     }
 
     /**
@@ -67,7 +69,7 @@ public class BBGame {
      */
     public void removeCompetitor(Player player) {
         competitor.remove(player);
-        Main.getInstance().getServer().getPluginManager().callEvent(new CompetitorLeaveEvent(player));
+        main.getInstance().getServer().getPluginManager().callEvent(new CompetitorLeaveEvent(player));
     }
 
     /**
