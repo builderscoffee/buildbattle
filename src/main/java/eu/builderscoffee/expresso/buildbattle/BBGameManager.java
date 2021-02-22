@@ -1,14 +1,9 @@
 package eu.builderscoffee.expresso.buildbattle;
 
 import eu.builderscoffee.expresso.Main;
-import eu.builderscoffee.expresso.buildbattle.expressos.Expresso;
 import eu.builderscoffee.expresso.buildbattle.expressos.ExpressoManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
-import eu.builderscoffee.expresso.buildbattle.phase.types.GamePhase;
-import eu.builderscoffee.expresso.buildbattle.phase.types.JuryPhase;
-import eu.builderscoffee.expresso.buildbattle.phase.types.LaunchingPhase;
-import eu.builderscoffee.expresso.task.GameTask;
-import eu.builderscoffee.expresso.task.StartTask;
+import eu.builderscoffee.expresso.utils.Log;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
@@ -27,15 +22,17 @@ public class BBGameManager {
     @Getter
     private final BBGame game;
     // Managers
-    @Getter
+    @Getter @Setter
     private ExpressoManager expressoManager;
     // Tasks
+    /*
     @Getter
     @Setter
     private StartTask startTask;
     @Getter
     @Setter
     private GameTask gameTask;
+    */
     @Getter
     @Setter
     private BukkitTask currentTask;
@@ -46,20 +43,20 @@ public class BBGameManager {
     @Getter
     @Setter
     private BBPhase bbPhase;
-    private Expresso expresso;
 
     public BBGameManager(final BBGame game) {
         // Instances
-        this.main = Main.getInstance();
+        this.main = game.getMain().getInstance();
         this.game = game;
         // Managers
-        this.expressoManager = Main.getBbGame().getExpressoManager();
+        setExpressoManager(game.getExpressoManager());
         // Tasks
-        this.startTask = new StartTask(getGame(), 30);
-        this.gameTask = new GameTask(getGame(), 7200);
+        //this.startTask = new StartTask(getGame(), 30);
+        //this.gameTask = new GameTask(getGame(), 7200);
         // Others
-        this.phases.incrementAndGet();
-        this.expresso = expressoManager.getCurrentExpresso();
+        //this.phases.incrementAndGet();
+        // Définir la phase par défault
+        this.getGame().setBbState(BBState.WAITING);
     }
 
     // GAME MANAGEMENT
@@ -70,8 +67,8 @@ public class BBGameManager {
     @SneakyThrows
     public void checkStart() {
         if (this.shouldStart()) {
-            //this.nextPhase();
-            //this.startPhase(LaunchingPhase.class);
+            // Lancer la prochaine phase
+            this.nextPhase();
         }
     }
 
@@ -85,40 +82,31 @@ public class BBGameManager {
     }
 
     /***
-     * Décompte avant le lancement d'une partie
-     */
-    public void startLaunchCountdown() {
-        this.getGame().setBbState(BBState.LAUNCHING);
-        this.getStartTask().runTaskTimer(Main.getInstance(), 0L, 20L);
-    }
-
-    /***
-     * Annuler le décompte avant le lancement
-     */
-    public void cancelLaunchCountdown() {
-        this.getGame().setBbState(BBState.WAITING);
-        this.getStartTask().cancel();
-        this.getStartTask().setTime(30);
-    }
-
-    /***
      * Lancer une nouvelle partie
      */
     public void startGame() {
-        this.getStartTask().cancel();
+        //this.getStartTask().cancel();
         this.getGame().setBbState(BBState.IN_GAME);
-        this.getGameTask().runTaskTimer(Main.getInstance(), 0L, 20L);
+        //this.getGameTask().runTaskTimer(Main.getInstance(), 0L, 20L);
     }
 
     /***
      * Stopper la partie en cours
      */
     public void endGame() {
+        /*
         if (!this.getGameTask().isCancelled()) {
             this.getGameTask().cancel();
-            this.getGame().setBbState(BBState.ENDING);
+            */
+        if (!(this.game.getExpressoType().getCurrentPhase().state() != BBState.ENDING)) {
+            Log.get().info("Une erreur est survenue lors de la fin de la partie !");
+        } else {
+            // Définir l'état de fin de la partie
+            this.getGame().setBbState(this.game.getExpressoType().getCurrentPhase().state());
+            // Couper la phase en cours
+            this.cancelPhase();
+            // Désactiver les plugin de build
             this.disablePlugins();
-
         }
     }
 
@@ -127,49 +115,48 @@ public class BBGameManager {
     /***
      * Démarrer une nouvelle phase
      * @param runnable - La task bukkit
-     * @throws ReflectiveOperationException - Exception d'une réflection
      */
-    public void startPhase(Class<? extends BukkitRunnable> runnable) throws ReflectiveOperationException {
-        setCurrentTask(((BukkitRunnable)  runnable.getDeclaredConstructors()[0].newInstance(main)).runTaskTimerAsynchronously(main, 0, 20));
+    public void startPhase(BukkitRunnable runnable) {
+        if(getCurrentTask() != null) {
+            getCurrentTask().cancel();
+        }
+        setCurrentTask(runnable.runTaskTimerAsynchronously(main, 0, 20));
     }
 
     /***
      * Stopper la phase en cours
      */
     public void cancelPhase() {
-        getCurrentTask().cancel();
+        if (!this.getCurrentTask().isCancelled()) {
+            getCurrentTask().cancel();
+        }
     }
-
-    /***
-     * Retourne la phase en cours
-     */
-    public BBPhase currentPhase() { return expresso.getCurrentPhase();}
 
     /***
      * Démarrer la prochaine phase
      */
+    @SneakyThrows
     public void nextPhase() {
-        this.expressoManager.getCurrentExpresso().getPhases().poll();
+        // Poll la prochaine phase
+        Log.get().info(this.game.getExpressoType().getName());
+        Log.get().info(this.game.getExpressoType().getDescription().toString());
+        this.game.getExpressoType().getPhases().poll();
+        //this.game.getExpressoType().getPhases().
+        Log.get().info("Phase en cours " + this.game.getExpressoType().getPhases().getFirst().name());
+        this.game.getExpressoType().setCurrentPhase(this.game.getExpressoType().getPhases().getFirst());
+        // Définir le status de la prochaine phase
+        this.getGame().setBbState(this.game.getExpressoType().getCurrentPhase().state());
+        // Lancer la prochaine phase
+        this.startPhase(this.game.getExpressoType().getCurrentPhase().runnable());
     }
 
-    /***
-     * Check la phase en cours
-     * et retourne un nouvelle état
-     * de partie
-     */
-    public void checkPhase() {
-        if(expresso.getPhases().equals(LaunchingPhase.class)) this.getGame().setBbState(BBState.LAUNCHING);
-        else if(expresso.getPhases().equals(GamePhase.class)) this.getGame().setBbState(BBState.IN_GAME);
-        else if (expresso.getPhases().equals(JuryPhase.class)) this.getGame().setBbState(BBState.ENDING);
-    }
-
-    // Other Stuff
+    // OTHER STUFF
 
     /***
      * Désactiver les plugin non nécessaire après la phase IN-GAME
      */
     public void disablePlugins() {
-        PluginManager pm = Main.getInstance().getServer().getPluginManager();
+        PluginManager pm = main.getInstance().getServer().getPluginManager();
         List<String> pluginToDisable = Main.getSettings().getPluginEndDisable();
         pluginToDisable.forEach(s -> {
             if (pm.getPlugin(s) != null) {
@@ -178,10 +165,13 @@ public class BBGameManager {
         });
     }
 
+    // STATE
+
     /***
      * État d'une partie en cours
      */
     public enum BBState {
+        NONE,
         WAITING,
         LAUNCHING,
         IN_GAME,
