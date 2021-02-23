@@ -25,14 +25,6 @@ public class BBGameManager {
     @Getter @Setter
     private ExpressoManager expressoManager;
     // Tasks
-    /*
-    @Getter
-    @Setter
-    private StartTask startTask;
-    @Getter
-    @Setter
-    private GameTask gameTask;
-    */
     @Getter
     @Setter
     private BukkitTask currentTask;
@@ -50,11 +42,6 @@ public class BBGameManager {
         this.game = game;
         // Managers
         setExpressoManager(game.getExpressoManager());
-        // Tasks
-        //this.startTask = new StartTask(getGame(), 30);
-        //this.gameTask = new GameTask(getGame(), 7200);
-        // Others
-        //this.phases.incrementAndGet();
         // Définir la phase par défault
         this.getGame().setBbState(BBState.WAITING);
     }
@@ -85,19 +72,13 @@ public class BBGameManager {
      * Lancer une nouvelle partie
      */
     public void startGame() {
-        //this.getStartTask().cancel();
         this.getGame().setBbState(BBState.IN_GAME);
-        //this.getGameTask().runTaskTimer(Main.getInstance(), 0L, 20L);
     }
 
     /***
      * Stopper la partie en cours
      */
     public void endGame() {
-        /*
-        if (!this.getGameTask().isCancelled()) {
-            this.getGameTask().cancel();
-            */
         if (!(this.game.getExpressoType().getCurrentPhase().state() != BBState.ENDING)) {
             Log.get().info("Une erreur est survenue lors de la fin de la partie !");
         } else {
@@ -140,10 +121,10 @@ public class BBGameManager {
         // Poll la prochaine phase
         Log.get().info(this.game.getExpressoType().getName());
         Log.get().info(this.game.getExpressoType().getDescription().toString());
-        this.game.getExpressoType().getPhases().poll();
-        //this.game.getExpressoType().getPhases().
-        Log.get().info("Phase en cours " + this.game.getExpressoType().getPhases().getFirst().name());
-        this.game.getExpressoType().setCurrentPhase(this.game.getExpressoType().getPhases().getFirst());
+        //this.game.getExpressoType().getPhases().this.game.getExpressoType().getPhases().removeFirst();
+        Log.get().info("Phase size " + this.game.getExpressoPhases().size());
+        this.game.getExpressoType().setCurrentPhase(this.game.getExpressoPhases().poll());
+        Log.get().info("Phase en cours " + this.game.getExpressoType().getCurrentPhase().name());
         // Définir le status de la prochaine phase
         this.getGame().setBbState(this.game.getExpressoType().getCurrentPhase().state());
         // Lancer la prochaine phase
