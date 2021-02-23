@@ -5,12 +5,14 @@ import eu.builderscoffee.expresso.buildbattle.events.CompetitorJoinEvent;
 import eu.builderscoffee.expresso.buildbattle.events.CompetitorLeaveEvent;
 import eu.builderscoffee.expresso.buildbattle.expressos.Expresso;
 import eu.builderscoffee.expresso.buildbattle.expressos.ExpressoManager;
+import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 public class BBGame {
@@ -22,6 +24,8 @@ public class BBGame {
      */
     @Getter @Setter
     private Expresso expressoType;
+    @Getter @Setter
+    private Deque<BBPhase> expressoPhases;
     @Getter
     private final List<Player> competitor = new ArrayList<>(); // La liste des compétitors
     private final List<Player> jury = new ArrayList<>();
@@ -44,6 +48,7 @@ public class BBGame {
     public BBGame(Main main, Expresso type) {
         setMain(main);
         setExpressoType(type);
+        setExpressoPhases(type.getPhases());
         setBbGameManager(new BBGameManager(this));
         setExpressoManager(new ExpressoManager(this));
     }
