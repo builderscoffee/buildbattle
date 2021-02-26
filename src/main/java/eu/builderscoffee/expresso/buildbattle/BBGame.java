@@ -47,19 +47,10 @@ public class BBGame {
      */
     public BBGame(Main main, Expresso type) {
         setMain(main);
-        defineExpresso(type);
+        setExpressoType(type);
+        setExpressoPhases(type.getPhases());
         setBbGameManager(new BBGameManager(this));
         setExpressoManager(new ExpressoManager(this));
-    }
-
-    /***
-     * Définir ou redéfinir l'expresso de la partie en cours
-     *
-     * @param expresso
-     */
-    public final void defineExpresso(Expresso expresso) {
-        setExpressoType(expresso);
-        setExpressoPhases(expresso.getPhases());
     }
 
     public final void startExpresso() {
