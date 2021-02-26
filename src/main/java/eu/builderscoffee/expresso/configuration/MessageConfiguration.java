@@ -16,6 +16,8 @@ public final class MessageConfiguration {
 
     // Game Command
     String cantedittype = "§cVous ne pouvez changer le type d'une partie en cours";
+    String game_is_to_stop = "§cVous venez de stopper la partie";
+    String game_not_going_to_start = "§cVous ne pouvez pas stopper une partie qui n'est pas démarrée";
 
     // Expresso
     String competitorJoin = "§f%player% §aa rejoins la compétition";

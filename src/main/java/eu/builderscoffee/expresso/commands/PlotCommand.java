@@ -50,12 +50,14 @@ public class PlotCommand implements CommandExecutor {
                     player.sendMessage("§cTu n'est pas sur un plot, espèce de café moulu");
                 }
                 break;
+                /*
             case "paste":
                 Location loc = PlotUtils.convertBukkitLoc(player.getTargetBlock(null, 100).getLocation());
                 final Plot plot = loc.getPlotAbs();
                 PlotUtils.pasteSchematic(Main.getSettings().getSchematicToPaste(), plot);
                 player.sendMessage("§a Paste Plot Test");
                 break;
+                */
             default:
                 return false;
         }

@@ -50,6 +50,13 @@ public abstract class Expresso {
     public abstract List<String> getDescription();
 
     /**
+     * Retourne le thèmes de l'expresso
+     *
+     * @return
+     */
+    public abstract String getThemes();
+
+    /**
      * Retournes les phases de l'expresso
      *
      * @return
@@ -57,6 +64,5 @@ public abstract class Expresso {
     public Deque<BBPhase> getPhases() {
         return phases;
     }
-
 
 }
