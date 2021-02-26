@@ -33,7 +33,7 @@ public class GameCommand implements CommandExecutor {
         cmd = cmd.toLowerCase();
         switch (cmd) {
             case "type":
-                if(!Main.getBbGame().isReady()) {
+                if (!Main.getBbGame().isReady()) {
                     GameExpressoInventory.INVENTORY.open(player);
                 } else {
                     player.sendMessage(messages.getPrefix() + messages.getCantedittype());
@@ -44,8 +44,12 @@ public class GameCommand implements CommandExecutor {
                 Main.getBbGame().setReady(true);
                 break;
             case "stop":
-                player.sendMessage(messages.getPrefix() + "en cours de dev");
-                //Main.getBbGame().getBbGameManager().cancelPhase();
+                if (Main.getBbGame().isReady()) {
+                    Main.getBbGame().getBbGameManager().cancelGame();
+                    player.sendMessage(messages.getPrefix() + messages.getGame_is_to_stop());
+                } else {
+                    player.sendMessage(messages.getPrefix() + messages.getGame_not_going_to_start());
+                }
             default:
                 return false;
         }
