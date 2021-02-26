@@ -41,7 +41,7 @@ public class GameTask extends BukkitRunnable {
         }
         if (time >= maxTime) {
             for (Player player : getOnlinePlayers()) player.setGameMode(SPECTATOR);
-            game.bbGameManager.endGame();
+            game.getBbGameManager().endGame();
         }
         switch (time) {
             case 1800:
