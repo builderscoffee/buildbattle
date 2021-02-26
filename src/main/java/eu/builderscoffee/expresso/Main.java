@@ -23,7 +23,7 @@ import static eu.builderscoffee.expresso.board.BBBoard.updateBoard;
 public class Main extends JavaPlugin {
 
     @Getter
-    private static Main instance;
+    public static Main instance;
 
     @Getter
     public static MessageConfiguration messages;
@@ -32,7 +32,7 @@ public class Main extends JavaPlugin {
     public static SettingsConfiguration settings;
 
     @Getter
-    private static BBGame bbGame;
+    public static BBGame bbGame;
 
     @Getter
     public static InventoryManager inventoryManager;
@@ -65,12 +65,12 @@ public class Main extends JavaPlugin {
         }, 0, 20);
 
         // Set game type
-        bbGame = new BBGame(this, new IlClassicoExpresso());
+        bbGame = new BBGame(new IlClassicoExpresso());
 
         // Check Start
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), () -> {
             if (getBbGame() != null) {
-                getBbGame().getBbGameManager().checkStart();
+                getBbGame().bbGameManager.checkStart();
             }
         }, 0L, 20L);
 
