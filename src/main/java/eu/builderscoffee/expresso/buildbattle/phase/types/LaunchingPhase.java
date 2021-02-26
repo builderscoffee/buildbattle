@@ -25,12 +25,12 @@ public class LaunchingPhase implements BBPhase {
 
     @Override
     public String name() {
-        return "Lancement";
+        return null;
     }
 
     @Override
     public String description() {
-        return "Lancement de la partie";
+        return null;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class LaunchingPhase implements BBPhase {
                         }
                     }
                     // Décompte du temps dans le chat
-                    if (getStartTime() % 10 == 0 || getStartTime() == 10 || getStartTime() == 5 || getStartTime() == 4 ||getStartTime() == 3 || getStartTime() == 2 || getStartTime() == 1) {
+                    if (getStartTime() % 10 == 0 || getStartTime() == 10 || getStartTime() == 5 || getStartTime() == 3 || getStartTime() == 2 || getStartTime() == 1) {
                         Bukkit.getServer().broadcastMessage(Main.getMessages().getPrefix() + "§eLa compétition commence dans " + TimeUtils.getDurationString(getStartTime()));
                         for (final Player player2 : Bukkit.getOnlinePlayers()) {
                             player2.playSound(player2.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 20.0f, 20.0f);

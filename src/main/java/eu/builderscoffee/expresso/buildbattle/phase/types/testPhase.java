@@ -1,6 +1,5 @@
 package eu.builderscoffee.expresso.buildbattle.phase.types;
 
-import eu.builderscoffee.expresso.utils.Log;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class testPhase extends GamePhase {
@@ -15,7 +14,7 @@ public class testPhase extends GamePhase {
             @Override
             public void run() {
                 testPhase.super.runnable();
-                Log.get().info("TEST SUPER GAME PHASE");
+                //TODO DO SOME STUFF HERE
             }
         };
         return runnable;
