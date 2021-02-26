@@ -139,7 +139,7 @@ public class BBGameManager {
      * Démarrer la prochaine phase
      */
     public void nextPhase() {
-        this.expressoManager.getCurrentExpresso().getPhases().poll();
+        //this.expressoManager.getCurrentExpresso()
     }
 
     public void checkPhase() {
