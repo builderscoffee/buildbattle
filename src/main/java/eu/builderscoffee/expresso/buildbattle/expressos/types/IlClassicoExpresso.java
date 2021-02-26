@@ -2,25 +2,25 @@ package eu.builderscoffee.expresso.buildbattle.expressos.types;
 
 import eu.builderscoffee.api.utils.ItemBuilder;
 import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.buildbattle.BBGame;
 import eu.builderscoffee.expresso.buildbattle.expressos.Expresso;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.types.GamePhase;
-import eu.builderscoffee.expresso.buildbattle.phase.types.JuryPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.types.LaunchingPhase;
-import lombok.val;
+import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 import java.util.Deque;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class IlClassicoExpresso extends Expresso {
 
     @Override
     public ItemStack getIcon() {
-        return new ItemBuilder(Material.INK_SACK, 1, (short) 0)
+        return new ItemBuilder(Material.INK_SACK,1,(short) 0)
                 .setName(getName())
                 //.addLoreLine(getDescription())
                 .build();
@@ -42,10 +42,8 @@ public class IlClassicoExpresso extends Expresso {
      */
     @Override
     public Deque<BBPhase> getPhases() {
-        val phases = new LinkedList();
         phases.add(new LaunchingPhase(30));
         phases.add(new GamePhase(7200));
-        phases.add(new JuryPhase());
-        return phases;
+        return getPhases();
     }
 }

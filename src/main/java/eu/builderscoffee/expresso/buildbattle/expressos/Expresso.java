@@ -5,12 +5,10 @@ import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Deque;
 import java.util.List;
 import java.util.Queue;
-import java.util.concurrent.LinkedBlockingDeque;
 
 /***
  * Représente un expresso avec les élements suivant :
@@ -22,9 +20,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 public abstract class Expresso {
 
     @Getter
-    public static Deque<BBPhase> phases = new LinkedBlockingDeque<>();
-    @Getter @Setter
-    public BukkitRunnable currentRunnable;
+    public static Deque<BBPhase> phases;
     @Getter @Setter
     public BBPhase currentPhase;
 

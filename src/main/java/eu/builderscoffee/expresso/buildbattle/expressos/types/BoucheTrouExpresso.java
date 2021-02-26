@@ -5,16 +5,17 @@ import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.expressos.Expresso;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.types.GamePhase;
-import eu.builderscoffee.expresso.buildbattle.phase.types.JuryPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.types.LaunchingPhase;
-import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Deque;
+import java.util.List;
+import java.util.Queue;
 
 public class BoucheTrouExpresso extends Expresso {
+
 
     @Override
     public ItemStack getIcon() {
@@ -40,10 +41,8 @@ public class BoucheTrouExpresso extends Expresso {
      */
     @Override
     public Deque<BBPhase> getPhases() {
-        phases = new LinkedList<>();
         phases.add(new LaunchingPhase(30));
         phases.add(new GamePhase(7200));
-        phases.add(new JuryPhase());
         return getPhases();
     }
 }
