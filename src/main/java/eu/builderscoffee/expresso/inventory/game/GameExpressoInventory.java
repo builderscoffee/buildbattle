@@ -38,7 +38,7 @@ public class GameExpressoInventory implements InventoryProvider {
                     e -> {
                 // do action on click
                 Expresso expresso = expressoList.get(expressoIndex);
-                Main.getBbGame().setExpressoType(expresso);
+                Main.getBbGame().defineExpresso(expresso);
                 player.sendMessage("§aVous avez selectionné :§f " + expresso.getName());
                     });
         }

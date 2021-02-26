@@ -82,7 +82,7 @@ public class GamePhase implements BBPhase {
                 // Tout les X temps envoyé un broadcast pour le temps de jeux restant
                 for (int i : bcTime) {
                     if (i == time) {
-                        Main.getBbGame().broadcast(Main.getMessages().getPrefix() + "§a" + TimeUtils.getDurationString(time) + "§fde jeux restantes !");
+                        Main.getBbGame().broadcast(Main.getMessages().getPrefix() + "§a" + TimeUtils.getDurationString(time) + " §fde jeux restantes !");
                     }
                 }
 

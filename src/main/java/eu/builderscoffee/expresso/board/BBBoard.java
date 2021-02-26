@@ -2,11 +2,8 @@ package eu.builderscoffee.expresso.board;
 
 import eu.builderscoffee.api.board.FastBoard;
 import eu.builderscoffee.expresso.Main;
-import eu.builderscoffee.expresso.buildbattle.BBGame;
 import eu.builderscoffee.expresso.buildbattle.BBGameManager;
 import eu.builderscoffee.expresso.utils.TimeUtils;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.val;
 
 import java.util.*;
