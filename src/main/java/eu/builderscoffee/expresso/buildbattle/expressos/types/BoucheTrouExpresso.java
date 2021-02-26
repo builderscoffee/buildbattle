@@ -1,14 +1,12 @@
 package eu.builderscoffee.expresso.buildbattle.expressos.types;
 
 import eu.builderscoffee.api.utils.ItemBuilder;
-import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.expressos.Expresso;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
-import eu.builderscoffee.expresso.buildbattle.phase.types.GamePhase;
 import eu.builderscoffee.expresso.buildbattle.phase.types.JuryPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.types.LaunchingPhase;
-import lombok.Getter;
-import lombok.Setter;
+import eu.builderscoffee.expresso.buildbattle.phase.types.HazarPhase;
+import lombok.val;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -40,10 +38,10 @@ public class BoucheTrouExpresso extends Expresso {
      */
     @Override
     public Deque<BBPhase> getPhases() {
-        phases = new LinkedList<>();
+        val phases = new LinkedList();
         phases.add(new LaunchingPhase(30));
-        phases.add(new GamePhase(7200));
+        phases.add(new HazarPhase(7200));
         phases.add(new JuryPhase());
-        return getPhases();
+        return phases;
     }
 }
