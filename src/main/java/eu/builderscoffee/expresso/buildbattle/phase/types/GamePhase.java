@@ -97,7 +97,8 @@ public class GamePhase implements BBPhase {
 
                 // Passer à l'étape suivante si le temps est écoulé
                 if (time >= maxTime) {
-                    //for (Player player : getOnlinePlayers()) player.setGameMode(SPECTATOR);
+                    for (Player player : getOnlinePlayers()) player.setGameMode(SPECTATOR);
+                    //game.getBbGameManager().endGame();
                     Main.getBbGame().getBbGameManager().nextPhase();
                 }
 
