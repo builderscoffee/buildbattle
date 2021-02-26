@@ -46,7 +46,7 @@ public class GamePhase implements BBPhase {
 
     @Override
     public int time() {
-        return time;
+        return maxTime;
     }
 
     @Override
@@ -59,33 +59,30 @@ public class GamePhase implements BBPhase {
         return new BukkitRunnable() {
             @Override
             public void run() {
+                // Démarrer la game en dévoilant le thème
                 if (time == 0) {
-                    // Démarrer la game en dévoilant le thème
-                    // et définir la gamemode en créatif pour chaques
-                    // joueurs
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            getOnlinePlayers().forEach(p -> {
-                                new Title("Thème", Main.getSettings().getBuildTheme(), 20, 20, 20).send(p);
-                                p.setGameMode(CREATIVE);
-                            });
-                        }
-                    }.runTask(Main.getInstance());
-                    Main.getBbGame().broadcast(Main.getMessages().getPrefix() + "§a/plot auto pour participer");
+                    getOnlinePlayers().forEach(p -> {
+                        new Title("Thème", Main.getSettings().getBuildTheme(), 20, 20, 20).send(p);
+                        p.setGameMode(CREATIVE);
+                    });
+                    getGame().broadcast(Main.getMessages().getPrefix() + "§a/plot auto pour participer");
                 }
                 // Log les minutes du jeux en console
                 if (time % 60 == 0) {
                     Log.get().info(" " + time / 60 + " minutes de jeux");
                 }
-
+                // Passer à l'étape suivante si le temps est écoulé
+                if (time >= maxTime) {
+                    for (Player player : getOnlinePlayers()) player.setGameMode(SPECTATOR);
+                    //game.getBbGameManager().endGame();
+                    getGame().getBbGameManager().nextPhase();
+                }
                 // Tout les X temps envoyé un broadcast pour le temps de jeux restant
                 for (int i : bcTime) {
                     if (i == time) {
-                        Main.getBbGame().broadcast(Main.getMessages().getPrefix() + "§a" + TimeUtils.getDurationString(time) + "§fde jeux restantes !");
+                        getGame().broadcast(Main.getMessages().getPrefix() + "§a" + TimeUtils.getDurationString(time) + "§fde jeux restantes !");
                     }
                 }
-
                 // Tout les X temps envoyé un title pour la dernière minutes restante
                 for (int i : titleTime) {
                     if( i == time) {
@@ -94,14 +91,6 @@ public class GamePhase implements BBPhase {
                         });
                     }
                 }
-
-                // Passer à l'étape suivante si le temps est écoulé
-                if (time >= maxTime) {
-                    for (Player player : getOnlinePlayers()) player.setGameMode(SPECTATOR);
-                    //game.getBbGameManager().endGame();
-                    Main.getBbGame().getBbGameManager().nextPhase();
-                }
-
                 ++time;
             }
         };
