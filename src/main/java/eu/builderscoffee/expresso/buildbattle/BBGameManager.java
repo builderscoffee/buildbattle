@@ -4,19 +4,18 @@ import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.expressos.Expresso;
 import eu.builderscoffee.expresso.buildbattle.expressos.ExpressoManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
-import eu.builderscoffee.expresso.buildbattle.phase.types.GamePhase;
-import eu.builderscoffee.expresso.buildbattle.phase.types.JuryPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.types.LaunchingPhase;
 import eu.builderscoffee.expresso.task.GameTask;
 import eu.builderscoffee.expresso.task.StartTask;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.SneakyThrows;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class BBGameManager {
@@ -62,16 +61,12 @@ public class BBGameManager {
         this.expresso = expressoManager.getCurrentExpresso();
     }
 
-    // GAME MANAGEMENT
-
     /***
-     * Checker si la partie peux démarrer
+     * Cacher si la partie peux démarrer
      */
-    @SneakyThrows
     public void checkStart() {
         if (this.shouldStart()) {
-            //this.nextPhase();
-            //this.startPhase(LaunchingPhase.class);
+            this.startLaunchCountdown();
         }
     }
 
@@ -134,16 +129,11 @@ public class BBGameManager {
     }
 
     /***
-     * Stopper la phase en cours
+     * Cancel une phase
      */
     public void cancelPhase() {
         getCurrentTask().cancel();
     }
-
-    /***
-     * Retourne la phase en cours
-     */
-    public BBPhase currentPhase() { return expresso.getCurrentPhase();}
 
     /***
      * Démarrer la prochaine phase
@@ -152,18 +142,11 @@ public class BBGameManager {
         this.expressoManager.getCurrentExpresso().getPhases().poll();
     }
 
-    /***
-     * Check la phase en cours
-     * et retourne un nouvelle état
-     * de partie
-     */
     public void checkPhase() {
-        if(expresso.getPhases().equals(LaunchingPhase.class)) this.getGame().setBbState(BBState.LAUNCHING);
-        else if(expresso.getPhases().equals(GamePhase.class)) this.getGame().setBbState(BBState.IN_GAME);
-        else if (expresso.getPhases().equals(JuryPhase.class)) this.getGame().setBbState(BBState.ENDING);
-    }
+        if(!expresso.getPhases().pollFirst().equals(LaunchingPhase.class)) {
 
-    // Other Stuff
+        }
+    }
 
     /***
      * Désactiver les plugin non nécessaire après la phase IN-GAME
@@ -179,7 +162,7 @@ public class BBGameManager {
     }
 
     /***
-     * État d'une partie en cours
+     * Phases / états d'une partie en cours
      */
     public enum BBState {
         WAITING,
