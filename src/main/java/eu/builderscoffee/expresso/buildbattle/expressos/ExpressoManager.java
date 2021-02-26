@@ -1,6 +1,7 @@
 package eu.builderscoffee.expresso.buildbattle.expressos;
 
 import eu.builderscoffee.expresso.buildbattle.BBGame;
+import eu.builderscoffee.expresso.buildbattle.expressos.types.IlClassicoExpresso;
 import eu.builderscoffee.expresso.utils.Log;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +18,6 @@ public class ExpressoManager {
     private BBGame bbGame;
     @Getter
     public List<Expresso> expressos;
-
     @Getter @Setter
     private Expresso currentExpresso;
 
@@ -26,6 +26,8 @@ public class ExpressoManager {
         this.expressos = new ArrayList<>();
         // Récuperer tout les expresso
         getAllExpresso();
+        // Définir un expresso par défault
+        setCurrentExpresso(bbGame.getExpressoType());
     }
 
     /**
