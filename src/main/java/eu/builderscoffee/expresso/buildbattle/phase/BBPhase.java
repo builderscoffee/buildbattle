@@ -1,8 +1,5 @@
 package eu.builderscoffee.expresso.buildbattle.phase;
 
-import eu.builderscoffee.expresso.buildbattle.BBGameManager;
-import org.bukkit.scheduler.BukkitRunnable;
-
 /***
  * Représente une phase/étapes d'une partie
  */
@@ -26,16 +23,5 @@ public interface BBPhase {
      */
     int time();
 
-    /**
-     * Etat de la phase
-     * @return
-     */
-    BBGameManager.BBState state();
-
-    /**
-     * Bukkit runnable de la phase
-     * @return
-     */
-    BukkitRunnable runnable();
 
 }
