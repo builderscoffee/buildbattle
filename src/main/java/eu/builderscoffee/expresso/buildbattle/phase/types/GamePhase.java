@@ -67,12 +67,12 @@ public class GamePhase implements BBPhase {
                         @Override
                         public void run() {
                             getOnlinePlayers().forEach(p -> {
-                                new Title("Thème", Main.getSettings().getBuildTheme(), 20, 20, 20).send(p);
+                                new Title("Thème", Main.getSettings().getBoard_build_theme(), 20, 20, 20).send(p);
                                 p.setGameMode(CREATIVE);
                             });
                         }
                     }.runTask(Main.getInstance());
-                    Main.getBbGame().broadcast(Main.getMessages().getPrefix() + "§a/plot auto pour participer");
+                    Main.getBbGame().broadcast(Main.getMessages().getGlobal_prefix() + "§a/plot auto pour participer");
                 }
                 // Log les minutes du jeux en console
                 if (time % 60 == 0) {
@@ -82,7 +82,7 @@ public class GamePhase implements BBPhase {
                 // Tout les X temps envoyé un broadcast pour le temps de jeux restant
                 for (int i : bcTime) {
                     if (i == time) {
-                        Main.getBbGame().broadcast(Main.getMessages().getPrefix() + "§a" + TimeUtils.getDurationString(time) + " §fde jeux restantes !");
+                        Main.getBbGame().broadcast(Main.getMessages().getGlobal_prefix() + "§a" + TimeUtils.getDurationString(time) + " §fde jeux restantes !");
                     }
                 }
 
