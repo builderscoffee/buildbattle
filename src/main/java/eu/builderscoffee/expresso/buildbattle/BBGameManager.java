@@ -12,8 +12,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class BBGameManager {
@@ -152,7 +150,7 @@ public class BBGameManager {
      */
     public void disablePlugins() {
        PluginManager pm = Main.getInstance().getServer().getPluginManager();
-        List<String> pluginToDisable = Main.getSettings().getPluginEndDisable();
+        List<String> pluginToDisable = Main.getSettings().getGame_plugin_end_disable();
         pluginToDisable.forEach(s -> {
             if (pm.getPlugin(s) != null) {
                 pm.disablePlugin(pm.getPlugin(s));

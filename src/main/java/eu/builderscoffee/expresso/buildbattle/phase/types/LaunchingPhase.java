@@ -61,14 +61,14 @@ public class LaunchingPhase implements BBPhase {
                     }
                     // Décompte du temps dans le chat
                     if (getStartTime() % 10 == 0 || getStartTime() == 10 || getStartTime() == 5 || getStartTime() == 4 ||getStartTime() == 3 || getStartTime() == 2 || getStartTime() == 1) {
-                        Bukkit.getServer().broadcastMessage(Main.getMessages().getPrefix() + "§eLa compétition commence dans " + TimeUtils.getDurationString(getStartTime()));
+                        Bukkit.getServer().broadcastMessage(Main.getMessages().getGlobal_prefix() + "§eLa compétition commence dans " + TimeUtils.getDurationString(getStartTime()));
                         for (final Player player2 : Bukkit.getOnlinePlayers()) {
                             player2.playSound(player2.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 20.0f, 20.0f);
                         }
                     }
                     // Lancer la compétition
                     if (getStartTime() < 1) {
-                        Bukkit.getServer().broadcastMessage(Main.getMessages().getPrefix() + "§eLa compétition commence ! Bonne chance !");
+                        Bukkit.getServer().broadcastMessage(Main.getMessages().getGlobal_prefix() + "§eLa compétition commence ! Bonne chance !");
                         Bukkit.getOnlinePlayers().forEach(p -> p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 20.0f, 20.0f));
                         //this.getGame().startExpresso();
                         Main.getBbGame().getBbGameManager().nextPhase();
