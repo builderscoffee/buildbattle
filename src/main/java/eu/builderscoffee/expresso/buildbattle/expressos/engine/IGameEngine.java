@@ -3,17 +3,17 @@ package eu.builderscoffee.expresso.buildbattle.expressos.engine;
 public interface IGameEngine {
 
     /***
-     * Précharger l'engine de la game
-     */
-    public void preLoad();
-
-    /***
      * Démarrer l'engine de la game
      */
-    public void run();
+    public void load();
 
     /***
      * Clean l'engine de la game
      */
     public void clear();
+
+    /***
+     * Print dans un fichier
+     */
+    public void print();
 }

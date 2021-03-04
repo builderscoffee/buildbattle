@@ -12,8 +12,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class BBGameManager {
@@ -142,7 +140,6 @@ public class BBGameManager {
         this.getGame().setBbState(this.game.getExpressoType().getCurrentPhase().state());
         // Lancer la Task de la prochaine phase
         this.startPhase(this.game.getExpressoType().getCurrentPhase().runnable());
-        this.expressoManager.getCurrentExpresso().getPhases().poll();
     }
 
     // OTHER STUFF

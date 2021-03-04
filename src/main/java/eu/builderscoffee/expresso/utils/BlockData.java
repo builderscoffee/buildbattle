@@ -1,8 +1,12 @@
 package eu.builderscoffee.expresso.utils;
 
 import lombok.Data;
+import lombok.Getter;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -261,13 +265,22 @@ public enum BlockData {
     RED_HARDNED_CLAY(159, 14, BlockCategory.CONSTRUCT),
     BLACK_HARDNED_CLAY(159, 15, BlockCategory.CONSTRUCT);
 
-    int id, shortId;
-    BlockCategory blockCategory;
+    @Getter
+    public int id, shortId;
+    @Getter
+    public BlockCategory blockCategory;
 
     BlockData(int id, int shortId, BlockCategory blockCategory) {
         this.id = id;
         this.shortId = shortId;
         this.blockCategory = blockCategory;
+    }
+
+    public static BlockData getBlockDataById(int id) {
+        return Arrays.stream(BlockData.values())
+                .filter(blockData -> Objects.equals(blockData.getId(),id))
+                .findFirst()
+                .get();
     }
 
     /***

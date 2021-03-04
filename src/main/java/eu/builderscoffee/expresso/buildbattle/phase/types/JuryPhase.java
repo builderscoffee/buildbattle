@@ -3,6 +3,7 @@ package eu.builderscoffee.expresso.buildbattle.phase.types;
 import eu.builderscoffee.api.utils.Title;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.BBGameManager;
+import eu.builderscoffee.expresso.buildbattle.expressos.engine.IGameEngine;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -54,5 +55,10 @@ public class JuryPhase implements BBPhase {
 
             }
         };
+    }
+
+    @Override
+    public IGameEngine engine() {
+        return null;
     }
 }
