@@ -36,11 +36,6 @@ public class IlClassicoExpresso extends Expresso {
         return Arrays.asList("L'expresso des plus classique");
     }
 
-    @Override
-    public String getThemes() {
-        return null;
-    }
-
     /***
      * Retourne les phases d'un expresso classic
      * @return
@@ -50,6 +45,7 @@ public class IlClassicoExpresso extends Expresso {
         val phases = new LinkedList();
         phases.add(new LaunchingPhase(30));
         phases.add(new GamePhase(7200));
+        phases.add(new JuryPhase());
         return phases;
     }
 }

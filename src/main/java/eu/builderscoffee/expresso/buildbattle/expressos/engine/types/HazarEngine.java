@@ -1,6 +1,8 @@
 package eu.builderscoffee.expresso.buildbattle.expressos.engine.types;
 
+import eu.builderscoffee.expresso.buildbattle.expressos.engine.IGameEngine;
 import eu.builderscoffee.expresso.utils.BlockData;
+import eu.builderscoffee.expresso.utils.Log;
 import lombok.val;
 import org.junit.Test;
 
@@ -12,18 +14,20 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class HazarEngine {
+public class HazarEngine implements IGameEngine {
 
-    private final HashMap<BlockData.BlockCategory, List<BlockData>> cachedBlock = new HashMap<>();
-    private final HashMap<BlockData, BlockData> convertBlockdata = new HashMap<>();
+    private HashMap<BlockData.BlockCategory, List<BlockData>> cachedBlock = new HashMap<>();
+    public HashMap<BlockData, BlockData> convertBlockdata = new HashMap<>();
 
     public HazarEngine() {
+        Log.get().info("HazardEngine init");
         // Get all bockdata and push then to a list
         Stream.of(BlockData.BlockCategory.values())
                 .forEach(blockCategory -> cachedBlock.put(blockCategory, BlockData.blockDataCategory(blockCategory)));
+        // Test
+        listToTripleT();
     }
 
-    @Test
     public void listToTripleT() {
         cachedBlock.keySet()
                 .forEach(key -> {
@@ -37,9 +41,9 @@ public class HazarEngine {
                             .collect(Collectors.groupingBy(it -> counter.getAndIncrement() / chunkSize))
                             .values();
 
-                    // Pousser la liste sous une format de conversion ( Pour le listener )
+                    // Pousser la liste sous un format de conversion ( Pour le listener )
                     result.forEach(results -> {
-                        // Dans le cas ou l'ont assembler deux element ensemble
+                        // Dans le cas ou l'ont assemble deux elements ensemble
                         if (!(results.size() <= 1)) {
                             convertBlockdata.put(results.get(0), results.get(1));
                         }
@@ -48,7 +52,22 @@ public class HazarEngine {
                             convertBlockdata.put(results.get(0), blockData.get(new Random().nextInt(blockData.size())));
                         }
                     });
-                    convertBlockdata.entrySet().forEach(entry -> System.out.print("(" + entry.getKey() + "," + entry.getValue() + ") "));
+                    convertBlockdata.forEach((key1, value) -> Log.get().info("(" + key1 + "," + value + ") "));
                 });
+    }
+
+    @Override
+    public void load() {
+
+    }
+
+    @Override
+    public void clear() {
+
+    }
+
+    @Override
+    public void print() {
+
     }
 }

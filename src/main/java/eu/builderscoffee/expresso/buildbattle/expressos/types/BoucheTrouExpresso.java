@@ -33,11 +33,6 @@ public class BoucheTrouExpresso extends Expresso {
             return Arrays.asList("Une schématique est coller sur le plot");
         }
 
-    @Override
-    public String getThemes() {
-        return null;
-    }
-
     /***
      * Retourne les phases d'un expresso bouche trou
      * @return
@@ -47,6 +42,7 @@ public class BoucheTrouExpresso extends Expresso {
         val phases = new LinkedList();
         phases.add(new LaunchingPhase(30));
         phases.add(new GamePhase(7200));
+        phases.add(new JuryPhase());
         return phases;
     }
 }

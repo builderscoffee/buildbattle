@@ -140,7 +140,6 @@ public class BBGameManager {
         this.getGame().setBbState(this.game.getExpressoType().getCurrentPhase().state());
         // Lancer la Task de la prochaine phase
         this.startPhase(this.game.getExpressoType().getCurrentPhase().runnable());
-        this.expressoManager.getCurrentExpresso().getPhases().poll();
     }
 
     // OTHER STUFF
