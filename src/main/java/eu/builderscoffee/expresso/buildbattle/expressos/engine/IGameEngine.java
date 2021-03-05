@@ -1,5 +1,9 @@
 package eu.builderscoffee.expresso.buildbattle.expressos.engine;
 
+import org.bukkit.event.Listener;
+
+import java.util.List;
+
 public interface IGameEngine {
 
     /***
@@ -8,12 +12,8 @@ public interface IGameEngine {
     public void load();
 
     /***
-     * Clean l'engine de la game
+     * Enregistrer les evenements custom du moteur
+     * @return
      */
-    public void clear();
-
-    /***
-     * Print dans un fichier
-     */
-    public void print();
+    public List<Listener> registerListener();
 }

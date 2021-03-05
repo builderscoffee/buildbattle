@@ -8,6 +8,8 @@ import com.intellectualcrafters.plot.util.MainUtil;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
+import eu.builderscoffee.expresso.inventory.HazardExpressoInventory;
+import eu.builderscoffee.expresso.inventory.jury.JuryInventory;
 import eu.builderscoffee.expresso.utils.PlotUtils;
 import lombok.val;
 import org.bukkit.command.Command;
@@ -55,6 +57,9 @@ public class PlotCommand implements CommandExecutor {
                 final Plot plot = loc.getPlotAbs();
                 PlotUtils.pasteSchematic(Main.getSettings().getSchematicToPaste(), plot);
                 player.sendMessage("§a Paste Plot Test");
+                break;
+            case "hazar":
+                HazardExpressoInventory.INVENTORY.open(player);
                 break;
             default:
                 return false;

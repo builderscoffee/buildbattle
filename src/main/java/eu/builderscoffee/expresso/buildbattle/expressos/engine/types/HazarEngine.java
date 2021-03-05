@@ -1,10 +1,15 @@
 package eu.builderscoffee.expresso.buildbattle.expressos.engine.types;
 
+import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.expressos.engine.IGameEngine;
+import eu.builderscoffee.expresso.buildbattle.expressos.listeners.HazarListener;
+import eu.builderscoffee.expresso.inventory.HazardExpressoInventory;
 import eu.builderscoffee.expresso.utils.BlockData;
 import eu.builderscoffee.expresso.utils.Log;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.val;
-import org.junit.Test;
+import org.bukkit.event.Listener;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,19 +21,40 @@ import java.util.stream.Stream;
 
 public class HazarEngine implements IGameEngine {
 
-    private HashMap<BlockData.BlockCategory, List<BlockData>> cachedBlock = new HashMap<>();
     public HashMap<BlockData, BlockData> convertBlockdata = new HashMap<>();
+    @Getter
+    @Setter
+    private Main instance;
+    private final HashMap<BlockData.BlockCategory, List<BlockData>> cachedBlock = new HashMap<>();
 
-    public HazarEngine() {
+
+    public HazarEngine(Main instance) {
+        // On défini l'instance de la class principale
+        setInstance(instance);
+        // On charge l'engine
+        load();
+        // On enregistre les listeners
+        registerListener();
+        // On init le menu
+        new HazardExpressoInventory(this);
+    }
+
+    @Override
+    public void load() {
         Log.get().info("HazardEngine init");
         // Get all bockdata and push then to a list
         Stream.of(BlockData.BlockCategory.values())
                 .forEach(blockCategory -> cachedBlock.put(blockCategory, BlockData.blockDataCategory(blockCategory)));
-        // Test
-        listToTripleT();
+        // Generate random block data
+        generateRandomBlockData();
     }
 
-    public void listToTripleT() {
+    @Override
+    public List<Listener> registerListener() {
+        return Collections.singletonList(new HazarListener(getInstance(), this));
+    }
+
+    public void generateRandomBlockData() {
         cachedBlock.keySet()
                 .forEach(key -> {
                     List<BlockData> blockData = cachedBlock.get(key);
@@ -54,20 +80,5 @@ public class HazarEngine implements IGameEngine {
                     });
                     convertBlockdata.forEach((key1, value) -> Log.get().info("(" + key1 + "," + value + ") "));
                 });
-    }
-
-    @Override
-    public void load() {
-
-    }
-
-    @Override
-    public void clear() {
-
-    }
-
-    @Override
-    public void print() {
-
     }
 }
