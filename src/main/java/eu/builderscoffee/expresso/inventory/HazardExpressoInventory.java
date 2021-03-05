@@ -5,10 +5,12 @@ import eu.builderscoffee.api.gui.SmartInventory;
 import eu.builderscoffee.api.gui.content.*;
 import eu.builderscoffee.api.utils.ItemBuilder;
 import eu.builderscoffee.expresso.Main;
-import eu.builderscoffee.expresso.buildbattle.expressos.Expresso;
-import eu.builderscoffee.expresso.buildbattle.phase.types.HazarPhase;
+import eu.builderscoffee.expresso.buildbattle.expressos.engine.types.HazarEngine;
 import eu.builderscoffee.expresso.inventory.game.GameExpressoInventory;
 import eu.builderscoffee.expresso.utils.BlockData;
+import eu.builderscoffee.expresso.utils.Log;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.val;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -20,37 +22,62 @@ import java.util.List;
 
 public class HazardExpressoInventory implements InventoryProvider {
 
+    @Getter @Setter
+    public static HazarEngine hazarEngine;
+
+    ClickableItem whiteGlasses = ClickableItem.empty(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 0));
+
+    public HazardExpressoInventory(HazarEngine engine) {
+        setHazarEngine(engine);
+    }
+
     public static final SmartInventory INVENTORY = SmartInventory.builder()
             .id("hazard_expresso")
-            .provider(new GameExpressoInventory())
+            .provider(new HazardExpressoInventory(getHazarEngine()))
             .size(3,9)
             .title(ChatColor.WHITE + "§fListe des blocks")
             .manager(Main.getInventoryManager())
             .build();
 
-    ClickableItem whiteGlasses = ClickableItem.empty(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 0));
-
     @Override
     public void init(Player player, InventoryContents contents) {
         Pagination pagination = contents.pagination();
 
-        val blockDataList = new ArrayList<>(HazarPhase.hazarEngine.convertBlockdata.values());
-        ClickableItem[] expressoItem = new ClickableItem[blockDataList.size()];
-
-        // Fill expresso
-        for (int i = 0; i < expressoItem.length; i++) {
+        // Get data
+        val blockDataList = hazarEngine.convertBlockdata;
+        val blockDataIndexes = new ArrayList<>(blockDataList.keySet());
+        ClickableItem[] blockItems = new ClickableItem[blockDataList.size()];
+        // Fill block items
+        for (int i = 0; i < blockItems.length; i++) {
             int expressoIndex = i;
-            expressoItem[i] = ClickableItem.of(new ItemBuilder(Material.getMaterial(blockDataList.get(i).getId())).addLoreLine("Convert to " + BlockData.getBlockDataById(i).id).build(),
-                    e -> {
-                    });
+            blockItems[i] = ClickableItem.empty(new ItemBuilder(Material.getMaterial(blockDataIndexes.get(i).id),1, (short) blockDataIndexes.get(i).shortId).build());
+            //Log.get().info("BlockDataIndex " + blockDataIndexes.get(i).id);
         }
 
         // Fill row
         contents.fillRow(2, whiteGlasses);
+        // Prepare block convert line
+        contents.newIterator("blockconvert", SlotIterator.Type.HORIZONTAL, 1, 0);
+
+
+        // Fill content Items
+        contents.set(2, 3, ClickableItem.of(new ItemBuilder(Material.ARROW).setName("§6Précédente").build(),
+                e -> INVENTORY.open(player, pagination.previous().getPage())));
+        contents.set(2, 4, ClickableItem.of(new ItemBuilder(Material.BARRIER).setName("§cFermer").build(),
+                e -> INVENTORY.close(player)));
+        contents.set(2, 5, ClickableItem.of(new ItemBuilder(Material.ARROW).setName("§6Suivant").build(),
+                e -> INVENTORY.open(player, pagination.next().getPage())));
+        contents.set(2, 8, ClickableItem.empty(new ItemBuilder(Material.PAPER).setName("§aPage §f" + pagination.getPage()).build()));
 
         // Set pages
-        pagination.setItems(expressoItem);
-        pagination.setItemsPerPage(18);
+        pagination.setItems(blockItems);
+        pagination.setItemsPerPage(9);
+
+        SlotIterator iter = contents.iterator("blockconvert").get();
+        if(iter.column() >= 7)
+            return;
+        iter.next();
+        iter.set(ClickableItem.empty(new ItemStack(Material.WOOL, 1, (short) iter.column())));
 
         // Iterate pages
         pagination.addToIterator(contents.newIterator(SlotIterator.Type.HORIZONTAL, SlotPos.of(0, 0)));

@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.material.Directional;
 import org.bukkit.material.MaterialData;
 
 public class HazarListener implements Listener {
@@ -31,9 +32,7 @@ public class HazarListener implements Listener {
     public void onBlockPlace(BlockPlaceEvent event) {
         // On check si on est en partie sinon on retourne
         if (Main.getBbGame().getBbState() == BBGameManager.BBState.IN_GAME) {// On init les variables avant de cancel
-            final Player player = event.getPlayer();
             Block block = event.getBlock();
-            Location location = event.getBlock().getLocation();
             int blockId = event.getBlock().getType().getId();
             Log.get().info("Current block " + blockId);
             BlockFace blockFace = event.getBlock().getFace(block); // On récupere la face du block
@@ -46,7 +45,12 @@ public class HazarListener implements Listener {
                 Log.get().info("Block convert " + blockData.id);
                 // On remplace le bloc à placer par celui converti
                 blockState.setType(Material.getMaterial(blockData.id));
-                blockState.setData(new MaterialData(Material.getMaterial(blockData.id), (byte) blockData.shortId));
+                //block.getRelative(blockFace).setType(Material.getMaterial(blockData.id));
+                MaterialData blockMaterialData = new MaterialData(blockData.id, (byte) blockData.shortId);
+                if (blockMaterialData != null && blockMaterialData instanceof Directional) {
+                    ((Directional) blockMaterialData).setFacingDirection(blockFace);
+                }
+                blockState.setData(blockMaterialData);
                 // On n'oublie pas de l'update sinon ça ne marchera pas
                 blockState.update(true);
             }

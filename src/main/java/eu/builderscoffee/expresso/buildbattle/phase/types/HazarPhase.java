@@ -10,13 +10,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class HazarPhase extends GamePhase {
 
-    public static HazarEngine hazarEngine = new HazarEngine();
+    public static HazarEngine hazarEngine;
 
     public HazarPhase(int maxTime) {
         super(maxTime);
-        // Enregistrer l'evenement custom
-        new HazarListener(Main.getInstance(), hazarEngine);
-
+        // Enregistrer l'engine de la partie
+        hazarEngine = new HazarEngine(Main.getInstance());
     }
 
     @Override
