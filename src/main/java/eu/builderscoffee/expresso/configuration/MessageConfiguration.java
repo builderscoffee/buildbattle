@@ -22,4 +22,5 @@ public final class MessageConfiguration {
     String competitorLeave = "§f%player% §ca quitté la compétition";
 
     // Game
+
 }
