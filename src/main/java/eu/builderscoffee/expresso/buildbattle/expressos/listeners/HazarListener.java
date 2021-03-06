@@ -7,12 +7,10 @@ import eu.builderscoffee.expresso.utils.BlockData;
 import eu.builderscoffee.expresso.utils.Log;
 import lombok.val;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -39,7 +37,7 @@ public class HazarListener implements Listener {
             BlockState blockState = block.getState(); // On récupère l'état du block
             // On charge l'engine et on check le block à convertir
             Log.get().info("BlockData " + BlockData.getBlockDataById(blockId).getId());
-            if (engine.convertBlockdata.get(BlockData.getBlockDataById(blockId)) != null) {
+            if (engine.convertBlockdata.get(BlockData.isValidBlockData(blockId)) != null) {
                 val blockData = engine.convertBlockdata.get(BlockData.getBlockDataById(blockId));
 
                 Log.get().info("Block convert " + blockData.id);

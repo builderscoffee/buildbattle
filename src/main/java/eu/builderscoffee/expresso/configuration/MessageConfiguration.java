@@ -24,4 +24,5 @@ public final class MessageConfiguration {
     String expresoo_competitor_leave = "§f%player% §ca quitté la compétition";
 
     // Game
+
 }
