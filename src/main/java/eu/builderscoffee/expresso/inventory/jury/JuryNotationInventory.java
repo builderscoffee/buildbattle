@@ -71,11 +71,9 @@ public class JuryNotationInventory implements InventoryProvider {
                             break;
                         case SHIFT_LEFT:
                             beaute = addCap30(beaute,5);
-                            player.sendMessage("oui zebi");
                             break;
                         case SHIFT_RIGHT:
                             beaute = sub(beaute,5);
-                            player.sendMessage("non zebi");
                             break;
                     }
                     INVENTORY.open(player);
