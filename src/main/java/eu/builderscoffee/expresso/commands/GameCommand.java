@@ -44,8 +44,9 @@ public class GameCommand implements CommandExecutor {
                 Main.getBbGame().setReady(true);
                 break;
             case "stop":
-                player.sendMessage(messages.getPrefix() + "en cours de dev");
-                //Main.getBbGame().getBbGameManager().cancelPhase();
+                player.sendMessage(messages.getPrefix() + "Vous venez de stopper la partie ");
+                Main.getBbGame().getBbGameManager().cancelGame();
+                // TODO Reset all plot
             default:
                 return false;
         }

@@ -239,8 +239,8 @@ public enum BlockData {
     ANVIL(145, 0, BlockCategory.CONSTRUCT),
     GOLD_PLATE(147, 0, BlockCategory.PLATE),
     IRON_PLATE(148, 0, BlockCategory.PLATE),
-    //REDSTONE_COMPARATOR_INACTIVE(149, 0, BlockCategory.PLATE),
-    REDSTONE_COMPARATOR_ACTIVE(150, 0, BlockCategory.PLATE),
+    REDSTONE_COMPARATOR_INACTIVE(149, 0, BlockCategory.PLATE),
+    //REDSTONE_COMPARATOR_ACTIVE(150, 0, BlockCategory.PLATE),
     DAYLIGHTSENSOR(151, 0, BlockCategory.CONSTRUCT),
     REDSTONE_BLOCK(152, 0, BlockCategory.CONSTRUCT),
     NETHER_QUARTZ_ORE(153, 0, BlockCategory.CONSTRUCT),
@@ -420,7 +420,7 @@ public enum BlockData {
     BROWN_CONCRETE_POWDER(252, 12, BlockCategory.CONSTRUCT),
     GREEN_CONCRETE_POWDER(252, 13, BlockCategory.CONSTRUCT),
     RED_CONCRETE_POWDER(252, 14, BlockCategory.CONSTRUCT),
-    BLACK_CONCRETE_POWDER(253, 15, BlockCategory.CONSTRUCT),
+    BLACK_CONCRETE_POWDER(252, 15, BlockCategory.CONSTRUCT),
     STRUCTURE_BLOCK(255, 0, BlockCategory.CONSTRUCT),
     OAK_DOOR(324, 0, BlockCategory.CONSTRUCT),
     SIGN(323, 0, BlockCategory.MISCELLANEOUS),
@@ -510,11 +510,5 @@ public enum BlockData {
         LOG,
         // Spécial - Direction par rapport aux regards
         MISCELLANEOUS
-    }
-
-    @Data(staticConstructor = "of")
-    public static class Pair<BlockDataA, BlockDataB> {
-        public final BlockDataA left;
-        public final BlockDataB right;
     }
 }

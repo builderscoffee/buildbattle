@@ -36,9 +36,9 @@ public class HazarListener implements Listener {
             BlockFace blockFace = event.getBlock().getFace(block); // On récupere la face du block
             BlockState blockState = block.getState(); // On récupère l'état du block
             // On charge l'engine et on check le block à convertir
-            Log.get().info("BlockData " + BlockData.getBlockDataById(blockId).getId());
-            if (engine.convertBlockdata.get(BlockData.isValidBlockData(blockId)) != null) {
-                val blockData = engine.convertBlockdata.get(BlockData.getBlockDataById(blockId));
+            //Log.get().info("BlockData " + BlockData.getBlockDataById(blockId).getId());
+            if (engine.convertBlockdata.containsKey(BlockData.getBlockDataById(blockId))) {
+                final BlockData blockData = (BlockData) engine.convertBlockdata.get(BlockData.getBlockDataById(blockId));
 
                 Log.get().info("Block convert " + blockData.id);
                 // On remplace le bloc à placer par celui converti

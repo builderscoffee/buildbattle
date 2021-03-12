@@ -6,12 +6,11 @@ import eu.builderscoffee.api.gui.content.*;
 import eu.builderscoffee.api.utils.ItemBuilder;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.expressos.engine.types.HazarEngine;
-import eu.builderscoffee.expresso.inventory.game.GameExpressoInventory;
 import eu.builderscoffee.expresso.utils.BlockData;
-import eu.builderscoffee.expresso.utils.Log;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.val;
+import lombok.var;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -19,6 +18,9 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class HazardExpressoInventory implements InventoryProvider {
 
@@ -45,19 +47,18 @@ public class HazardExpressoInventory implements InventoryProvider {
 
         // Get data
         val blockDataList = hazarEngine.convertBlockdata;
-        val blockDataIndexes = new ArrayList<>(blockDataList.keySet());
+        val blockDataIndexes = blockDataList.keySet().stream().filter(element -> element instanceof BlockData).map(element -> (BlockData)element).collect(Collectors.toList());
         ClickableItem[] blockItems = new ClickableItem[blockDataList.size()];
         // Fill block items
         for (int i = 0; i < blockItems.length; i++) {
             int expressoIndex = i;
-            blockItems[i] = ClickableItem.empty(new ItemBuilder(Material.getMaterial(blockDataIndexes.get(i).id),1, (short) blockDataIndexes.get(i).shortId).build());
-            //Log.get().info("BlockDataIndex " + blockDataIndexes.get(i).id);
+            blockItems[i] = ClickableItem.empty(new ItemBuilder(Material.getMaterial(blockDataIndexes.get(i).id),1, (short) blockDataIndexes.get(i).shortId).addLoreLine("Converti en " + BlockData.getBlockDataById(i).id).build());
         }
 
         // Fill row
         contents.fillRow(2, whiteGlasses);
         // Prepare block convert line
-        contents.newIterator("blockconvert", SlotIterator.Type.HORIZONTAL, 1, 0);
+        //contents.newIterator("blockconvert", SlotIterator.Type.HORIZONTAL, 1, 0);
 
 
         // Fill content Items
@@ -73,18 +74,18 @@ public class HazardExpressoInventory implements InventoryProvider {
         pagination.setItems(blockItems);
         pagination.setItemsPerPage(9);
 
-        SlotIterator iter = contents.iterator("blockconvert").get();
-        if(iter.column() >= 7)
-            return;
-        iter.next();
-        iter.set(ClickableItem.empty(new ItemStack(Material.WOOL, 1, (short) iter.column())));
-
         // Iterate pages
         pagination.addToIterator(contents.newIterator(SlotIterator.Type.HORIZONTAL, SlotPos.of(0, 0)));
     }
 
     @Override
     public void update(Player player, InventoryContents contents) {
-
+        /*
+        SlotIterator iter = contents.iterator("blockconvert").get();
+        if(iter.column() >= 7)
+            return;
+        iter.next();
+        iter.set(ClickableItem.empty(new ItemStack(Material.WOOL, 1, (short) iter.column())));
+        */
     }
 }
