@@ -54,14 +54,13 @@ public class PlotCommand implements CommandExecutor {
                 } else {
                     player.sendMessage("§cTu n'est pas sur un plot, espèce de café moulu");
                 }
-                break;
+                break;             
             case "paste":
                 Location loc = PlotUtils.convertBukkitLoc(player.getTargetBlock(null, 100).getLocation());
                 final Plot plot = loc.getPlotAbs();
                 PlotUtils.pasteSchematic(Main.getSettings().getSchematicToPaste(), plot);
                 player.sendMessage("§a Paste Plot Test");
                 break;
-
             case "invleo":
                 //checker
                 if(new PlotAPI().isInPlot(player)){
@@ -103,8 +102,6 @@ public class PlotCommand implements CommandExecutor {
                 PlotUtils.convertPlotCenterLoc(current.getCenter());
                 player.teleport(PlotUtils.convertPlotCenterLoc(current.getCenter()));
                 break;
-
-
             default:
                 return false;
         }
@@ -116,7 +113,7 @@ public class PlotCommand implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             boolean ret = false;
-            if (player.hasPermission(settings.getExpressoEplotPermission()) || player.hasPermission(settings.getExpressoAllPermission())) {
+            if (player.hasPermission(settings.getExpresso_eplot_permission()) || player.hasPermission(settings.getExpresso_all_permission())) {
                 switch (args.length) {
                     case 0:
                         ret = argLength0(player);
@@ -137,13 +134,13 @@ public class PlotCommand implements CommandExecutor {
             }
 
             if (!ret) {
-                player.sendMessage(messages.getPrefix() + messages.getCommandBadSyntaxe());
+                player.sendMessage(messages.getGlobal_prefix() + messages.getCommand_bad_syntaxe());
             }
 
             return ret;
         }
 
-        sender.sendMessage(messages.getPrefix() + messages.getCommandMustBePlayer());
+        sender.sendMessage(messages.getGlobal_prefix() + messages.getCommand_must_be_player());
         return true;
     }
 }

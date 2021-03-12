@@ -5,6 +5,7 @@ import eu.builderscoffee.api.utils.LocationsUtil;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.board.BBBoard;
 import eu.builderscoffee.expresso.buildbattle.BBGameManager;
+import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,12 +20,15 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerListener implements Listener {
 
+    SettingsConfiguration settings = Main.getSettings();
+
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(PlayerJoinEvent event) {
         final Player player = event.getPlayer();
+
         // Scoreboard Updater
         FastBoard board = new FastBoard(player);
-        board.updateTitle("§6§l- Builders Coffee -"); // Même titre pour tout
+        board.updateTitle(settings.getBoard_title()); // Même titre pour tout
         BBBoard.boards.put(player.getUniqueId(), board);
 
         // Player Inventory
@@ -32,14 +36,14 @@ public class PlayerListener implements Listener {
         player.setHealth(20);
         player.setFoodLevel(20);
         player.setAllowFlight(true);
-
         player.getInventory().clear();
+
         // If player as plot
-        player.teleport(LocationsUtil.getLocationFromString(Main.getSettings().getSpawnLocation()));
+        player.teleport(LocationsUtil.getLocationFromString(Main.getSettings().getGlobal_spawn_location()));
 
         if (Main.getBbGame().getBbState().equals(BBGameManager.BBState.IN_GAME)) {
             player.setGameMode(GameMode.CREATIVE);
-            player.sendMessage(Main.getMessages().getPrefix() + "§a/plot auto pour participer");
+            player.sendMessage(Main.getMessages().getGlobal_prefix() + "§a/plot auto pour participer");
         }
 
     }
