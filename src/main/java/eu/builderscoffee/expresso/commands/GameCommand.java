@@ -33,10 +33,10 @@ public class GameCommand implements CommandExecutor {
         cmd = cmd.toLowerCase();
         switch (cmd) {
             case "type":
-                if (!Main.getBbGame().isReady()) {
+                if(!Main.getBbGame().isReady()) {
                     GameExpressoInventory.INVENTORY.open(player);
                 } else {
-                    player.sendMessage(messages.getGlobal_prefix() + messages.getGame_cant_edit_type());
+                    player.sendMessage(messages.getPrefix() + messages.getCantedittype());
                 }
                 break;
             case "start":
@@ -44,12 +44,9 @@ public class GameCommand implements CommandExecutor {
                 Main.getBbGame().setReady(true);
                 break;
             case "stop":
-                if (Main.getBbGame().isReady()) {
-                    Main.getBbGame().getBbGameManager().cancelGame();
-                    player.sendMessage(messages.getGlobal_prefix() + messages.getGame_is_to_stop());
-                } else {
-                    player.sendMessage(messages.getGlobal_prefix() + messages.getGame_not_going_to_start());
-                }
+                player.sendMessage(messages.getPrefix() + "Vous venez de stopper la partie ");
+                Main.getBbGame().getBbGameManager().cancelGame();
+                // TODO Reset all plot
             default:
                 return false;
         }
@@ -61,7 +58,7 @@ public class GameCommand implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             boolean ret = false;
-            if (player.hasPermission(settings.getExpresso_all_permission())) {
+            if (player.hasPermission(settings.getExpressoAllPermission())) {
                 switch (args.length) {
                     case 0:
                         ret = argLength0(player);
@@ -82,13 +79,13 @@ public class GameCommand implements CommandExecutor {
             }
 
             if (!ret) {
-                player.sendMessage(messages.getGlobal_prefix() + messages.getCommand_bad_syntaxe());
+                player.sendMessage(messages.getPrefix() + messages.getCommandBadSyntaxe());
             }
 
             return ret;
         }
 
-        sender.sendMessage(messages.getGlobal_prefix() + messages.getCommand_must_be_player());
+        sender.sendMessage(messages.getPrefix() + messages.getCommandMustBePlayer());
         return true;
     }
 }
