@@ -1,6 +1,5 @@
-package eu.builderscoffee.expresso.utils;
+package eu.builderscoffee.expresso.utils.blocks;
 
-import lombok.Data;
 import lombok.Getter;
 
 import java.util.Arrays;
