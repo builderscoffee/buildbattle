@@ -4,7 +4,7 @@ import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.expressos.engine.IGameEngine;
 import eu.builderscoffee.expresso.buildbattle.expressos.listeners.HazarListener;
 import eu.builderscoffee.expresso.inventory.HazardExpressoInventory;
-import eu.builderscoffee.expresso.utils.BlockData;
+import eu.builderscoffee.expresso.utils.blocks.BlockData;
 import eu.builderscoffee.expresso.utils.Log;
 import eu.builderscoffee.expresso.utils.Tuple;
 import lombok.Getter;
@@ -28,9 +28,9 @@ public class HazarEngine implements IGameEngine {
         // On défini l'instance de la class principale
         setInstance(instance);
         // On charge l'engine
-        load();
+        //load();
         // On enregistre les listeners
-        registerListener();
+        //registerListener();
         // On init le menu
         new HazardExpressoInventory(this);
     }

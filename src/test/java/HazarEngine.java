@@ -1,11 +1,9 @@
 import eu.builderscoffee.expresso.Main;
-import eu.builderscoffee.expresso.utils.BlockData;
+import eu.builderscoffee.expresso.utils.blocks.BlockData;
 import eu.builderscoffee.expresso.utils.Tuple;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.val;
 import org.junit.Test;
-import org.paukov.combinatorics3.Generator;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;

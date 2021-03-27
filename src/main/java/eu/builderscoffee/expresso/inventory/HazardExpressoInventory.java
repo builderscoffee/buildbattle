@@ -6,20 +6,15 @@ import eu.builderscoffee.api.gui.content.*;
 import eu.builderscoffee.api.utils.ItemBuilder;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.expressos.engine.types.HazarEngine;
-import eu.builderscoffee.expresso.utils.BlockData;
+import eu.builderscoffee.expresso.utils.blocks.BlockData;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.val;
-import lombok.var;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class HazardExpressoInventory implements InventoryProvider {
