@@ -5,6 +5,7 @@ import eu.builderscoffee.expresso.buildbattle.events.CompetitorJoinEvent;
 import eu.builderscoffee.expresso.buildbattle.events.CompetitorLeaveEvent;
 import eu.builderscoffee.expresso.buildbattle.expressos.Expresso;
 import eu.builderscoffee.expresso.buildbattle.expressos.ExpressoManager;
+import eu.builderscoffee.expresso.buildbattle.notation.NotationManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +23,8 @@ public class BBGame {
     /***
      * Le type d'expresso en cours !
      */
+    @Getter
+    private NotationManager notationManager;
     @Getter @Setter
     private Expresso expressoType;
     @Getter @Setter
@@ -45,11 +48,13 @@ public class BBGame {
      * Créer une instance d'une BBGame
      * @param type
      */
+
     public BBGame(Main main, Expresso type) {
         setMain(main);
         defineExpresso(type);
         setBbGameManager(new BBGameManager(this));
         setExpressoManager(new ExpressoManager(this));
+        notationManager = new NotationManager();
     }
 
     /***
@@ -60,6 +65,7 @@ public class BBGame {
     public final void defineExpresso(Expresso expresso) {
         setExpressoType(expresso);
         setExpressoPhases(expresso.getPhases());
+
     }
 
     public final void startExpresso() {

@@ -24,6 +24,7 @@ public class ExpressoManager {
     public ExpressoManager(BBGame bbGame) {
         this.bbGame = bbGame;
         this.expressos = new ArrayList<>();
+        setCurrentExpresso(bbGame.getExpressoType());
         // Récuperer tout les expresso
         getAllExpresso();
         // Définir un expresso par défault
