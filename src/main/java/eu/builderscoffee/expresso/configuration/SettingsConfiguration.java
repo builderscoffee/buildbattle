@@ -12,6 +12,7 @@ public class SettingsConfiguration {
 
     // Global settings
     String global_spawn_location = "plotevent:0:65:0:90.0:0.0";
+    String pluginMode = "DEV";
 
     // Permission settings
     String expresso_all_permission = "expresso.*";
