@@ -5,14 +5,15 @@ import eu.builderscoffee.expresso.buildbattle.BBGameManager;
 import eu.builderscoffee.expresso.buildbattle.expressos.engine.types.HazarEngine;
 import eu.builderscoffee.expresso.utils.Log;
 import eu.builderscoffee.expresso.utils.blocks.BlockData;
+import eu.builderscoffee.expresso.utils.blocks.LogFacing;
 import eu.builderscoffee.expresso.utils.blocks.BoundingBox;
 import lombok.val;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.material.MaterialData;
 import org.bukkit.material.Stairs;
 import org.bukkit.util.Vector;
 
@@ -69,18 +70,35 @@ public class HazarListener implements Listener {
             val face = event.getBlockAgainst().getFace(event.getBlock());
             val block = event.getBlock();
             val blockId = event.getBlock().getType().getId();
+            // Copy de la data en cas de BlockCatégorie Log
+            val blockOldData = event.getBlock().getData();
 
-            Log.get().info("Current block " + blockId);
+            Log.get().info("Current block " + blockId + ":" + block.getData());
+
+            /* Dans le cas ou le block est un matérial de type LOG on définis un byte de 0-3 suivant sont type
+            pour tromper le retour du BlockData
+            */
+            if(blockId == 17 && block.getData() <=4) {
+                block.setData((byte) LogFacing.getLogTypeByShort(block.getData()).Id);
+            }
+
+            // Dans le cas ou c'est des STAIRS , ne pas chercher par le short
+
+            // Réaliser une recherche par l'id puis si trouvé une correspondance checker via l'id et le short en
+            // sachant qui si certaines catégorie bug si on cherche via le short
+            // Catégorie STAIR , LOG
+
 
             // On check via l'engine le block à convertir
-            if (engine.convertBlockdata.containsKey(BlockData.getBlockDataById(blockId))) {
+            System.out.println("BlockData Size " + engine.convertBlockdata.size());
+            if (engine.convertBlockdata.containsKey(BlockData.getBlockDataByIdAndShort(blockId,block.getData()))){
 
                 // Le block à convertir
                 val blockData = (BlockData) engine.convertBlockdata.get(BlockData.getBlockDataById(blockId));
-                Log.get().info("Block convert " + blockData.id);
+                Log.get().info("Block convert " + blockData.id + ":" + blockData.shortId);
 
-                // On récupère le material du block converti
-                Material material = Material.getMaterial(blockData.id);
+                // On récupère le material data du block converti
+                MaterialData materialData = new MaterialData(blockData.id, (byte) blockData.shortId);
 
                 // Calcul pour savoir ou le joueur regarde
                 val box = new BoundingBox(event.getBlockAgainst().getLocation().toVector().add(new Vector(0.5D, 0.5D, 0.5D)), -0.5D, 0.5D, -0.5D, 0.5D, -0.5D, 0.5D);
@@ -111,10 +129,12 @@ public class HazarListener implements Listener {
                 val blockPlaced = event.getBlockPlaced();
 
                 // Met l'escalier
-                blockPlaced.setType(material);
+                blockPlaced.setType(materialData.getItemType());
 
                 // Récupère le blockstate
                 val state = blockPlaced.getState();
+
+                // Si la catégorie est les escaliers on applique une méthode différente
 
                 if (blockData.blockCategory.equals(BlockData.BlockCategory.STAIRS)) {
                     // Récupère le data du blockstate
@@ -125,6 +145,17 @@ public class HazarListener implements Listener {
                     stairs.setInverted(y > 0.5 || face == BlockFace.DOWN);
                     // Met la data dans le state
                     state.setData(stairs);
+                } else if(blockData.blockCategory.equals(BlockData.BlockCategory.LOG)) {
+                    // On récupère la nouvelle data du block placé
+                    val oldLogData = LogFacing.getLogTypeByShort(blockOldData);
+                    // On récupère le data du block à placer
+                    val newLogData = LogFacing.getLogTypeByShort(blockData.shortId);
+                    //
+                    //state.setData(LogFacing.ConvertLogFacing(materialData.getData(),state.getBlock().));
+                }
+                // Sinon on applique simplement la data
+                else {
+                    state.setData(materialData);
                 }
 
                 // Update le state

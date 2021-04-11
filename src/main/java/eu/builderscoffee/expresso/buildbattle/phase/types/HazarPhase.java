@@ -25,15 +25,6 @@ public class HazarPhase extends GamePhase {
 
     @Override
     public BukkitRunnable runnable() {
-        // Shuffle une liste de block
-        /*
-        val runnable = new BukkitRunnable() {
-            @Override
-            public void run() {
-                Log.get().info("Test super phase runnable");
-            }
-        }.runTaskTimerAsynchronously(Main.getInstance(), 0, 20);
-        */
         return super.runnable();
     }
 
