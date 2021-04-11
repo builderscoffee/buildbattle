@@ -130,11 +130,11 @@ public enum BlockData {
     FARMLAND(60, 0, BlockCategory.CONSTRUCT),
     FURNACE(61, 0, BlockCategory.MISCELLANEOUS),
     //BURNING_FURNACE(62, 0, BlockCategory.MISCELLANEOUS),
-    //OAK_DOOR_BLOCK(64, 0, BlockCategory.DOOR),
+    OAK_DOOR_BLOCK(64, 0, BlockCategory.DOOR),
     RAIL(66, 0, BlockCategory.CONSTRUCT),
     COBBELSTONE_STAIRS(67, 0, BlockCategory.STAIRS),
     STONE_PRESSURE_PLATE(70, 0, BlockCategory.PLATE),
-    //IRON_DOOR_BLOCK(71, 0, BlockCategory.DOOR),
+    IRON_DOOR_BLOCK(71, 0, BlockCategory.DOOR),
     WOODEN_PRESSURE_PLATE(72, 0, BlockCategory.PLATE),
     REDSTONE_ORE(73, 0, BlockCategory.CONSTRUCT),
     //GLOWING_REDSTONE_ORE(74, 0, BlockCategory.CONSTRUCT),
@@ -170,7 +170,7 @@ public enum BlockData {
     GREEN_STAINED_GLASS(95, 13, BlockCategory.CONSTRUCT),
     RED_STAINED_GLASS(95, 14, BlockCategory.CONSTRUCT),
     BLACK_STAINED_GLASS(95, 15, BlockCategory.CONSTRUCT),
-    //WOODEN_TRAPDOOR(96,0,),
+    WOODEN_TRAPDOOR(96,0,BlockCategory.DOOR),
     STONE_MONSTER_EGG(97, 0, BlockCategory.CONSTRUCT),
     COBBELSTONE_MONSTER_EGG(97, 1, BlockCategory.CONSTRUCT),
     STONE_BRICK_MONSTER_EGG(97, 2, BlockCategory.CONSTRUCT),
@@ -289,7 +289,7 @@ public enum BlockData {
     DARK_OAK_STAIRS(164, 0, BlockCategory.STAIRS),
     SLIME_BLOCK(165, 0, BlockCategory.CONSTRUCT),
     BARRIER(166, 0, BlockCategory.CONSTRUCT),
-    //IRON_TRAPDOOR(167,0,BlockCategory.CONSTRUCT),
+    IRON_TRAPDOOR(167,0,BlockCategory.DOOR),
     PRISMARINE(168, 0, BlockCategory.CONSTRUCT),
     PRISMARINE_BRICKS(168, 1, BlockCategory.CONSTRUCT),
     DARK_PRISMARINE(168, 2, BlockCategory.CONSTRUCT),
@@ -421,9 +421,9 @@ public enum BlockData {
     RED_CONCRETE_POWDER(252, 14, BlockCategory.CONSTRUCT),
     BLACK_CONCRETE_POWDER(252, 15, BlockCategory.CONSTRUCT),
     STRUCTURE_BLOCK(255, 0, BlockCategory.CONSTRUCT),
-    OAK_DOOR(324, 0, BlockCategory.CONSTRUCT),
+    OAK_DOOR(324, 0, BlockCategory.DOOR),
     SIGN(323, 0, BlockCategory.MISCELLANEOUS),
-    IRON_DOOR(330, 0, BlockCategory.CONSTRUCT),
+    IRON_DOOR(330, 0, BlockCategory.DOOR),
     REDSTONE(331, 0, BlockCategory.PLATE),
     CAKE(354, 0, BlockCategory.CONSTRUCT),
     BED(355, 0, BlockCategory.CONSTRUCT),
@@ -439,11 +439,11 @@ public enum BlockData {
     REDSTONE_COMPARATOR(404, 0, BlockCategory.PLATE),
     ARMOR_STAND(416, 0, BlockCategory.MISCELLANEOUS),
     END_CRYSTAL(426, 0, BlockCategory.CONSTRUCT),
-    SPRUCE_DOOR(427, 0, BlockCategory.CONSTRUCT),
-    BIRCH_DOOR(428, 0, BlockCategory.CONSTRUCT),
-    JUNGLE_DOOR(429, 0, BlockCategory.CONSTRUCT),
-    ACACIA_DOOR(430, 0, BlockCategory.CONSTRUCT),
-    DARK_OAK_DOOR(431, 0, BlockCategory.CONSTRUCT);
+    SPRUCE_DOOR(427, 0, BlockCategory.DOOR),
+    BIRCH_DOOR(428, 0, BlockCategory.DOOR),
+    JUNGLE_DOOR(429, 0, BlockCategory.DOOR),
+    ACACIA_DOOR(430, 0, BlockCategory.DOOR),
+    DARK_OAK_DOOR(431, 0, BlockCategory.DOOR);
 
 
     @Getter
@@ -475,7 +475,7 @@ public enum BlockData {
 
     /***
      * Retourne une BlockData par rapport à sont id
-     * @param id
+     * @param id - L'id du block
      * @return
      */
     public static BlockData getBlockDataById(int id) {
@@ -486,9 +486,23 @@ public enum BlockData {
     }
 
     /***
+     * Retourne une BlockData par sont id et sont shortId
+     * @param id - L'id du block
+     * @param shortId - Le shortId du block
+     * @return
+     */
+    public static BlockData getBlockDataByIdAndShort(int id, int shortId) {
+        return Arrays.stream(BlockData.values())
+                .filter(blockData -> Objects.equals(blockData.getId(),id))
+                .filter(blockData -> Objects.equals(blockData.getShortId(),shortId))
+                .findFirst()
+                .get();
+    }
+
+    /***
      * Retourne une liste des blocs dans une catégorie précisé
      *
-     * @param category
+     * @param category - La catégorie du blockData
      * @return
      */
     public static List<BlockData> blockDataCategory(BlockCategory category) {
