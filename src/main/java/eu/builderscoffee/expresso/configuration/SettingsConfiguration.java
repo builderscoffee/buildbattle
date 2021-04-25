@@ -30,4 +30,7 @@ public class SettingsConfiguration {
     List<String> game_plugin_end_disable = Arrays.asList("worldedit", "fastasyncworldedit", "fastasyncvoxelsniper", "voxelsniper", "betterbrushes", "gobrush", "schematicbrush", "schematicsbrowser", "arceon", "gopaint");
     String game_schematic_to_paste = "cobble";
 
+    // Team settings
+    int team_maxplayer = 2;
+
 }

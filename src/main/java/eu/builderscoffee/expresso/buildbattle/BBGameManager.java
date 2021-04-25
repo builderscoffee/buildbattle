@@ -183,5 +183,12 @@ public class BBGameManager {
         ENDING
     }
 
+    /***
+     * État de la partie
+     */
+    public enum BBType {
+        SOLO,
+        TEAM
+    }
 }
 
