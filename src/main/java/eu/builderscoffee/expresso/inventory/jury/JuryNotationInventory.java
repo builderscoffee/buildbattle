@@ -1,24 +1,19 @@
 package eu.builderscoffee.expresso.inventory.jury;
 
-import com.intellectualcrafters.plot.api.PlotAPI;
 import com.intellectualcrafters.plot.object.Location;
 import com.intellectualcrafters.plot.object.Plot;
-import eu.builderscoffee.api.gui.ClickableItem;
-import eu.builderscoffee.api.gui.SmartInventory;
-import eu.builderscoffee.api.gui.content.*;
-import eu.builderscoffee.api.utils.ItemBuilder;
+import eu.builderscoffee.api.bukkit.gui.ClickableItem;
+import eu.builderscoffee.api.bukkit.gui.SmartInventory;
+import eu.builderscoffee.api.bukkit.gui.content.InventoryContents;
+import eu.builderscoffee.api.bukkit.gui.content.InventoryProvider;
+import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.notation.Notation;
 import eu.builderscoffee.expresso.utils.PlotUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 public class JuryNotationInventory implements InventoryProvider {
     public static final SmartInventory INVENTORY = SmartInventory.builder()
@@ -29,7 +24,8 @@ public class JuryNotationInventory implements InventoryProvider {
             .manager(Main.getInventoryManager())
             .build();
 
-    private int beaute,crea,ame,folkore,fun = 0;
+    private int beaute, crea, ame, folkore, fun = 0;
+
     @Override
     public void init(Player player, InventoryContents contents) {
 
@@ -43,8 +39,8 @@ public class JuryNotationInventory implements InventoryProvider {
 
         contents.set(3, 4, ClickableItem.of(new ItemBuilder(Material.RAW_FISH).setName("§bValider mon verdict").build(),
                 e -> {
-                    Notation note = new Notation(player.getUniqueId(),beaute,crea,ame,folkore,fun);
-                    Main.getBbGame().getNotationManager().addNotationInPlot(plot,note);
+                    Notation note = new Notation(player.getUniqueId(), beaute, crea, ame, folkore, fun);
+                    Main.getBbGame().getNotationManager().addNotationInPlot(plot, note);
                     INVENTORY.close(player);
                 }));
         contents.set(1, 2, ClickableItem.of(new ItemBuilder(Material.YELLOW_FLOWER).setName("§bBeauté/Technicité").build(),
@@ -60,100 +56,99 @@ public class JuryNotationInventory implements InventoryProvider {
 
         // Les PAPER avec les points en fonctions des clicks
 
-        contents.set(2, 2, ClickableItem.of(new ItemBuilder(Material.PAPER).setName("§6"+beaute + " Points").build(),
+        contents.set(2, 2, ClickableItem.of(new ItemBuilder(Material.PAPER).setName("§6" + beaute + " Points").build(),
                 e -> {
-                    switch (e.getClick()){
+                    switch (e.getClick()) {
                         case LEFT:
-                            beaute = addCap30(beaute,1);
+                            beaute = addCap30(beaute, 1);
                             break;
                         case RIGHT:
-                            beaute = sub(beaute,1);
+                            beaute = sub(beaute, 1);
                             break;
                         case SHIFT_LEFT:
-                            beaute = addCap30(beaute,5);
+                            beaute = addCap30(beaute, 5);
                             break;
                         case SHIFT_RIGHT:
-                            beaute = sub(beaute,5);
+                            beaute = sub(beaute, 5);
                             break;
                     }
                     INVENTORY.open(player);
                 }));
-        contents.set(2, 3, ClickableItem.of(new ItemBuilder(Material.PAPER).setName("§6"+crea + " Points").build(),
+        contents.set(2, 3, ClickableItem.of(new ItemBuilder(Material.PAPER).setName("§6" + crea + " Points").build(),
                 e -> {
-                    switch (e.getClick()){
+                    switch (e.getClick()) {
                         case LEFT:
-                            crea = addCap22(crea,1);
+                            crea = addCap22(crea, 1);
                             break;
                         case RIGHT:
-                            crea = sub(crea,1);
+                            crea = sub(crea, 1);
                             break;
                         case SHIFT_LEFT:
-                            crea = addCap22(crea,5);
+                            crea = addCap22(crea, 5);
                             break;
                         case SHIFT_RIGHT:
-                            crea = sub(crea,5);
+                            crea = sub(crea, 5);
                             break;
                     }
                     INVENTORY.open(player);
                 }));
-        contents.set(2, 4, ClickableItem.of(new ItemBuilder(Material.PAPER).setName("§6"+ame + " Points").build(),
+        contents.set(2, 4, ClickableItem.of(new ItemBuilder(Material.PAPER).setName("§6" + ame + " Points").build(),
                 e -> {
-                    switch (e.getClick()){
+                    switch (e.getClick()) {
                         case LEFT:
-                            ame = addCap22(ame,1);
+                            ame = addCap22(ame, 1);
                             break;
                         case RIGHT:
-                            ame = sub(ame,1);
+                            ame = sub(ame, 1);
                             break;
                         case SHIFT_LEFT:
-                            ame = addCap22(ame,5);
+                            ame = addCap22(ame, 5);
                             break;
                         case SHIFT_RIGHT:
-                            ame = sub(ame,5);
+                            ame = sub(ame, 5);
                             break;
                     }
                     player.sendMessage(String.valueOf(e.getClick()));
                     INVENTORY.open(player);
                 }));
-        contents.set(2, 5, ClickableItem.of(new ItemBuilder(Material.PAPER).setName("§6"+folkore + " Points").build(),
+        contents.set(2, 5, ClickableItem.of(new ItemBuilder(Material.PAPER).setName("§6" + folkore + " Points").build(),
                 e -> {
-                    switch (e.getClick()){
+                    switch (e.getClick()) {
                         case LEFT:
-                            folkore = addCap22(folkore,1);
+                            folkore = addCap22(folkore, 1);
                             break;
                         case RIGHT:
-                            folkore = sub(folkore,1);
+                            folkore = sub(folkore, 1);
                             break;
                         case SHIFT_LEFT:
-                            folkore = addCap22(folkore,5);
+                            folkore = addCap22(folkore, 5);
                             break;
                         case SHIFT_RIGHT:
-                            folkore = sub(folkore,5);
+                            folkore = sub(folkore, 5);
                             break;
                     }
                     INVENTORY.open(player);
                 }));
 
 
-        contents.set(2, 6, ClickableItem.of(new ItemBuilder(Material.PAPER).setName("§6"+fun + " Points").build(),
-            e -> {
-                switch (e.getClick()){
-                    case LEFT:
-                        fun = addCap4(fun,1);
-                        break;
-                    case RIGHT:
-                        fun = sub(fun,1);
-                        break;
-                    case SHIFT_LEFT:
-                        fun = addCap4(fun,5);
-                        break;
-                    case SHIFT_RIGHT:
-                        fun = sub(fun,5);
-                        break;
-                }
-                INVENTORY.open(player);
-            }));
-
+        contents.set(2, 6, ClickableItem.of(new ItemBuilder(Material.PAPER).setName("§6" + fun + " Points").build(),
+                e -> {
+                    switch (e.getClick()) {
+                        case LEFT:
+                            fun = addCap4(fun, 1);
+                            break;
+                        case RIGHT:
+                            fun = sub(fun, 1);
+                            break;
+                        case SHIFT_LEFT:
+                            fun = addCap4(fun, 5);
+                            break;
+                        case SHIFT_RIGHT:
+                            fun = sub(fun, 5);
+                            break;
+                    }
+                    INVENTORY.open(player);
+                }));
 
 
     }
@@ -165,32 +160,35 @@ public class JuryNotationInventory implements InventoryProvider {
 
     // Fonction de check si les somme sont au maxium de leurs capasiters.
 
-    public int addCap22(int a, int b){
-        if ((a + b) > 22){
+    public int addCap22(int a, int b) {
+        if ((a + b) > 22) {
             return a;
-        }else {
-            return a+b;
+        } else {
+            return a + b;
         }
     }
-    public int addCap30(int a, int b){
-        if ((a + b) > 30){
+
+    public int addCap30(int a, int b) {
+        if ((a + b) > 30) {
             return a;
-        }else {
-            return a+b;
+        } else {
+            return a + b;
         }
     }
-    public int addCap4(int a, int b){
-        if ((a + b) > 4){
+
+    public int addCap4(int a, int b) {
+        if ((a + b) > 4) {
             return a;
-        }else {
-            return a+b;
+        } else {
+            return a + b;
         }
     }
-    public int sub(int a, int b){
-        if ((a - b) < 0){
+
+    public int sub(int a, int b) {
+        if ((a - b) < 0) {
             return a;
-        }else {
-            return a-b;
+        } else {
+            return a - b;
         }
     }
 }

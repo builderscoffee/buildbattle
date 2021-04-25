@@ -5,31 +5,26 @@ import org.bukkit.util.Vector;
 /***
  * @Source https://github.com/elBukkit/MagicLib/blob/master/src/main/java/com/elmakers/mine/bukkit/utility/BoundingBox.java
  */
-public class BoundingBox
-{
+public class BoundingBox {
     private final Vector min;
     private final Vector max;
 
-    public BoundingBox(Vector min, Vector max)
-    {
+    public BoundingBox(Vector min, Vector max) {
         this.min = new Vector(Math.min(min.getX(), max.getX()), Math.min(min.getY(), max.getY()), Math.min(min.getZ(), max.getZ()));
         this.max = new Vector(Math.max(min.getX(), max.getX()), Math.max(min.getY(), max.getY()), Math.max(min.getZ(), max.getZ()));
     }
 
-    public BoundingBox(double dMinX, double dMaxX, double dMinY, double dMaxY, double dMinZ, double dMaxZ)
-    {
+    public BoundingBox(double dMinX, double dMaxX, double dMinY, double dMaxY, double dMinZ, double dMaxZ) {
         this.min = new Vector(dMinX, dMinY, dMinZ);
         this.max = new Vector(dMaxX, dMaxY, dMaxZ);
     }
 
-    public BoundingBox(Vector center, double dMinX, double dMaxX, double dMinY, double dMaxY, double dMinZ, double dMaxZ)
-    {
+    public BoundingBox(Vector center, double dMinX, double dMaxX, double dMinY, double dMaxY, double dMinZ, double dMaxZ) {
         this.min = new Vector(center.getX() + dMinX, center.getY() + dMinY, center.getZ() + dMinZ);
         this.max = new Vector(center.getX() + dMaxX, center.getY() + dMaxY, center.getZ() + dMaxZ);
     }
 
-    public BoundingBox center(Vector center)
-    {
+    public BoundingBox center(Vector center) {
         BoundingBox results = new BoundingBox(min, max);
         results.min.add(center);
         results.max.add(center);
@@ -42,13 +37,11 @@ public class BoundingBox
                 this.min.getZ() <= point.getZ() && point.getZ() <= this.max.getZ();
     }
 
-    public Vector center()
-    {
+    public Vector center() {
         return this.max.clone().add(this.min).multiply(0.5);
     }
 
-    public BoundingBox scale(double scale)
-    {
+    public BoundingBox scale(double scale) {
         if (scale <= 0 || scale == 1) return this;
         Vector center = this.center();
 
@@ -63,15 +56,14 @@ public class BoundingBox
 
     /**
      * Scale this BoundingBox, but keep the min-Y value constant.
-     *
+     * <p>
      * Useful for scaling entity AABB's.
      *
      * @param scale
      * @param scaleY
      * @return the scaled BB (this object)
      */
-    public BoundingBox scaleFromBase(double scale, double scaleY)
-    {
+    public BoundingBox scaleFromBase(double scale, double scaleY) {
         if (scale <= 0 || scale == 1) return this;
         Vector center = this.center();
 
@@ -96,8 +88,7 @@ public class BoundingBox
 
     // Source:
     // [url]http://www.gamedev.net/topic/338987-aabb---line-segment-intersection-test/[/url]
-    public boolean intersectsLine(Vector p1, Vector p2)
-    {
+    public boolean intersectsLine(Vector p1, Vector p2) {
         final double epsilon = 0.0001f;
 
         p1 = p1.clone();
@@ -133,67 +124,73 @@ public class BoundingBox
     }
 
     protected boolean inBox(Vector hit, int axis) {
-        if (axis==1 && hit.getZ() > min.getZ() && hit.getZ() < max.getZ() && hit.getY() > min.getY() && hit.getY() < max.getY()) return true;
-        if (axis==2 && hit.getZ() > min.getZ() && hit.getZ() < max.getZ() && hit.getX() > min.getX() && hit.getX() < max.getX()) return true;
-        if (axis==3 && hit.getX() > min.getX() && hit.getX() < max.getX() && hit.getY() > min.getY() && hit.getY() < max.getY()) return true;
+        if (axis == 1 && hit.getZ() > min.getZ() && hit.getZ() < max.getZ() && hit.getY() > min.getY() && hit.getY() < max.getY())
+            return true;
+        if (axis == 2 && hit.getZ() > min.getZ() && hit.getZ() < max.getZ() && hit.getX() > min.getX() && hit.getX() < max.getX())
+            return true;
+        if (axis == 3 && hit.getX() > min.getX() && hit.getX() < max.getX() && hit.getY() > min.getY() && hit.getY() < max.getY())
+            return true;
         return false;
     }
 
-    public Vector getIntersection(Vector p1, Vector p2)
-    {
+    public Vector getIntersection(Vector p1, Vector p2) {
         Vector currentHit = null;
         Vector hit = getIntersection(p1.getX() - min.getX(), p2.getX() - min.getX(), p1, p2, 1);
         if (currentHit != null && hit != null) {
-            if (currentHit.distanceSquared(p1) < hit.distanceSquared(p1)) return currentHit; else return hit;
+            if (currentHit.distanceSquared(p1) < hit.distanceSquared(p1)) return currentHit;
+            else return hit;
         } else if (currentHit == null) {
             currentHit = hit;
         }
 
         hit = getIntersection(p1.getY() - min.getY(), p2.getY() - min.getY(), p1, p2, 2);
         if (currentHit != null && hit != null) {
-            if (currentHit.distanceSquared(p1) < hit.distanceSquared(p1)) return currentHit; else return hit;
+            if (currentHit.distanceSquared(p1) < hit.distanceSquared(p1)) return currentHit;
+            else return hit;
         } else if (currentHit == null) {
             currentHit = hit;
         }
 
         hit = getIntersection(p1.getZ() - min.getZ(), p2.getZ() - min.getZ(), p1, p2, 3);
         if (currentHit != null && hit != null) {
-            if (currentHit.distanceSquared(p1) < hit.distanceSquared(p1)) return currentHit; else return hit;
+            if (currentHit.distanceSquared(p1) < hit.distanceSquared(p1)) return currentHit;
+            else return hit;
         } else if (currentHit == null) {
             currentHit = hit;
         }
 
         hit = getIntersection(p1.getX() - max.getX(), p2.getX() - max.getX(), p1, p2, 1);
         if (currentHit != null && hit != null) {
-            if (currentHit.distanceSquared(p1) < hit.distanceSquared(p1)) return currentHit; else return hit;
+            if (currentHit.distanceSquared(p1) < hit.distanceSquared(p1)) return currentHit;
+            else return hit;
         } else if (currentHit == null) {
             currentHit = hit;
         }
 
         hit = getIntersection(p1.getY() - max.getY(), p2.getY() - max.getY(), p1, p2, 2);
         if (currentHit != null && hit != null) {
-            if (currentHit.distanceSquared(p1) < hit.distanceSquared(p1)) return currentHit; else return hit;
+            if (currentHit.distanceSquared(p1) < hit.distanceSquared(p1)) return currentHit;
+            else return hit;
         } else if (currentHit == null) {
             currentHit = hit;
         }
 
         hit = getIntersection(p1.getZ() - max.getZ(), p2.getZ() - max.getZ(), p1, p2, 3);
         if (currentHit != null && hit != null) {
-            if (currentHit.distanceSquared(p1) < hit.distanceSquared(p1)) return currentHit; else return hit;
+            if (currentHit.distanceSquared(p1) < hit.distanceSquared(p1)) return currentHit;
+            else return hit;
         } else if (hit != null) {
             return hit;
         }
         return currentHit;
     }
 
-    public Vector size()
-    {
+    public Vector size() {
         return this.max.clone().subtract(this.min);
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "[" + min.toString() + " - " + max.toString() + "] (" + (max.getX() - min.getX()) + "x" + (max.getY() - min.getY()) + "x" + (max.getZ() - min.getZ()) + ")";
     }
 }

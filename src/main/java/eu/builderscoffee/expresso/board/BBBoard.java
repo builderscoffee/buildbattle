@@ -1,6 +1,7 @@
 package eu.builderscoffee.expresso.board;
 
-import eu.builderscoffee.api.board.FastBoard;
+
+import eu.builderscoffee.api.bukkit.board.FastBoard;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.BBGameManager;
 import eu.builderscoffee.expresso.utils.TimeUtils;

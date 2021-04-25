@@ -3,9 +3,6 @@ package eu.builderscoffee.expresso.buildbattle.phase.types;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.expressos.engine.IGameEngine;
 import eu.builderscoffee.expresso.buildbattle.expressos.engine.types.HazarEngine;
-import eu.builderscoffee.expresso.buildbattle.expressos.listeners.HazarListener;
-import eu.builderscoffee.expresso.utils.Log;
-import lombok.val;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class HazarPhase extends GamePhase {

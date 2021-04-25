@@ -23,10 +23,12 @@ public class BBGameManager {
     @Getter
     private final BBGame game;
     // Managers
-    @Getter @Setter
+    @Getter
+    @Setter
     private ExpressoManager expressoManager;
     // Engines
-    @Getter @Setter
+    @Getter
+    @Setter
     private IGameEngine gameEngine;
     // Tasks
     @Getter
@@ -115,7 +117,7 @@ public class BBGameManager {
      * @param runnable - La task bukkit
      */
     public void startPhase(BukkitRunnable runnable) {
-        if(getCurrentTask() != null) {
+        if (getCurrentTask() != null) {
             getCurrentTask().cancel();
         }
         setCurrentTask(runnable.runTaskTimerAsynchronously(main, 0, 20));
@@ -145,7 +147,7 @@ public class BBGameManager {
         // Lancer la Task de la prochaine phase
         this.startPhase(this.game.getExpressoType().getCurrentPhase().runnable());
         // Lancer le moteur de la partie si il en existe un pour la phase en cours
-        if(this.game.getExpressoType().getCurrentPhase().engine() != null) {
+        if (this.game.getExpressoType().getCurrentPhase().engine() != null) {
             // Lancer le moteur de la partie
             this.game.getExpressoType().getCurrentPhase().engine().load();
             // Enregister les evenements propre aux moteur de la partie
@@ -159,7 +161,7 @@ public class BBGameManager {
      * Désactiver les plugin non nécessaire après la phase IN-GAME
      */
     public void disablePlugins() {
-       PluginManager pm = Main.getInstance().getServer().getPluginManager();
+        PluginManager pm = Main.getInstance().getServer().getPluginManager();
         List<String> pluginToDisable = Main.getSettings().getGame_plugin_end_disable();
         pluginToDisable.forEach(s -> {
             if (pm.getPlugin(s) != null) {

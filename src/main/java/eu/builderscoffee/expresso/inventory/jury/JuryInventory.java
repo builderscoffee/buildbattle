@@ -2,10 +2,10 @@ package eu.builderscoffee.expresso.inventory.jury;
 
 import com.intellectualcrafters.plot.api.PlotAPI;
 import com.intellectualcrafters.plot.object.Plot;
-import eu.builderscoffee.api.gui.ClickableItem;
-import eu.builderscoffee.api.gui.SmartInventory;
-import eu.builderscoffee.api.gui.content.*;
-import eu.builderscoffee.api.utils.ItemBuilder;
+import eu.builderscoffee.api.bukkit.gui.ClickableItem;
+import eu.builderscoffee.api.bukkit.gui.SmartInventory;
+import eu.builderscoffee.api.bukkit.gui.content.*;
+import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.utils.PlotUtils;
 import org.bukkit.ChatColor;

@@ -2,10 +2,10 @@ package eu.builderscoffee.expresso.inventory.jury;
 
 import com.intellectualcrafters.plot.api.PlotAPI;
 import com.intellectualcrafters.plot.object.Plot;
-import eu.builderscoffee.api.gui.ClickableItem;
-import eu.builderscoffee.api.gui.SmartInventory;
-import eu.builderscoffee.api.gui.content.*;
-import eu.builderscoffee.api.utils.ItemBuilder;
+import eu.builderscoffee.api.bukkit.gui.ClickableItem;
+import eu.builderscoffee.api.bukkit.gui.SmartInventory;
+import eu.builderscoffee.api.bukkit.gui.content.*;
+import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.utils.PlotUtils;
 import org.bukkit.ChatColor;
@@ -16,6 +16,8 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+;
 
 public class JuryTeleportation implements InventoryProvider {
     public static final SmartInventory INVENTORY = SmartInventory.builder()
@@ -41,7 +43,7 @@ public class JuryTeleportation implements InventoryProvider {
         for (int i = 0; i < plotsItem.length; i++) {
             int tempPlot = i;
             Plot currentPlot = list.get(tempPlot);
-            if (Main.getBbGame().getNotationManager().playerHasNote(currentPlot,player)){
+            if (Main.getBbGame().getNotationManager().playerHasNote(currentPlot, player)) {
                 plotsItem[i] = ClickableItem.of(new ItemBuilder(Material.GRASS).addGLow().setName("§aPlot §f# " + i).build(),
                         e -> {
                             PlotUtils.convertPlotCenterLoc(currentPlot.getCenter());

@@ -5,8 +5,8 @@ import eu.builderscoffee.expresso.buildbattle.BBGameManager;
 import eu.builderscoffee.expresso.buildbattle.expressos.engine.types.HazarEngine;
 import eu.builderscoffee.expresso.utils.Log;
 import eu.builderscoffee.expresso.utils.blocks.BlockData;
-import eu.builderscoffee.expresso.utils.blocks.LogFacing;
 import eu.builderscoffee.expresso.utils.blocks.BoundingBox;
+import eu.builderscoffee.expresso.utils.blocks.LogFacing;
 import lombok.val;
 import org.bukkit.Bukkit;
 import org.bukkit.block.BlockFace;
@@ -78,7 +78,7 @@ public class HazarListener implements Listener {
             /* Dans le cas ou le block est un matérial de type LOG on définis un byte de 0-3 suivant sont type
             pour tromper le retour du BlockData
             */
-            if(blockId == 17 && block.getData() <=4) {
+            if (blockId == 17 && block.getData() <= 4) {
                 block.setData((byte) LogFacing.getLogTypeByShort(block.getData()).Id);
             }
 
@@ -91,7 +91,7 @@ public class HazarListener implements Listener {
 
             // On check via l'engine le block à convertir
             System.out.println("BlockData Size " + engine.convertBlockdata.size());
-            if (engine.convertBlockdata.containsKey(BlockData.getBlockDataByIdAndShort(blockId,block.getData()))){
+            if (engine.convertBlockdata.containsKey(BlockData.getBlockDataByIdAndShort(blockId, block.getData()))) {
 
                 // Le block à convertir
                 val blockData = (BlockData) engine.convertBlockdata.get(BlockData.getBlockDataById(blockId));
@@ -145,7 +145,7 @@ public class HazarListener implements Listener {
                     stairs.setInverted(y > 0.5 || face == BlockFace.DOWN);
                     // Met la data dans le state
                     state.setData(stairs);
-                } else if(blockData.blockCategory.equals(BlockData.BlockCategory.LOG)) {
+                } else if (blockData.blockCategory.equals(BlockData.BlockCategory.LOG)) {
                     // On récupère la nouvelle data du block placé
                     val oldLogData = LogFacing.getLogTypeByShort(blockOldData);
                     // On récupère le data du block à placer

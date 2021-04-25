@@ -12,7 +12,7 @@ public class LogFacing {
      * @return
      */
     public static LogType getLogTypeByShort(int shortId) {
-       return Arrays.stream(LogType.values())
+        return Arrays.stream(LogType.values())
                 .findFirst()
                 .filter(logType -> logType.getShortIdFacingWestEast() == shortId || logType.getShortIdFacingNorthSouth() == shortId)
                 .get();
@@ -31,10 +31,10 @@ public class LogFacing {
     }
 
     public enum LogType {
-        OAK(0,4,8),
-        SPRUCE(1,5,9),
-        BIRCH(2,6,10),
-        JUNGLE(3,7,11);
+        OAK(0, 4, 8),
+        SPRUCE(1, 5, 9),
+        BIRCH(2, 6, 10),
+        JUNGLE(3, 7, 11);
 
         @Getter
         public int Id;
@@ -43,7 +43,7 @@ public class LogFacing {
         @Getter
         public int shortIdFacingNorthSouth;
 
-        LogType(int id,int shortIdFacingWestEast, int shortIdFacingNorthSouth) {
+        LogType(int id, int shortIdFacingWestEast, int shortIdFacingNorthSouth) {
             this.Id = id;
             this.shortIdFacingWestEast = shortIdFacingWestEast;
             this.shortIdFacingNorthSouth = shortIdFacingNorthSouth;

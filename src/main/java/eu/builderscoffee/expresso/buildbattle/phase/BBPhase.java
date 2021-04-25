@@ -11,30 +11,35 @@ public interface BBPhase {
 
     /**
      * Représente le nom d'une phase
+     *
      * @return
      */
     String name();
 
     /**
      * Bref description d'une phase
+     *
      * @return
      */
     String description();
 
     /**
      * Temps maximun de la phase
+     *
      * @return
      */
     int time();
 
     /**
      * Etat de la phase
+     *
      * @return
      */
     BBGameManager.BBState state();
 
     /**
      * Bukkit runnable de la phase
+     *
      * @return
      */
     BukkitRunnable runnable();

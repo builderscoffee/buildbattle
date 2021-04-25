@@ -1,8 +1,9 @@
 package eu.builderscoffee.expresso;
 
-import eu.builderscoffee.api.board.FastBoard;
-import eu.builderscoffee.api.gui.InventoryManager;
-import eu.builderscoffee.api.utils.Plugins;
+
+import eu.builderscoffee.api.bukkit.board.FastBoard;
+import eu.builderscoffee.api.bukkit.gui.InventoryManager;
+import eu.builderscoffee.api.bukkit.utils.Plugins;
 import eu.builderscoffee.expresso.board.BBBoard;
 import eu.builderscoffee.expresso.buildbattle.BBGame;
 import eu.builderscoffee.expresso.buildbattle.expressos.types.IlClassicoExpresso;
@@ -17,25 +18,21 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import static eu.builderscoffee.api.configuration.Configurations.readOrCreateConfiguration;
+import static eu.builderscoffee.api.bukkit.configuration.Configurations.readOrCreateConfiguration;
 import static eu.builderscoffee.expresso.board.BBBoard.updateBoard;
 
 public class Main extends JavaPlugin {
 
     @Getter
-    private static Main instance;
-
-    @Getter
     public static MessageConfiguration messages;
-
     @Getter
     public static SettingsConfiguration settings;
-
-    @Getter
-    private static BBGame bbGame;
-
     @Getter
     public static InventoryManager inventoryManager;
+    @Getter
+    private static Main instance;
+    @Getter
+    private static BBGame bbGame;
 
     @Override
     public void onEnable() {

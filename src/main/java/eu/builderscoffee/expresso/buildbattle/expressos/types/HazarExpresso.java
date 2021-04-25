@@ -1,6 +1,6 @@
 package eu.builderscoffee.expresso.buildbattle.expressos.types;
 
-import eu.builderscoffee.api.utils.ItemBuilder;
+import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
 import eu.builderscoffee.expresso.buildbattle.expressos.Expresso;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.types.GamePhase;

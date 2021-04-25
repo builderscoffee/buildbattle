@@ -4,13 +4,12 @@ import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.expressos.engine.IGameEngine;
 import eu.builderscoffee.expresso.buildbattle.expressos.listeners.HazarListener;
 import eu.builderscoffee.expresso.inventory.HazardExpressoInventory;
-import eu.builderscoffee.expresso.utils.blocks.BlockData;
 import eu.builderscoffee.expresso.utils.Log;
 import eu.builderscoffee.expresso.utils.Tuple;
+import eu.builderscoffee.expresso.utils.blocks.BlockData;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.event.Listener;
-import org.junit.Test;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -60,7 +59,7 @@ public class HazarEngine implements IGameEngine {
         // On vient chercher chaques listes individuellement
         cachedBlock.keySet().forEach(key -> {
             // On évite les listes vides
-            if(!cachedBlock.get(key).isEmpty()) {
+            if (!cachedBlock.get(key).isEmpty()) {
                 Log.get().info("engine key : " + key);
                 List<BlockData> blockData = cachedBlock.get(key);
                 Log.get().info("engine key : " + blockData.size());
