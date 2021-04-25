@@ -18,6 +18,9 @@ import static org.bukkit.GameMode.CREATIVE;
 
 public class GamePhase implements BBPhase {
 
+    public static final int HOUR = 3600;
+    public static final int MIN = 3600;
+
     private final int maxTime;
     private final int[] bcTime;
     private final int[] titleTime;
@@ -30,8 +33,8 @@ public class GamePhase implements BBPhase {
 
     public GamePhase(int maxTime) {
         this.maxTime = maxTime;
-        this.bcTime = new int[]{maxTime - 600, maxTime - 1800, maxTime - maxTime % 2};
-        this.titleTime = new int[]{maxTime - 1, maxTime - 2, maxTime - 3, maxTime - 4, maxTime - 5, maxTime - 10, maxTime - 20, maxTime - 30, maxTime - 60};
+        this.bcTime = new int[]{timeLeft(10*MIN), timeLeft(30*MIN), maxTime / 2};
+        this.titleTime = new int[]{timeLeft(1), timeLeft(2), timeLeft(3), timeLeft(4), timeLeft(5), timeLeft(10), timeLeft(20), timeLeft(30), timeLeft(1*MIN)};
     }
 
     @Override
@@ -82,7 +85,7 @@ public class GamePhase implements BBPhase {
                 // Tout les X temps envoyé un broadcast pour le temps de jeux restant
                 for (int i : bcTime) {
                     if (i == time) {
-                        Main.getBbGame().broadcast(Main.getMessages().getGlobal_prefix() + "§a" + TimeUtils.getDurationString(time) + " §fde jeux restantes !");
+                        Main.getBbGame().broadcast(Main.getMessages().getGlobal_prefix() + "§a" + TimeUtils.getDurationString(timeLeft(time)) + " §fde jeux restantes !");
                     }
                 }
 
@@ -90,7 +93,7 @@ public class GamePhase implements BBPhase {
                 for (int i : titleTime) {
                     if (i == time) {
                         getOnlinePlayers().forEach(p -> {
-                            new Title("§aTemps restant", TimeUtils.getDurationString(time), 20, 5, 20).send(p);
+                            new Title("§aTemps restant", TimeUtils.getDurationString(timeLeft(time)), 20, 5, 20).send(p);
                         });
                     }
                 }
@@ -109,5 +112,9 @@ public class GamePhase implements BBPhase {
     @Override
     public IGameEngine engine() {
         return null;
+    }
+
+    public int timeLeft(int s){
+        return maxTime - s;
     }
 }
