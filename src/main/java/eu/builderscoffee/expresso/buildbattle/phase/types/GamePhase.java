@@ -18,8 +18,8 @@ import static org.bukkit.GameMode.CREATIVE;
 
 public class GamePhase implements BBPhase {
 
-    public static final int HOUR = 3600;
-    public static final int MIN = 3600;
+    protected static final int HOUR = 3600;
+    protected static final int MIN = 3600;
 
     private final int maxTime;
     private final int[] bcTime;
@@ -114,7 +114,7 @@ public class GamePhase implements BBPhase {
         return null;
     }
 
-    public int timeLeft(int s){
+    protected int timeLeft(int s){
         return maxTime - s;
     }
 }
