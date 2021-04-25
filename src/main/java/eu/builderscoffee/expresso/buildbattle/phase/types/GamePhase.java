@@ -1,6 +1,7 @@
 package eu.builderscoffee.expresso.buildbattle.phase.types;
 
-import eu.builderscoffee.api.utils.Title;
+
+import eu.builderscoffee.api.bukkit.utils.Title;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.BBGame;
 import eu.builderscoffee.expresso.buildbattle.BBGameManager;
@@ -10,24 +11,22 @@ import eu.builderscoffee.expresso.utils.Log;
 import eu.builderscoffee.expresso.utils.TimeUtils;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import static org.bukkit.Bukkit.getOnlinePlayers;
 import static org.bukkit.GameMode.CREATIVE;
-import static org.bukkit.GameMode.SPECTATOR;
 
 public class GamePhase implements BBPhase {
 
     private final int maxTime;
+    private final int[] bcTime;
+    private final int[] titleTime;
     @Getter
     @Setter
     private BBGame game;
     @Getter
     @Setter
     private int time;
-    private final int[] bcTime;
-    private final int[] titleTime;
 
     public GamePhase(int maxTime) {
         this.maxTime = maxTime;
@@ -89,7 +88,7 @@ public class GamePhase implements BBPhase {
 
                 // Tout les X temps envoyé un title pour la dernière minutes restante
                 for (int i : titleTime) {
-                    if( i == time) {
+                    if (i == time) {
                         getOnlinePlayers().forEach(p -> {
                             new Title("§aTemps restant", TimeUtils.getDurationString(time), 20, 5, 20).send(p);
                         });

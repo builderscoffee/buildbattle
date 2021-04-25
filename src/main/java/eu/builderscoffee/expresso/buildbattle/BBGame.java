@@ -18,26 +18,31 @@ import java.util.List;
 
 public class BBGame {
 
-    @Getter @Setter
-    private Main main;
-    /***
-     * Le type d'expresso en cours !
-     */
-    @Getter
-    private NotationManager notationManager;
-    @Getter @Setter
-    private Expresso expressoType;
-    @Getter @Setter
-    private Deque<BBPhase> expressoPhases;
     @Getter
     private final List<Player> competitor = new ArrayList<>(); // La liste des compétitors
     private final List<Player> jury = new ArrayList<>();
     @Getter
     @Setter
     public BBGameManager.BBState bbState = BBGameManager.BBState.WAITING;
-    @Getter @Setter
+    @Getter
+    @Setter
+    private Main main;
+    /***
+     * Le type d'expresso en cours !
+     */
+    @Getter
+    private NotationManager notationManager;
+    @Getter
+    @Setter
+    private Expresso expressoType;
+    @Getter
+    @Setter
+    private Deque<BBPhase> expressoPhases;
+    @Getter
+    @Setter
     private BBGameManager bbGameManager;
-    @Getter @Setter
+    @Getter
+    @Setter
     private ExpressoManager expressoManager;
     @Getter
     @Setter

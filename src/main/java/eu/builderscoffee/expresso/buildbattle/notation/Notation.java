@@ -1,7 +1,6 @@
 package eu.builderscoffee.expresso.buildbattle.notation;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 
 import java.util.UUID;
@@ -11,11 +10,11 @@ import java.util.UUID;
 
 public class Notation {
     private UUID UUIDP;
-    private int baute,crea,amenagement,folklore,fun;
+    private int baute, crea, amenagement, folklore, fun;
 
 
     public boolean addCrea(int crea) {
-        if ((this.crea = this.crea + crea) > 22){
+        if ((this.crea = this.crea + crea) > 22) {
             return false;
         } else {
             this.crea = this.crea + crea;
@@ -24,7 +23,7 @@ public class Notation {
     }
 
     public boolean addBaute(int baute) {
-        if ((this.baute = this.baute + baute) > 30){
+        if ((this.baute = this.baute + baute) > 30) {
             return false;
         } else {
             this.baute = this.baute + baute;
@@ -33,7 +32,7 @@ public class Notation {
     }
 
     public boolean addAmenagement(int amenagement) {
-        if ((this.amenagement = this.amenagement + amenagement) > 22){
+        if ((this.amenagement = this.amenagement + amenagement) > 22) {
             return false;
         } else {
             this.amenagement = this.amenagement + amenagement;
@@ -42,15 +41,16 @@ public class Notation {
     }
 
     public boolean addFolklore(int folklore) {
-        if ((this.folklore = this.folklore + folklore) > 22){
+        if ((this.folklore = this.folklore + folklore) > 22) {
             return false;
         } else {
             this.folklore = this.folklore + folklore;
             return true;
         }
     }
+
     public boolean addFun(int fun) {
-        if ((this.fun = this.fun + fun) > 4){
+        if ((this.fun = this.fun + fun) > 4) {
             return false;
         } else {
             this.fun = this.fun + fun;

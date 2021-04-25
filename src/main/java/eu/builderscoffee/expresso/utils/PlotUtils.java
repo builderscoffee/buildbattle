@@ -3,7 +3,6 @@ package eu.builderscoffee.expresso.utils;
 import com.intellectualcrafters.plot.api.PlotAPI;
 import com.intellectualcrafters.plot.object.Plot;
 import com.intellectualcrafters.plot.object.RunnableVal;
-import com.intellectualcrafters.plot.util.MainUtil;
 import com.intellectualcrafters.plot.util.SchematicHandler;
 import com.intellectualcrafters.plot.util.TaskManager;
 import lombok.experimental.UtilityClass;
@@ -38,10 +37,10 @@ public class PlotUtils {
      * @param schematicLocation
      * @param plot
      */
-    public void pasteSchematic(String schematicLocation,Plot plot) {
+    public void pasteSchematic(String schematicLocation, Plot plot) {
         TaskManager.runTaskAsync(() -> {
             SchematicHandler.Schematic schematic;
-                schematic = SchematicHandler.manager.getSchematic(schematicLocation);
+            schematic = SchematicHandler.manager.getSchematic(schematicLocation);
             if (schematic == null) {
                 Log.get().info("Schematic null");
                 return;
@@ -84,7 +83,7 @@ public class PlotUtils {
      * @return
      */
     public com.intellectualcrafters.plot.object.Location convertBukkitLoc(Location location) {
-        return new com.intellectualcrafters.plot.object.Location(location.getWorld().getName(),location.getBlockX(),location.getBlockY(),location.getBlockZ());
+        return new com.intellectualcrafters.plot.object.Location(location.getWorld().getName(), location.getBlockX(), location.getBlockY(), location.getBlockZ());
     }
 
     /***

@@ -7,7 +7,8 @@ import lombok.Setter;
 public class PluginMode {
 
     SettingsConfiguration settingsConfiguration;
-    @Getter @Setter
+    @Getter
+    @Setter
     PluginState pluginState;
 
     public PluginMode(PluginState state) {
@@ -19,9 +20,9 @@ public class PluginMode {
      */
     public void readPluginState() {
         String state = settingsConfiguration.getPluginMode();
-        if(state.equals(PluginState.DEVELOPMENT.name)) {
+        if (state.equals(PluginState.DEVELOPMENT.name)) {
             new PluginMode(PluginState.DEVELOPMENT);
-        } else if(state.equals(PluginState.PRODUCTION.name)) {
+        } else if (state.equals(PluginState.PRODUCTION.name)) {
             new PluginMode(PluginState.PRODUCTION);
         }
     }
@@ -31,7 +32,7 @@ public class PluginMode {
      * @param debugInfo
      */
     public void printDebugInfo(String debugInfo) {
-        if(pluginState.equals(PluginState.DEVELOPMENT)) {
+        if (pluginState.equals(PluginState.DEVELOPMENT)) {
             Log.get().info("[Debug Info] " + debugInfo);
         }
     }
@@ -41,7 +42,7 @@ public class PluginMode {
      * @param debugWarn
      */
     public void printDebugWarn(String debugWarn) {
-        if(pluginState.equals(PluginState.DEVELOPMENT)) {
+        if (pluginState.equals(PluginState.DEVELOPMENT)) {
             Log.get().info("[Debug Warn] " + debugWarn);
         }
     }
@@ -51,14 +52,14 @@ public class PluginMode {
      * @param debugError
      */
     public void printDebugError(String debugError) {
-        if(pluginState.equals(PluginState.DEVELOPMENT)) {
+        if (pluginState.equals(PluginState.DEVELOPMENT)) {
             Log.get().info("[Debug Error] " + debugError);
         }
     }
 
     public enum PluginState {
-        PRODUCTION(0,"PROD"),
-        DEVELOPMENT(1,"DEV");
+        PRODUCTION(0, "PROD"),
+        DEVELOPMENT(1, "DEV");
 
         int id;
         String name;

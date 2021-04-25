@@ -1,7 +1,7 @@
 package eu.builderscoffee.expresso.listeners;
 
-import eu.builderscoffee.api.board.FastBoard;
-import eu.builderscoffee.api.utils.LocationsUtil;
+import eu.builderscoffee.api.bukkit.board.FastBoard;
+import eu.builderscoffee.api.bukkit.utils.LocationsUtil;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.board.BBBoard;
 import eu.builderscoffee.expresso.buildbattle.BBGameManager;

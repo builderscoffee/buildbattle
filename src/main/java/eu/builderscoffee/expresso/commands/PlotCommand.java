@@ -1,7 +1,6 @@
 package eu.builderscoffee.expresso.commands;
 
 import com.intellectualcrafters.plot.api.PlotAPI;
-import com.intellectualcrafters.plot.object.Location;
 import com.intellectualcrafters.plot.object.Plot;
 import com.intellectualcrafters.plot.object.PlotPlayer;
 import com.intellectualcrafters.plot.util.MainUtil;
@@ -20,7 +19,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -45,7 +43,7 @@ public class PlotCommand implements CommandExecutor {
             case "info":
                 // Informations sur le plot
                 if (new PlotAPI().isInPlot(player)) {
-                val plot = MainUtil.getPlotFromString(PlotPlayer.get(player.getName()), null, false);
+                    val plot = MainUtil.getPlotFromString(PlotPlayer.get(player.getName()), null, false);
                     String name = MainUtil.getName(plot.owner);
                     player.sendMessage("§0§7§m--- §fPlot §0§7§m---");
                     player.sendMessage("§aId: §7" + PlotUtils.getPlotsPos(plot));
@@ -54,18 +52,18 @@ public class PlotCommand implements CommandExecutor {
                 } else {
                     player.sendMessage("§cTu n'est pas sur un plot, espèce de café moulu");
                 }
-                break;             
-            case "paste":
-                Location loc = PlotUtils.convertBukkitLoc(player.getTargetBlock(null, 100).getLocation());
+                break;
+            case "paste":/*                Location loc = PlotUtils.convertBukkitLoc(player.getTargetBlock(null, 100).getLocation());
                 final Plot plot = loc.getPlotAbs();
                 PlotUtils.pasteSchematic(Main.getSettings().getSchematicToPaste(), plot);
                 player.sendMessage("§a Paste Plot Test");
+                */
                 break;
             case "invleo":
                 //checker
-                if(new PlotAPI().isInPlot(player)){
+                if (new PlotAPI().isInPlot(player)) {
                     Plot plotinv = (PlotUtils.convertBukkitLoc(player.getLocation()).getPlotAbs());
-                    if (!Main.getBbGame().getNotationManager().playerHasNote(plotinv,player)){
+                    if (!Main.getBbGame().getNotationManager().playerHasNote(plotinv, player)) {
                         JuryNotationInventory.INVENTORY.open(player);
                     } else {
                         player.sendMessage("§cTu as déjà noté ce plot, espèce de café moulu");
@@ -78,13 +76,13 @@ public class PlotCommand implements CommandExecutor {
             case "seenote":
                 Plot plote = (PlotUtils.convertBukkitLoc(player.getLocation()).getPlotAbs());
                 Set<Notation> a = Main.getBbGame().getNotationManager().getNotationsByPlot(plote);
-                if (a == null ||a.isEmpty()){
+                if (a == null || a.isEmpty()) {
                     player.sendMessage("Ce plot a 0 notation");
                     break;
                 }
-                player.sendMessage("Ce plot a " +a.size()+ "notation(s)");
-                for(Notation note: a){
-                    player.sendMessage("Juge: "+ Bukkit.getOfflinePlayer(note.getUUIDP()).getName()+ " Fun: "+ note.getFun());
+                player.sendMessage("Ce plot a " + a.size() + "notation(s)");
+                for (Notation note : a) {
+                    player.sendMessage("Juge: " + Bukkit.getOfflinePlayer(note.getUUIDP()).getName() + " Fun: " + note.getFun());
                 }
                 break;
 
@@ -95,7 +93,7 @@ public class PlotCommand implements CommandExecutor {
             case "tpnext":
                 // Get plot
                 Plot plotinvtp = (PlotUtils.convertBukkitLoc(player.getLocation()).getPlotAbs());
-                int b =  PlotUtils.getPlotsPos(plotinvtp) + 1;
+                int b = PlotUtils.getPlotsPos(plotinvtp) + 1;
                 Plot current = PlotUtils.getPlotsByPos(b);
 
                 // tp player

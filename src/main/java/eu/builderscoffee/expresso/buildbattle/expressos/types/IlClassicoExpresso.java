@@ -1,12 +1,10 @@
 package eu.builderscoffee.expresso.buildbattle.expressos.types;
 
-import eu.builderscoffee.api.utils.ItemBuilder;
+import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
 import eu.builderscoffee.expresso.buildbattle.expressos.Expresso;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.types.GamePhase;
-import eu.builderscoffee.expresso.buildbattle.phase.types.JuryPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.types.LaunchingPhase;
-import eu.builderscoffee.expresso.buildbattle.phase.types.HazarPhase;
 import lombok.val;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

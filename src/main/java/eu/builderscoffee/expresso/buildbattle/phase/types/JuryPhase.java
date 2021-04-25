@@ -1,18 +1,12 @@
 package eu.builderscoffee.expresso.buildbattle.phase.types;
 
-import eu.builderscoffee.api.utils.Title;
+
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.BBGameManager;
 import eu.builderscoffee.expresso.buildbattle.expressos.engine.IGameEngine;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitScheduler;
-
-import java.util.concurrent.ScheduledExecutorService;
-
-import static org.bukkit.Bukkit.getOnlinePlayers;
-import static org.bukkit.GameMode.CREATIVE;
 
 public class JuryPhase implements BBPhase {
 

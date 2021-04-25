@@ -170,7 +170,7 @@ public enum BlockData {
     GREEN_STAINED_GLASS(95, 13, BlockCategory.CONSTRUCT),
     RED_STAINED_GLASS(95, 14, BlockCategory.CONSTRUCT),
     BLACK_STAINED_GLASS(95, 15, BlockCategory.CONSTRUCT),
-    WOODEN_TRAPDOOR(96,0,BlockCategory.DOOR),
+    WOODEN_TRAPDOOR(96, 0, BlockCategory.DOOR),
     STONE_MONSTER_EGG(97, 0, BlockCategory.CONSTRUCT),
     COBBELSTONE_MONSTER_EGG(97, 1, BlockCategory.CONSTRUCT),
     STONE_BRICK_MONSTER_EGG(97, 2, BlockCategory.CONSTRUCT),
@@ -289,7 +289,7 @@ public enum BlockData {
     DARK_OAK_STAIRS(164, 0, BlockCategory.STAIRS),
     SLIME_BLOCK(165, 0, BlockCategory.CONSTRUCT),
     BARRIER(166, 0, BlockCategory.CONSTRUCT),
-    IRON_TRAPDOOR(167,0,BlockCategory.DOOR),
+    IRON_TRAPDOOR(167, 0, BlockCategory.DOOR),
     PRISMARINE(168, 0, BlockCategory.CONSTRUCT),
     PRISMARINE_BRICKS(168, 1, BlockCategory.CONSTRUCT),
     DARK_PRISMARINE(168, 2, BlockCategory.CONSTRUCT),
@@ -493,8 +493,8 @@ public enum BlockData {
      */
     public static BlockData getBlockDataByIdAndShort(int id, int shortId) {
         return Arrays.stream(BlockData.values())
-                .filter(blockData -> Objects.equals(blockData.getId(),id))
-                .filter(blockData -> Objects.equals(blockData.getShortId(),shortId))
+                .filter(blockData -> Objects.equals(blockData.getId(), id))
+                .filter(blockData -> Objects.equals(blockData.getShortId(), shortId))
                 .findFirst()
                 .get();
     }
