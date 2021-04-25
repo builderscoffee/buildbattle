@@ -23,6 +23,15 @@ public final class MessageConfiguration {
     String expresso_competitor_join = "§f%player% §aa rejoins la compétition";
     String expresoo_competitor_leave = "§f%player% §ca quitté la compétition";
 
-    // Game
-
+    // Team
+    String team_info_header = "§7§m-------§6 Info de l''équipe §7§m-------§6";
+    String team_info_leader = "§6Leader:§f ";
+    String team_info_members = "§aMembres :§f";
+    String team_player_join = "§7[§6Team§7]§f Le joueur§a %target% §fa rejoint votre équipe";
+    String team_target_join = "§7[§6Team§7]§f Vous avez rejoins l''équipe de %target% !";
+    String team_target_already_in_a_team = "[Equipe] Le joueur %target% est déja dans l'équipe";
+    String team_already_in_a_team = "§cVous êtes déja dans une équipe";
+    String team_limit_reached = "§7[§6Team§7]§f §cVous avez atteint la limite de membres dans votre équipe( %limit% )";
+    String team_no_team = "§7[§6Team§7]§a Vous n'avez pas d'équipe de créer !";
+    String team_info_no_team = "§cVous n''avez aucune team !";
 }
