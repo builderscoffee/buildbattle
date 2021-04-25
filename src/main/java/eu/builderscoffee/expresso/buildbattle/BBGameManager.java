@@ -2,6 +2,7 @@ package eu.builderscoffee.expresso.buildbattle;
 
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.expressos.ExpressoManager;
+import eu.builderscoffee.expresso.buildbattle.expressos.engine.IGameEngine;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.utils.Log;
 import lombok.Getter;
@@ -24,6 +25,9 @@ public class BBGameManager {
     // Managers
     @Getter @Setter
     private ExpressoManager expressoManager;
+    // Engines
+    @Getter @Setter
+    private IGameEngine gameEngine;
     // Tasks
     @Getter
     @Setter
@@ -140,7 +144,13 @@ public class BBGameManager {
         this.getGame().setBbState(this.game.getExpressoType().getCurrentPhase().state());
         // Lancer la Task de la prochaine phase
         this.startPhase(this.game.getExpressoType().getCurrentPhase().runnable());
-        this.expressoManager.getCurrentExpresso().getPhases().poll();
+        // Lancer le moteur de la partie si il en existe un pour la phase en cours
+        if(this.game.getExpressoType().getCurrentPhase().engine() != null) {
+            // Lancer le moteur de la partie
+            this.game.getExpressoType().getCurrentPhase().engine().load();
+            // Enregister les evenements propre aux moteur de la partie
+            this.game.getExpressoType().getCurrentPhase().engine().registerListener();
+        }
     }
 
     // OTHER STUFF

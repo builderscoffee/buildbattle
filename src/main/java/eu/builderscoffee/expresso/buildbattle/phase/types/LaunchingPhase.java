@@ -4,6 +4,7 @@ import eu.builderscoffee.api.utils.Title;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.BBGame;
 import eu.builderscoffee.expresso.buildbattle.BBGameManager;
+import eu.builderscoffee.expresso.buildbattle.expressos.engine.IGameEngine;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.utils.TimeUtils;
 import lombok.Getter;
@@ -78,4 +79,9 @@ public class LaunchingPhase implements BBPhase {
                 }
             };
         }
+
+    @Override
+    public IGameEngine engine() {
+        return null;
+    }
 }
