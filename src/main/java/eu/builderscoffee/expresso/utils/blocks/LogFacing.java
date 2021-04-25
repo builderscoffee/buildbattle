@@ -27,6 +27,7 @@ public class LogFacing {
      */
     public static int ConvertLogType(int shortId) {
 
+        return 0;
     }
 
     public enum LogType {
