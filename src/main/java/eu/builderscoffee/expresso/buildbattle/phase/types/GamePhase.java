@@ -13,16 +13,14 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import static eu.builderscoffee.expresso.utils.TimeUtils.*;
 import static org.bukkit.Bukkit.getOnlinePlayers;
 import static org.bukkit.GameMode.CREATIVE;
 
 public class GamePhase implements BBPhase {
 
-    protected static final int HOUR = 3600;
-    protected static final int MIN = 3600;
-
     private final int maxTime;
-    private final int[] bcTime;
+    private int[] bcTime;
     private final int[] titleTime;
     @Getter
     @Setter
@@ -33,8 +31,8 @@ public class GamePhase implements BBPhase {
 
     public GamePhase(int maxTime) {
         this.maxTime = maxTime;
-        this.bcTime = new int[]{timeLeft(10*MIN), timeLeft(30*MIN), maxTime / 2};
-        this.titleTime = new int[]{timeLeft(1), timeLeft(2), timeLeft(3), timeLeft(4), timeLeft(5), timeLeft(10), timeLeft(20), timeLeft(30), timeLeft(1*MIN)};
+        this.bcTime = addTimeEach(new int[]{maxTime - 10*MIN, maxTime - 30*MIN, maxTime / 2}, 1*HOUR);
+        this.titleTime = new int[]{maxTime - 1, maxTime - 2, maxTime - 3, maxTime - 4, maxTime - 5, maxTime - 10, maxTime - 20, maxTime - 30, maxTime - 1*MIN};
     }
 
     @Override
@@ -85,7 +83,7 @@ public class GamePhase implements BBPhase {
                 // Tout les X temps envoyé un broadcast pour le temps de jeux restant
                 for (int i : bcTime) {
                     if (i == time) {
-                        Main.getBbGame().broadcast(Main.getMessages().getGlobal_prefix() + "§a" + TimeUtils.getDurationString(timeLeft(time)) + " §fde jeux restantes !");
+                        Main.getBbGame().broadcast(Main.getMessages().getGlobal_prefix() + "§a" + TimeUtils.getDurationString(maxTime - time) + " §fde jeux restantes !");
                     }
                 }
 
@@ -93,7 +91,7 @@ public class GamePhase implements BBPhase {
                 for (int i : titleTime) {
                     if (i == time) {
                         getOnlinePlayers().forEach(p -> {
-                            new Title("§aTemps restant", TimeUtils.getDurationString(timeLeft(time)), 20, 5, 20).send(p);
+                            new Title("§aTemps restant", TimeUtils.getDurationString(maxTime - time), 20, 5, 20).send(p);
                         });
                     }
                 }
@@ -114,7 +112,15 @@ public class GamePhase implements BBPhase {
         return null;
     }
 
-    protected int timeLeft(int s){
-        return maxTime - s;
+    protected int[] addTimeEach(int[] array, int seconds){
+        int[] newArray = new int[(int) (array.length + Math.floor(maxTime / seconds) - 1)];
+
+        for (int i = 0; i < array.length; i++)
+            newArray[i] = array[i];
+
+        for(int i = 1; i < maxTime / seconds; i++)
+            newArray[array.length + i - 1] = seconds * i;
+
+        return newArray;
     }
 }

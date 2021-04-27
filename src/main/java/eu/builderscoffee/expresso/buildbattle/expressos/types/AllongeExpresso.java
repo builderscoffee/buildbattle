@@ -15,6 +15,8 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
+import static eu.builderscoffee.expresso.utils.TimeUtils.*;
+
 public class AllongeExpresso extends Expresso {
     @Override
     public ItemStack getIcon() {
@@ -47,7 +49,7 @@ public class AllongeExpresso extends Expresso {
     public Deque<BBPhase> getPhases() {
         val phases = new LinkedList();
         phases.add(new LaunchingPhase(30));
-        phases.add(new GamePhase(7200));
+        phases.add(new GamePhase(26*HOUR));
         return phases;
     }
 }
