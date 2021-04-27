@@ -1,12 +1,17 @@
 package eu.builderscoffee.expresso.buildbattle.teams;
 
+import com.intellectualcrafters.plot.api.PlotAPI;
+import com.intellectualcrafters.plot.object.Plot;
 import com.plotsquared.bukkit.chat.FancyMessage;
 import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.buildbattle.BBGame;
 import eu.builderscoffee.expresso.buildbattle.events.TeamCreateEvent;
 import eu.builderscoffee.expresso.buildbattle.events.TeamJoinEvent;
 import eu.builderscoffee.expresso.buildbattle.events.TeamLeaveEvent;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -16,13 +21,21 @@ public class TeamManager {
 
     public List<Team> teams;
     public List<Invitation> invitations;
+    // Configuration
     public MessageConfiguration messages = Main.getMessages();
     public SettingsConfiguration settings = Main.getSettings();
+    // Instances
+    @Getter
+    @Setter
+    private BBGame bbGame;
+    private PlotAPI plotAPI = new PlotAPI();
 
-    public TeamManager() {
+    public TeamManager(BBGame bbGame) {
         // Init les variables
         teams = new ArrayList<>();
         invitations = new ArrayList<>();
+        // Instance
+        setBbGame(bbGame);
     }
 
     /***
@@ -181,8 +194,8 @@ public class TeamManager {
 
     /***
      * Accepter l'invitation d'un joueur
-     * @param receiver
-     * @param sender
+     * @param receiver - Joueur qui reçois l'invitation
+     * @param sender - Joueur qui envois l'invitation
      */
     public void AcceptInvitation(Player receiver, Player sender) {
         Invitation invitation = getInvitation(sender, receiver);
@@ -197,8 +210,8 @@ public class TeamManager {
 
     /***
      * Refuser l'invitation d'un joueur
-     * @param receiver
-     * @param sender
+     * @param receiver - Joueur qui reçois l'invitation
+     * @param sender - Joueur qui envois l'invitation
      */
     public void DenyInvitation(Player receiver, Player sender) {
         Invitation invitation = getInvitation(sender, receiver);
@@ -230,5 +243,18 @@ public class TeamManager {
      */
     public void CleanInvitations() {
         invitations.clear();
+    }
+
+    // Plot part Integrations
+
+    /***
+     * Ajouté tout les membres du group aux plot du leader
+     * @param team - L'object Team
+     */
+    public void addAllMembersToPlot(Team team) {
+        Player leader = team.getLeader();
+        List<Player> members = team.getMembers();
+        Plot currentPlot = plotAPI.getPlot(leader);
+        members.forEach(member -> currentPlot.addMember(member.getUniqueId()));
     }
 }

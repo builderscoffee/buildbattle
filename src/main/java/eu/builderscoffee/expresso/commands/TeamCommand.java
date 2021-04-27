@@ -1,6 +1,8 @@
 package eu.builderscoffee.expresso.commands;
 
 import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.buildbattle.BBGame;
+import eu.builderscoffee.expresso.buildbattle.teams.TeamManager;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
 import org.bukkit.Bukkit;
@@ -13,17 +15,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TeamCommand implements CommandExecutor {
+
+    //Configurations
     MessageConfiguration messages = Main.getMessages();
     SettingsConfiguration settings = Main.getSettings();
+    // Instances of
+    private BBGame bbGame = Main.getBbGame();
 
     public static boolean argLength0(Player player) {
         List<String> commandList = new ArrayList<>();
-        commandList.add("§a/groupe §b: Aide du système de groupe");
-        commandList.add("§a/groupe add <joueur> §b: Ajouter un joueur dans votre groupe");
-        commandList.add("§a/groupe remove <joueur> §b: Retirer un joeur de votre groupe");
-        commandList.add("§a/groupe invite <player> accept/deny §b: Accepter ou refuser l'invite d'un joueur");
+        commandList.add("§a/group §b: Aide du système de group");
+        commandList.add("§a/group add <joueur> §b: Ajouter un joueur dans votre group");
+        commandList.add("§a/group remove <joueur> §b: Retirer un joeur de votre group");
+        commandList.add("§a/group invite <player> accept/deny §b: Accepter ou refuser l'invite d'un joueur");
         for (String s : commandList) {
             player.sendMessage(s);
+        }
+        return true;
+    }
+
+    public boolean argLength1(Player player, String args1) {
+        args1 = args1.toLowerCase();
+        switch (args1) {
+            case "help":
+                // Afficher l'aides aux commandes
+                argLength0(player);
+                break;
+            default:
+                return false;
         }
         return true;
     }
@@ -32,10 +51,11 @@ public class TeamCommand implements CommandExecutor {
         args1 = args1.toLowerCase();
         switch (args1) {
             case "add":
-                // Ajouter un joueur dans le groupe
-
+                // Ajouter un joueur aux groupe
+                bbGame.getTeamManager().SendInvitation(player,Bukkit.getPlayer(args2));
             case "remove":
-                // Retirer un joueur du groupe
+                // Retirer un joueur aux groupe
+                bbGame.getTeamManager().removePlayerFromTeam(Bukkit.getPlayer(args2));
                 break;
             default:
                 return false;
@@ -52,9 +72,11 @@ public class TeamCommand implements CommandExecutor {
                 switch (args3) {
                     case "accept":
                         // Accepter l'invite du joueur
+                        bbGame.getTeamManager().AcceptInvitation(player,Bukkit.getPlayerExact(args2));
                         break;
                     case "deny":
                         // Refuser l'invite du joueur
+                        bbGame.getTeamManager().DenyInvitation(player,Bukkit.getPlayerExact(args2));
                         break;
                 }
                 break;
@@ -75,7 +97,7 @@ public class TeamCommand implements CommandExecutor {
                         ret = argLength0(player);
                         break;
                     case 1:
-                        //ret = argLength1(player, args[0]);
+                        ret = argLength1(player, args[0]);
                         break;
                     case 2:
                         ret = argLength2(player, args[0], args[1]);
