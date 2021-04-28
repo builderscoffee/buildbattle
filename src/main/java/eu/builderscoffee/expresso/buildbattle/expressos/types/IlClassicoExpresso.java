@@ -14,6 +14,8 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
+import static eu.builderscoffee.expresso.utils.TimeUtils.*;
+
 public class IlClassicoExpresso extends Expresso {
 
     @Override
@@ -47,7 +49,7 @@ public class IlClassicoExpresso extends Expresso {
     public Deque<BBPhase> getPhases() {
         val phases = new LinkedList();
         phases.add(new LaunchingPhase(30));
-        phases.add(new GamePhase(7200));
+        phases.add(new GamePhase(2*HOUR));
         return phases;
     }
 }

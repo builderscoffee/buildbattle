@@ -3,6 +3,7 @@ package eu.builderscoffee.expresso.buildbattle.expressos.types;
 import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
 import eu.builderscoffee.expresso.buildbattle.expressos.Expresso;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
+import eu.builderscoffee.expresso.buildbattle.phase.types.GamePhase;
 import eu.builderscoffee.expresso.buildbattle.phase.types.HazarPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.types.LaunchingPhase;
 import lombok.val;
@@ -16,7 +17,7 @@ import java.util.List;
 
 import static eu.builderscoffee.expresso.utils.TimeUtils.*;
 
-public class HazarExpresso extends Expresso {
+public class AllongeExpresso extends Expresso {
     @Override
     public ItemStack getIcon() {
         return new ItemBuilder(Material.INK_SACK, 1, (short) 2)
@@ -27,12 +28,12 @@ public class HazarExpresso extends Expresso {
 
     @Override
     public String getName() {
-        return "Hazar";
+        return "Allongé";
     }
 
     @Override
     public List<String> getDescription() {
-        return Arrays.asList("Mélange les blocs du même type entre eux");
+        return Arrays.asList("Build en team");
     }
 
     @Override
@@ -48,7 +49,7 @@ public class HazarExpresso extends Expresso {
     public Deque<BBPhase> getPhases() {
         val phases = new LinkedList();
         phases.add(new LaunchingPhase(30));
-        phases.add(new HazarPhase(2*HOUR));
+        phases.add(new GamePhase(26*HOUR));
         return phases;
     }
 }
