@@ -20,7 +20,7 @@ import static eu.builderscoffee.expresso.utils.TimeUtils.*;
 public class AllongeExpresso extends Expresso {
     @Override
     public ItemStack getIcon() {
-        return new ItemBuilder(Material.INK_SACK, 1, (short) 2)
+        return new ItemBuilder(Material.INK_SACK, 1, (short) 3)
                 .setName(getName())
                 //.addLoreLine(getDescription())
                 .build();
@@ -33,7 +33,7 @@ public class AllongeExpresso extends Expresso {
 
     @Override
     public List<String> getDescription() {
-        return Arrays.asList("Build en team");
+        return Arrays.asList("Expresso classique à longue durée");
     }
 
     @Override
@@ -42,7 +42,7 @@ public class AllongeExpresso extends Expresso {
     }
 
     /***
-     * Retourne les phases d'un expresso hazard
+     * Retourne les phases d'un expresso allonge
      * @return
      */
     @Override

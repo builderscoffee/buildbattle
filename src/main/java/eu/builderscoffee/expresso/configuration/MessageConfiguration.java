@@ -36,6 +36,8 @@ public final class MessageConfiguration {
     String team_info_no_team = "§cVous n''avez aucune team !";
     String team_create_team = "§7[§6Team§7]§a §aVous venez de créer votre équipe !";
     String team_already_created = "§7[§6Team§7]§c Vous avez déja crée une equipe";
+    String team_leader_cannot_leave = "§7[§6Team§7]§c Vous devez supprimer votre groupe et non le quitter";
+    String team_disband = "§7[§6Team§7]§c Vous avez supprimé votre groupe";
 
     // Invitation
     String invitation_receive_target = "§7[§6Team§7]§a Vous avez reçu une invitation de §f%sender% ";
@@ -45,4 +47,5 @@ public final class MessageConfiguration {
     String invitation_deny_target = "§7[§6Team§7]§aVous avez refuser l'invitation de §c%sender%";
     String invitation_deny_sender = "§7[§6Team§7]§f %target% §ca refuser votre invitation";
     String invitation_not_avaliable = "§7[§6Team§7]§c L'invitation de §f%sender% §cn'est plus valable !";
+    String invitation_not_invite_yourself = "§7[§6Team§7]§c Vous ne pouvez pas vous invitez vous même !";
 }

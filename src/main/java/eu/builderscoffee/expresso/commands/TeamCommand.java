@@ -5,6 +5,7 @@ import eu.builderscoffee.expresso.buildbattle.BBGame;
 import eu.builderscoffee.expresso.buildbattle.teams.TeamManager;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -20,13 +21,16 @@ public class TeamCommand implements CommandExecutor {
     MessageConfiguration messages = Main.getMessages();
     SettingsConfiguration settings = Main.getSettings();
     // Instances of
-    private BBGame bbGame = Main.getBbGame();
+    @Getter
+    private final BBGame bbGame = Main.getBbGame();
 
     public static boolean argLength0(Player player) {
         List<String> commandList = new ArrayList<>();
         commandList.add("§a/group §b: Aide du système de group");
         commandList.add("§a/group add <joueur> §b: Ajouter un joueur dans votre group");
-        commandList.add("§a/group remove <joueur> §b: Retirer un joeur de votre group");
+        commandList.add("§a/group remove <joueur> §b: Retirer un joueur de votre group");
+        commandList.add("§a/group leave §b: Quitter le groupe d'un joueur");
+        commandList.add("§a/group disband §b: Supprimer votre groupe");
         commandList.add("§a/group invite <player> accept/deny §b: Accepter ou refuser l'invite d'un joueur");
         for (String s : commandList) {
             player.sendMessage(s);
@@ -41,6 +45,13 @@ public class TeamCommand implements CommandExecutor {
                 // Afficher l'aides aux commandes
                 argLength0(player);
                 break;
+            case "leave":
+                // Quitter le groupe d'un joueur
+                Main.getBbGame().getTeamManager().removePlayerFromTeam(player);
+                break;
+            case "disband":
+                // Supprimer votre groupe si vous êtes leader
+                Main.getBbGame().getTeamManager().unregisterTeam(player);
             default:
                 return false;
         }
@@ -49,13 +60,16 @@ public class TeamCommand implements CommandExecutor {
 
     public boolean argLength2(Player player, String args1, String args2) {
         args1 = args1.toLowerCase();
+        Player targetLenght2 = Bukkit.getPlayer(args2);
+        //System.out.println("TeamCommand : ARGS1: " + args1 + "ARGS2: " + args2 + targetLenght2.getName());
         switch (args1) {
             case "add":
                 // Ajouter un joueur aux groupe
-                bbGame.getTeamManager().SendInvitation(player,Bukkit.getPlayer(args2));
+                    Main.getBbGame().getTeamManager().SendInvitation(player, targetLenght2.getPlayer());
+                    break;
             case "remove":
                 // Retirer un joueur aux groupe
-                bbGame.getTeamManager().removePlayerFromTeam(Bukkit.getPlayer(args2));
+                Main.getBbGame().getTeamManager().removePlayerFromTeam(targetLenght2.getPlayer());
                 break;
             default:
                 return false;
@@ -72,11 +86,11 @@ public class TeamCommand implements CommandExecutor {
                 switch (args3) {
                     case "accept":
                         // Accepter l'invite du joueur
-                        bbGame.getTeamManager().AcceptInvitation(player,Bukkit.getPlayerExact(args2));
+                        Main.getBbGame().getTeamManager().AcceptInvitation(player,Bukkit.getPlayerExact(args2));
                         break;
                     case "deny":
                         // Refuser l'invite du joueur
-                        bbGame.getTeamManager().DenyInvitation(player,Bukkit.getPlayerExact(args2));
+                        Main.getBbGame().getTeamManager().DenyInvitation(player,Bukkit.getPlayerExact(args2));
                         break;
                 }
                 break;
@@ -91,7 +105,7 @@ public class TeamCommand implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             boolean ret = false;
-            if (player.hasPermission(settings.getExpresso_all_permission())) {
+            //if (player.hasPermission(settings.getExpresso_all_permission())) {
                 switch (args.length) {
                     case 0:
                         ret = argLength0(player);
@@ -108,7 +122,7 @@ public class TeamCommand implements CommandExecutor {
                     default:
                         //ret = argLength4(player, args);
                         break;
-                }
+                //}
             }
 
             if (!ret) {
