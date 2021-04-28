@@ -15,6 +15,8 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
+import static eu.builderscoffee.expresso.utils.TimeUtils.*;
+
 public class BoucheTrouExpresso extends Expresso {
 
     @Override
@@ -35,6 +37,11 @@ public class BoucheTrouExpresso extends Expresso {
         return Arrays.asList("Une schématique est coller sur le plot");
     }
 
+    @Override
+    public String getThemes() {
+        return null;
+    }
+
     /***
      * Retourne les phases d'un expresso bouche trou
      * @return
@@ -43,8 +50,7 @@ public class BoucheTrouExpresso extends Expresso {
     public Deque<BBPhase> getPhases() {
         val phases = new LinkedList();
         phases.add(new LaunchingPhase(30));
-        phases.add(new GamePhase(7200));
-        phases.add(new JuryPhase());
+        phases.add(new GamePhase(2*HOUR));
         return phases;
     }
 }
