@@ -7,6 +7,7 @@ import eu.builderscoffee.expresso.buildbattle.expressos.Expresso;
 import eu.builderscoffee.expresso.buildbattle.expressos.ExpressoManager;
 import eu.builderscoffee.expresso.buildbattle.notation.NotationManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
+import eu.builderscoffee.expresso.buildbattle.teams.TeamManager;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -46,6 +47,9 @@ public class BBGame {
     private ExpressoManager expressoManager;
     @Getter
     @Setter
+    private TeamManager teamManager;
+    @Getter
+    @Setter
     private boolean isReady = false;
 
 
@@ -59,6 +63,7 @@ public class BBGame {
         defineExpresso(type);
         setBbGameManager(new BBGameManager(this));
         setExpressoManager(new ExpressoManager(this));
+        setTeamManager(new TeamManager(this));
         notationManager = new NotationManager();
     }
 

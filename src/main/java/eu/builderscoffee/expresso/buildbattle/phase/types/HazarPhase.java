@@ -22,6 +22,7 @@ public class HazarPhase extends GamePhase {
 
     @Override
     public BukkitRunnable runnable() {
+
         return super.runnable();
     }
 

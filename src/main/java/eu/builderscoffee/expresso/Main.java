@@ -7,9 +7,11 @@ import eu.builderscoffee.api.bukkit.utils.Plugins;
 import eu.builderscoffee.expresso.board.BBBoard;
 import eu.builderscoffee.expresso.buildbattle.BBGame;
 import eu.builderscoffee.expresso.buildbattle.expressos.types.IlClassicoExpresso;
+import eu.builderscoffee.expresso.buildbattle.teams.Team;
 import eu.builderscoffee.expresso.commands.GameCommand;
 import eu.builderscoffee.expresso.commands.JuryCommand;
 import eu.builderscoffee.expresso.commands.PlotCommand;
+import eu.builderscoffee.expresso.commands.TeamCommand;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
 import eu.builderscoffee.expresso.listeners.CompetitorListener;
@@ -48,6 +50,7 @@ public class Main extends JavaPlugin {
         // Register Command Executors
         this.getCommand("game").setExecutor(new GameCommand());
         this.getCommand("jury").setExecutor(new JuryCommand());
+        this.getCommand("group").setExecutor(new TeamCommand());
         this.getCommand("eplot").setExecutor(new PlotCommand());
 
         // Init invt
