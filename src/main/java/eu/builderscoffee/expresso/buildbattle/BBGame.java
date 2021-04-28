@@ -47,7 +47,7 @@ public class BBGame {
     private ExpressoManager expressoManager;
     @Getter
     @Setter
-    private TeamManager teamManager;
+    public TeamManager teamManager;
     @Getter
     @Setter
     private boolean isReady = false;
@@ -63,7 +63,8 @@ public class BBGame {
         defineExpresso(type);
         setBbGameManager(new BBGameManager(this));
         setExpressoManager(new ExpressoManager(this));
-        setTeamManager(new TeamManager(this));
+        //setTeamManager(new TeamManager());
+        teamManager = new TeamManager();
         notationManager = new NotationManager();
     }
 

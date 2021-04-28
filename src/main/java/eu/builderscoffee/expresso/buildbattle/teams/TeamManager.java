@@ -6,6 +6,7 @@ import com.plotsquared.bukkit.chat.FancyMessage;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.BBGame;
 import eu.builderscoffee.expresso.buildbattle.events.TeamCreateEvent;
+import eu.builderscoffee.expresso.buildbattle.events.TeamDisbandEvent;
 import eu.builderscoffee.expresso.buildbattle.events.TeamJoinEvent;
 import eu.builderscoffee.expresso.buildbattle.events.TeamLeaveEvent;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
@@ -24,18 +25,13 @@ public class TeamManager {
     // Configuration
     public MessageConfiguration messages = Main.getMessages();
     public SettingsConfiguration settings = Main.getSettings();
-    // Instances
-    @Getter
-    @Setter
-    private BBGame bbGame;
+    // Instance
     private PlotAPI plotAPI = new PlotAPI();
 
-    public TeamManager(BBGame bbGame) {
+    public TeamManager() {
         // Init les variables
         teams = new ArrayList<>();
         invitations = new ArrayList<>();
-        // Instance
-        setBbGame(bbGame);
     }
 
     /***
@@ -147,22 +143,20 @@ public class TeamManager {
      */
     public void removePlayerFromTeam(Player player) {
         if (getPlayerTeam(player) != null) {
-            Team team = getPlayerTeam(player);
-            team.members.remove(player);
-            TeamLeaveEvent leaveEvent = new TeamLeaveEvent(player, team.members); // Fire TeamLeave Event
-            Bukkit.getPluginManager().callEvent(leaveEvent);
-            if (team.getLeader() != null) {
-                if (team.getLeader().equals(player) && team.getMembers().size() < 1) {
-                    int rand = new Random().nextInt((team.getMembers().size()));
-                    team.setLeader(team.getMembers().get(rand));
-                }
+            if (!IsTeamLeader(player)) {
+                Team team = getPlayerTeam(player);
+                team.members.remove(player);
+                TeamLeaveEvent leaveEvent = new TeamLeaveEvent(player, team.members); // Fire TeamLeave Event
+                Bukkit.getPluginManager().callEvent(leaveEvent);
+            } else {
+                player.sendMessage(messages.getTeam_leader_cannot_leave());
             }
         }
     }
 
     /***
      * Enregistrer une team
-     * @param player
+     * @param player - Membre du groupe
      */
     public void registerTeam(Player player) {
         if (!AsNoTeam(player)) {
@@ -173,7 +167,20 @@ public class TeamManager {
             TeamCreateEvent createEvent = new TeamCreateEvent(player); // Fire TeamCreate Event
             Bukkit.getPluginManager().callEvent(createEvent); // Call event
         } else {
-            player.sendMessage(messages.getTeam_already_created());
+            player.sendMessage(messages.getTeam_already_created()); }
+    }
+
+    /***
+     * Supprimer une team
+     * @param player - Leader du groupe
+     */
+    public void unregisterTeam(Player player) {
+        if(getPlayerTeam(player) != null && IsTeamLeader(player)) {
+            Team team = getPlayerTeam(player);
+            TeamDisbandEvent disbandEvent = new TeamDisbandEvent(player,team.getMembers()); // Fire TeamDisband Event
+            Bukkit.getPluginManager().callEvent(disbandEvent); // Call event
+            teams.remove(team);
+            player.sendMessage(messages.getTeam_disband());
         }
     }
 
@@ -185,11 +192,14 @@ public class TeamManager {
      * @param target
      */
     public void SendInvitation(Player player, Player target) {
-        Invitation invitation = new Invitation(player, target);
-        // Check si l'invitation à déja été créer
-        invitations.add(invitation);
-        player.sendMessage(messages.getInvitation_send().replace("%target%", target.getName()));
-        new FancyMessage(messages.getInvitation_receive_target().replace("%sender%", player.getName())).then(messages.getInvitation_receive_acceptance()).command("/team accept " + player.getName()).then(" ou ").then(messages.getInvitation_receive_denyance()).command("/team deny " + player.getName()).send(target);
+        // Check si le sender et la target ne sont pas les mêmes joueurs
+        if(!Objects.deepEquals(player,target)) {
+            Invitation invitation = new Invitation(player, target);
+            // Check si l'invitation à déja été créer
+            invitations.add(invitation);
+            player.sendMessage(messages.getInvitation_send().replace("%target%", target.getName()));
+            new FancyMessage(messages.getInvitation_receive_target().replace("%sender%", player.getName())).then(messages.getInvitation_receive_acceptance()).command("/group invite " + player.getName() + " accept").then(" ou ").then(messages.getInvitation_receive_denyance()).command("/group invite " + player.getName() + " deny").send(target);
+        } else {player.sendMessage(messages.getInvitation_not_invite_yourself()); }
     }
 
     /***
