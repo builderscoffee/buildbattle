@@ -186,7 +186,7 @@ public class BBGameManager {
     /***
      * État de la partie
      */
-    public enum BBType {
+    public enum BBPartySize {
         SOLO,
         TEAM
     }
