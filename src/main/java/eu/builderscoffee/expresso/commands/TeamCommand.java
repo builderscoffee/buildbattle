@@ -32,6 +32,7 @@ public class TeamCommand implements CommandExecutor {
         commandList.add("§a/group leave §b: Quitter le groupe d'un joueur");
         commandList.add("§a/group disband §b: Supprimer votre groupe");
         commandList.add("§a/group invite <player> accept/deny §b: Accepter ou refuser l'invite d'un joueur");
+        commandList.add("§a/group info <player> §b: Voir les informations d'un groupe");
         for (String s : commandList) {
             player.sendMessage(s);
         }
@@ -52,6 +53,10 @@ public class TeamCommand implements CommandExecutor {
             case "disband":
                 // Supprimer votre groupe si vous êtes leader
                 Main.getBbGame().getTeamManager().unregisterTeam(player);
+                break;
+            case "info":
+                Main.getBbGame().getTeamManager().viewTeam(player);
+                break;
             default:
                 return false;
         }
@@ -70,6 +75,9 @@ public class TeamCommand implements CommandExecutor {
             case "remove":
                 // Retirer un joueur aux groupe
                 Main.getBbGame().getTeamManager().removePlayerFromTeam(targetLenght2.getPlayer());
+                break;
+            case "info":
+                Main.getBbGame().getTeamManager().viewTargetTeam(player, Bukkit.getPlayer(args1));
                 break;
             default:
                 return false;

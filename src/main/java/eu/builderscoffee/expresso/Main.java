@@ -7,7 +7,9 @@ import eu.builderscoffee.api.bukkit.utils.Plugins;
 import eu.builderscoffee.expresso.board.BBBoard;
 import eu.builderscoffee.expresso.buildbattle.BBGame;
 import eu.builderscoffee.expresso.buildbattle.expressos.types.IlClassicoExpresso;
+import eu.builderscoffee.expresso.buildbattle.plot.PlotListener;
 import eu.builderscoffee.expresso.buildbattle.teams.Team;
+import eu.builderscoffee.expresso.buildbattle.teams.events.TeamListeners;
 import eu.builderscoffee.expresso.commands.GameCommand;
 import eu.builderscoffee.expresso.commands.JuryCommand;
 import eu.builderscoffee.expresso.commands.PlotCommand;
@@ -45,7 +47,7 @@ public class Main extends JavaPlugin {
         settings = readOrCreateConfiguration(this, SettingsConfiguration.class);
 
         // Register Listeners
-        Plugins.registerListeners(this, new PlayerListener(), new CompetitorListener());
+        Plugins.registerListeners(this, new PlayerListener(), new CompetitorListener(), new TeamListeners(), new PlotListener());
 
         // Register Command Executors
         this.getCommand("game").setExecutor(new GameCommand());

@@ -60,11 +60,8 @@ public class PlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onCommand(PlayerCommandPreprocessEvent event) {
-        if (event.getMessage().equalsIgnoreCase("plot auto") || event.getMessage().equalsIgnoreCase("plot claim")) {
+        if (event.getMessage().toLowerCase().contains("/plot auto") || event.getMessage().toLowerCase().contains("/plot claim")) {
             if (Main.getBbGame().getBbState().equals(BBGameManager.BBState.IN_GAME)) {
-                if(Main.getBbGame().getTeamManager().IsTeamLeader(event.getPlayer())) {
-                    Main.getBbGame().getTeamManager().addAllMembersToPlot(Main.getBbGame().getTeamManager().getPlayerTeam(event.getPlayer()));
-                }
                 Main.getBbGame().addCompetitor(event.getPlayer());
             } else {
                 event.setCancelled(true);

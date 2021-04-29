@@ -2,6 +2,8 @@ package eu.builderscoffee.expresso.buildbattle.teams;
 
 import com.intellectualcrafters.plot.api.PlotAPI;
 import com.intellectualcrafters.plot.object.Plot;
+import com.intellectualcrafters.plot.object.PlotPlayer;
+import com.intellectualcrafters.plot.util.UUIDHandler;
 import com.plotsquared.bukkit.chat.FancyMessage;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.BBGame;
@@ -128,8 +130,6 @@ public class TeamManager {
             team.members.add(target);
             TeamJoinEvent joinEvent = new TeamJoinEvent(target, team.members); // Fire TeamJoin Event
             Bukkit.getPluginManager().callEvent(joinEvent); // Call event
-            player.sendMessage(messages.getTeam_player_join().replace("%target%", target.getName()));
-            target.sendMessage(messages.getTeam_target_join().replace("%target%", player.getName()));
         } else if (IsSameTeam(player, target)) {
             player.sendMessage(messages.getTeam_already_in_a_team().replace("%target%", target.getName()));
         } else if (IsMembersReachLimit(player)) {
@@ -227,8 +227,8 @@ public class TeamManager {
         Invitation invitation = getInvitation(sender, receiver);
         if (invitation != null) {
             if (invitation.getTarget() != null)
-                receiver.sendMessage(messages.getInvitation_deny_target());
-            sender.sendMessage(messages.getInvitation_deny_sender());
+                receiver.sendMessage(messages.getInvitation_deny_target().replace("%sender%", sender.getName()));
+            sender.sendMessage(messages.getInvitation_deny_sender().replace("%target%", receiver.getName()));
             invitations.remove(invitation); // Clean l'invitation accepter
         } else {
             receiver.sendMessage(messages.getInvitation_not_avaliable().replace("%sender%", sender.getName()));
@@ -261,10 +261,11 @@ public class TeamManager {
      * Ajouté tout les membres du group aux plot du leader
      * @param team - L'object Team
      */
-    public void addAllMembersToPlot(Team team) {
-        Player leader = team.getLeader();
-        List<Player> members = team.getMembers();
-        Plot currentPlot = plotAPI.getPlot(leader);
-        members.forEach(member -> currentPlot.addMember(member.getUniqueId()));
+    public void addAllMembersToPlot(Team team,Plot plot) {
+        team.getMembers().forEach(member -> {
+            if(member != team.getLeader()) {
+                plot.addMember(UUIDHandler.getPlayer(member.getName()).getUUID());
+            }
+        });
     }
 }

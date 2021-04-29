@@ -26,8 +26,9 @@ public final class MessageConfiguration {
     // Team
     String team_info_header = "§7§m-------§6 Info de l''équipe §7§m-------§6";
     String team_info_leader = "§6Leader:§f ";
-    String team_info_members = "§aMembres :§f";
-    String team_player_join = "§7[§6Team§7]§f Le joueur§a %target% §fa rejoint votre équipe";
+    String team_info_members = "§aMembres :§f ";
+    String team_player_join = "§7[§6Team§7] §a%target% §fa rejoint votre équipe";
+    String team_player_quit = "§7[§6Team§7] §c%target% §fa quitter votre équipe";
     String team_target_join = "§7[§6Team§7]§f Vous avez rejoins l''équipe de %target% !";
     String team_target_already_in_a_team = "[Equipe] Le joueur %target% est déja dans l'équipe";
     String team_already_in_a_team = "§cVous êtes déja dans une équipe";
@@ -38,13 +39,14 @@ public final class MessageConfiguration {
     String team_already_created = "§7[§6Team§7]§c Vous avez déja crée une equipe";
     String team_leader_cannot_leave = "§7[§6Team§7]§c Vous devez supprimer votre groupe et non le quitter";
     String team_disband = "§7[§6Team§7]§c Vous avez supprimé votre groupe";
+    String team_disband_players = "§7[§6Team§7]§c Votre groupe est suprimé";
 
     // Invitation
     String invitation_receive_target = "§7[§6Team§7]§a Vous avez reçu une invitation de §f%sender% ";
     String invitation_receive_acceptance = "§aAccepter";
     String invitation_receive_denyance = "§cRefuser";
     String invitation_send = "§7[§6Team§7]§a Vous avez envoyer une invitation à §f%target%";
-    String invitation_deny_target = "§7[§6Team§7]§aVous avez refuser l'invitation de §c%sender%";
+    String invitation_deny_target = "§7[§6Team§7] §aVous avez refuser l'invitation de §c%sender%";
     String invitation_deny_sender = "§7[§6Team§7]§f %target% §ca refuser votre invitation";
     String invitation_not_avaliable = "§7[§6Team§7]§c L'invitation de §f%sender% §cn'est plus valable !";
     String invitation_not_invite_yourself = "§7[§6Team§7]§c Vous ne pouvez pas vous invitez vous même !";

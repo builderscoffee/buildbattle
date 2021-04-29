@@ -4,6 +4,7 @@ import com.intellectualcrafters.plot.api.PlotAPI;
 import com.intellectualcrafters.plot.object.Plot;
 import com.intellectualcrafters.plot.object.PlotPlayer;
 import com.intellectualcrafters.plot.util.MainUtil;
+import com.intellectualcrafters.plot.util.UUIDHandler;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.notation.Notation;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
@@ -45,9 +46,12 @@ public class PlotCommand implements CommandExecutor {
                 if (new PlotAPI().isInPlot(player)) {
                     val plot = MainUtil.getPlotFromString(PlotPlayer.get(player.getName()), null, false);
                     String name = MainUtil.getName(plot.owner);
+                    List<String> membersList = new ArrayList<>();
+                    plot.getMembers().forEach(uuid -> membersList.add(UUIDHandler.getName(uuid)));
                     player.sendMessage("§0§7§m--- §fPlot §0§7§m---");
                     player.sendMessage("§aId: §7" + PlotUtils.getPlotsPos(plot));
                     player.sendMessage("§aOwner : §7" + name);
+                    player.sendMessage("§aMembers : §7" + String.format(" ,", membersList));
                     player.sendMessage("§0§7§m------");
                 } else {
                     player.sendMessage("§cTu n'est pas sur un plot, espèce de café moulu");
