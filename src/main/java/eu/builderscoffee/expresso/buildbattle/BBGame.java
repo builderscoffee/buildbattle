@@ -60,8 +60,8 @@ public class BBGame {
 
     public BBGame(Main main, Expresso type) {
         setMain(main);
-        defineExpresso(type);
         setBbGameManager(new BBGameManager(this));
+        defineExpresso(type);
         setExpressoManager(new ExpressoManager(this));
         //setTeamManager(new TeamManager());
         teamManager = new TeamManager();

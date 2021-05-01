@@ -9,8 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class EndPhase implements BBPhase {
 
     public EndPhase() {
-        // Mettre fin à la partie
-        Main.getBbGame().getBbGameManager().endGame();
+       // Mettre fin à la game
     }
 
     @Override
@@ -35,7 +34,12 @@ public class EndPhase implements BBPhase {
 
     @Override
     public BukkitRunnable runnable() {
-        return null;
+        return new BukkitRunnable() {
+            @Override
+            public void run() {
+                Main.getBbGame().getBbGameManager().endGame();
+            }
+        };
     }
 
     @Override
