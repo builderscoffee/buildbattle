@@ -69,7 +69,9 @@ public class GamePhase implements BBPhase {
                         @Override
                         public void run() {
                             getOnlinePlayers().forEach(p -> {
+
                                 //new Title("Thème", Main.getSettings().getBoard_build_theme(), 20, 20, 20).send(p);
+
                                 p.setGameMode(CREATIVE);
                             });
                         }
