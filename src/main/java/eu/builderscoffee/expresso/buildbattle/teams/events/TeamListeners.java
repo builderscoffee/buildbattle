@@ -32,14 +32,20 @@ public class TeamListeners implements Listener {
     @EventHandler
     public void onTeamJoinEvent(TeamJoinEvent event) {
         List<Player> members = event.getMemberList();
+        // Envoyer un message quand le joueur rejoins
         members.forEach(member -> member.sendMessage(messages.getTeam_player_join().replace("%target%",event.getPlayer().getName())));
+        // Ajouter le joueur aux plot du leader du groupe
+        Main.getBbGame().getTeamManager().addMemberToAllPlot(event.getPlayer());
     }
 
 
     @EventHandler
     public void onTeamLeaveEvent(TeamLeaveEvent event) {
         List<Player> members = event.getMemberList();
+        //Envoyer un message quand le joueur quitte
         members.forEach(member -> member.sendMessage(messages.getTeam_player_quit()));
+        // Retirer le joueur aux plot du leader du groupe
+        Main.getBbGame().getTeamManager().removeMemberFromAllPlot(event.getPlayer());
     }
 
 }

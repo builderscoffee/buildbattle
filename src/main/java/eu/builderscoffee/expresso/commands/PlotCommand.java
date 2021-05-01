@@ -2,6 +2,7 @@ package eu.builderscoffee.expresso.commands;
 
 import com.intellectualcrafters.plot.api.PlotAPI;
 import com.intellectualcrafters.plot.object.Plot;
+import com.intellectualcrafters.plot.object.PlotArea;
 import com.intellectualcrafters.plot.object.PlotPlayer;
 import com.intellectualcrafters.plot.util.MainUtil;
 import com.intellectualcrafters.plot.util.UUIDHandler;
@@ -22,6 +23,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class PlotCommand implements CommandExecutor {
 
@@ -31,7 +33,7 @@ public class PlotCommand implements CommandExecutor {
     public static boolean argLength0(Player player) {
         List<String> commandList = new ArrayList<>();
         commandList.add("§a/eplot §b: Aide du plugin Expresso");
-        commandList.add("§a/eplot info§b: Voir les info du plot");
+        commandList.add("§a/eplot info§b: Voir les infoormations du plot");
         for (String s : commandList) {
             player.sendMessage(s);
         }
@@ -44,20 +46,28 @@ public class PlotCommand implements CommandExecutor {
             case "info":
                 // Informations sur le plot
                 if (new PlotAPI().isInPlot(player)) {
-                    val plot = MainUtil.getPlotFromString(PlotPlayer.get(player.getName()), null, false);
-                    String name = MainUtil.getName(plot.owner);
-                    List<String> membersList = new ArrayList<>();
-                    plot.getMembers().forEach(uuid -> membersList.add(UUIDHandler.getName(uuid)));
-                    player.sendMessage("§0§7§m--- §fPlot §0§7§m---");
-                    player.sendMessage("§aId: §7" + PlotUtils.getPlotsPos(plot));
-                    player.sendMessage("§aOwner : §7" + name);
-                    player.sendMessage("§aMembers : §7" + String.format(" ,", membersList));
-                    player.sendMessage("§0§7§m------");
+                    if(new PlotAPI().getPlot(player.getLocation()).canClaim(UUIDHandler.getPlayer(player.getUniqueId()))) {
+                        val plot = MainUtil.getPlotFromString(PlotPlayer.get(player.getName()), null, false);
+                        String name = MainUtil.getName(plot.owner);
+                        List<String> membersList = new ArrayList<>();
+                        plot.getMembers().forEach(uuid -> membersList.add(UUIDHandler.getName(uuid)));
+                        player.sendMessage("§0§7§m--- §fPlot §0§7§m---");
+                        player.sendMessage("§aId: §7" + PlotUtils.getPlotsPos(plot));
+                        player.sendMessage("§aOwner : §7" + name);
+                        player.sendMessage("§aMembers : §7" + membersList.stream()
+                                .map(String::valueOf)
+                                .collect(Collectors.joining(" ,")));
+                        player.sendMessage("§0§7§m------");
+                    } else {
+                        player.sendMessage("§cCe plot n'est pas claim");
+                    }
                 } else {
                     player.sendMessage("§cTu n'est pas sur un plot, espèce de café moulu");
                 }
                 break;
-            case "paste":/*                Location loc = PlotUtils.convertBukkitLoc(player.getTargetBlock(null, 100).getLocation());
+            case "paste":
+                /*
+                Location loc = PlotUtils.convertBukkitLoc(player.getTargetBlock(null, 100).getLocation());
                 final Plot plot = loc.getPlotAbs();
                 PlotUtils.pasteSchematic(Main.getSettings().getSchematicToPaste(), plot);
                 player.sendMessage("§a Paste Plot Test");

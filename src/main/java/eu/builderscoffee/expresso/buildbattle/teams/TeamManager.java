@@ -255,7 +255,8 @@ public class TeamManager {
         invitations.clear();
     }
 
-    // Plot part Integrations
+
+    // Plot part
 
     /***
      * Ajouté tout les membres du group aux plot du leader
@@ -269,4 +270,32 @@ public class TeamManager {
             }
         });
     }
+
+    /***
+     * Ajouter un joueur aux plots de la team
+     * @param player - Joueur à ajouter
+     */
+    public void addMemberToAllPlot(Player player) {
+        Team team = Main.getBbGame().getTeamManager().getPlayerTeam(player);
+        Set<Plot> plots = new PlotAPI().getPlayerPlots(team.getLeader());
+        plots.forEach(plot -> {
+            plot.addMember(UUIDHandler.getPlayer(player.getName()).getUUID());
+            plot.addTrusted(UUIDHandler.getPlayer(player.getName()).getUUID());
+        });
+    }
+
+    /***
+     * Retiré un joueur de tout les plots de la team
+     * @param player - Joueur à retirer
+     * @param team - Team du leader
+     */
+    public void removeMemberFromAllPlot(Player player) {
+        Team team = Main.getBbGame().getTeamManager().getPlayerTeam(player);
+        Set<Plot> plots = new PlotAPI().getPlayerPlots(team.getLeader());
+        plots.forEach(plot -> {
+            plot.removeMember(UUIDHandler.getPlayer(player.getName()).getUUID());
+            plot.removeTrusted(UUIDHandler.getPlayer(player.getName()).getUUID());
+        });
+    }
+
 }
