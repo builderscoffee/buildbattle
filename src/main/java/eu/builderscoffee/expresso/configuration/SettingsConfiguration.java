@@ -1,6 +1,7 @@
 package eu.builderscoffee.expresso.configuration;
 
-import eu.builderscoffee.api.configuration.annotation.Configuration;
+
+import eu.builderscoffee.api.common.configuration.annotation.Configuration;
 import lombok.Data;
 
 import java.util.Arrays;
@@ -11,19 +12,25 @@ import java.util.List;
 public class SettingsConfiguration {
 
     // Global settings
-    String spawnLocation = "plotevent:0:65:0:90.0:0.0";
+    String global_spawn_location = "plotevent:0:65:0:90.0:0.0";
+    String pluginMode = "DEV";
 
-    String expressoAllPermission = "expresso.*";
-    String expressoJuryPermission = "expresso.jury";
-    String expressoEplotPermission = "expresso.eplot";
+    // Permission settings
+    String expresso_all_permission = "expresso.*";
+    String expresso_jury_permission = "expresso.jury";
+    String expresso_eplot_permission = "expresso.eplot";
 
     // Board settings
-    String seasonName = "§6Torréfaction";
-    String buildTheme = "§7Les rouages de l'avenir";
-    String serverIp = " §6play.builderscoffee.eu";
+    String board_title = "§6§l- Builders Coffee -";
+    String board_season_name = "§6Torréfaction";
+    String board_build_theme = "§7Les rouages de l'avenir";
+    String board_server_ip = " §6play.builderscoffee.eu";
 
     // Game settings
-    List<String> pluginEndDisable = Arrays.asList("worldedit", "fastasyncworldedit", "fastasyncvoxelsniper", "voxelsniper", "betterbrushes", "gobrush", "schematicbrush", "schematicsbrowser", "arceon", "gopaint");
-    String schematicToPaste = "cobble";
+    List<String> game_plugin_end_disable = Arrays.asList("worldedit", "fastasyncworldedit", "fastasyncvoxelsniper", "voxelsniper", "betterbrushes", "gobrush", "schematicbrush", "schematicsbrowser", "arceon", "gopaint");
+    String game_schematic_to_paste = "cobble";
+
+    // Team settings
+    int team_maxplayer = 2;
 
 }

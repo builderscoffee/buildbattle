@@ -1,23 +1,27 @@
 package eu.builderscoffee.expresso.commands;
 
 import com.intellectualcrafters.plot.api.PlotAPI;
-import com.intellectualcrafters.plot.object.Location;
 import com.intellectualcrafters.plot.object.Plot;
 import com.intellectualcrafters.plot.object.PlotPlayer;
 import com.intellectualcrafters.plot.util.MainUtil;
+import com.intellectualcrafters.plot.util.UUIDHandler;
 import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.buildbattle.notation.Notation;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
+import eu.builderscoffee.expresso.inventory.jury.JuryNotationInventory;
+import eu.builderscoffee.expresso.inventory.jury.JuryTeleportation;
 import eu.builderscoffee.expresso.utils.PlotUtils;
 import lombok.val;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class PlotCommand implements CommandExecutor {
 
@@ -40,21 +44,65 @@ public class PlotCommand implements CommandExecutor {
             case "info":
                 // Informations sur le plot
                 if (new PlotAPI().isInPlot(player)) {
-                val plot = MainUtil.getPlotFromString(PlotPlayer.get(player.getName()), null, false);
+                    val plot = MainUtil.getPlotFromString(PlotPlayer.get(player.getName()), null, false);
                     String name = MainUtil.getName(plot.owner);
+                    List<String> membersList = new ArrayList<>();
+                    plot.getMembers().forEach(uuid -> membersList.add(UUIDHandler.getName(uuid)));
                     player.sendMessage("§0§7§m--- §fPlot §0§7§m---");
                     player.sendMessage("§aId: §7" + PlotUtils.getPlotsPos(plot));
                     player.sendMessage("§aOwner : §7" + name);
+                    player.sendMessage("§aMembers : §7" + String.format(" ,", membersList));
                     player.sendMessage("§0§7§m------");
                 } else {
                     player.sendMessage("§cTu n'est pas sur un plot, espèce de café moulu");
                 }
                 break;
-            case "paste":
-                Location loc = PlotUtils.convertBukkitLoc(player.getTargetBlock(null, 100).getLocation());
+            case "paste":/*                Location loc = PlotUtils.convertBukkitLoc(player.getTargetBlock(null, 100).getLocation());
                 final Plot plot = loc.getPlotAbs();
                 PlotUtils.pasteSchematic(Main.getSettings().getSchematicToPaste(), plot);
                 player.sendMessage("§a Paste Plot Test");
+                */
+                break;
+            case "invleo":
+                //checker
+                if (new PlotAPI().isInPlot(player)) {
+                    Plot plotinv = (PlotUtils.convertBukkitLoc(player.getLocation()).getPlotAbs());
+                    if (!Main.getBbGame().getNotationManager().playerHasNote(plotinv, player)) {
+                        JuryNotationInventory.INVENTORY.open(player);
+                    } else {
+                        player.sendMessage("§cTu as déjà noté ce plot, espèce de café moulu");
+                    }
+                } else {
+                    player.sendMessage("§cTu n'est pas sur un plot, espèce de café moulu");
+                }
+                break;
+
+            case "seenote":
+                Plot plote = (PlotUtils.convertBukkitLoc(player.getLocation()).getPlotAbs());
+                Set<Notation> a = Main.getBbGame().getNotationManager().getNotationsByPlot(plote);
+                if (a == null || a.isEmpty()) {
+                    player.sendMessage("Ce plot a 0 notation");
+                    break;
+                }
+                player.sendMessage("Ce plot a " + a.size() + "notation(s)");
+                for (Notation note : a) {
+                    player.sendMessage("Juge: " + Bukkit.getOfflinePlayer(note.getUUIDP()).getName() + " Fun: " + note.getFun());
+                }
+                break;
+
+            case "invlist":
+                JuryTeleportation.INVENTORY.open(player);
+                break;
+
+            case "tpnext":
+                // Get plot
+                Plot plotinvtp = (PlotUtils.convertBukkitLoc(player.getLocation()).getPlotAbs());
+                int b = PlotUtils.getPlotsPos(plotinvtp) + 1;
+                Plot current = PlotUtils.getPlotsByPos(b);
+
+                // tp player
+                PlotUtils.convertPlotCenterLoc(current.getCenter());
+                player.teleport(PlotUtils.convertPlotCenterLoc(current.getCenter()));
                 break;
             default:
                 return false;
@@ -67,7 +115,7 @@ public class PlotCommand implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             boolean ret = false;
-            if (player.hasPermission(settings.getExpressoEplotPermission()) || player.hasPermission(settings.getExpressoAllPermission())) {
+            if (player.hasPermission(settings.getExpresso_eplot_permission()) || player.hasPermission(settings.getExpresso_all_permission())) {
                 switch (args.length) {
                     case 0:
                         ret = argLength0(player);
@@ -88,13 +136,13 @@ public class PlotCommand implements CommandExecutor {
             }
 
             if (!ret) {
-                player.sendMessage(messages.getPrefix() + messages.getCommandBadSyntaxe());
+                player.sendMessage(messages.getGlobal_prefix() + messages.getCommand_bad_syntaxe());
             }
 
             return ret;
         }
 
-        sender.sendMessage(messages.getPrefix() + messages.getCommandMustBePlayer());
+        sender.sendMessage(messages.getGlobal_prefix() + messages.getCommand_must_be_player());
         return true;
     }
 }

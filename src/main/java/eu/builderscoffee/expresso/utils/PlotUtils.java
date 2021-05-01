@@ -37,10 +37,10 @@ public class PlotUtils {
      * @param schematicLocation
      * @param plot
      */
-    public void pasteSchematic(String schematicLocation,Plot plot) {
+    public void pasteSchematic(String schematicLocation, Plot plot) {
         TaskManager.runTaskAsync(() -> {
             SchematicHandler.Schematic schematic;
-                schematic = SchematicHandler.manager.getSchematic(schematicLocation);
+            schematic = SchematicHandler.manager.getSchematic(schematicLocation);
             if (schematic == null) {
                 Log.get().info("Schematic null");
                 return;
@@ -83,7 +83,7 @@ public class PlotUtils {
      * @return
      */
     public com.intellectualcrafters.plot.object.Location convertBukkitLoc(Location location) {
-        return new com.intellectualcrafters.plot.object.Location(location.getWorld().getName(),location.getBlockX(),location.getBlockY(),location.getBlockZ());
+        return new com.intellectualcrafters.plot.object.Location(location.getWorld().getName(), location.getBlockX(), location.getBlockY(), location.getBlockZ());
     }
 
     /***
@@ -93,5 +93,14 @@ public class PlotUtils {
      */
     public int getPlotsPos(Plot plot) {
         return new ArrayList<>(allPlots).indexOf(plot);
+    }
+
+    /***
+     * Retourne le plot par rapport a la position dans la list
+     * @param
+     * @return
+     */
+    public Plot getPlotsByPos(int in) {
+        return new ArrayList<>(allPlots).get(in);
     }
 }

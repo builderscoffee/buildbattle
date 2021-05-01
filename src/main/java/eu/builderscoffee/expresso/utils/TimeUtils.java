@@ -5,6 +5,9 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class TimeUtils {
 
+    public static final int HOUR = 3600;
+    public static final int MIN = 60;
+
     public String getDurationString(int seconds) {
         String duration = null;
         int hours = seconds / 3600;

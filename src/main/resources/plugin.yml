@@ -6,8 +6,10 @@ main: eu.builderscoffee.expresso.Main
 depend: [ BuildersCoffeeAPI ]
 commands:
   game:
-    description: Gerer le build battle
+    description: Gérer le build battle
   jury:
     description: Le menu jury
+  group:
+    description: Gestion de groupe
   eplot:
     description: Plot custom

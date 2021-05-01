@@ -1,8 +1,9 @@
 package eu.builderscoffee.expresso.inventory.game;
 
-import eu.builderscoffee.api.gui.ClickableItem;
-import eu.builderscoffee.api.gui.SmartInventory;
-import eu.builderscoffee.api.gui.content.*;
+
+import eu.builderscoffee.api.bukkit.gui.ClickableItem;
+import eu.builderscoffee.api.bukkit.gui.SmartInventory;
+import eu.builderscoffee.api.bukkit.gui.content.*;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.expressos.Expresso;
 import org.bukkit.ChatColor;
@@ -17,7 +18,7 @@ public class GameExpressoInventory implements InventoryProvider {
     public static final SmartInventory INVENTORY = SmartInventory.builder()
             .id("game_expresso")
             .provider(new GameExpressoInventory())
-            .size(3,9)
+            .size(3, 9)
             .title(ChatColor.WHITE + "§fChoix de l'expresso")
             .manager(Main.getInventoryManager())
             .build();
@@ -36,10 +37,10 @@ public class GameExpressoInventory implements InventoryProvider {
             int expressoIndex = i;
             expressoItem[i] = ClickableItem.of(expressoList.get(i).getIcon(),
                     e -> {
-                // do action on click
-                Expresso expresso = expressoList.get(expressoIndex);
-                Main.getBbGame().setExpressoType(expresso);
-                player.sendMessage("§aVous avez selectionné :§f " + expresso.getName());
+                        // do action on click
+                        Expresso expresso = expressoList.get(expressoIndex);
+                        Main.getBbGame().defineExpresso(expresso);
+                        player.sendMessage("§aVous avez selectionné :§f " + expresso.getName());
                     });
         }
 

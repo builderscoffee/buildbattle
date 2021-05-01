@@ -12,12 +12,12 @@ public class CompetitorListener implements Listener {
     @EventHandler
     public void onCompetitorJoin(CompetitorJoinEvent event) {
         final Player player = event.getCompetitor();
-        Main.getBbGame().getCompetitor().forEach(competitor -> competitor.sendMessage(Main.getMessages().getCompetitorJoin().replace("%player%", player.getName()).replace("&", "§")));
+        Main.getBbGame().getCompetitor().forEach(competitor -> competitor.sendMessage(Main.getMessages().getExpresso_competitor_join().replace("%player%", player.getName()).replace("&", "§")));
     }
 
     @EventHandler
     public void onCompetitorLeave(CompetitorLeaveEvent event) {
         final Player player = event.getCompetitor();
-        Main.getBbGame().getCompetitor().forEach(competitor -> competitor.sendMessage(Main.getMessages().getCompetitorLeave().replace("%player%", player.getName()).replace("&", "§")));
+        Main.getBbGame().getCompetitor().forEach(competitor -> competitor.sendMessage(Main.getMessages().getExpresoo_competitor_leave().replace("%player%", player.getName()).replace("&", "§")));
     }
 }
