@@ -64,15 +64,19 @@ public class GamePhase implements BBPhase {
                     // Démarrer la game en dévoilant le thème
                     // et définir la gamemode en créatif pour chaques
                     // joueurs
+
                     new BukkitRunnable() {
                         @Override
                         public void run() {
                             getOnlinePlayers().forEach(p -> {
-                                new Title("Thème", Main.getSettings().getBoard_build_theme(), 20, 20, 20).send(p);
+
+                                //new Title("Thème", Main.getSettings().getBoard_build_theme(), 20, 20, 20).send(p);
+
                                 p.setGameMode(CREATIVE);
                             });
                         }
                     }.runTask(Main.getInstance());
+
                     Main.getBbGame().broadcast(Main.getMessages().getGlobal_prefix() + "§a/plot auto pour participer");
                 }
                 // Log les minutes du jeux en console
