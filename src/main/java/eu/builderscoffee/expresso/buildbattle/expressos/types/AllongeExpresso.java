@@ -1,8 +1,10 @@
 package eu.builderscoffee.expresso.buildbattle.expressos.types;
 
 import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
+import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.expressos.Expresso;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
+import eu.builderscoffee.expresso.buildbattle.phase.types.EndPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.types.GamePhase;
 import eu.builderscoffee.expresso.buildbattle.phase.types.HazarPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.types.LaunchingPhase;
@@ -50,6 +52,7 @@ public class AllongeExpresso extends Expresso {
         val phases = new LinkedList();
         phases.add(new LaunchingPhase(30));
         phases.add(new GamePhase(26*HOUR));
+        phases.add(new EndPhase());
         return phases;
     }
 }
