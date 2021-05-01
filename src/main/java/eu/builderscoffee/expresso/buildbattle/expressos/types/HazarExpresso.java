@@ -5,7 +5,7 @@ import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.expressos.Expresso;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.types.EndPhase;
-import eu.builderscoffee.expresso.buildbattle.phase.types.GamePhase;
+import eu.builderscoffee.expresso.buildbattle.phase.types.HazarPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.types.LaunchingPhase;
 import lombok.val;
 import org.bukkit.Material;
@@ -18,11 +18,10 @@ import java.util.List;
 
 import static eu.builderscoffee.expresso.utils.TimeUtils.*;
 
-public class IlClassicoExpresso extends Expresso {
-
+public class HazarExpresso extends Expresso {
     @Override
     public ItemStack getIcon() {
-        return new ItemBuilder(Material.INK_SACK, 1, (short) 0)
+        return new ItemBuilder(Material.INK_SACK, 1, (short) 2)
                 .setName(getName())
                 //.addLoreLine(getDescription())
                 .build();
@@ -30,12 +29,12 @@ public class IlClassicoExpresso extends Expresso {
 
     @Override
     public String getName() {
-        return "IlClassico";
+        return "Hazar";
     }
 
     @Override
     public List<String> getDescription() {
-        return Arrays.asList("L'expresso des plus classique");
+        return Arrays.asList("Mélange les blocs du même type entre eux");
     }
 
     @Override
@@ -44,14 +43,14 @@ public class IlClassicoExpresso extends Expresso {
     }
 
     /***
-     * Retourne les phases d'un expresso classic
+     * Retourne les phases d'un expresso hazard
      * @return
      */
     @Override
     public Deque<BBPhase> getPhases() {
         val phases = new LinkedList();
         phases.add(new LaunchingPhase(30));
-        phases.add(new GamePhase(2*HOUR));
+        phases.add(new HazarPhase(2*HOUR));
         phases.add(new EndPhase());
         return phases;
     }

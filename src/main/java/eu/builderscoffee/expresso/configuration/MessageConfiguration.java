@@ -45,9 +45,9 @@ public final class MessageConfiguration {
     String invitation_receive_target = "§7[§6Team§7]§a Vous avez reçu une invitation de §f%sender% ";
     String invitation_receive_acceptance = "§aAccepter";
     String invitation_receive_denyance = "§cRefuser";
-    String invitation_send = "§7[§6Team§7]§a Vous avez envoyé une invitation à §f%target%";
-    String invitation_deny_target = "§7[§6Team§7] §aVous avez refusé l'invitation de §c%sender%";
-    String invitation_deny_sender = "§7[§6Team§7]§f %target% §ca refusé votre invitation";
+    String invitation_send = "§7[§6Team§7]§a Vous avez envoyer une invitation à §f%target%";
+    String invitation_deny_target = "§7[§6Team§7] §aVous avez refuser l'invitation de §c%sender%";
+    String invitation_deny_sender = "§7[§6Team§7]§f %target% §ca refuser votre invitation";
     String invitation_not_avaliable = "§7[§6Team§7]§c L'invitation de §f%sender% §cn'est plus valable !";
     String invitation_not_invite_yourself = "§7[§6Team§7]§c Vous ne pouvez pas vous invitez vous même !";
 }

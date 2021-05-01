@@ -112,7 +112,7 @@ public class TeamManager {
                 }
             }
             player.sendMessage(messages.getTeam_info_members() + joiner.toString());
-        } else if(!Objects.deepEquals(player,target)) {
+        } else if(Objects.equals(player,target)) {
             player.sendMessage(messages.getTeam_no_team());
         } else {
             player.sendMessage(messages.getTeam_info_no_team().replace("%target%",target.getName()));
@@ -265,7 +265,6 @@ public class TeamManager {
         team.getMembers().forEach(member -> {
             if(member != team.getLeader()) {
                 plot.addMember(UUIDHandler.getPlayer(member.getName()).getUUID());
-                plot.addTrusted(UUIDHandler.getPlayer(member.getName()).getUUID());
             }
         });
     }
