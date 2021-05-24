@@ -1,6 +1,8 @@
 package eu.builderscoffee.expresso.buildbattle.notation;
 
 import com.intellectualcrafters.plot.object.Plot;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -8,7 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class NotationManager {
-    private HashMap<Plot, Set<Notation>> allNotation;
+    private final HashMap<Plot, Set<Notation>> allNotation;
 
     public NotationManager() {
         this.allNotation = new HashMap<>();
@@ -34,20 +36,11 @@ public class NotationManager {
             return false;
         } else {
             for (Notation note : a) {
-                if (note.getUUIDP() == pl.getUniqueId()) {
+                if (note.getUUID() == pl.getUniqueId()) {
                     return true;
                 }
             }
             return false;
         }
     }
-    /*public Set getNotationsByJury(Plot plot){
-        return allNotation.get(plot);
-    }
-
-
-
-
-
-     */
 }

@@ -6,7 +6,7 @@ import eu.builderscoffee.expresso.buildbattle.expressos.engine.types.HazarEngine
 import eu.builderscoffee.expresso.utils.Log;
 import eu.builderscoffee.expresso.utils.blocks.BlockData;
 import eu.builderscoffee.expresso.utils.blocks.BoundingBox;
-import eu.builderscoffee.expresso.utils.blocks.LogFacing;
+import eu.builderscoffee.expresso.utils.blocks.LogConverter;
 import lombok.val;
 import org.bukkit.Bukkit;
 import org.bukkit.block.BlockFace;
@@ -26,41 +26,6 @@ public class HazarListener implements Listener {
         Bukkit.getServer().getPluginManager().registerEvents(this, main);
     }
 
-    /*
-    @EventHandler
-    public void onBlockPlace(BlockPlaceEvent event) {
-        // On check si on est en partie sinon on retourne
-        if (Main.getBbGame().getBbState() == BBGameManager.BBState.IN_GAME) {
-            // On recupère le bloc actuelle
-            Block block = event.getBlock();
-            int blockId = event.getBlock().getType().getId();
-            BlockFace blockFace = event.getBlock().getFace(block);
-            BlockState blockState = block.getState();
-            Log.get().info("Current block " + blockId);
-            // On check via l'engine le block à convertir
-            //Log.get().info("BlockData " + BlockData.getBlockDataById(blockId).getId());
-            if (engine.convertBlockdata.containsKey(BlockData.getBlockDataById(blockId))) {
-                // Le block à convertir
-                final BlockData blockData = (BlockData) engine.convertBlockdata.get(BlockData.getBlockDataById(blockId));
-                Log.get().info("Block convert " + blockData.id);
-                // On récupère le material du block converti
-                Material material = Material.getMaterial(blockData.id);
-                blockState.setType(material);
-                MaterialData blockMaterialData = new MaterialData(blockData.id, (byte) blockData.shortId);
-
-                if(blockState.getData() instanceof Directional) {
-                    ((Directional) blockMaterialData).setFacingDirection(blockFace);
-                }
-
-                blockState.setData(blockMaterialData);
-                // On n'oublie pas de l'update sinon ça ne marchera pas
-                blockState.update(true);
-            }
-        }
-
-    }
-    */
-
     @EventHandler
     public void onBlock(BlockPlaceEvent event) {
         // Check si la partie est commencer !
@@ -79,7 +44,7 @@ public class HazarListener implements Listener {
             pour tromper le retour du BlockData
             */
             if (blockId == 17 && block.getData() <= 4) {
-                block.setData((byte) LogFacing.getLogTypeByShort(block.getData()).Id);
+                block.setData((byte) LogConverter.getLogTypeByShort(block.getData()).Id);
             }
 
             // Dans le cas ou c'est des STAIRS , ne pas chercher par le short
@@ -146,12 +111,16 @@ public class HazarListener implements Listener {
                     // Met la data dans le state
                     state.setData(stairs);
                 } else if (blockData.blockCategory.equals(BlockData.BlockCategory.LOG)) {
-                    // On récupère la nouvelle data du block placé
-                    val oldLogData = LogFacing.getLogTypeByShort(blockOldData);
+                    // On récupère avec la nouvelle data du block placé le type de block
+                    val oldLogData = LogConverter.getLogTypeByShort(blockOldData);
+                    // On met en cache la data du block
+                    oldLogData.setDataId(blockOldData);
                     // On récupère le data du block à placer
-                    val newLogData = LogFacing.getLogTypeByShort(blockData.shortId);
-                    //
-                    //state.setData(LogFacing.ConvertLogFacing(materialData.getData(),state.getBlock().));
+                    val newLogData = LogConverter.getLogTypeByShort(blockData.shortId);
+                    // On met en cache la data du block
+                    newLogData.setDataId(blockData.shortId);
+                    // On applique une nouvelle data sur le block a partir du converter
+                    state.setData(LogConverter.ConvertLogType(oldLogData, newLogData));
                 }
                 // Sinon on applique simplement la data
                 else {
@@ -163,5 +132,4 @@ public class HazarListener implements Listener {
             }
         }
     }
-
 }

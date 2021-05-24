@@ -14,6 +14,7 @@ import eu.builderscoffee.expresso.commands.GameCommand;
 import eu.builderscoffee.expresso.commands.JuryCommand;
 import eu.builderscoffee.expresso.commands.PlotCommand;
 import eu.builderscoffee.expresso.commands.TeamCommand;
+import eu.builderscoffee.expresso.configuration.CacheConfiguration;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
 import eu.builderscoffee.expresso.listeners.CompetitorListener;
@@ -32,6 +33,8 @@ public class Main extends JavaPlugin {
     @Getter
     public static SettingsConfiguration settings;
     @Getter
+    public static CacheConfiguration cache;
+    @Getter
     public static InventoryManager inventoryManager;
     @Getter
     private static Main instance;
@@ -45,6 +48,7 @@ public class Main extends JavaPlugin {
         // Read or create configurations
         messages = readOrCreateConfiguration(this, MessageConfiguration.class);
         settings = readOrCreateConfiguration(this, SettingsConfiguration.class);
+        cache = readOrCreateConfiguration(this, CacheConfiguration.class);
 
         // Register Listeners
         Plugins.registerListeners(this, new PlayerListener(), new CompetitorListener(), new TeamListeners(), new PlotListener());
