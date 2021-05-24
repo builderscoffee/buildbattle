@@ -2,7 +2,6 @@ package eu.builderscoffee.expresso.commands;
 
 import com.intellectualcrafters.plot.api.PlotAPI;
 import com.intellectualcrafters.plot.object.Plot;
-import com.intellectualcrafters.plot.object.PlotArea;
 import com.intellectualcrafters.plot.object.PlotPlayer;
 import com.intellectualcrafters.plot.util.MainUtil;
 import com.intellectualcrafters.plot.util.UUIDHandler;
@@ -96,7 +95,7 @@ public class PlotCommand implements CommandExecutor {
                 }
                 player.sendMessage("Ce plot a " + a.size() + "notation(s)");
                 for (Notation note : a) {
-                    player.sendMessage("Juge: " + Bukkit.getOfflinePlayer(note.getUUIDP()).getName() + " Fun: " + note.getFun());
+                    player.sendMessage("Juge: " + Bukkit.getOfflinePlayer(note.getUUID()).getName() + " Fun: " + note.getFun());
                 }
                 break;
 
