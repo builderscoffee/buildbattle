@@ -51,7 +51,7 @@ public class AllongeExpresso extends Expresso {
     public Deque<BBPhase> getPhases() {
         val phases = new LinkedList();
         phases.add(new LaunchingPhase(30));
-        phases.add(new GamePhase(26*HOUR));
+        phases.add(new GamePhase(8*HOUR));
         phases.add(new EndPhase());
         return phases;
     }

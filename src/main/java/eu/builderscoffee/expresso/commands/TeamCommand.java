@@ -29,8 +29,8 @@ public class TeamCommand implements CommandExecutor {
         commandList.add("§a/group §b: Aide du système de group");
         commandList.add("§a/group add <joueur> §b: Ajouter un joueur dans votre group");
         commandList.add("§a/group remove <joueur> §b: Retirer un joueur de votre group");
-        commandList.add("§a/group leave §b: Quitter le groupe d'un joueur");
-        commandList.add("§a/group disband §b: Supprimer votre groupe");
+        commandList.add("§a/group leave §b: Quitter le groupe votre groupe ( membre uniquement");
+        commandList.add("§a/group disband §b: Supprimer votre groupe ( leader uniquement");
         commandList.add("§a/group invite <player> accept/deny §b: Accepter ou refuser l'invite d'un joueur");
         commandList.add("§a/group info <player> §b: Voir les informations d'un groupe");
         for (String s : commandList) {

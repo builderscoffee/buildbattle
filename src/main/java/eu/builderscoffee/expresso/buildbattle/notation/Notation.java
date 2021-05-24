@@ -9,7 +9,7 @@ import java.util.UUID;
 @AllArgsConstructor
 
 public class Notation {
-    private UUID UUIDP;
+    private UUID UUID;
     private int baute, crea, amenagement, folklore, fun;
 
 

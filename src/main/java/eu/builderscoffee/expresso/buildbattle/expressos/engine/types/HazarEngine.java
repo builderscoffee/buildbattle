@@ -1,5 +1,6 @@
 package eu.builderscoffee.expresso.buildbattle.expressos.engine.types;
 
+import eu.builderscoffee.api.bukkit.configuration.Configurations;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.expressos.engine.IGameEngine;
 import eu.builderscoffee.expresso.buildbattle.expressos.listeners.HazarListener;
@@ -7,6 +8,7 @@ import eu.builderscoffee.expresso.inventory.HazardExpressoInventory;
 import eu.builderscoffee.expresso.utils.Log;
 import eu.builderscoffee.expresso.utils.Tuple;
 import eu.builderscoffee.expresso.utils.blocks.BlockData;
+import javafx.util.Pair;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.event.Listener;
@@ -27,10 +29,6 @@ public class HazarEngine implements IGameEngine {
     public HazarEngine(Main instance) {
         // On défini l'instance de la class principale
         setInstance(instance);
-        // On charge l'engine
-        //load();
-        // On enregistre les listeners
-        //registerListener();
         // On init le menu
         new HazardExpressoInventory(this);
     }
@@ -81,6 +79,7 @@ public class HazarEngine implements IGameEngine {
                 List l2 = twopart[1];
 
                 List<Tuple> set = new ArrayList<>();
+                // 1 -> Key && 2 -> Values
                 // Executer la boucle pour Pairer la liste 1/2
                 for (Object i : l1)
                     for (Object j : l2)
@@ -100,5 +99,15 @@ public class HazarEngine implements IGameEngine {
                 set.forEach(pair -> System.out.print("Key " + pair.x + " Valeur " + pair.y + "\n"));
             }
         });
+    }
+
+    /***
+     * Pousser en configuration un cache des blocks convertis par l'engine
+     */
+    public void PrintBlockData() {
+        List<Tuple<Object, Object>> tupleList = new ArrayList<>();
+        convertBlockdata.forEach((o, o2) -> tupleList.add(new Tuple(o,o2)));
+        Main.getCache().getPairList().addAll(tupleList);
+        Configurations.writeConfiguration(Main.getInstance(), Main.getCache());
     }
 }
