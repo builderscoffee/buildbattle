@@ -112,7 +112,7 @@ public class TeamManager {
                 }
             }
             player.sendMessage(messages.getTeam_info_members() + joiner.toString());
-        } else if(Objects.equals(player,target)) {
+        } else if(!Objects.deepEquals(player,target)) {
             player.sendMessage(messages.getTeam_no_team());
         } else {
             player.sendMessage(messages.getTeam_info_no_team().replace("%target%",target.getName()));
@@ -265,7 +265,8 @@ public class TeamManager {
     public void addAllMembersToPlot(Team team,Plot plot) {
         team.getMembers().forEach(member -> {
             if(member != team.getLeader()) {
-                plot.addMember(UUIDHandler.getPlayer(member.getName()).getUUID());
+                //plot.addMember(UUIDHandler.getPlayer(member.getName()).getUUID());
+                plot.addTrusted(UUIDHandler.getPlayer(member.getName()).getUUID());
             }
         });
     }
@@ -278,7 +279,7 @@ public class TeamManager {
         Team team = Main.getBbGame().getTeamManager().getPlayerTeam(player);
         Set<Plot> plots = new PlotAPI().getPlayerPlots(team.getLeader());
         plots.forEach(plot -> {
-            plot.addMember(UUIDHandler.getPlayer(player.getName()).getUUID());
+            //plot.addMember(UUIDHandler.getPlayer(player.getName()).getUUID());
             plot.addTrusted(UUIDHandler.getPlayer(player.getName()).getUUID());
         });
     }
@@ -292,7 +293,7 @@ public class TeamManager {
         Team team = Main.getBbGame().getTeamManager().getPlayerTeam(player);
         Set<Plot> plots = new PlotAPI().getPlayerPlots(team.getLeader());
         plots.forEach(plot -> {
-            plot.removeMember(UUIDHandler.getPlayer(player.getName()).getUUID());
+            //plot.removeMember(UUIDHandler.getPlayer(player.getName()).getUUID());
             plot.removeTrusted(UUIDHandler.getPlayer(player.getName()).getUUID());
         });
     }
