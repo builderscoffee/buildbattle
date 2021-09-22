@@ -35,7 +35,7 @@ public class ExpressoManager {
     private void getAllExpresso() {
         val reflections = new Reflections(Expresso.class.getPackage().getName());
         val classes = reflections.getSubTypesOf(Expresso.class);
-        for (val expressoClass : classes) {
+        classes.forEach(expressoClass -> {
             try {
                 expressoClass.getDeclaredConstructor().setAccessible(true);
                 val expresso = expressoClass.newInstance();
@@ -43,6 +43,6 @@ public class ExpressoManager {
             } catch (IllegalAccessException | InstantiationException | NoSuchMethodException e) {
                 e.printStackTrace();
             }
-        }
+        });
     }
 }

@@ -1,12 +1,10 @@
 package eu.builderscoffee.expresso.buildbattle.expressos.types;
 
 import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
-import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.expressos.Expresso;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.types.EndPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.types.GamePhase;
-import eu.builderscoffee.expresso.buildbattle.phase.types.HazarPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.types.LaunchingPhase;
 import lombok.val;
 import org.bukkit.Material;
@@ -17,7 +15,7 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 
-import static eu.builderscoffee.expresso.utils.TimeUtils.*;
+import static eu.builderscoffee.expresso.utils.TimeUtils.HOUR;
 
 public class AllongeExpresso extends Expresso {
     @Override
@@ -51,7 +49,7 @@ public class AllongeExpresso extends Expresso {
     public Deque<BBPhase> getPhases() {
         val phases = new LinkedList();
         phases.add(new LaunchingPhase(30));
-        phases.add(new GamePhase(8*HOUR));
+        phases.add(new GamePhase(8 * HOUR));
         phases.add(new EndPhase());
         return phases;
     }

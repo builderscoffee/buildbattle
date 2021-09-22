@@ -12,6 +12,6 @@ public class PlotListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerClaim(PlayerClaimPlotEvent event) {
         Team team = Main.getBbGame().getTeamManager().getPlayerTeam(event.getPlayer());
-        Main.getBbGame().getTeamManager().addAllMembersToPlot(team,event.getPlot());
+        Main.getBbGame().getTeamManager().addAllMembersToPlot(team, event.getPlot());
     }
 }

@@ -7,7 +7,6 @@ import java.util.UUID;
 
 @Data
 @AllArgsConstructor
-
 public class Notation {
     private UUID UUID;
     private int baute, crea, amenagement, folklore, fun;

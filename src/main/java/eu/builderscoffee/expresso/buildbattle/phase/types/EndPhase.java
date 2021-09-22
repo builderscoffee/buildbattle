@@ -9,7 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class EndPhase implements BBPhase {
 
     public EndPhase() {
-       // Mettre fin à la game
+        // Mettre fin à la game
     }
 
     @Override

@@ -27,9 +27,9 @@ public class LogConverter {
      */
     public static LogFacing getLogFacing(int shortId) {
         for (LogType logType : LogType.values()) {
-            if(logType.getShortIdFacingNorthSouth() == shortId) {
+            if (logType.getShortIdFacingNorthSouth() == shortId) {
                 return LogFacing.NORTH_SOUTH;
-            } else if(logType.getShortIdFacingWestEast() == shortId) {
+            } else if (logType.getShortIdFacingWestEast() == shortId) {
                 return LogFacing.EAST_WEST;
             }
         }
@@ -63,7 +63,8 @@ public class LogConverter {
 
         @Getter
         public int Id;
-        @Getter @Setter
+        @Getter
+        @Setter
         public int DataId;
         @Getter
         public int shortIdFacingWestEast;
