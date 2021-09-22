@@ -1,6 +1,5 @@
 package eu.builderscoffee.expresso.buildbattle.teams.events;
 
-
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.events.TeamCreateEvent;
 import eu.builderscoffee.expresso.buildbattle.events.TeamDisbandEvent;
@@ -13,7 +12,6 @@ import org.bukkit.event.Listener;
 
 import java.util.List;
 
-
 public class TeamListeners implements Listener {
 
     MessageConfiguration messages = Main.getMessages();
@@ -21,11 +19,13 @@ public class TeamListeners implements Listener {
 
     @EventHandler
     public void onTeamCreateEvent(TeamCreateEvent event) {
+        // Nothing
     }
 
 
     @EventHandler
     public void onTeamDisbandEvent(TeamDisbandEvent event) {
+        // Nothing
     }
 
 
@@ -33,7 +33,7 @@ public class TeamListeners implements Listener {
     public void onTeamJoinEvent(TeamJoinEvent event) {
         List<Player> members = event.getMemberList();
         // Envoyer un message quand le joueur rejoins
-        members.forEach(member -> member.sendMessage(messages.getTeam_player_join().replace("%target%",event.getPlayer().getName())));
+        members.forEach(member -> member.sendMessage(messages.getTeam_player_join().replace("%target%", event.getPlayer().getName())));
         // Ajouter le joueur aux plot du leader du groupe
         Main.getBbGame().getTeamManager().addMemberToAllPlot(event.getPlayer());
     }

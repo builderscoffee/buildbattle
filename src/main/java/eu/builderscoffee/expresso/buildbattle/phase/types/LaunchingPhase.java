@@ -71,7 +71,6 @@ public class LaunchingPhase implements BBPhase {
                 if (getStartTime() < 1) {
                     Bukkit.getServer().broadcastMessage(Main.getMessages().getGlobal_prefix() + "§eLa compétition commence ! Bonne chance !");
                     Bukkit.getOnlinePlayers().forEach(p -> p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 20.0f, 20.0f));
-                    //this.getGame().startExpresso();
                     Main.getBbGame().getBbGameManager().nextPhase();
                     return;
                 }

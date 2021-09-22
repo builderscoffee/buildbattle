@@ -45,7 +45,7 @@ public class PlotCommand implements CommandExecutor {
             case "info":
                 // Informations sur le plot
                 if (new PlotAPI().isInPlot(player)) {
-                    if(new PlotAPI().getPlot(player.getLocation()).canClaim(UUIDHandler.getPlayer(player.getUniqueId()))) {
+                    if (new PlotAPI().getPlot(player.getLocation()).canClaim(UUIDHandler.getPlayer(player.getUniqueId()))) {
                         val plot = MainUtil.getPlotFromString(PlotPlayer.get(player.getName()), null, false);
                         String name = MainUtil.getName(plot.owner);
                         List<String> membersList = new ArrayList<>();

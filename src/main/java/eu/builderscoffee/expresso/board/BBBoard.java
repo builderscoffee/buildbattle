@@ -50,9 +50,8 @@ public class BBBoard {
                     "§0§8§m----------§8§m------"
             );
         } else if (Main.getBbGame().getBbState().equals(BBGameManager.BBState.IN_GAME)) {
-            val _board = new ArrayList<String>();
             val part1 = Arrays.asList("§0§8§m----------§8§m------", "§aSaison :  " + Main.getSettings().getBoard_season_name(), "§aExpresso : §f" + Main.getBbGame().getExpressoType().getName());
-            _board.addAll(part1);
+            val _board = new ArrayList<>(part1);
             //_board.addAll(getTheme());
             val part2 = Arrays.asList("§aTimer : §f" + TimeUtils.getDurationString(Main.getBbGame().getExpressoType().getCurrentPhase().time()), "", Main.getSettings().getBoard_server_ip(), "§0§8§m----------§8§m------");
             _board.addAll(part2);

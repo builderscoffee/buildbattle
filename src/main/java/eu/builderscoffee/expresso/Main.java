@@ -1,14 +1,12 @@
 package eu.builderscoffee.expresso;
 
 
-import eu.builderscoffee.api.bukkit.board.FastBoard;
 import eu.builderscoffee.api.bukkit.gui.InventoryManager;
 import eu.builderscoffee.api.bukkit.utils.Plugins;
 import eu.builderscoffee.expresso.board.BBBoard;
 import eu.builderscoffee.expresso.buildbattle.BBGame;
 import eu.builderscoffee.expresso.buildbattle.expressos.types.IlClassicoExpresso;
 import eu.builderscoffee.expresso.buildbattle.plot.PlotListener;
-import eu.builderscoffee.expresso.buildbattle.teams.Team;
 import eu.builderscoffee.expresso.buildbattle.teams.events.TeamListeners;
 import eu.builderscoffee.expresso.commands.GameCommand;
 import eu.builderscoffee.expresso.commands.JuryCommand;
@@ -24,7 +22,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import static eu.builderscoffee.api.bukkit.configuration.Configurations.readOrCreateConfiguration;
-import static eu.builderscoffee.expresso.board.BBBoard.updateBoard;
 
 public class Main extends JavaPlugin {
 
@@ -65,9 +62,7 @@ public class Main extends JavaPlugin {
 
         // Update scoreboard
         this.getServer().getScheduler().runTaskTimer(this, () -> {
-            for (FastBoard board : BBBoard.boards.values()) {
-                updateBoard(board);
-            }
+            BBBoard.boards.values().forEach(BBBoard::updateBoard);
         }, 0, 20);
 
         // Set game type
@@ -87,6 +82,5 @@ public class Main extends JavaPlugin {
     public void onDisable() {
 
     }
-
 
 }

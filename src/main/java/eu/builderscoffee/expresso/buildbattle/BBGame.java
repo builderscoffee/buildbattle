@@ -27,6 +27,9 @@ public class BBGame {
     public BBGameManager.BBState bbState = BBGameManager.BBState.WAITING;
     @Getter
     @Setter
+    public TeamManager teamManager;
+    @Getter
+    @Setter
     private Main main;
     /***
      * Le type d'expresso en cours !
@@ -47,9 +50,6 @@ public class BBGame {
     private ExpressoManager expressoManager;
     @Getter
     @Setter
-    public TeamManager teamManager;
-    @Getter
-    @Setter
     private boolean isReady = false;
 
 
@@ -63,7 +63,6 @@ public class BBGame {
         setBbGameManager(new BBGameManager(this));
         defineExpresso(type);
         setExpressoManager(new ExpressoManager(this));
-        //setTeamManager(new TeamManager());
         teamManager = new TeamManager();
         notationManager = new NotationManager();
     }

@@ -1,8 +1,6 @@
 package eu.builderscoffee.expresso.buildbattle.notation;
 
 import com.intellectualcrafters.plot.object.Plot;
-import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -32,15 +30,13 @@ public class NotationManager {
 
     public boolean playerHasNote(Plot plot, Player pl) {
         Set<Notation> a = getNotationsByPlot(plot);
-        if (a == null || a.isEmpty()) {
-            return false;
-        } else {
+        if (a != null && !a.isEmpty()) {
             for (Notation note : a) {
                 if (note.getUUID() == pl.getUniqueId()) {
                     return true;
                 }
             }
-            return false;
         }
+        return false;
     }
 }

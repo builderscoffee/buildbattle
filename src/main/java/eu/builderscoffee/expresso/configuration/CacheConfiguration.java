@@ -11,5 +11,5 @@ import java.util.List;
 public class CacheConfiguration {
 
     @Getter(lazy = true)
-    private final List<Tuple<Object,Object>> pairList = new ArrayList<>();
+    private final List<Tuple<Object, Object>> pairList = new ArrayList<>();
 }

@@ -8,7 +8,6 @@ import eu.builderscoffee.expresso.inventory.HazardExpressoInventory;
 import eu.builderscoffee.expresso.utils.Log;
 import eu.builderscoffee.expresso.utils.Tuple;
 import eu.builderscoffee.expresso.utils.blocks.BlockData;
-import javafx.util.Pair;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.event.Listener;
@@ -106,7 +105,7 @@ public class HazarEngine implements IGameEngine {
      */
     public void PrintBlockData() {
         List<Tuple<Object, Object>> tupleList = new ArrayList<>();
-        convertBlockdata.forEach((o, o2) -> tupleList.add(new Tuple(o,o2)));
+        convertBlockdata.forEach((o, o2) -> tupleList.add(new Tuple(o, o2)));
         Main.getCache().getPairList().addAll(tupleList);
         Configurations.writeConfiguration(Main.getInstance(), Main.getCache());
     }
