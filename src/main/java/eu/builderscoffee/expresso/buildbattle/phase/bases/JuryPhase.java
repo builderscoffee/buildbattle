@@ -1,8 +1,8 @@
-package eu.builderscoffee.expresso.buildbattle.phase.types;
+package eu.builderscoffee.expresso.buildbattle.phase.bases;
 
 
 import eu.builderscoffee.expresso.Main;
-import eu.builderscoffee.expresso.buildbattle.BBGameManager;
+import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
 import eu.builderscoffee.expresso.buildbattle.expressos.engine.IGameEngine;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import org.bukkit.Bukkit;
@@ -26,8 +26,8 @@ public class JuryPhase implements BBPhase {
     }
 
     @Override
-    public BBGameManager.BBState state() {
-        return BBGameManager.BBState.ENDING;
+    public BuildBattleManager.BBState state() {
+        return BuildBattleManager.BBState.ENDING;
     }
 
     @Override

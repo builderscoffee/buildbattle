@@ -1,6 +1,6 @@
 package eu.builderscoffee.expresso.buildbattle.expressos;
 
-import eu.builderscoffee.expresso.buildbattle.BBGame;
+import eu.builderscoffee.expresso.buildbattle.BuildBattle;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.val;
@@ -14,12 +14,12 @@ public class ExpressoManager {
     @Getter
     public List<Expresso> expressos;
     @Getter
-    private BBGame bbGame;
+    private BuildBattle bbGame;
     @Getter
     @Setter
     private Expresso currentExpresso;
 
-    public ExpressoManager(BBGame bbGame) {
+    public ExpressoManager(BuildBattle bbGame) {
         this.bbGame = bbGame;
         this.expressos = new ArrayList<>();
         setCurrentExpresso(bbGame.getExpressoType());

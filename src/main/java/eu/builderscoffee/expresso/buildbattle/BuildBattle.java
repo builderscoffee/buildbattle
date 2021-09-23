@@ -17,14 +17,14 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
-public class BBGame {
+public class BuildBattle {
 
     @Getter
     private final List<Player> competitor = new ArrayList<>(); // La liste des compétitors
     private final List<Player> jury = new ArrayList<>();
     @Getter
     @Setter
-    public BBGameManager.BBState bbState = BBGameManager.BBState.WAITING;
+    public BuildBattleManager.BBState bbState = BuildBattleManager.BBState.WAITING;
     @Getter
     @Setter
     public TeamManager teamManager;
@@ -41,10 +41,13 @@ public class BBGame {
     private Expresso expressoType;
     @Getter
     @Setter
+    private BuildBattleInstanceType bbGameTypes;
+    @Getter
+    @Setter
     private Deque<BBPhase> expressoPhases;
     @Getter
     @Setter
-    private BBGameManager bbGameManager;
+    private BuildBattleManager bbGameManager;
     @Getter
     @Setter
     private ExpressoManager expressoManager;
@@ -58,11 +61,17 @@ public class BBGame {
      * @param type
      */
 
-    public BBGame(Main main, Expresso type) {
+    public BuildBattle(Main main, Expresso type) {
         setMain(main);
-        setBbGameManager(new BBGameManager(this));
-        defineExpresso(type);
-        setExpressoManager(new ExpressoManager(this));
+        setBbGameManager(new BuildBattleManager(this));
+        if(bbGameTypes.equals(BuildBattleInstanceType.EXPRESSO)) {
+            defineExpresso(type);
+            setExpressoManager(new ExpressoManager(this));
+        } else if (bbGameTypes.equals(BuildBattleInstanceType.CLASSIC)) {
+
+        } else if (bbGameTypes.equals(BuildBattleInstanceType.TOURNAMENT)) {
+
+        }
         teamManager = new TeamManager();
         notationManager = new NotationManager();
     }

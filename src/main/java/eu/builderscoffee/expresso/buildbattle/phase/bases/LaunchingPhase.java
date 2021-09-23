@@ -1,9 +1,9 @@
-package eu.builderscoffee.expresso.buildbattle.phase.types;
+package eu.builderscoffee.expresso.buildbattle.phase.bases;
 
 
 import eu.builderscoffee.api.bukkit.utils.Title;
 import eu.builderscoffee.expresso.Main;
-import eu.builderscoffee.expresso.buildbattle.BBGameManager;
+import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
 import eu.builderscoffee.expresso.buildbattle.expressos.engine.IGameEngine;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.utils.TimeUtils;
@@ -40,8 +40,8 @@ public class LaunchingPhase implements BBPhase {
     }
 
     @Override
-    public BBGameManager.BBState state() {
-        return BBGameManager.BBState.LAUNCHING;
+    public BuildBattleManager.BBState state() {
+        return BuildBattleManager.BBState.LAUNCHING;
     }
 
     @Override

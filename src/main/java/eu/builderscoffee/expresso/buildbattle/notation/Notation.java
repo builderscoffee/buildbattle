@@ -9,7 +9,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Notation {
     private UUID UUID;
-    private int baute, crea, amenagement, folklore, fun;
+    private int beauty, crea, amenagement, folklore, fun;
 
 
     public boolean addCrea(int crea) {
@@ -21,11 +21,11 @@ public class Notation {
         }
     }
 
-    public boolean addBaute(int baute) {
-        if ((this.baute = this.baute + baute) > 30) {
+    public boolean addBeauty(int beauty) {
+        if ((this.beauty = this.beauty + beauty) > 30) {
             return false;
         } else {
-            this.baute = this.baute + baute;
+            this.beauty = this.beauty + beauty;
             return true;
         }
     }

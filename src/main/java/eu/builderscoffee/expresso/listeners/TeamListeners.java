@@ -1,4 +1,4 @@
-package eu.builderscoffee.expresso.buildbattle.teams.events;
+package eu.builderscoffee.expresso.listeners;
 
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.events.TeamCreateEvent;

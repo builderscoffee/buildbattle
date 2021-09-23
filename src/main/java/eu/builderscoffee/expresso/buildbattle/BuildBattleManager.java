@@ -15,13 +15,13 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class BBGameManager {
+public class BuildBattleManager {
 
     // Instances
     @Getter
     private final Main main;
     @Getter
-    private final BBGame game;
+    private final BuildBattle game;
     // Managers
     @Getter
     @Setter
@@ -42,7 +42,7 @@ public class BBGameManager {
     @Setter
     private BBPhase bbPhase;
 
-    public BBGameManager(final BBGame game) {
+    public BuildBattleManager(final BuildBattle game) {
         // Instances
         this.main = Main.getInstance();
         this.game = game;

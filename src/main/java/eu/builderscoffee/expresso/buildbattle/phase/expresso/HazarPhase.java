@@ -1,8 +1,9 @@
-package eu.builderscoffee.expresso.buildbattle.phase.types;
+package eu.builderscoffee.expresso.buildbattle.phase.expresso;
 
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.expressos.engine.IGameEngine;
 import eu.builderscoffee.expresso.buildbattle.expressos.engine.types.HazarEngine;
+import eu.builderscoffee.expresso.buildbattle.phase.bases.GamePhase;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class HazarPhase extends GamePhase {
