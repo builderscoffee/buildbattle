@@ -1,8 +1,7 @@
 package eu.builderscoffee.expresso.commands;
 
 import eu.builderscoffee.expresso.Main;
-import eu.builderscoffee.expresso.buildbattle.BBGame;
-import eu.builderscoffee.expresso.buildbattle.teams.TeamManager;
+import eu.builderscoffee.expresso.buildbattle.BuildBattle;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
 import lombok.Getter;
@@ -17,20 +16,20 @@ import java.util.List;
 
 public class TeamCommand implements CommandExecutor {
 
+    // Instances of
+    @Getter
+    private final BuildBattle bbGame = Main.getBbGame();
     //Configurations
     MessageConfiguration messages = Main.getMessages();
     SettingsConfiguration settings = Main.getSettings();
-    // Instances of
-    @Getter
-    private final BBGame bbGame = Main.getBbGame();
 
     public static boolean argLength0(Player player) {
         List<String> commandList = new ArrayList<>();
         commandList.add("§a/group §b: Aide du système de group");
         commandList.add("§a/group add <joueur> §b: Ajouter un joueur dans votre group");
         commandList.add("§a/group remove <joueur> §b: Retirer un joueur de votre group");
-        commandList.add("§a/group leave §b: Quitter le groupe d'un joueur");
-        commandList.add("§a/group disband §b: Supprimer votre groupe");
+        commandList.add("§a/group leave §b: Quitter le groupe votre groupe ( membre uniquement");
+        commandList.add("§a/group disband §b: Supprimer votre groupe ( leader uniquement");
         commandList.add("§a/group invite <player> accept/deny §b: Accepter ou refuser l'invite d'un joueur");
         commandList.add("§a/group info <player> §b: Voir les informations d'un groupe");
         for (String s : commandList) {
@@ -70,8 +69,8 @@ public class TeamCommand implements CommandExecutor {
         switch (args1) {
             case "add":
                 // Ajouter un joueur aux groupe
-                    Main.getBbGame().getTeamManager().SendInvitation(player, targetLenght2.getPlayer());
-                    break;
+                Main.getBbGame().getTeamManager().SendInvitation(player, targetLenght2.getPlayer());
+                break;
             case "remove":
                 // Retirer un joueur aux groupe
                 Main.getBbGame().getTeamManager().removePlayerFromTeam(targetLenght2.getPlayer());
@@ -94,11 +93,11 @@ public class TeamCommand implements CommandExecutor {
                 switch (args3) {
                     case "accept":
                         // Accepter l'invite du joueur
-                        Main.getBbGame().getTeamManager().AcceptInvitation(player,Bukkit.getPlayerExact(args2));
+                        Main.getBbGame().getTeamManager().AcceptInvitation(player, Bukkit.getPlayerExact(args2));
                         break;
                     case "deny":
                         // Refuser l'invite du joueur
-                        Main.getBbGame().getTeamManager().DenyInvitation(player,Bukkit.getPlayerExact(args2));
+                        Main.getBbGame().getTeamManager().DenyInvitation(player, Bukkit.getPlayerExact(args2));
                         break;
                 }
                 break;
@@ -114,22 +113,22 @@ public class TeamCommand implements CommandExecutor {
             Player player = (Player) sender;
             boolean ret = false;
             //if (player.hasPermission(settings.getExpresso_all_permission())) {
-                switch (args.length) {
-                    case 0:
-                        ret = argLength0(player);
-                        break;
-                    case 1:
-                        ret = argLength1(player, args[0]);
-                        break;
-                    case 2:
-                        ret = argLength2(player, args[0], args[1]);
-                        break;
-                    case 3:
-                        ret = argLength3(player, args[0], args[1], args[2]);
-                        break;
-                    default:
-                        //ret = argLength4(player, args);
-                        break;
+            switch (args.length) {
+                case 0:
+                    ret = argLength0(player);
+                    break;
+                case 1:
+                    ret = argLength1(player, args[0]);
+                    break;
+                case 2:
+                    ret = argLength2(player, args[0], args[1]);
+                    break;
+                case 3:
+                    ret = argLength3(player, args[0], args[1], args[2]);
+                    break;
+                default:
+                    //ret = argLength4(player, args);
+                    break;
                 //}
             }
 

@@ -39,7 +39,7 @@ public class JuryNotationInventory implements InventoryProvider {
 
         contents.set(3, 4, ClickableItem.of(new ItemBuilder(Material.RAW_FISH).setName("§bValider mon verdict").build(),
                 e -> {
-                    Notation note = new Notation(player.getUniqueId(), beaute, crea, ame, folkore, fun);
+                    Notation note = new Notation(player.getUniqueId());
                     Main.getBbGame().getNotationManager().addNotationInPlot(plot, note);
                     INVENTORY.close(player);
                 }));

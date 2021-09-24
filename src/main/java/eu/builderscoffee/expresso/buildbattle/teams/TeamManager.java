@@ -2,19 +2,15 @@ package eu.builderscoffee.expresso.buildbattle.teams;
 
 import com.intellectualcrafters.plot.api.PlotAPI;
 import com.intellectualcrafters.plot.object.Plot;
-import com.intellectualcrafters.plot.object.PlotPlayer;
 import com.intellectualcrafters.plot.util.UUIDHandler;
 import com.plotsquared.bukkit.chat.FancyMessage;
 import eu.builderscoffee.expresso.Main;
-import eu.builderscoffee.expresso.buildbattle.BBGame;
-import eu.builderscoffee.expresso.buildbattle.events.TeamCreateEvent;
-import eu.builderscoffee.expresso.buildbattle.events.TeamDisbandEvent;
-import eu.builderscoffee.expresso.buildbattle.events.TeamJoinEvent;
-import eu.builderscoffee.expresso.buildbattle.events.TeamLeaveEvent;
+import eu.builderscoffee.expresso.buildbattle.events.team.TeamCreateEvent;
+import eu.builderscoffee.expresso.buildbattle.events.team.TeamDisbandEvent;
+import eu.builderscoffee.expresso.buildbattle.events.team.TeamJoinEvent;
+import eu.builderscoffee.expresso.buildbattle.events.team.TeamLeaveEvent;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
-import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -112,10 +108,10 @@ public class TeamManager {
                 }
             }
             player.sendMessage(messages.getTeam_info_members() + joiner.toString());
-        } else if(!Objects.deepEquals(player,target)) {
+        } else if (!Objects.deepEquals(player, target)) {
             player.sendMessage(messages.getTeam_no_team());
         } else {
-            player.sendMessage(messages.getTeam_info_no_team().replace("%target%",target.getName()));
+            player.sendMessage(messages.getTeam_info_no_team().replace("%target%", target.getName()));
         }
     }
 
@@ -160,14 +156,15 @@ public class TeamManager {
      */
     public void registerTeam(Player player) {
         if (!AsNoTeam(player)) {
-            Team _team = new Team(player.getName(), player.getName(), settings.getTeam_maxplayer(), player , new ArrayList<>());
+            Team _team = new Team(player.getName(), player.getName(), settings.getTeam_maxplayer(), player, new ArrayList<>());
             _team.members.add(player); // Ajouter le leader à la liste des membres
             teams.add(_team);
             player.sendMessage(messages.getTeam_create_team());
             TeamCreateEvent createEvent = new TeamCreateEvent(player); // Fire TeamCreate Event
             Bukkit.getPluginManager().callEvent(createEvent); // Call event
         } else {
-            player.sendMessage(messages.getTeam_already_created()); }
+            player.sendMessage(messages.getTeam_already_created());
+        }
     }
 
     /***
@@ -175,9 +172,9 @@ public class TeamManager {
      * @param player - Leader du groupe
      */
     public void unregisterTeam(Player player) {
-        if(getPlayerTeam(player) != null && IsTeamLeader(player)) {
+        if (getPlayerTeam(player) != null && IsTeamLeader(player)) {
             Team team = getPlayerTeam(player);
-            TeamDisbandEvent disbandEvent = new TeamDisbandEvent(player,team.getMembers()); // Fire TeamDisband Event
+            TeamDisbandEvent disbandEvent = new TeamDisbandEvent(player, team.getMembers()); // Fire TeamDisband Event
             Bukkit.getPluginManager().callEvent(disbandEvent); // Call event
             teams.remove(team);
             player.sendMessage(messages.getTeam_disband());
@@ -193,13 +190,15 @@ public class TeamManager {
      */
     public void SendInvitation(Player player, Player target) {
         // Check si le sender et la target ne sont pas les mêmes joueurs
-        if(!Objects.deepEquals(player,target)) {
+        if (!Objects.deepEquals(player, target)) {
             Invitation invitation = new Invitation(player, target);
             // Check si l'invitation à déja été créer
             invitations.add(invitation);
             player.sendMessage(messages.getInvitation_send().replace("%target%", target.getName()));
             new FancyMessage(messages.getInvitation_receive_target().replace("%sender%", player.getName())).then(messages.getInvitation_receive_acceptance()).command("/group invite " + player.getName() + " accept").then(" ou ").then(messages.getInvitation_receive_denyance()).command("/group invite " + player.getName() + " deny").send(target);
-        } else {player.sendMessage(messages.getInvitation_not_invite_yourself()); }
+        } else {
+            player.sendMessage(messages.getInvitation_not_invite_yourself());
+        }
     }
 
     /***
@@ -210,7 +209,7 @@ public class TeamManager {
     public void AcceptInvitation(Player receiver, Player sender) {
         Invitation invitation = getInvitation(sender, receiver);
         if (invitation.getTarget() != null) {
-            if(!AsNoTeam(sender)) {
+            if (!AsNoTeam(sender)) {
                 registerTeam(sender);
             }
             addPlayerToTeam(sender, receiver);
@@ -255,18 +254,44 @@ public class TeamManager {
         invitations.clear();
     }
 
-    // Plot part Integrations
+
+    // Plot part
 
     /***
      * Ajouté tout les membres du group aux plot du leader
      * @param team - L'object Team
      */
-    public void addAllMembersToPlot(Team team,Plot plot) {
+    public void addAllMembersToPlot(Team team, Plot plot) {
         team.getMembers().forEach(member -> {
-            if(member != team.getLeader()) {
-                plot.addMember(UUIDHandler.getPlayer(member.getName()).getUUID());
+            if (member != team.getLeader()) {
                 plot.addTrusted(UUIDHandler.getPlayer(member.getName()).getUUID());
             }
         });
     }
+
+    /***
+     * Ajouter un joueur aux plots de la team
+     * @param player - Joueur à ajouter
+     */
+    public void addMemberToAllPlot(Player player) {
+        Team team = Main.getBbGame().getTeamManager().getPlayerTeam(player);
+        Set<Plot> plots = new PlotAPI().getPlayerPlots(team.getLeader());
+        plots.forEach(plot -> {
+            plot.addTrusted(UUIDHandler.getPlayer(player.getName()).getUUID());
+        });
+    }
+
+    /***
+     * Retiré un joueur de tout les plots de la team
+     * @param player - Joueur à retirer
+     * @param team - Team du leader
+     */
+    public void removeMemberFromAllPlot(Player player) {
+        Team team = Main.getBbGame().getTeamManager().getPlayerTeam(player);
+        Set<Plot> plots = new PlotAPI().getPlayerPlots(team.getLeader());
+        plots.forEach(plot -> {
+            plot.removeTrusted(UUIDHandler.getPlayer(player.getName()).getUUID());
+        });
+    }
+
 }

@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Team {
 
-    public String name,displayName;
+    public String name, displayName;
     public int maxPlayers;
     public Player leader;
     public List<Player> members;

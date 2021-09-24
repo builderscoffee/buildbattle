@@ -1,6 +1,6 @@
 package eu.builderscoffee.expresso.buildbattle.expressos;
 
-import eu.builderscoffee.expresso.buildbattle.BBGame;
+import eu.builderscoffee.expresso.buildbattle.BuildBattle;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.val;
@@ -14,12 +14,12 @@ public class ExpressoManager {
     @Getter
     public List<Expresso> expressos;
     @Getter
-    private BBGame bbGame;
+    private BuildBattle bbGame;
     @Getter
     @Setter
     private Expresso currentExpresso;
 
-    public ExpressoManager(BBGame bbGame) {
+    public ExpressoManager(BuildBattle bbGame) {
         this.bbGame = bbGame;
         this.expressos = new ArrayList<>();
         setCurrentExpresso(bbGame.getExpressoType());
@@ -35,7 +35,7 @@ public class ExpressoManager {
     private void getAllExpresso() {
         val reflections = new Reflections(Expresso.class.getPackage().getName());
         val classes = reflections.getSubTypesOf(Expresso.class);
-        for (val expressoClass : classes) {
+        classes.forEach(expressoClass -> {
             try {
                 expressoClass.getDeclaredConstructor().setAccessible(true);
                 val expresso = expressoClass.newInstance();
@@ -43,6 +43,6 @@ public class ExpressoManager {
             } catch (IllegalAccessException | InstantiationException | NoSuchMethodException e) {
                 e.printStackTrace();
             }
-        }
+        });
     }
 }

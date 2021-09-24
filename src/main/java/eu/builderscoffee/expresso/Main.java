@@ -1,19 +1,18 @@
 package eu.builderscoffee.expresso;
 
 
-import eu.builderscoffee.api.bukkit.board.FastBoard;
 import eu.builderscoffee.api.bukkit.gui.InventoryManager;
 import eu.builderscoffee.api.bukkit.utils.Plugins;
 import eu.builderscoffee.expresso.board.BBBoard;
-import eu.builderscoffee.expresso.buildbattle.BBGame;
+import eu.builderscoffee.expresso.buildbattle.BuildBattle;
 import eu.builderscoffee.expresso.buildbattle.expressos.types.IlClassicoExpresso;
-import eu.builderscoffee.expresso.buildbattle.plot.PlotListener;
-import eu.builderscoffee.expresso.buildbattle.teams.Team;
-import eu.builderscoffee.expresso.buildbattle.teams.events.TeamListeners;
+import eu.builderscoffee.expresso.listeners.PlotListener;
+import eu.builderscoffee.expresso.listeners.TeamListeners;
 import eu.builderscoffee.expresso.commands.GameCommand;
 import eu.builderscoffee.expresso.commands.JuryCommand;
 import eu.builderscoffee.expresso.commands.PlotCommand;
 import eu.builderscoffee.expresso.commands.TeamCommand;
+import eu.builderscoffee.expresso.configuration.CacheConfiguration;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
 import eu.builderscoffee.expresso.listeners.CompetitorListener;
@@ -23,7 +22,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import static eu.builderscoffee.api.bukkit.configuration.Configurations.readOrCreateConfiguration;
-import static eu.builderscoffee.expresso.board.BBBoard.updateBoard;
 
 public class Main extends JavaPlugin {
 
@@ -32,11 +30,13 @@ public class Main extends JavaPlugin {
     @Getter
     public static SettingsConfiguration settings;
     @Getter
+    public static CacheConfiguration cache;
+    @Getter
     public static InventoryManager inventoryManager;
     @Getter
     private static Main instance;
     @Getter
-    private static BBGame bbGame;
+    private static BuildBattle bbGame;
 
     @Override
     public void onEnable() {
@@ -45,6 +45,7 @@ public class Main extends JavaPlugin {
         // Read or create configurations
         messages = readOrCreateConfiguration(this, MessageConfiguration.class);
         settings = readOrCreateConfiguration(this, SettingsConfiguration.class);
+        cache = readOrCreateConfiguration(this, CacheConfiguration.class);
 
         // Register Listeners
         Plugins.registerListeners(this, new PlayerListener(), new CompetitorListener(), new TeamListeners(), new PlotListener());
@@ -61,13 +62,11 @@ public class Main extends JavaPlugin {
 
         // Update scoreboard
         this.getServer().getScheduler().runTaskTimer(this, () -> {
-            for (FastBoard board : BBBoard.boards.values()) {
-                updateBoard(board);
-            }
+            BBBoard.boards.values().forEach(BBBoard::updateBoard);
         }, 0, 20);
 
         // Set game type
-        bbGame = new BBGame(this, new IlClassicoExpresso());
+        bbGame = new BuildBattle(this, new IlClassicoExpresso());
 
         // Check Start
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
@@ -83,6 +82,5 @@ public class Main extends JavaPlugin {
     public void onDisable() {
 
     }
-
 
 }

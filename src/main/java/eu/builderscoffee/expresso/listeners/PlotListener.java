@@ -1,4 +1,4 @@
-package eu.builderscoffee.expresso.buildbattle.plot;
+package eu.builderscoffee.expresso.listeners;
 
 import com.plotsquared.bukkit.events.PlayerClaimPlotEvent;
 import eu.builderscoffee.expresso.Main;
@@ -12,6 +12,6 @@ public class PlotListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerClaim(PlayerClaimPlotEvent event) {
         Team team = Main.getBbGame().getTeamManager().getPlayerTeam(event.getPlayer());
-        Main.getBbGame().getTeamManager().addAllMembersToPlot(team,event.getPlot());
+        Main.getBbGame().getTeamManager().addAllMembersToPlot(team, event.getPlot());
     }
 }

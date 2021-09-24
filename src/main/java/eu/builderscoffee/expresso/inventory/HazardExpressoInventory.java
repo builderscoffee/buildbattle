@@ -5,7 +5,7 @@ import eu.builderscoffee.api.bukkit.gui.SmartInventory;
 import eu.builderscoffee.api.bukkit.gui.content.*;
 import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
 import eu.builderscoffee.expresso.Main;
-import eu.builderscoffee.expresso.buildbattle.expressos.engine.types.HazarEngine;
+import eu.builderscoffee.expresso.buildbattle.expressos.engine.HazarEngine;
 import eu.builderscoffee.expresso.utils.blocks.BlockData;
 import lombok.Getter;
 import lombok.Setter;
