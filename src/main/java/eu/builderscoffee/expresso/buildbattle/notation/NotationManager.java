@@ -1,6 +1,7 @@
 package eu.builderscoffee.expresso.buildbattle.notation;
 
 import com.intellectualcrafters.plot.object.Plot;
+import lombok.val;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -19,22 +20,14 @@ public class NotationManager {
      * @param notationType
      */
     public void AddValueToNotation(Notation notation, Notation.NotationType notationType, int value) {
-        int cachedValue = notation.getCachedValue(notationType);
-        if(!(cachedValue + value > notationType.getMaxValue())) {
-            switch (notationType) {
-                case Beauty:
-                    notation.setBeauty(cachedValue+value);
-                case Creative:
-                    notation.setCrea(cachedValue+value);
-                    case Folklore:
-                        notation.setFolklore(cachedValue+value);
-                case Amenagement:
-                    notation.setAmenagement(cachedValue+value);
-                case Fun:
-                    notation.setFun(cachedValue+value);
-            }
+        val cachedValue = notation.getNotes().get(notationType);
+        int finalValue = cachedValue + value;
+        if(finalValue > notationType.getMaxValue())
+            finalValue = notationType.getMaxValue();
+        else if(finalValue < 0)
+            finalValue = 0;
+        notation.getNotes().put(notationType, finalValue);
         }
-    }
 
     /***
      * Ajouter une notation à un plot

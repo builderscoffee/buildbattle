@@ -4,34 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Data
-@AllArgsConstructor
 public class Notation {
     private UUID UUID;
-    private int beauty, crea, amenagement, folklore, fun;
+    private Map<NotationType,Integer> notes = new HashMap<>();
 
-    /***
-     * Retourne la valeur en cache par rapport au type de notations
-     * @param notationType
-     * @return
-     */
-    public int getCachedValue(NotationType notationType) {
-        switch (notationType) {
-            case Beauty:
-               return beauty;
-            case Creative:
-                return crea;
-            case Amenagement:
-                return amenagement;
-            case Folklore:
-                return folklore;
-            case Fun:
-                return fun;
-            default:
-                throw new IllegalStateException("Unexpected value: " + notationType);
-        }
+    public Notation(UUID uuid) {
+        this.UUID = uuid;
+        Arrays.stream(NotationType.values()).forEach(notationType -> notes.put(notationType,0));
     }
 
     public enum NotationType {
@@ -43,7 +28,7 @@ public class Notation {
         Fun(4);
 
         @Getter
-        private int maxValue; // Valeur maximun d'une note
+        private final int maxValue; // Valeur maximun d'une note
 
         NotationType(int maxValue) {
             this.maxValue = maxValue;

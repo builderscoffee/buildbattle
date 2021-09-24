@@ -95,7 +95,7 @@ public class PlotCommand implements CommandExecutor {
                 }
                 player.sendMessage("Ce plot a " + a.size() + "notation(s)");
                 for (Notation note : a) {
-                    player.sendMessage("Juge: " + Bukkit.getOfflinePlayer(note.getUUID()).getName() + " Fun: " + note.getFun());
+                   // player.sendMessage("Juge: " + Bukkit.getOfflinePlayer(note.getUUID()).getName() + " Fun: " + note.getFun());
                 }
                 break;
 
