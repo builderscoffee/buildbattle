@@ -14,6 +14,33 @@ public class NotationManager {
         this.allNotation = new HashMap<>();
     }
 
+    /***
+     * Ajouter une valeur à une notation en cache
+     * @param notationType
+     */
+    public void AddValueToNotation(Notation notation, Notation.NotationType notationType, int value) {
+        int cachedValue = notation.getCachedValue(notationType);
+        if(!(cachedValue + value > notationType.getMaxValue())) {
+            switch (notationType) {
+                case Beauty:
+                    notation.setBeauty(cachedValue+value);
+                case Creative:
+                    notation.setCrea(cachedValue+value);
+                    case Folklore:
+                        notation.setFolklore(cachedValue+value);
+                case Amenagement:
+                    notation.setAmenagement(cachedValue+value);
+                case Fun:
+                    notation.setFun(cachedValue+value);
+            }
+        }
+    }
+
+    /***
+     * Ajouter une notation à un plot
+     * @param plot - Le plot
+     * @param note - La note
+     */
     public void addNotationInPlot(Plot plot, Notation note) {
         if (getNotationsByPlot(plot) != null) {
             allNotation.get(plot).add(note);
@@ -24,10 +51,21 @@ public class NotationManager {
         }
     }
 
+    /***
+     * Retourne une notation sur un plot
+     * @param plot - Le plot
+     * @return
+     */
     public Set getNotationsByPlot(Plot plot) {
         return allNotation.get(plot);
     }
 
+    /***
+     * Retourne une notation d'un joueur
+     * @param plot - Le plot
+     * @param pl - Le joueur
+     * @return
+     */
     public boolean playerHasNote(Plot plot, Player pl) {
         Set<Notation> a = getNotationsByPlot(plot);
         if (a != null && !a.isEmpty()) {

@@ -1,8 +1,8 @@
-package eu.builderscoffee.expresso.buildbattle.expressos.engine.types;
+package eu.builderscoffee.expresso.buildbattle.expressos.engine;
 
 import eu.builderscoffee.api.bukkit.configuration.Configurations;
 import eu.builderscoffee.expresso.Main;
-import eu.builderscoffee.expresso.buildbattle.expressos.engine.IGameEngine;
+import eu.builderscoffee.expresso.buildbattle.BuildBattleEngine;
 import eu.builderscoffee.expresso.buildbattle.expressos.listeners.HazarListener;
 import eu.builderscoffee.expresso.inventory.HazardExpressoInventory;
 import eu.builderscoffee.expresso.utils.Log;
@@ -16,7 +16,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class HazarEngine implements IGameEngine {
+public class HazarEngine implements BuildBattleEngine {
 
     private final HashMap<BlockData.BlockCategory, List<BlockData>> cachedBlock = new HashMap<>();
     public Map<Object, Object> convertBlockdata = new HashMap<>();

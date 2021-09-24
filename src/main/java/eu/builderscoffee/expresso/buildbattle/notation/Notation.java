@@ -2,6 +2,7 @@ package eu.builderscoffee.expresso.buildbattle.notation;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 
 import java.util.UUID;
 
@@ -11,49 +12,41 @@ public class Notation {
     private UUID UUID;
     private int beauty, crea, amenagement, folklore, fun;
 
-
-    public boolean addCrea(int crea) {
-        if ((this.crea = this.crea + crea) > 22) {
-            return false;
-        } else {
-            this.crea = this.crea + crea;
-            return true;
+    /***
+     * Retourne la valeur en cache par rapport au type de notations
+     * @param notationType
+     * @return
+     */
+    public int getCachedValue(NotationType notationType) {
+        switch (notationType) {
+            case Beauty:
+               return beauty;
+            case Creative:
+                return crea;
+            case Amenagement:
+                return amenagement;
+            case Folklore:
+                return folklore;
+            case Fun:
+                return fun;
+            default:
+                throw new IllegalStateException("Unexpected value: " + notationType);
         }
     }
 
-    public boolean addBeauty(int beauty) {
-        if ((this.beauty = this.beauty + beauty) > 30) {
-            return false;
-        } else {
-            this.beauty = this.beauty + beauty;
-            return true;
-        }
-    }
+    public enum NotationType {
 
-    public boolean addAmenagement(int amenagement) {
-        if ((this.amenagement = this.amenagement + amenagement) > 22) {
-            return false;
-        } else {
-            this.amenagement = this.amenagement + amenagement;
-            return true;
-        }
-    }
+        Beauty(30),
+        Creative(22),
+        Amenagement(22),
+        Folklore(22),
+        Fun(4);
 
-    public boolean addFolklore(int folklore) {
-        if ((this.folklore = this.folklore + folklore) > 22) {
-            return false;
-        } else {
-            this.folklore = this.folklore + folklore;
-            return true;
-        }
-    }
+        @Getter
+        private int maxValue; // Valeur maximun d'une note
 
-    public boolean addFun(int fun) {
-        if ((this.fun = this.fun + fun) > 4) {
-            return false;
-        } else {
-            this.fun = this.fun + fun;
-            return true;
+        NotationType(int maxValue) {
+            this.maxValue = maxValue;
         }
     }
 

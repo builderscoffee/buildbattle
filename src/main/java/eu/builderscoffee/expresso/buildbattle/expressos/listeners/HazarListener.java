@@ -2,7 +2,7 @@ package eu.builderscoffee.expresso.buildbattle.expressos.listeners;
 
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
-import eu.builderscoffee.expresso.buildbattle.expressos.engine.types.HazarEngine;
+import eu.builderscoffee.expresso.buildbattle.expressos.engine.HazarEngine;
 import eu.builderscoffee.expresso.utils.Log;
 import eu.builderscoffee.expresso.utils.blocks.BlockData;
 import eu.builderscoffee.expresso.utils.blocks.BoundingBox;

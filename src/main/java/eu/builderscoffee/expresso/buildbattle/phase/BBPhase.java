@@ -1,7 +1,7 @@
 package eu.builderscoffee.expresso.buildbattle.phase;
 
 import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
-import eu.builderscoffee.expresso.buildbattle.expressos.engine.IGameEngine;
+import eu.builderscoffee.expresso.buildbattle.BuildBattleEngine;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /***
@@ -47,6 +47,6 @@ public interface BBPhase {
     /**
      * Charger le moteur de la partie si il a lieu d'être
      */
-    IGameEngine engine();
+    BuildBattleEngine engine();
 
 }
