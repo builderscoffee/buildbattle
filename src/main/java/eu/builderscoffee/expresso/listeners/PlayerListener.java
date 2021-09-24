@@ -4,7 +4,7 @@ import eu.builderscoffee.api.bukkit.board.FastBoard;
 import eu.builderscoffee.api.bukkit.utils.LocationsUtil;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.board.BBBoard;
-import eu.builderscoffee.expresso.buildbattle.BBGameManager;
+import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -41,7 +41,7 @@ public class PlayerListener implements Listener {
         // If player as plot
         player.teleport(LocationsUtil.getLocationFromString(Main.getSettings().getGlobal_spawn_location()));
 
-        if (Main.getBbGame().getBbState().equals(BBGameManager.BBState.IN_GAME)) {
+        if (Main.getBbGame().getBbState().equals(BuildBattleManager.BBState.IN_GAME)) {
             player.setGameMode(GameMode.CREATIVE);
             player.sendMessage(Main.getMessages().getGlobal_prefix() + "§a/plot auto pour participer");
         }
@@ -61,7 +61,7 @@ public class PlayerListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onCommand(PlayerCommandPreprocessEvent event) {
         if (event.getMessage().toLowerCase().contains("/plot auto") || event.getMessage().toLowerCase().contains("/plot claim")) {
-            if (Main.getBbGame().getBbState().equals(BBGameManager.BBState.IN_GAME)) {
+            if (Main.getBbGame().getBbState().equals(BuildBattleManager.BBState.IN_GAME)) {
                 Main.getBbGame().addCompetitor(event.getPlayer());
             } else {
                 event.setCancelled(true);
@@ -73,14 +73,14 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
-        if (!Main.getBbGame().getBbState().equals(BBGameManager.BBState.IN_GAME)) {
+        if (!Main.getBbGame().getBbState().equals(BuildBattleManager.BBState.IN_GAME)) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
-        if (!Main.getBbGame().getBbState().equals(BBGameManager.BBState.IN_GAME)) {
+        if (!Main.getBbGame().getBbState().equals(BuildBattleManager.BBState.IN_GAME)) {
             event.setCancelled(true);
         }
     }

@@ -2,7 +2,6 @@ package eu.builderscoffee.expresso.buildbattle;
 
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.expressos.ExpressoManager;
-import eu.builderscoffee.expresso.buildbattle.expressos.engine.IGameEngine;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.utils.Log;
 import lombok.Getter;
@@ -15,13 +14,13 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class BBGameManager {
+public class BuildBattleManager {
 
     // Instances
     @Getter
     private final Main main;
     @Getter
-    private final BBGame game;
+    private final BuildBattle game;
     // Managers
     @Getter
     @Setter
@@ -29,7 +28,7 @@ public class BBGameManager {
     // Engines
     @Getter
     @Setter
-    private IGameEngine gameEngine;
+    private BuildBattleEngine gameEngine;
     // Tasks
     @Getter
     @Setter
@@ -42,7 +41,7 @@ public class BBGameManager {
     @Setter
     private BBPhase bbPhase;
 
-    public BBGameManager(final BBGame game) {
+    public BuildBattleManager(final BuildBattle game) {
         // Instances
         this.main = Main.getInstance();
         this.game = game;
@@ -98,7 +97,7 @@ public class BBGameManager {
      * Stopper la partie en cours
      */
     public void endGame() {
-        if (!(this.game.getExpressoType().getCurrentPhase().state() != BBState.ENDING)) {
+        if (this.game.getExpressoType().getCurrentPhase().state() == BBState.ENDING) {
             Log.get().info("Une erreur est survenue lors de la fin de la partie !");
         } else {
             // Définir l'état de fin de la partie
@@ -140,7 +139,7 @@ public class BBGameManager {
     @SneakyThrows
     public void nextPhase() {
         // Get & Poll la prochaine phase
-        this.game.getExpressoType().setCurrentPhase(this.game.getExpressoPhases().poll());
+        this.game.getExpressoType().setCurrentPhase(this.game.getInstancePhases().poll());
         Log.get().info("Phase en cours " + this.game.getExpressoType().getCurrentPhase().name());
         // Définir le status de la prochaine phase
         this.getGame().setBbState(this.game.getExpressoType().getCurrentPhase().state());

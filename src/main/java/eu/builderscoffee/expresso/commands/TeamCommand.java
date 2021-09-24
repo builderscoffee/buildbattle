@@ -1,7 +1,7 @@
 package eu.builderscoffee.expresso.commands;
 
 import eu.builderscoffee.expresso.Main;
-import eu.builderscoffee.expresso.buildbattle.BBGame;
+import eu.builderscoffee.expresso.buildbattle.BuildBattle;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
 import lombok.Getter;
@@ -18,7 +18,7 @@ public class TeamCommand implements CommandExecutor {
 
     // Instances of
     @Getter
-    private final BBGame bbGame = Main.getBbGame();
+    private final BuildBattle bbGame = Main.getBbGame();
     //Configurations
     MessageConfiguration messages = Main.getMessages();
     SettingsConfiguration settings = Main.getSettings();
