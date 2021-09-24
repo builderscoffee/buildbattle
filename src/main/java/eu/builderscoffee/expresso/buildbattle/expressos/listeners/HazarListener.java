@@ -1,8 +1,8 @@
 package eu.builderscoffee.expresso.buildbattle.expressos.listeners;
 
 import eu.builderscoffee.expresso.Main;
-import eu.builderscoffee.expresso.buildbattle.BBGameManager;
-import eu.builderscoffee.expresso.buildbattle.expressos.engine.types.HazarEngine;
+import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
+import eu.builderscoffee.expresso.buildbattle.expressos.engine.HazarEngine;
 import eu.builderscoffee.expresso.utils.Log;
 import eu.builderscoffee.expresso.utils.blocks.BlockData;
 import eu.builderscoffee.expresso.utils.blocks.BoundingBox;
@@ -29,7 +29,7 @@ public class HazarListener implements Listener {
     @EventHandler
     public void onBlock(BlockPlaceEvent event) {
         // Check si la partie est commencer !
-        if (Main.getBbGame().getBbState() == BBGameManager.BBState.IN_GAME) {
+        if (Main.getBbGame().getBbState() == BuildBattleManager.BBState.IN_GAME) {
             // Get joueur et face du block
             val player = event.getPlayer();
             val face = event.getBlockAgainst().getFace(event.getBlock());

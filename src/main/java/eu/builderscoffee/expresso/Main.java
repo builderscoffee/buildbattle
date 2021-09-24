@@ -4,10 +4,10 @@ package eu.builderscoffee.expresso;
 import eu.builderscoffee.api.bukkit.gui.InventoryManager;
 import eu.builderscoffee.api.bukkit.utils.Plugins;
 import eu.builderscoffee.expresso.board.BBBoard;
-import eu.builderscoffee.expresso.buildbattle.BBGame;
+import eu.builderscoffee.expresso.buildbattle.BuildBattle;
 import eu.builderscoffee.expresso.buildbattle.expressos.types.IlClassicoExpresso;
-import eu.builderscoffee.expresso.buildbattle.plot.PlotListener;
-import eu.builderscoffee.expresso.buildbattle.teams.events.TeamListeners;
+import eu.builderscoffee.expresso.listeners.PlotListener;
+import eu.builderscoffee.expresso.listeners.TeamListeners;
 import eu.builderscoffee.expresso.commands.GameCommand;
 import eu.builderscoffee.expresso.commands.JuryCommand;
 import eu.builderscoffee.expresso.commands.PlotCommand;
@@ -36,7 +36,7 @@ public class Main extends JavaPlugin {
     @Getter
     private static Main instance;
     @Getter
-    private static BBGame bbGame;
+    private static BuildBattle bbGame;
 
     @Override
     public void onEnable() {
@@ -66,7 +66,7 @@ public class Main extends JavaPlugin {
         }, 0, 20);
 
         // Set game type
-        bbGame = new BBGame(this, new IlClassicoExpresso());
+        bbGame = new BuildBattle(this, new IlClassicoExpresso());
 
         // Check Start
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {

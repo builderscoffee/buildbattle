@@ -1,11 +1,11 @@
-package eu.builderscoffee.expresso.buildbattle.phase.types;
+package eu.builderscoffee.expresso.buildbattle.phase.bases;
 
 
 import eu.builderscoffee.api.bukkit.utils.Title;
 import eu.builderscoffee.expresso.Main;
-import eu.builderscoffee.expresso.buildbattle.BBGame;
-import eu.builderscoffee.expresso.buildbattle.BBGameManager;
-import eu.builderscoffee.expresso.buildbattle.expressos.engine.IGameEngine;
+import eu.builderscoffee.expresso.buildbattle.BuildBattle;
+import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
+import eu.builderscoffee.expresso.buildbattle.BuildBattleEngine;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.utils.Log;
 import eu.builderscoffee.expresso.utils.TimeUtils;
@@ -27,7 +27,7 @@ public class GamePhase implements BBPhase {
     private int[] bcTime;
     @Getter
     @Setter
-    private BBGame game;
+    private BuildBattle game;
     @Getter
     @Setter
     private int time;
@@ -54,8 +54,8 @@ public class GamePhase implements BBPhase {
     }
 
     @Override
-    public BBGameManager.BBState state() {
-        return BBGameManager.BBState.IN_GAME;
+    public BuildBattleManager.BBState state() {
+        return BuildBattleManager.BBState.IN_GAME;
     }
 
     @Override
@@ -111,7 +111,7 @@ public class GamePhase implements BBPhase {
     }
 
     @Override
-    public IGameEngine engine() {
+    public BuildBattleEngine engine() {
         return null;
     }
 

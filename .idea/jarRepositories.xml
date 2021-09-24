@@ -2,6 +2,11 @@
 <project version="4">
   <component name="RemoteRepositoriesConfiguration">
     <remote-repository>
+      <option name="id" value="github" />
+      <option name="name" value="GitHub TobseF Apache Maven Packages" />
+      <option name="url" value="https://maven.pkg.github.com/builderscoffee/Expresso" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="Central Repository" />
       <option name="url" value="https://repo.maven.apache.org/maven2" />
@@ -22,9 +27,19 @@
       <option name="url" value="https://mvn.intellectualsites.com/content/groups/public/" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="github" />
+      <option name="name" value="GitHub BuildersCoffee Apache Maven Packages" />
+      <option name="url" value="https://maven.pkg.github.com/builderscoffee/Expresso" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="spigotmc-repo" />
       <option name="name" value="spigotmc-repo" />
       <option name="url" value="https://hub.spigotmc.org/nexus/content/repositories/snapshots/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="github-bc" />
+      <option name="name" value="GitHub BuildersCoffee Apache Maven Packages" />
+      <option name="url" value="https://maven.pkg.github.com/builderscoffee/Expresso" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="central" />
@@ -40,6 +55,11 @@
       <option name="id" value="enginehub" />
       <option name="name" value="enginehub" />
       <option name="url" value="https://maven.enginehub.org/repo/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="github-bc" />
+      <option name="name" value="GitHub BuildersCoffee" />
+      <option name="url" value="https://github.com/builderscoffee" />
     </remote-repository>
   </component>
 </project>
