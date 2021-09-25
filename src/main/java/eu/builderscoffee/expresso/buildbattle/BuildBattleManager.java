@@ -1,7 +1,7 @@
 package eu.builderscoffee.expresso.buildbattle;
 
 import eu.builderscoffee.expresso.Main;
-import eu.builderscoffee.expresso.buildbattle.expressos.ExpressoManager;
+import eu.builderscoffee.expresso.buildbattle.games.expressos.ExpressoManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.utils.Log;
 import lombok.Getter;
@@ -97,11 +97,11 @@ public class BuildBattleManager {
      * Stopper la partie en cours
      */
     public void endGame() {
-        if (this.game.getExpressoType().getCurrentPhase().state() == BBState.ENDING) {
+        if (this.game.getExpressoGameTypeType().getCurrentPhase().state() == BBState.ENDING) {
             Log.get().info("Une erreur est survenue lors de la fin de la partie !");
         } else {
             // Définir l'état de fin de la partie
-            this.getGame().setBbState(this.game.getExpressoType().getCurrentPhase().state());
+            this.getGame().setBbState(this.game.getExpressoGameTypeType().getCurrentPhase().state());
             // Couper la phase en cours
             this.cancelPhase();
             // Désactiver les plugin de build
@@ -139,18 +139,18 @@ public class BuildBattleManager {
     @SneakyThrows
     public void nextPhase() {
         // Get & Poll la prochaine phase
-        this.game.getExpressoType().setCurrentPhase(this.game.getInstancePhases().poll());
-        Log.get().info("Phase en cours " + this.game.getExpressoType().getCurrentPhase().name());
+        this.game.getExpressoGameTypeType().setCurrentPhase(this.game.getInstancePhases().poll());
+        Log.get().info("Phase en cours " + this.game.getExpressoGameTypeType().getCurrentPhase().name());
         // Définir le status de la prochaine phase
-        this.getGame().setBbState(this.game.getExpressoType().getCurrentPhase().state());
+        this.getGame().setBbState(this.game.getExpressoGameTypeType().getCurrentPhase().state());
         // Lancer la Task de la prochaine phase
-        this.startPhase(this.game.getExpressoType().getCurrentPhase().runnable());
+        this.startPhase(this.game.getExpressoGameTypeType().getCurrentPhase().runnable());
         // Lancer le moteur de la partie si il en existe un pour la phase en cours
-        if (this.game.getExpressoType().getCurrentPhase().engine() != null) {
+        if (this.game.getExpressoGameTypeType().getCurrentPhase().engine() != null) {
             // Lancer le moteur de la partie
-            this.game.getExpressoType().getCurrentPhase().engine().load();
+            this.game.getExpressoGameTypeType().getCurrentPhase().engine().load();
             // Enregister les evenements propre aux moteur de la partie
-            this.game.getExpressoType().getCurrentPhase().engine().registerListener();
+            this.game.getExpressoGameTypeType().getCurrentPhase().engine().registerListener();
         }
     }
 

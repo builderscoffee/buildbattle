@@ -28,7 +28,7 @@ public class GameTypeInventory implements InventoryProvider {
 
         contents.set(2, 2, ClickableItem.of(new ItemBuilder(Material.INK_SACK).setName("§6Expresso").build(),
                 e -> {
-                    //INVENTORY.open(player, pagination.previous().getPage());
+                    GameExpressoInventory.INVENTORY.open(player);
                 }));
 
         contents.set(2, 5, ClickableItem.of(new ItemBuilder(Material.INK_SACK).setName("§6BuildBattle Classic").build(),

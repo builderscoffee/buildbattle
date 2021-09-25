@@ -3,8 +3,9 @@ package eu.builderscoffee.expresso.buildbattle;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.events.competitor.CompetitorJoinEvent;
 import eu.builderscoffee.expresso.buildbattle.events.competitor.CompetitorLeaveEvent;
-import eu.builderscoffee.expresso.buildbattle.expressos.Expresso;
-import eu.builderscoffee.expresso.buildbattle.expressos.ExpressoManager;
+import eu.builderscoffee.expresso.buildbattle.games.expressos.ExpressoGameType;
+import eu.builderscoffee.expresso.buildbattle.games.expressos.ExpressoManager;
+import eu.builderscoffee.expresso.buildbattle.games.expressos.types.IlClassicoExpressoGameType;
 import eu.builderscoffee.expresso.buildbattle.notation.NotationManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.buildbattle.teams.TeamManager;
@@ -23,10 +24,10 @@ public class BuildBattle {
     private final List<Player> jury = new ArrayList<>(); // La liste des jurys
 
     private Main main;
-    private BuildBattleInstanceType bbGameTypes;
+    private BuildBattleInstanceType bbType;
     public BuildBattleManager.BBState bbState = BuildBattleManager.BBState.WAITING;
     private Deque<BBPhase> instancePhases;
-    private Expresso expressoType;
+    private ExpressoGameType expressoGameTypeType = new IlClassicoExpressoGameType();
     // Manager
     private BuildBattleManager bbGameManager;
     private ExpressoManager expressoManager;
@@ -38,20 +39,21 @@ public class BuildBattle {
 
     /***
      * Créer une instance d'une BBGame
-     * @param type
      */
 
-    public BuildBattle(Main main, Expresso type) {
+    public BuildBattle(Main main) {
         setMain(main);
         setBbGameManager(new BuildBattleManager(this));
+        /*
         if(bbGameTypes.equals(BuildBattleInstanceType.EXPRESSO)) {
-            defineExpresso(type);
+            selectExpresso(battleType);
             setExpressoManager(new ExpressoManager(this));
         } else if (bbGameTypes.equals(BuildBattleInstanceType.CLASSIC)) {
 
         } else if (bbGameTypes.equals(BuildBattleInstanceType.TOURNAMENT)) {
 
         }
+        */
         teamManager = new TeamManager();
         notationManager = new NotationManager();
     }
@@ -61,16 +63,12 @@ public class BuildBattle {
     /***
      * Définir ou redéfinir l'expresso de la partie en cours
      *
-     * @param expresso
+     * @param expressoGameType
      */
-    public final void defineExpresso(Expresso expresso) {
-        setExpressoType(expresso);
-        setInstancePhases(expresso.getPhases());
+    public final void selectExpresso(ExpressoGameType expressoGameType) {
+        setExpressoGameTypeType(expressoGameType);
+        setInstancePhases(expressoGameType.getPhases());
 
-    }
-
-    public final void startExpresso() {
-        bbGameManager.startGame();
     }
 
     // COMPETITOR

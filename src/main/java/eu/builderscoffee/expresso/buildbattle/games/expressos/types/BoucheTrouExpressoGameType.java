@@ -1,7 +1,8 @@
-package eu.builderscoffee.expresso.buildbattle.expressos.types;
+package eu.builderscoffee.expresso.buildbattle.games.expressos.types;
+
 
 import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
-import eu.builderscoffee.expresso.buildbattle.expressos.Expresso;
+import eu.builderscoffee.expresso.buildbattle.games.expressos.ExpressoGameType;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.bases.EndPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.bases.GamePhase;
@@ -17,23 +18,24 @@ import java.util.List;
 
 import static eu.builderscoffee.expresso.utils.TimeUtils.HOUR;
 
-public class AllongeExpresso extends Expresso {
+public class BoucheTrouExpressoGameType extends ExpressoGameType {
+
     @Override
     public ItemStack getIcon() {
-        return new ItemBuilder(Material.INK_SACK, 1, (short) 3)
+        return new ItemBuilder(Material.INK_SACK, 1, (short) 1)
                 .setName(getName())
-                //.addLoreLine(getDescription())
+                //.addLoreLine("test")
                 .build();
     }
 
     @Override
     public String getName() {
-        return "Allongé";
+        return "Bouche Trou";
     }
 
     @Override
     public List<String> getDescription() {
-        return Arrays.asList("Expresso classique à longue durée");
+        return Arrays.asList("Une schématique est coller sur le plot");
     }
 
     @Override
@@ -42,14 +44,14 @@ public class AllongeExpresso extends Expresso {
     }
 
     /***
-     * Retourne les phases d'un expresso allonge
+     * Retourne les phases d'un expresso bouche trou
      * @return
      */
     @Override
     public Deque<BBPhase> getPhases() {
         val phases = new LinkedList();
         phases.add(new LaunchingPhase(30));
-        phases.add(new GamePhase(8 * HOUR));
+        phases.add(new GamePhase(2 * HOUR));
         phases.add(new EndPhase());
         return phases;
     }

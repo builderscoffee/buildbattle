@@ -5,7 +5,7 @@ import eu.builderscoffee.api.bukkit.gui.ClickableItem;
 import eu.builderscoffee.api.bukkit.gui.SmartInventory;
 import eu.builderscoffee.api.bukkit.gui.content.*;
 import eu.builderscoffee.expresso.Main;
-import eu.builderscoffee.expresso.buildbattle.expressos.Expresso;
+import eu.builderscoffee.expresso.buildbattle.games.expressos.ExpressoGameType;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -29,18 +29,18 @@ public class GameExpressoInventory implements InventoryProvider {
     public void init(Player player, InventoryContents contents) {
         Pagination pagination = contents.pagination();
 
-        List<Expresso> expressoList = Main.getBbGame().getExpressoManager().getExpressos();
-        ClickableItem[] expressoItem = new ClickableItem[expressoList.size()];
+        List<ExpressoGameType> expressoGameTypeList = Main.getBbGame().getExpressoManager().getExpressoGameTypes();
+        ClickableItem[] expressoItem = new ClickableItem[expressoGameTypeList.size()];
 
         // Fill expresso
         for (int i = 0; i < expressoItem.length; i++) {
             int expressoIndex = i;
-            expressoItem[i] = ClickableItem.of(expressoList.get(i).getIcon(),
+            expressoItem[i] = ClickableItem.of(expressoGameTypeList.get(i).getIcon(),
                     e -> {
                         // do action on click
-                        Expresso expresso = expressoList.get(expressoIndex);
-                        Main.getBbGame().defineExpresso(expresso);
-                        player.sendMessage("§aVous avez selectionné :§f " + expresso.getName());
+                        ExpressoGameType expressoGameType = expressoGameTypeList.get(expressoIndex);
+                        Main.getBbGame().selectExpresso(expressoGameType);
+                        player.sendMessage("§aVous avez selectionné :§f " + expressoGameType.getName());
                     });
         }
 

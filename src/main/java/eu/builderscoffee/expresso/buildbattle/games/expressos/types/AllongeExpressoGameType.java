@@ -1,7 +1,7 @@
-package eu.builderscoffee.expresso.buildbattle.expressos.types;
+package eu.builderscoffee.expresso.buildbattle.games.expressos.types;
 
 import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
-import eu.builderscoffee.expresso.buildbattle.expressos.Expresso;
+import eu.builderscoffee.expresso.buildbattle.games.expressos.ExpressoGameType;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.bases.EndPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.bases.GamePhase;
@@ -17,11 +17,10 @@ import java.util.List;
 
 import static eu.builderscoffee.expresso.utils.TimeUtils.HOUR;
 
-public class IlClassicoExpresso extends Expresso {
-
+public class AllongeExpressoGameType extends ExpressoGameType {
     @Override
     public ItemStack getIcon() {
-        return new ItemBuilder(Material.INK_SACK, 1, (short) 0)
+        return new ItemBuilder(Material.INK_SACK, 1, (short) 3)
                 .setName(getName())
                 //.addLoreLine(getDescription())
                 .build();
@@ -29,12 +28,12 @@ public class IlClassicoExpresso extends Expresso {
 
     @Override
     public String getName() {
-        return "IlClassico";
+        return "Allongé";
     }
 
     @Override
     public List<String> getDescription() {
-        return Arrays.asList("L'expresso des plus classique");
+        return Arrays.asList("Expresso classique à longue durée");
     }
 
     @Override
@@ -43,14 +42,14 @@ public class IlClassicoExpresso extends Expresso {
     }
 
     /***
-     * Retourne les phases d'un expresso classic
+     * Retourne les phases d'un expresso allonge
      * @return
      */
     @Override
     public Deque<BBPhase> getPhases() {
         val phases = new LinkedList();
         phases.add(new LaunchingPhase(30));
-        phases.add(new GamePhase(2 * HOUR));
+        phases.add(new GamePhase(8 * HOUR));
         phases.add(new EndPhase());
         return phases;
     }

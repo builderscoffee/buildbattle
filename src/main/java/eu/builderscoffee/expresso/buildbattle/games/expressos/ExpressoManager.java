@@ -1,45 +1,41 @@
-package eu.builderscoffee.expresso.buildbattle.expressos;
+package eu.builderscoffee.expresso.buildbattle.games.expressos;
 
 import eu.builderscoffee.expresso.buildbattle.BuildBattle;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import lombok.val;
 import org.reflections.Reflections;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 public class ExpressoManager {
 
-    @Getter
-    public List<Expresso> expressos;
-    @Getter
-    private BuildBattle bbGame;
-    @Getter
-    @Setter
-    private Expresso currentExpresso;
+    public List<ExpressoGameType> expressoGameTypes;
+    private final BuildBattle bbGame;
+    private ExpressoGameType currentExpressoGameType;
 
     public ExpressoManager(BuildBattle bbGame) {
         this.bbGame = bbGame;
-        this.expressos = new ArrayList<>();
-        setCurrentExpresso(bbGame.getExpressoType());
+        this.expressoGameTypes = new ArrayList<>();
+        setCurrentExpressoGameType(bbGame.getExpressoGameTypeType());
         // Récuperer tout les expresso
         getAllExpresso();
         // Définir un expresso par défault
-        setCurrentExpresso(bbGame.getExpressoType());
+        setCurrentExpressoGameType(bbGame.getExpressoGameTypeType());
     }
 
     /**
      * Retournes tout les expresso crées
      */
     private void getAllExpresso() {
-        val reflections = new Reflections(Expresso.class.getPackage().getName());
-        val classes = reflections.getSubTypesOf(Expresso.class);
+        val reflections = new Reflections(ExpressoGameType.class.getPackage().getName());
+        val classes = reflections.getSubTypesOf(ExpressoGameType.class);
         classes.forEach(expressoClass -> {
             try {
                 expressoClass.getDeclaredConstructor().setAccessible(true);
                 val expresso = expressoClass.newInstance();
-                expressos.add(expresso);
+                expressoGameTypes.add(expresso);
             } catch (IllegalAccessException | InstantiationException | NoSuchMethodException e) {
                 e.printStackTrace();
             }
