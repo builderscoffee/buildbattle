@@ -4,6 +4,7 @@ import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
 import eu.builderscoffee.expresso.inventory.game.GameExpressoInventory;
+import eu.builderscoffee.expresso.inventory.game.GameTypeInventory;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -34,7 +35,8 @@ public class GameCommand implements CommandExecutor {
         switch (cmd) {
             case "type":
                 if (!Main.getBbGame().isReady()) {
-                    GameExpressoInventory.INVENTORY.open(player);
+                    //GameExpressoInventory.INVENTORY.open(player);
+                    GameTypeInventory.INVENTORY.open(player);
                 } else {
                     player.sendMessage(messages.getGlobal_prefix() + messages.getGame_cant_edit_type());
                 }

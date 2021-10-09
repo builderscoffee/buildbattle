@@ -27,7 +27,7 @@ public class BuildBattle {
     private BuildBattleInstanceType bbType;
     public BuildBattleManager.BBState bbState = BuildBattleManager.BBState.WAITING;
     private Deque<BBPhase> instancePhases;
-    private ExpressoGameType expressoGameTypeType = new IlClassicoExpressoGameType();
+    private ExpressoGameType expressoGameType = new IlClassicoExpressoGameType();
     // Manager
     private BuildBattleManager bbGameManager;
     private ExpressoManager expressoManager;
@@ -44,29 +44,36 @@ public class BuildBattle {
     public BuildBattle(Main main) {
         setMain(main);
         setBbGameManager(new BuildBattleManager(this));
-        /*
-        if(bbGameTypes.equals(BuildBattleInstanceType.EXPRESSO)) {
-            selectExpresso(battleType);
-            setExpressoManager(new ExpressoManager(this));
-        } else if (bbGameTypes.equals(BuildBattleInstanceType.CLASSIC)) {
-
-        } else if (bbGameTypes.equals(BuildBattleInstanceType.TOURNAMENT)) {
-
-        }
-        */
         teamManager = new TeamManager();
         notationManager = new NotationManager();
     }
 
-    // EXPRESSO INSTANCE
+    /***
+     * Sélectionner le type de partie à lancer
+     * @param battleInstanceType - Type d'instance
+     * @param battleGameType - Instance de la partie
+     */
+    public final void selectBuildBattleType(BuildBattleInstanceType battleInstanceType, BuildBattleGameType battleGameType) {
+        switch(battleInstanceType) {
+            case EXPRESSO:
+                configureExpresso((ExpressoGameType) battleGameType);
+            case CLASSIC:
+            case TOURNAMENT:
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + battleInstanceType);
+        }
+    }
+
+    // EXPRESSO GAME TYPE
 
     /***
      * Définir ou redéfinir l'expresso de la partie en cours
      *
      * @param expressoGameType
      */
-    public final void selectExpresso(ExpressoGameType expressoGameType) {
-        setExpressoGameTypeType(expressoGameType);
+    public final void configureExpresso(ExpressoGameType expressoGameType) {
+        setExpressoGameType(expressoGameType);
         setInstancePhases(expressoGameType.getPhases());
 
     }

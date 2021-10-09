@@ -18,11 +18,11 @@ public class ExpressoManager {
     public ExpressoManager(BuildBattle bbGame) {
         this.bbGame = bbGame;
         this.expressoGameTypes = new ArrayList<>();
-        setCurrentExpressoGameType(bbGame.getExpressoGameTypeType());
+        setCurrentExpressoGameType(bbGame.getExpressoGameType());
         // Récuperer tout les expresso
         getAllExpresso();
         // Définir un expresso par défault
-        setCurrentExpressoGameType(bbGame.getExpressoGameTypeType());
+        setCurrentExpressoGameType(bbGame.getExpressoGameType());
     }
 
     /**
