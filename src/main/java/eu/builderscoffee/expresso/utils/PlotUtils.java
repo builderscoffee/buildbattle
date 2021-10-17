@@ -5,31 +5,34 @@ import com.intellectualcrafters.plot.object.Plot;
 import com.intellectualcrafters.plot.object.RunnableVal;
 import com.intellectualcrafters.plot.util.SchematicHandler;
 import com.intellectualcrafters.plot.util.TaskManager;
+import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
+import lombok.Data;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Set;
 
 @UtilityClass
 public class PlotUtils {
 
+    SettingsConfiguration settingsConfiguration;
     public static Set<Plot> allPlots = new PlotAPI().getAllPlots();
 
     /***
      * Exporter toutes les schématics dans le dossier
      */
-    public void exportAllSchematics() {
-        SchematicHandler handler = new PlotAPI().getSchematicHandler();
-        /*
-        handler.exportAll(allPlots, output, "", new BukkitRunnable() {
+    public void exportAllSchematics(String folder) {
+        new PlotAPI().getSchematicHandler().exportAll(allPlots, new File(settingsConfiguration.getPath_for_backup()), "", new BukkitRunnable() {
             @Override
             public void run() {
-
+                System.out.println("Exportation des schématics vers " + settingsConfiguration.getPath_for_backup() + folder);
             }
-        })
-        */
+        });
     }
 
     /***
