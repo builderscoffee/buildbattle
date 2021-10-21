@@ -16,7 +16,7 @@ public class SettingsConfiguration {
     String pluginMode = "DEV";
 
     // Schematic settings
-    String path_for_backup = "";
+    String path_for_backup = "/home/builderscoffee/backup/minecraft/schematics/";
 
     // Permission settings
     String expresso_all_permission = "expresso.*";

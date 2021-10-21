@@ -20,6 +20,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
 public class PlotCommand implements CommandExecutor {
 
     MessageConfiguration messages = Main.getMessages();
-    SettingsConfiguration settings = Main.getSettings();
+    static SettingsConfiguration settings = Main.getSettings();
 
     public static boolean argLength0(Player player) {
         List<String> commandList = new ArrayList<>();
@@ -113,6 +114,16 @@ public class PlotCommand implements CommandExecutor {
                 PlotUtils.convertPlotCenterLoc(current.getCenter());
                 player.teleport(PlotUtils.convertPlotCenterLoc(current.getCenter()));
                 break;
+            case "schem":
+                new PlotUtils().exportAllSchematics(null, settings.getPath_for_backup(), new Runnable() {
+                    @Override
+                    public void run() {
+
+                    }
+                });
+                //PlotUtils.exportAllSchematics(new Date().toString());
+                break;
+
             default:
                 return false;
         }
