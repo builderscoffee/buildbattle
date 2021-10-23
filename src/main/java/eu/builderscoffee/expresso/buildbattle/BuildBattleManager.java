@@ -7,6 +7,7 @@ import eu.builderscoffee.expresso.utils.Log;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -54,6 +55,17 @@ public class BuildBattleManager {
     // GAME MANAGEMENT
 
     /***
+     *
+     */
+    public void startTimer() {
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), () -> {
+            if (game != null) {
+                this.checkStart();
+            }
+        }, 0L, 20L);
+    }
+
+    /***
      * Checker si la partie peux démarrer
      */
     @SneakyThrows
@@ -71,6 +83,14 @@ public class BuildBattleManager {
     public boolean shouldStart() {
         return this.getGame().getBbState() == BBState.WAITING
                 && this.getGame().isReady();
+    }
+
+    /***
+     * Check l'état de la partie
+     * @return
+     */
+    public boolean isRunning() {
+        return this.getGame().getBbState() != BBState.WAITING;
     }
 
     /***

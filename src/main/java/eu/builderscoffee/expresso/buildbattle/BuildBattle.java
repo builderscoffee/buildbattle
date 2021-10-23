@@ -1,5 +1,7 @@
 package eu.builderscoffee.expresso.buildbattle;
 
+import eu.builderscoffee.commons.common.data.DataManager;
+import eu.builderscoffee.commons.common.data.tables.BuildbattleEntity;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.events.competitor.CompetitorJoinEvent;
 import eu.builderscoffee.expresso.buildbattle.events.competitor.CompetitorLeaveEvent;
@@ -10,6 +12,7 @@ import eu.builderscoffee.expresso.buildbattle.notation.NotationManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.buildbattle.teams.TeamManager;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -18,13 +21,13 @@ import java.util.Deque;
 import java.util.List;
 
 @Data
+@Accessors(chain = true)
 public class BuildBattle {
 
     private final List<Player> competitor = new ArrayList<>(); // La liste des compétitors
     private final List<Player> jury = new ArrayList<>(); // La liste des jurys
 
-    private Main main;
-    private BuildBattleInstanceType bbGameTypes = BuildBattleInstanceType.EXPRESSO;
+    private BuildBattleInstanceType bbGameTypes = BuildBattleInstanceType.NONE;
     public BuildBattleManager.BBState bbState = BuildBattleManager.BBState.WAITING;
     private Deque<BBPhase> instancePhases;
     private Expresso expressoType;
@@ -39,22 +42,14 @@ public class BuildBattle {
 
     /***
      * Créer une instance d'une BBGame
-     * @param type
      */
 
-    public BuildBattle(Main main, Expresso type) {
-        setMain(main);
+    public BuildBattle() {
         setBbGameManager(new BuildBattleManager(this));
-        if(bbGameTypes.equals(BuildBattleInstanceType.EXPRESSO)) {
-            defineExpresso(type);
-            setExpressoManager(new ExpressoManager(this));
-        } else if (bbGameTypes.equals(BuildBattleInstanceType.CLASSIC)) {
 
-        } else if (bbGameTypes.equals(BuildBattleInstanceType.TOURNAMENT)) {
-
-        }
         teamManager = new TeamManager();
         notationManager = new NotationManager();
+
     }
 
     // EXPRESSO INSTANCE

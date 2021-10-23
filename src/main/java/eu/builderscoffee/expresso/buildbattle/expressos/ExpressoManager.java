@@ -32,7 +32,7 @@ public class ExpressoManager {
     /**
      * Retournes tout les expresso crées
      */
-    private void getAllExpresso() {
+    public void getAllExpresso() {
         val reflections = new Reflections(Expresso.class.getPackage().getName());
         val classes = reflections.getSubTypesOf(Expresso.class);
         classes.forEach(expressoClass -> {

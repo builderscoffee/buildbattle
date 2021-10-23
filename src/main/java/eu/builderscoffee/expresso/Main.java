@@ -3,8 +3,13 @@ package eu.builderscoffee.expresso;
 
 import eu.builderscoffee.api.bukkit.gui.InventoryManager;
 import eu.builderscoffee.api.bukkit.utils.Plugins;
+import eu.builderscoffee.api.common.events.EventHandler;
+import eu.builderscoffee.api.common.redisson.Redis;
+import eu.builderscoffee.api.common.redisson.infos.Server;
+import eu.builderscoffee.commons.common.redisson.topics.CommonTopics;
 import eu.builderscoffee.expresso.board.BBBoard;
 import eu.builderscoffee.expresso.buildbattle.BuildBattle;
+import eu.builderscoffee.expresso.buildbattle.events.ConfigListener;
 import eu.builderscoffee.expresso.buildbattle.expressos.types.IlClassicoExpresso;
 import eu.builderscoffee.expresso.commands.GameCommand;
 import eu.builderscoffee.expresso.commands.JuryCommand;
@@ -18,8 +23,10 @@ import eu.builderscoffee.expresso.listeners.PlayerListener;
 import eu.builderscoffee.expresso.listeners.PlotListener;
 import eu.builderscoffee.expresso.listeners.TeamListeners;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.redisson.api.RSortedSet;
 
 import static eu.builderscoffee.api.common.configuration.Configuration.readOrCreateConfiguration;
 
@@ -35,7 +42,7 @@ public class Main extends JavaPlugin {
     public static InventoryManager inventoryManager;
     @Getter
     private static Main instance;
-    @Getter
+    @Getter @Setter
     private static BuildBattle bbGame;
 
     @Override
@@ -47,8 +54,14 @@ public class Main extends JavaPlugin {
         settings = readOrCreateConfiguration(this.getName(), SettingsConfiguration.class);
         cache = readOrCreateConfiguration(this.getName(), CacheConfiguration.class);
 
-        // Register Listeners
+        // Register Bukkit Listeners
         Plugins.registerListeners(this, new PlayerListener(), new CompetitorListener(), new TeamListeners(), new PlotListener());
+
+        // Register Redis Listeners
+        Redis.subscribe(CommonTopics.SERVER_MANAGER,new ConfigListener());
+
+        // Register BuildCoffee EventListeners
+        EventHandler.getInstance().addListener(new HeartBeatListener());
 
         // Register Command Executors
         this.getCommand("game").setExecutor(new GameCommand());
@@ -65,16 +78,7 @@ public class Main extends JavaPlugin {
             BBBoard.boards.values().forEach(BBBoard::updateBoard);
         }, 0, 20);
 
-        // Set game type
-        bbGame = new BuildBattle(this, new IlClassicoExpresso());
-
-        // Check Start
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
-            if (getBbGame() != null) {
-                getBbGame().getBbGameManager().checkStart();
-            }
-        }, 0L, 20L);
-
+        //RSortedSet<Server> servers = Redis.getRedissonClient().getSortedSet("servers");
 
     }
 
