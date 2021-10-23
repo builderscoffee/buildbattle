@@ -6,8 +6,6 @@ import eu.builderscoffee.api.bukkit.utils.Plugins;
 import eu.builderscoffee.expresso.board.BBBoard;
 import eu.builderscoffee.expresso.buildbattle.BuildBattle;
 import eu.builderscoffee.expresso.buildbattle.expressos.types.IlClassicoExpresso;
-import eu.builderscoffee.expresso.listeners.PlotListener;
-import eu.builderscoffee.expresso.listeners.TeamListeners;
 import eu.builderscoffee.expresso.commands.GameCommand;
 import eu.builderscoffee.expresso.commands.JuryCommand;
 import eu.builderscoffee.expresso.commands.PlotCommand;
@@ -17,11 +15,13 @@ import eu.builderscoffee.expresso.configuration.MessageConfiguration;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
 import eu.builderscoffee.expresso.listeners.CompetitorListener;
 import eu.builderscoffee.expresso.listeners.PlayerListener;
+import eu.builderscoffee.expresso.listeners.PlotListener;
+import eu.builderscoffee.expresso.listeners.TeamListeners;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import static eu.builderscoffee.api.bukkit.configuration.Configurations.readOrCreateConfiguration;
+import static eu.builderscoffee.api.common.configuration.Configuration.readOrCreateConfiguration;
 
 public class Main extends JavaPlugin {
 
@@ -43,9 +43,9 @@ public class Main extends JavaPlugin {
         instance = this;
 
         // Read or create configurations
-        messages = readOrCreateConfiguration(this, MessageConfiguration.class);
-        settings = readOrCreateConfiguration(this, SettingsConfiguration.class);
-        cache = readOrCreateConfiguration(this, CacheConfiguration.class);
+        messages = readOrCreateConfiguration(this.getName(), MessageConfiguration.class);
+        settings = readOrCreateConfiguration(this.getName(), SettingsConfiguration.class);
+        cache = readOrCreateConfiguration(this.getName(), CacheConfiguration.class);
 
         // Register Listeners
         Plugins.registerListeners(this, new PlayerListener(), new CompetitorListener(), new TeamListeners(), new PlotListener());

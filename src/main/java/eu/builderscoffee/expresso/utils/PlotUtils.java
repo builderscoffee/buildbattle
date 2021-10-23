@@ -1,5 +1,6 @@
 package eu.builderscoffee.expresso.utils;
 
+import com.fasterxml.uuid.Generators;
 import com.intellectualcrafters.jnbt.CompoundTag;
 import com.intellectualcrafters.plot.api.PlotAPI;
 import com.intellectualcrafters.plot.object.Plot;
@@ -7,58 +8,84 @@ import com.intellectualcrafters.plot.object.RunnableVal;
 import com.intellectualcrafters.plot.util.SchematicHandler;
 import com.intellectualcrafters.plot.util.TaskManager;
 import com.intellectualcrafters.plot.util.UUIDHandler;
+import eu.builderscoffee.commons.common.data.DataManager;
+import eu.builderscoffee.commons.common.data.tables.BuildbattleEntity;
+import eu.builderscoffee.commons.common.data.tables.ProfilEntity;
+import eu.builderscoffee.commons.common.data.tables.SchematicsEntity;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
 import lombok.NonNull;
+import lombok.val;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 
 public class PlotUtils {
 
     public static Set<Plot> allPlots = new PlotAPI().getAllPlots();
+    SettingsConfiguration settings = Main.getSettings();
 
     /***
      * Exporter toutes les schématics dans le dossier
      */
-    public boolean exportAllSchematics(String namingScheme, @NonNull String outputDir, final Runnable ifSuccess) {
+    public boolean exportAllSchematics(@NonNull String outputDir, final Runnable ifSuccess) {
         TaskManager.runTask(new Runnable() {
             @Override
             public void run() {
+                // Si il n'y a plus de plot à sauvegarder , exécuter la tache IfSuccess
                 if (allPlots.isEmpty()) {
-                    System.out.println("Aucun plot à schématiser");
                     TaskManager.runTask(ifSuccess);
                     return;
                 }
+                // Itérer le prochain plot
                 Iterator<Plot> i = allPlots.iterator();
                 final Plot plot = i.next();
                 i.remove();
-                String o = UUIDHandler.getName(plot.owner);
-                if (o == null) o = "unknown";
-                final String name;
-                if (namingScheme == null) name = plot.getId().x + ";" + plot.getId().y + ',' + plot.getArea() + ',' + o;
-                else
-                    name = namingScheme.replaceAll("%owner%", o).replaceAll("%id%", plot.getId().toString()).replaceAll("%idx%", plot.getId().x + "").replaceAll("%idy%", plot.getId().y + "")
-                            .replaceAll("%world%", plot.getArea().toString());
+
+                // Générer un UUID basé sur le temps
+                UUID uuid = Generators.timeBasedGenerator().generate();
+                String name = uuid.toString();
 
                 final Runnable THIS = this;
                 SchematicHandler.manager.getCompoundTag(plot, new RunnableVal<CompoundTag>() {
                     @Override
                     public void run(final CompoundTag value) {
-                        if (value == null) Main.getBbGame().broadcast("§7 - Skipped plot §c" + plot.getId());
-                        else TaskManager.runTaskAsync(() -> {
-                            Main.getBbGame().broadcast("§6ID: " + plot.getId());
-                            boolean result = SchematicHandler.manager
-                                    .save(value, outputDir + File.separator + name + ".schematic");
-                            if (!result) Main.getBbGame().broadcast("§7 - Failed to save §c" + plot.getId());
-                            else Main.getBbGame().broadcast("§7 - §a  success: " + plot.getId());
-                            TaskManager.runTask(() -> THIS.run());
-                        });
+                        if (value == null) {
+                            Main.getBbGame().broadcast("§7 - Plot suivant §c" + plot.getId());
+                        } else {
+                            TaskManager.runTaskAsync(() -> {
+                                Main.getBbGame().broadcast("§6ID: §f" + plot.getId() + "§6UUID: §7" + name);
+                                boolean result = SchematicHandler.manager
+                                        .save(value, outputDir + File.separator + name + ".schematic");
+                                if (!result) Main.getBbGame().broadcast("§7 - Impossible à sauvegarder §c" + plot.getId());
+                                else {
+                                    Main.getBbGame().broadcast("§7 - §a  sauvegarder: " + plot.getId());
+                                    if(settings.getSqlMode()) {
+                                        HashSet<UUID> plotsMembers = plot.getMembers();
+                                        List<Player> name = new ArrayList<>();
+                                        val pl = DataManager.getProfilStore().select(ProfilEntity.class).get();
+                                        val bb = DataManager.getBuildbattlesStore().select(BuildbattleEntity.class).get().first();
+
+                                        System.out.println("Player1: " + pl.toList().get(0).getName());
+                                        System.out.println("Player2: " + pl.toList().get(1).getName());
+                                        System.out.println("BB: " + bb.getNum());
+
+                                        val schem = new SchematicsEntity();
+                                        schem.setToken(uuid);
+                                        schem.setBuildbattle(bb);
+                                        schem.getProfils().add(pl.toList().get(0));
+                                        schem.getProfils().add(pl.toList().get(1));
+
+                                        DataManager.getSchematicsStore().insert(schem);
+                                    }
+                                }
+                                TaskManager.runTask(() -> THIS.run());
+                            });
+                        }
                     }
                 });
             }

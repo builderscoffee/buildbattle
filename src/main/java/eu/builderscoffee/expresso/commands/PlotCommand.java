@@ -115,13 +115,9 @@ public class PlotCommand implements CommandExecutor {
                 player.teleport(PlotUtils.convertPlotCenterLoc(current.getCenter()));
                 break;
             case "schem":
-                new PlotUtils().exportAllSchematics(null, settings.getPath_for_backup(), new Runnable() {
-                    @Override
-                    public void run() {
-
-                    }
+                new PlotUtils().exportAllSchematics(settings.getPath_for_backup(), () -> {
+                    System.out.println("Tout les plots on été schématisés");
                 });
-                //PlotUtils.exportAllSchematics(new Date().toString());
                 break;
 
             default:
