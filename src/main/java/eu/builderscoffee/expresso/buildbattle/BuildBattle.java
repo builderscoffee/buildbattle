@@ -5,6 +5,7 @@ import eu.builderscoffee.expresso.buildbattle.events.competitor.CompetitorJoinEv
 import eu.builderscoffee.expresso.buildbattle.events.competitor.CompetitorLeaveEvent;
 import eu.builderscoffee.expresso.buildbattle.expressos.Expresso;
 import eu.builderscoffee.expresso.buildbattle.expressos.ExpressoManager;
+import eu.builderscoffee.expresso.buildbattle.expressos.types.IlClassicoExpresso;
 import eu.builderscoffee.expresso.buildbattle.notation.NotationManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.buildbattle.teams.TeamManager;
@@ -23,7 +24,7 @@ public class BuildBattle {
     private final List<Player> jury = new ArrayList<>(); // La liste des jurys
 
     private Main main;
-    private BuildBattleInstanceType bbGameTypes;
+    private BuildBattleInstanceType bbGameTypes = BuildBattleInstanceType.EXPRESSO;
     public BuildBattleManager.BBState bbState = BuildBattleManager.BBState.WAITING;
     private Deque<BBPhase> instancePhases;
     private Expresso expressoType;

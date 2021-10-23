@@ -1,6 +1,6 @@
 package eu.builderscoffee.expresso.buildbattle.expressos.engine;
 
-import eu.builderscoffee.api.bukkit.configuration.Configurations;
+import eu.builderscoffee.api.common.configuration.Configuration;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleEngine;
 import eu.builderscoffee.expresso.buildbattle.expressos.listeners.HazarListener;
@@ -107,6 +107,6 @@ public class HazarEngine implements BuildBattleEngine {
         List<Tuple<Object, Object>> tupleList = new ArrayList<>();
         convertBlockdata.forEach((o, o2) -> tupleList.add(new Tuple(o, o2)));
         Main.getCache().getPairList().addAll(tupleList);
-        Configurations.writeConfiguration(Main.getInstance(), Main.getCache());
+        Configuration.writeConfiguration(Main.getInstance().getName(), Main.getCache());
     }
 }
