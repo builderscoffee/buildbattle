@@ -128,7 +128,7 @@ public class BuildBattleManager {
      * Stopper la partie en cours
      */
     public void endGame() {
-        if (this.game.getExpressoGameType().getCurrentPhase().state() == BBState.ENDING) {
+        if (this.game.getBuildBattleGameType().getCurrentPhase().state() == BBState.ENDING) {
             Log.get().info("Une erreur est survenue lors de la fin de la partie !");
         } else {
             // Définir l'état de fin de la partie
@@ -170,18 +170,18 @@ public class BuildBattleManager {
     @SneakyThrows
     public void nextPhase() {
         // Get & Poll la prochaine phase
-        this.game.getExpressoGameType().setCurrentPhase(this.game.getInstancePhases().poll());
+        this.game.getBuildBattleGameType().setCurrentPhase(this.game.getInstancePhases().poll());
         Log.get().info("Phase en cours " + this.game.getExpressoGameType().getCurrentPhase().name());
         // Définir le status de la prochaine phase
-        this.getGame().setBbState(this.game.getExpressoGameType().getCurrentPhase().state());
+        this.getGame().setBbState(this.game.getBuildBattleGameType().getCurrentPhase().state());
         // Lancer la Task de la prochaine phase
-        this.startPhase(this.game.getExpressoGameType().getCurrentPhase().runnable());
+        this.startPhase(this.game.getBuildBattleGameType().getCurrentPhase().runnable());
         // Lancer le moteur de la partie si il en existe un pour la phase en cours
-        if (this.game.getExpressoGameType().getCurrentPhase().engine() != null) {
+        if (this.game.getBuildBattleGameType().getCurrentPhase().engine() != null) {
             // Lancer le moteur de la partie
-            this.game.getExpressoGameType().getCurrentPhase().engine().load();
+            this.game.getBuildBattleGameType().getCurrentPhase().engine().load();
             // Enregister les evenements propre aux moteur de la partie
-            this.game.getExpressoGameType().getCurrentPhase().engine().registerListener();
+            this.game.getBuildBattleGameType().getCurrentPhase().engine().registerListener();
         }
     }
 
@@ -211,14 +211,6 @@ public class BuildBattleManager {
         LAUNCHING,
         IN_GAME,
         ENDING
-    }
-
-    /***
-     * État de la partie
-     */
-    public enum BBPartySize {
-        SOLO,
-        TEAM
     }
 }
 

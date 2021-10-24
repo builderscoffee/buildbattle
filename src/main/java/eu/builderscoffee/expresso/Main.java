@@ -45,7 +45,6 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        //eu.builderscoffee.commons.bukkit.Main.getInstance().getSettings().getLoadMode().equals(SettingsConfig.LoadMode.LAZY);
 
         // Read or create configurations
         messages = readOrCreateConfiguration(this.getName(), MessageConfiguration.class);

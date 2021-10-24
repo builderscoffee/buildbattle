@@ -1,15 +1,19 @@
 package eu.builderscoffee.expresso.buildbattle;
 
+import eu.builderscoffee.commons.common.data.tables.BuildbattleEntity;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.events.competitor.CompetitorJoinEvent;
 import eu.builderscoffee.expresso.buildbattle.events.competitor.CompetitorLeaveEvent;
+import eu.builderscoffee.expresso.buildbattle.games.classic.ClassicGameType;
 import eu.builderscoffee.expresso.buildbattle.games.expressos.ExpressoGameType;
 import eu.builderscoffee.expresso.buildbattle.games.expressos.ExpressoManager;
 import eu.builderscoffee.expresso.buildbattle.games.expressos.types.IlClassicoExpressoGameType;
+import eu.builderscoffee.expresso.buildbattle.games.tournament.TournamentGameType;
 import eu.builderscoffee.expresso.buildbattle.notation.NotationManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.buildbattle.teams.TeamManager;
 import lombok.Data;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -31,14 +35,19 @@ public class BuildBattle {
     private List<Player> jury = new ArrayList<>();
     // Type d'instance ( Expresso , BB , tournois )
     private BuildBattleInstanceType bbGameTypes = BuildBattleInstanceType.NONE;
+    // Type de partie
+    private BuildBattleGameType buildBattleGameType;
+    private ExpressoGameType expressoGameType = new IlClassicoExpressoGameType();
+    private ClassicGameType classicGameType = new ClassicGameType();
+    private TournamentGameType tournamentGameType = new TournamentGameType();
     // Phase de la partie
     private Deque<BBPhase> instancePhases;
-    private ExpressoGameType expressoGameType = new IlClassicoExpressoGameType();
     // Manager
     private BuildBattleManager bbGameManager;
     private ExpressoManager expressoManager;
     private NotationManager notationManager;
     // Instance Check
+    @Setter
     private boolean isReady = false;
 
 
@@ -54,37 +63,36 @@ public class BuildBattle {
         teamManager = new TeamManager();
         notationManager = new NotationManager();
 
+        // Setup game managers
+        expressoManager = new ExpressoManager(this);
+
     }
 
-    /***
-     * Sélectionner le type de partie à lancer
-     * @param battleInstanceType - Type d'instance
-     * @param battleGameType - Instance de la partie
-     */
-    public final void selectBuildBattleType(BuildBattleInstanceType battleInstanceType, BuildBattleGameType battleGameType) {
-        switch (battleInstanceType) {
-            case EXPRESSO:
-                configureExpresso((ExpressoGameType) battleGameType);
-            case CLASSIC:
-            case TOURNAMENT:
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + battleInstanceType);
-        }
-    }
-
-    // EXPRESSO GAME TYPE
+    // CONFIGURE GAME TYPE
 
     /***
      * Définir ou redéfinir l'expresso de la partie en cours
      *
-     * @param expressoGameType
+     * @param type
      */
-    public final void configureExpresso(ExpressoGameType expressoGameType) {
-        setExpressoGameType(expressoGameType);
-        setInstancePhases(expressoGameType.getPhases());
+    public final void configureGameType(BuildBattleInstanceType type) {
+        switch (type) {
+            case NONE:
+            case CLASSIC:
+                setBuildBattleGameType(classicGameType);
+                break;
+            case EXPRESSO:
+                setBuildBattleGameType(expressoGameType);
+                break;
+            case TOURNAMENT:
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + type);
+        }
+        setInstancePhases(buildBattleGameType.getPhases());
 
     }
+
 
     // COMPETITOR
 

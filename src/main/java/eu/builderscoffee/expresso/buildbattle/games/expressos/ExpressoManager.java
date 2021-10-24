@@ -26,6 +26,15 @@ public class ExpressoManager {
     }
 
     /**
+     * Retourne un expresso par sont nom
+     * @param name
+     * @return
+     */
+    public ExpressoGameType fetchExpressoByName(String name) {
+        return expressoGameTypes.stream().filter(expresso -> expresso.getName().equals(name)).findFirst().get();
+    }
+
+    /**
      * Retournes tout les expresso crées
      */
     private void getAllExpresso() {

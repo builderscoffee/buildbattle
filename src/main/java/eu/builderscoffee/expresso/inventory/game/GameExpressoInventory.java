@@ -5,6 +5,7 @@ import eu.builderscoffee.api.bukkit.gui.ClickableItem;
 import eu.builderscoffee.api.bukkit.gui.SmartInventory;
 import eu.builderscoffee.api.bukkit.gui.content.*;
 import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.buildbattle.BuildBattleInstanceType;
 import eu.builderscoffee.expresso.buildbattle.games.expressos.ExpressoGameType;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -39,7 +40,9 @@ public class GameExpressoInventory implements InventoryProvider {
                     e -> {
                         // do action on click
                         ExpressoGameType expressoGameType = expressoGameTypeList.get(expressoIndex);
-                        Main.getBbGame().configureExpresso(expressoGameType);
+                        Main.getBbGame().configureGameType(BuildBattleInstanceType.EXPRESSO);
+                        Main.getBbGame().setBuildBattleGameType(expressoGameType);
+                        Main.getBbGame().setExpressoGameType(expressoGameType);
                         player.sendMessage("§aVous avez selectionné :§f " + expressoGameType.getName());
                     });
         }

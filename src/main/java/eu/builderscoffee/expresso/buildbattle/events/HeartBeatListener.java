@@ -12,7 +12,7 @@ public class HeartBeatListener implements EventListener {
     @ProcessEvent
     public void onHeartBeat(HeartBeatEvent event) {
         if (Objects.nonNull(Main.getBbGame())) {
-            event.getServer().getProperties().put("State", Main.getBbGame().getBbState());
+            event.getServer().getProperties().put("State", Main.getBbGame().getBbState().toString());
         }
     }
 }

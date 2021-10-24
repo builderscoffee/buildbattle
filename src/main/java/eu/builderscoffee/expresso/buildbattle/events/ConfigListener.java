@@ -46,8 +46,19 @@ public class ConfigListener implements PacketListener {
     }
 
     @ProcessPacket
+    public void onRequestExpresso(ServerManagerRequest request) {
+        if(request.getAction().startsWith("expresso.")) {
+            val expressoString = request.getAction().replace("expresso.","");
+            Main.getBbGame().setExpressoGameType(Main.getBbGame().getExpressoManager().fetchExpressoByName(expressoString));
+            Main.getBbGame().configureGameType(BuildBattleInstanceType.EXPRESSO);
+            sendStartConfig(request);
+        }
+    }
+
+    @ProcessPacket
     public void onRequestStart(ServerManagerRequest request) {
         if (request.getAction().equals("start")) {
+            Main.getBbGame().setReady(true);
             Main.getBbGame().getBbGameManager().startTimer();
             Main.getBbGame().getBbGameManager().startBoard();
         }
@@ -62,6 +73,7 @@ public class ConfigListener implements PacketListener {
         val response = new ServerManagerResponse(request);
 
         for (BuildBattleInstanceType bbit : BuildBattleInstanceType.values()) {
+            if(bbit.equals(BuildBattleInstanceType.NONE)) continue;
             val item = new ItemBuilder(Material.PAPER).setName(bbit.name()).build();
             response.setTitle(Bukkit.getName() + " Configuration");
             response.addItem(-1, -1, item, "type." + bbit.name());
@@ -83,17 +95,21 @@ public class ConfigListener implements PacketListener {
 
         switch (Main.getBbGame().getBbGameTypes()) {
             case CLASSIC:
+                //Main.getBbGame().setClassicGameType(null);
+                //Main.getBbGame().configureGameType(BuildBattleInstanceType.CLASSIC);
                 break;
             case EXPRESSO:
+                System.out.println("Send expresso list");
                 val expressoList = Main.getBbGame().getExpressoManager().getExpressoGameTypes();
-                expressoList.stream()
-                        .filter(expresso -> request.getAction().equals("type." + expresso.getName()))
+                expressoList
                         .forEach(expresso -> {
+                            System.out.println(expresso.toString());
                             response.addItem(-1, -1, expresso.getIcon(), "expresso." + expresso.getName());
-                            Main.getBbGame().configureExpresso(expresso);
                         });
                 break;
             case TOURNAMENT:
+                //Main.getBbGame().setTournamentGameType(null);
+                //Main.getBbGame().configureGameType(BuildBattleInstanceType.TOURNAMENT);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + Main.getBbGame().getBbGameTypes());
@@ -115,8 +131,7 @@ public class ConfigListener implements PacketListener {
         if (!Main.getBbGame().getBbGameManager().isRunning())
             response.addItem(-1, -1, new ItemBuilder(Material.WOOL, 1, (short) 13).setName("Démarer").build(), "start");
         else
-            response.setTitle("finish");
-
+            response.setFinished(true);
         // Publish the reponse
         Redis.publish(CommonTopics.SERVER_MANAGER, response);
         System.out.println(request.serialize());
