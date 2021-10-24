@@ -9,7 +9,8 @@ public enum BuildBattleInstanceType {
 
     EXPRESSO(ExpressoGameType.class, "Expresso"),
     CLASSIC(ClassicGameType.class, "Classic"),
-    TOURNAMENT(TournamentGameType.class, "Tournois");
+    TOURNAMENT(TournamentGameType.class, "Tournois"),
+    NONE(null, "Rien");
 
     @Getter
     private final Class<? extends BuildBattleGameType> buildbattleGameTypeClass;

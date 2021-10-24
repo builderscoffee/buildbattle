@@ -26,19 +26,17 @@ public class ConfigListener implements PacketListener {
             if (Objects.isNull(Main.getBbGame())) {
                 sendBuildBattleInstanceType(request);
                 return;
-            }
-            else if(Main.getBbGame().getBbGameTypes().equals(BuildBattleInstanceType.NONE)) {
+            } else if (Main.getBbGame().getBbGameTypes().equals(BuildBattleInstanceType.NONE)) {
                 sendGameType(request);
                 return;
-            }
-            else {
+            } else {
                 sendStartConfig(request);
             }
         }
     }
 
     @ProcessPacket
-    public void onRequestType(ServerManagerRequest request){
+    public void onRequestType(ServerManagerRequest request) {
         //Define BuildBattleInstanceType
         if (request.getAction().startsWith("type.")) {
             val type = BuildBattleInstanceType.valueOf(request.getAction().replaceFirst("type.", ""));
@@ -48,7 +46,7 @@ public class ConfigListener implements PacketListener {
     }
 
     @ProcessPacket
-    public void onRequestStart(ServerManagerRequest request){
+    public void onRequestStart(ServerManagerRequest request) {
         if (request.getAction().equals("start")) {
             Main.getBbGame().getBbGameManager().startTimer();
             Main.getBbGame().getBbGameManager().startBoard();
@@ -59,7 +57,7 @@ public class ConfigListener implements PacketListener {
      * Envoyer la réponses avec le type de partie
      * @param request
      */
-    public void sendBuildBattleInstanceType(ServerManagerRequest request){
+    public void sendBuildBattleInstanceType(ServerManagerRequest request) {
         // Create from the request
         val response = new ServerManagerResponse(request);
 
@@ -79,7 +77,7 @@ public class ConfigListener implements PacketListener {
      * Envoyer la réponses avec le type de sous partie
      * @param request
      */
-    public void sendGameType(ServerManagerRequest request){
+    public void sendGameType(ServerManagerRequest request) {
         // Create from the request
         val response = new ServerManagerResponse(request);
 
@@ -87,12 +85,12 @@ public class ConfigListener implements PacketListener {
             case CLASSIC:
                 break;
             case EXPRESSO:
-                val expressoList = Main.getBbGame().getExpressoManager().getExpressos();
+                val expressoList = Main.getBbGame().getExpressoManager().getExpressoGameTypes();
                 expressoList.stream()
                         .filter(expresso -> request.getAction().equals("type." + expresso.getName()))
                         .forEach(expresso -> {
                             response.addItem(-1, -1, expresso.getIcon(), "expresso." + expresso.getName());
-                            Main.getBbGame().defineExpresso(expresso);
+                            Main.getBbGame().configureExpresso(expresso);
                         });
                 break;
             case TOURNAMENT:
@@ -110,11 +108,11 @@ public class ConfigListener implements PacketListener {
      * Envoyer la réponse pour démarrer la partie
      * @param request
      */
-    public void sendStartConfig(ServerManagerRequest request){
+    public void sendStartConfig(ServerManagerRequest request) {
         // Create from the request
         val response = new ServerManagerResponse(request);
 
-        if(!Main.getBbGame().getBbGameManager().isRunning())
+        if (!Main.getBbGame().getBbGameManager().isRunning())
             response.addItem(-1, -1, new ItemBuilder(Material.WOOL, 1, (short) 13).setName("Démarer").build(), "start");
         else
             response.setTitle("finish");

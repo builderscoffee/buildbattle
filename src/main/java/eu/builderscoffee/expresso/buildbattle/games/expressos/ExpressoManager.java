@@ -11,8 +11,8 @@ import java.util.List;
 @Data
 public class ExpressoManager {
 
-    public List<ExpressoGameType> expressoGameTypes;
     private final BuildBattle bbGame;
+    public List<ExpressoGameType> expressoGameTypes;
     private ExpressoGameType currentExpressoGameType;
 
     public ExpressoManager(BuildBattle bbGame) {

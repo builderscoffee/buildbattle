@@ -13,22 +13,20 @@ import eu.builderscoffee.expresso.inventory.jury.JuryNotationInventory;
 import eu.builderscoffee.expresso.inventory.jury.JuryTeleportation;
 import eu.builderscoffee.expresso.utils.PlotUtils;
 import lombok.val;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class PlotCommand implements CommandExecutor {
 
-    MessageConfiguration messages = Main.getMessages();
     static SettingsConfiguration settings = Main.getSettings();
+    MessageConfiguration messages = Main.getMessages();
 
     public static boolean argLength0(Player player) {
         List<String> commandList = new ArrayList<>();
@@ -96,7 +94,7 @@ public class PlotCommand implements CommandExecutor {
                 }
                 player.sendMessage("Ce plot a " + a.size() + "notation(s)");
                 for (Notation note : a) {
-                   // player.sendMessage("Juge: " + Bukkit.getOfflinePlayer(note.getUUID()).getName() + " Fun: " + note.getFun());
+                    // player.sendMessage("Juge: " + Bukkit.getOfflinePlayer(note.getUUID()).getName() + " Fun: " + note.getFun());
                 }
                 break;
 

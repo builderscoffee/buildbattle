@@ -15,18 +15,21 @@ public abstract class BuildBattleGameType {
 
     /**
      * Retourne le nom du buildbattle
+     *
      * @return
      */
     public abstract String getName();
 
     /**
      * Retourne le thèmes du buildbattle
+     *
      * @return
      */
     public abstract String getThemes();
 
     /**
      * Retournes les phases du buildbattle
+     *
      * @return
      */
     public Deque<BBPhase> getPhases() {

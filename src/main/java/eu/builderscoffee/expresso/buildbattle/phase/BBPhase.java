@@ -1,7 +1,7 @@
 package eu.builderscoffee.expresso.buildbattle.phase;
 
-import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleEngine;
+import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /***

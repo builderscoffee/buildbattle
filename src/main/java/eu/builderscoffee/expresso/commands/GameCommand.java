@@ -4,7 +4,6 @@ import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
 import eu.builderscoffee.expresso.inventory.game.GameExpressoInventory;
-import eu.builderscoffee.expresso.inventory.game.GameTypeInventory;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -53,7 +52,7 @@ public class GameCommand implements CommandExecutor {
                 } else {
                     player.sendMessage(messages.getGlobal_prefix() + messages.getGame_not_going_to_start());
                 }
-                case "sql":
+            case "sql":
 
             default:
                 return false;
@@ -64,10 +63,10 @@ public class GameCommand implements CommandExecutor {
     private boolean argLength2(Player player, String cmd, String arg1) {
         cmd = cmd.toLowerCase();
         if (cmd.equals("sql")) {
-            if(arg1.equals("on") && !Main.getSettings().getSqlMode()) {
+            if (arg1.equals("on") && !Main.getSettings().getSqlMode()) {
                 Main.getSettings().setSqlMode(true);
                 player.sendMessage("§a SQL MODE ON");
-            } else if(arg1.equals("off") && Main.getSettings().getSqlMode()){
+            } else if (arg1.equals("off") && Main.getSettings().getSqlMode()) {
                 Main.getSettings().setSqlMode(false);
                 player.sendMessage("§c SQL MODE OFF");
             }

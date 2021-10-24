@@ -1,6 +1,5 @@
 package eu.builderscoffee.expresso.buildbattle.notation;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 
@@ -12,11 +11,11 @@ import java.util.UUID;
 @Data
 public class Notation {
     private UUID UUID;
-    private Map<NotationType,Integer> notes = new HashMap<>();
+    private Map<NotationType, Integer> notes = new HashMap<>();
 
     public Notation(UUID uuid) {
         this.UUID = uuid;
-        Arrays.stream(NotationType.values()).forEach(notationType -> notes.put(notationType,0));
+        Arrays.stream(NotationType.values()).forEach(notationType -> notes.put(notationType, 0));
     }
 
     public enum NotationType {

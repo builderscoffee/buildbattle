@@ -2,9 +2,9 @@ package eu.builderscoffee.expresso.buildbattle.games.expressos.types;
 
 import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
 import eu.builderscoffee.expresso.buildbattle.games.expressos.ExpressoGameType;
+import eu.builderscoffee.expresso.buildbattle.games.expressos.phases.HazarPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.bases.EndPhase;
-import eu.builderscoffee.expresso.buildbattle.games.expressos.phases.HazarPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.bases.LaunchingPhase;
 import lombok.val;
 import org.bukkit.Material;

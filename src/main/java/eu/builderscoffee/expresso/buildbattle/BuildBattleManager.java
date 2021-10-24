@@ -1,6 +1,7 @@
 package eu.builderscoffee.expresso.buildbattle;
 
 import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.board.BBBoard;
 import eu.builderscoffee.expresso.buildbattle.games.expressos.ExpressoManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.utils.Log;

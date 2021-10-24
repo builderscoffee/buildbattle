@@ -6,12 +6,9 @@ import eu.builderscoffee.api.bukkit.utils.Plugins;
 import eu.builderscoffee.api.common.events.EventHandler;
 import eu.builderscoffee.api.common.redisson.Redis;
 import eu.builderscoffee.commons.common.redisson.topics.CommonTopics;
-import eu.builderscoffee.expresso.board.BBBoard;
 import eu.builderscoffee.expresso.buildbattle.BuildBattle;
 import eu.builderscoffee.expresso.buildbattle.events.ConfigListener;
 import eu.builderscoffee.expresso.buildbattle.events.HeartBeatListener;
-import eu.builderscoffee.expresso.listeners.PlotListener;
-import eu.builderscoffee.expresso.listeners.TeamListeners;
 import eu.builderscoffee.expresso.commands.GameCommand;
 import eu.builderscoffee.expresso.commands.JuryCommand;
 import eu.builderscoffee.expresso.commands.PlotCommand;
@@ -41,7 +38,8 @@ public class Main extends JavaPlugin {
     public static InventoryManager inventoryManager;
     @Getter
     private static Main instance;
-    @Getter @Setter
+    @Getter
+    @Setter
     private static BuildBattle bbGame;
 
     @Override
@@ -58,7 +56,7 @@ public class Main extends JavaPlugin {
         Plugins.registerListeners(this, new PlayerListener(), new CompetitorListener(), new TeamListeners(), new PlotListener());
 
         // Register Redis Listeners
-        Redis.subscribe(CommonTopics.SERVER_MANAGER,new ConfigListener());
+        Redis.subscribe(CommonTopics.SERVER_MANAGER, new ConfigListener());
 
         // Register BuildCoffee EventListeners
         EventHandler.getInstance().addListener(new HeartBeatListener());

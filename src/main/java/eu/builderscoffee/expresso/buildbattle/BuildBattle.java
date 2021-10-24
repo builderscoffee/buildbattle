@@ -1,7 +1,5 @@
 package eu.builderscoffee.expresso.buildbattle;
 
-import eu.builderscoffee.commons.common.data.DataManager;
-import eu.builderscoffee.commons.common.data.tables.BuildbattleEntity;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.events.competitor.CompetitorJoinEvent;
 import eu.builderscoffee.expresso.buildbattle.events.competitor.CompetitorLeaveEvent;
@@ -24,21 +22,21 @@ import java.util.List;
 @Accessors(chain = true)
 public class BuildBattle {
 
+    // Etat de la partie
+    public BuildBattleManager.BBState bbState = BuildBattleManager.BBState.WAITING;
+    public TeamManager teamManager;
     // Liste des compétiteurs
     private List<Player> competitor = new ArrayList<>();
     // Liste des jurys
     private List<Player> jury = new ArrayList<>();
     // Type d'instance ( Expresso , BB , tournois )
     private BuildBattleInstanceType bbGameTypes = BuildBattleInstanceType.NONE;
-    // Etat de la partie
-    public BuildBattleManager.BBState bbState = BuildBattleManager.BBState.WAITING;
     // Phase de la partie
     private Deque<BBPhase> instancePhases;
     private ExpressoGameType expressoGameType = new IlClassicoExpressoGameType();
     // Manager
     private BuildBattleManager bbGameManager;
     private ExpressoManager expressoManager;
-    public TeamManager teamManager;
     private NotationManager notationManager;
     // Instance Check
     private boolean isReady = false;
@@ -64,7 +62,7 @@ public class BuildBattle {
      * @param battleGameType - Instance de la partie
      */
     public final void selectBuildBattleType(BuildBattleInstanceType battleInstanceType, BuildBattleGameType battleGameType) {
-        switch(battleInstanceType) {
+        switch (battleInstanceType) {
             case EXPRESSO:
                 configureExpresso((ExpressoGameType) battleGameType);
             case CLASSIC:

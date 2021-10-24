@@ -22,12 +22,12 @@ public class NotationManager {
     public void AddValueToNotation(Notation notation, Notation.NotationType notationType, int value) {
         val cachedValue = notation.getNotes().get(notationType);
         int finalValue = cachedValue + value;
-        if(finalValue > notationType.getMaxValue())
+        if (finalValue > notationType.getMaxValue())
             finalValue = notationType.getMaxValue();
-        else if(finalValue < 0)
+        else if (finalValue < 0)
             finalValue = 0;
         notation.getNotes().put(notationType, finalValue);
-        }
+    }
 
     /***
      * Ajouter une notation à un plot
