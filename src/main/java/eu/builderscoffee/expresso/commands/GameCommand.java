@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class GameCommand implements CommandExecutor {
 
@@ -34,7 +35,7 @@ public class GameCommand implements CommandExecutor {
         cmd = cmd.toLowerCase();
         switch (cmd) {
             case "type":
-                if (!Main.getBbGame().isReady()) {
+                if (Objects.nonNull(Main.getBbGame()) && !Main.getBbGame().isReady()) {
                     GameExpressoInventory.INVENTORY.open(player);
                 } else {
                     player.sendMessage(messages.getGlobal_prefix() + messages.getGame_cant_edit_type());

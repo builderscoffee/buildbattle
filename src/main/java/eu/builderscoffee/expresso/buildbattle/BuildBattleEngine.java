@@ -7,7 +7,7 @@ import java.util.List;
 public interface BuildBattleEngine {
 
     /***
-     * Démarrer le moteur de la game
+     * Démarrer le moteur de la partie
      */
     public void load();
 

@@ -20,6 +20,7 @@ public class ConfigListener implements PacketListener {
 
     @ProcessPacket
     public void onRequestConfig(ServerManagerRequest request) {
+        System.out.println(request.serialize());
         // Request BuildBattleInstanceType
         if (request.getAction().equals("request_config")) {
             if (Objects.isNull(Main.getBbGame())) {
@@ -42,7 +43,6 @@ public class ConfigListener implements PacketListener {
         if (request.getAction().startsWith("type.")) {
             val type = BuildBattleInstanceType.valueOf(request.getAction().replaceFirst("type.", ""));
             Main.setBbGame(new BuildBattle().setBbGameTypes(type));
-
             sendGameType(request);
         }
     }
@@ -51,6 +51,7 @@ public class ConfigListener implements PacketListener {
     public void onRequestStart(ServerManagerRequest request){
         if (request.getAction().equals("start")) {
             Main.getBbGame().getBbGameManager().startTimer();
+            Main.getBbGame().getBbGameManager().startBoard();
         }
     }
 
@@ -66,10 +67,12 @@ public class ConfigListener implements PacketListener {
             val item = new ItemBuilder(Material.PAPER).setName(bbit.name()).build();
             response.setTitle(Bukkit.getName() + " Configuration");
             response.addItem(-1, -1, item, "type." + bbit.name());
+            System.out.println(bbit.name());
         }
 
         // Publish the reponse
         Redis.publish(CommonTopics.SERVER_MANAGER, response);
+        System.out.println(request.serialize());
     }
 
     /***
@@ -100,6 +103,7 @@ public class ConfigListener implements PacketListener {
 
         // Publish the reponse
         Redis.publish(CommonTopics.SERVER_MANAGER, response);
+        System.out.println(response.serialize());
     }
 
     /***
@@ -117,5 +121,6 @@ public class ConfigListener implements PacketListener {
 
         // Publish the reponse
         Redis.publish(CommonTopics.SERVER_MANAGER, response);
+        System.out.println(request.serialize());
     }
 }

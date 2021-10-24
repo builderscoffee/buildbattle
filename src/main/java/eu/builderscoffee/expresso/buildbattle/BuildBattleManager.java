@@ -1,6 +1,7 @@
 package eu.builderscoffee.expresso.buildbattle;
 
 import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.board.BBBoard;
 import eu.builderscoffee.expresso.buildbattle.expressos.ExpressoManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.utils.Log;
@@ -55,7 +56,7 @@ public class BuildBattleManager {
     // GAME MANAGEMENT
 
     /***
-     *
+     * Lancer un timer pour check si on peux lancer la partie
      */
     public void startTimer() {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), () -> {
@@ -63,6 +64,16 @@ public class BuildBattleManager {
                 this.checkStart();
             }
         }, 0L, 20L);
+    }
+
+    /***
+     * Lancer le scoreboard
+     */
+    public void startBoard() {
+        // Update scoreboard
+        Main.getInstance().getServer().getScheduler().runTaskTimer(Main.getInstance(), () -> {
+            BBBoard.boards.values().forEach(BBBoard::updateBoard);
+        }, 0, 20);
     }
 
     /***

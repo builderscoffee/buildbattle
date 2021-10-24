@@ -18,6 +18,8 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.util.Objects;
+
 public class PlayerListener implements Listener {
 
     SettingsConfiguration settings = Main.getSettings();
@@ -41,11 +43,12 @@ public class PlayerListener implements Listener {
         // If player as plot
         player.teleport(LocationsUtil.getLocationFromString(Main.getSettings().getGlobal_spawn_location()));
 
-        if (Main.getBbGame().getBbState().equals(BuildBattleManager.BBState.IN_GAME)) {
-            player.setGameMode(GameMode.CREATIVE);
-            player.sendMessage(Main.getMessages().getGlobal_prefix() + "§a/plot auto pour participer");
+        if (Objects.nonNull(Main.getBbGame())) {
+            if (Main.getBbGame().getBbState().equals(BuildBattleManager.BBState.IN_GAME)) {
+                player.setGameMode(GameMode.CREATIVE);
+                player.sendMessage(Main.getMessages().getGlobal_prefix() + "§a/plot auto pour participer");
+            }
         }
-
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

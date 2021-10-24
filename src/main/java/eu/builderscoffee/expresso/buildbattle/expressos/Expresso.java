@@ -1,5 +1,6 @@
 package eu.builderscoffee.expresso.buildbattle.expressos;
 
+import eu.builderscoffee.expresso.buildbattle.BuildBattleInstanceType;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import lombok.Getter;
 import lombok.Setter;

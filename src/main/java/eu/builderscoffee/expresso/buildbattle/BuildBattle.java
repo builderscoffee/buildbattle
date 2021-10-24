@@ -24,13 +24,19 @@ import java.util.List;
 @Accessors(chain = true)
 public class BuildBattle {
 
-    private final List<Player> competitor = new ArrayList<>(); // La liste des compétitors
-    private final List<Player> jury = new ArrayList<>(); // La liste des jurys
-
+    // Liste des compétiteurs
+    private List<Player> competitor = new ArrayList<>();
+    // Liste des jurys
+    private List<Player> jury = new ArrayList<>();
+    // Type d'instance ( Expresso , BB , tournois )
     private BuildBattleInstanceType bbGameTypes = BuildBattleInstanceType.NONE;
+    // Etat de la partie
     public BuildBattleManager.BBState bbState = BuildBattleManager.BBState.WAITING;
+    // Phase de la partie
     private Deque<BBPhase> instancePhases;
+    // Type d'expresso
     private Expresso expressoType;
+
     // Manager
     private BuildBattleManager bbGameManager;
     private ExpressoManager expressoManager;
@@ -45,8 +51,10 @@ public class BuildBattle {
      */
 
     public BuildBattle() {
+        // Définir l'instance du BuildBattleManager
         setBbGameManager(new BuildBattleManager(this));
 
+        // Setup les managers
         teamManager = new TeamManager();
         notationManager = new NotationManager();
 
