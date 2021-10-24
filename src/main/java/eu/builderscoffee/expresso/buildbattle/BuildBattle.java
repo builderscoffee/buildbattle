@@ -5,9 +5,9 @@ import eu.builderscoffee.commons.common.data.tables.BuildbattleEntity;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.events.competitor.CompetitorJoinEvent;
 import eu.builderscoffee.expresso.buildbattle.events.competitor.CompetitorLeaveEvent;
-import eu.builderscoffee.expresso.buildbattle.expressos.Expresso;
-import eu.builderscoffee.expresso.buildbattle.expressos.ExpressoManager;
-import eu.builderscoffee.expresso.buildbattle.expressos.types.IlClassicoExpresso;
+import eu.builderscoffee.expresso.buildbattle.games.expressos.ExpressoGameType;
+import eu.builderscoffee.expresso.buildbattle.games.expressos.ExpressoManager;
+import eu.builderscoffee.expresso.buildbattle.games.expressos.types.IlClassicoExpressoGameType;
 import eu.builderscoffee.expresso.buildbattle.notation.NotationManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.buildbattle.teams.TeamManager;
@@ -34,9 +34,7 @@ public class BuildBattle {
     public BuildBattleManager.BBState bbState = BuildBattleManager.BBState.WAITING;
     // Phase de la partie
     private Deque<BBPhase> instancePhases;
-    // Type d'expresso
-    private Expresso expressoType;
-
+    private ExpressoGameType expressoGameType = new IlClassicoExpressoGameType();
     // Manager
     private BuildBattleManager bbGameManager;
     private ExpressoManager expressoManager;
@@ -60,21 +58,34 @@ public class BuildBattle {
 
     }
 
-    // EXPRESSO INSTANCE
+    /***
+     * Sélectionner le type de partie à lancer
+     * @param battleInstanceType - Type d'instance
+     * @param battleGameType - Instance de la partie
+     */
+    public final void selectBuildBattleType(BuildBattleInstanceType battleInstanceType, BuildBattleGameType battleGameType) {
+        switch(battleInstanceType) {
+            case EXPRESSO:
+                configureExpresso((ExpressoGameType) battleGameType);
+            case CLASSIC:
+            case TOURNAMENT:
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + battleInstanceType);
+        }
+    }
+
+    // EXPRESSO GAME TYPE
 
     /***
      * Définir ou redéfinir l'expresso de la partie en cours
      *
-     * @param expresso
+     * @param expressoGameType
      */
-    public final void defineExpresso(Expresso expresso) {
-        setExpressoType(expresso);
-        setInstancePhases(expresso.getPhases());
+    public final void configureExpresso(ExpressoGameType expressoGameType) {
+        setExpressoGameType(expressoGameType);
+        setInstancePhases(expressoGameType.getPhases());
 
-    }
-
-    public final void startExpresso() {
-        bbGameManager.startGame();
     }
 
     // COMPETITOR

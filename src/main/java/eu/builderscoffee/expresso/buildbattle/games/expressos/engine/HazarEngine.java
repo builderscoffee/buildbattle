@@ -1,9 +1,9 @@
-package eu.builderscoffee.expresso.buildbattle.expressos.engine;
+package eu.builderscoffee.expresso.buildbattle.games.expressos.engine;
 
 import eu.builderscoffee.api.common.configuration.Configuration;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleEngine;
-import eu.builderscoffee.expresso.buildbattle.expressos.listeners.HazarListener;
+import eu.builderscoffee.expresso.buildbattle.games.expressos.listeners.HazarListener;
 import eu.builderscoffee.expresso.inventory.HazardExpressoInventory;
 import eu.builderscoffee.expresso.utils.Log;
 import eu.builderscoffee.expresso.utils.Tuple;

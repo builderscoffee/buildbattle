@@ -31,7 +31,7 @@ public class BBBoard {
             board.updateLines(
                     "§0§8§m----------§8§m------",
                     "§aSaison : " + Main.getSettings().getBoard_season_name(),
-                    "§aExpresso : §f" + Main.getBbGame().getExpressoType().getName(),
+                    "§aExpresso : §f" + Main.getBbGame().getExpressoGameType().getName(),
                     "§aThème : " + "§f§kLait",
                     "§aTimer : §fEn Attente",
                     "",
@@ -42,18 +42,18 @@ public class BBBoard {
             board.updateLines(
                     "§0§8§m----------§8§m------",
                     "§aSaison : " + Main.getSettings().getBoard_season_name(),
-                    "§aExpresso : §f" + Main.getBbGame().getExpressoType().getName(),
+                    "§aExpresso : §f" + Main.getBbGame().getExpressoGameType().getName(),
                     "§aThème : " + "§f§kLait",
-                    "§aTimer : §f" + TimeUtils.getDurationString(Main.getBbGame().getExpressoType().getCurrentPhase().time()),
+                    "§aTimer : §f" + TimeUtils.getDurationString(Main.getBbGame().getExpressoGameType().getCurrentPhase().time()),
                     "",
                     Main.getSettings().getBoard_server_ip(),
                     "§0§8§m----------§8§m------"
             );
         } else if (Main.getBbGame().getBbState().equals(BuildBattleManager.BBState.IN_GAME)) {
-            val part1 = Arrays.asList("§0§8§m----------§8§m------", "§aSaison :  " + Main.getSettings().getBoard_season_name(), "§aExpresso : §f" + Main.getBbGame().getExpressoType().getName());
+            val part1 = Arrays.asList("§0§8§m----------§8§m------", "§aSaison :  " + Main.getSettings().getBoard_season_name(), "§aExpresso : §f" + Main.getBbGame().getExpressoGameType().getName());
             val _board = new ArrayList<>(part1);
             //_board.addAll(getTheme());
-            val part2 = Arrays.asList("§aTimer : §f" + TimeUtils.getDurationString(Main.getBbGame().getExpressoType().getCurrentPhase().time()), "", Main.getSettings().getBoard_server_ip(), "§0§8§m----------§8§m------");
+            val part2 = Arrays.asList("§aTimer : §f" + TimeUtils.getDurationString(Main.getBbGame().getExpressoGameType().getCurrentPhase().time()), "", Main.getSettings().getBoard_server_ip(), "§0§8§m----------§8§m------");
             _board.addAll(part2);
             board.updateLines(_board);
         }

@@ -23,7 +23,7 @@
                 <repository>
                     <id>github</id>
                     <name>GitHub BuildersCoffee Apache Maven Packages</name>
-                    <url>https://maven.pkg.github.com/builderscoffee/Expresso</url>
+                    <url>https://maven.pkg.github.com/builderscoffee/*</url>
                 </repository>
             </distributionManagement>
         </profile>

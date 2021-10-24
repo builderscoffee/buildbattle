@@ -10,6 +10,8 @@ import eu.builderscoffee.expresso.board.BBBoard;
 import eu.builderscoffee.expresso.buildbattle.BuildBattle;
 import eu.builderscoffee.expresso.buildbattle.events.ConfigListener;
 import eu.builderscoffee.expresso.buildbattle.events.HeartBeatListener;
+import eu.builderscoffee.expresso.listeners.PlotListener;
+import eu.builderscoffee.expresso.listeners.TeamListeners;
 import eu.builderscoffee.expresso.commands.GameCommand;
 import eu.builderscoffee.expresso.commands.JuryCommand;
 import eu.builderscoffee.expresso.commands.PlotCommand;
