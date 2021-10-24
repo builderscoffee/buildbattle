@@ -56,25 +56,25 @@ public class BuildBattleManager {
     // GAME MANAGEMENT
 
     /***
-     * Lancer un timer pour check si on peux lancer la partie
+     * Lancer
      */
-    public void startTimer() {
+    public void startGame() {
+        // La partie est prête à démarrer
+        Main.getBbGame().setReady(true);
+
+        // Lancer le check de démarrage
         Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), () -> {
             if (game != null) {
                 this.checkStart();
             }
         }, 0L, 20L);
-    }
 
-    /***
-     * Lancer le scoreboard
-     */
-    public void startBoard() {
-        // Update scoreboard
+        // Mettre à jour le scoreboard
         Main.getInstance().getServer().getScheduler().runTaskTimer(Main.getInstance(), () -> {
             BBBoard.boards.values().forEach(BBBoard::updateBoard);
         }, 0, 20);
     }
+
 
     /***
      * Checker si la partie peux démarrer
@@ -105,13 +105,6 @@ public class BuildBattleManager {
     }
 
     /***
-     * Lancer une nouvelle partie
-     */
-    public void startGame() {
-        this.getGame().setBbState(BBState.IN_GAME);
-    }
-
-    /***
      * Annuler la partie en cours et
      * reset le système
      */
@@ -122,7 +115,6 @@ public class BuildBattleManager {
         this.game.setBbState(BBState.WAITING);
         this.game.setReady(false);
     }
-
 
     /***
      * Stopper la partie en cours
@@ -151,8 +143,6 @@ public class BuildBattleManager {
             getCurrentTask().cancel();
         }
         setCurrentTask(runnable.runTaskTimerAsynchronously(main, 0, 20));
-
-
     }
 
     /***
