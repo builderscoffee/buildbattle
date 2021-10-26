@@ -37,7 +37,11 @@ public class EndPhase implements BBPhase {
         return new BukkitRunnable() {
             @Override
             public void run() {
+                // Finir la partie
                 Main.getBbGame().getBbGameManager().endGame();
+                // Cancel cette phase
+                Main.getBbGame().getBbGameManager().cancelPhase();
+                //TODO Autre chose à faire avant de fermer le serveur ?
             }
         };
     }

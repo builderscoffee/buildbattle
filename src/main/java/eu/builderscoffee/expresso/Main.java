@@ -61,7 +61,7 @@ public class Main extends JavaPlugin {
         EventHandler.getInstance().addListener(new HeartBeatListener());
 
         // Register Command Executors
-        this.getCommand("game").setExecutor(new GameCommand());
+        //this.getCommand("game").setExecutor(new GameCommand());
         this.getCommand("jury").setExecutor(new JuryCommand());
         this.getCommand("group").setExecutor(new TeamCommand());
         this.getCommand("eplot").setExecutor(new PlotCommand());
