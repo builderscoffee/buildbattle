@@ -4,6 +4,7 @@ import com.intellectualcrafters.plot.api.PlotAPI;
 import com.intellectualcrafters.plot.object.Plot;
 import com.intellectualcrafters.plot.object.PlotPlayer;
 import com.intellectualcrafters.plot.util.MainUtil;
+import com.intellectualcrafters.plot.util.UUIDHandler;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.notation.Notation;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
@@ -12,7 +13,6 @@ import eu.builderscoffee.expresso.inventory.jury.JuryNotationInventory;
 import eu.builderscoffee.expresso.inventory.jury.JuryTeleportation;
 import eu.builderscoffee.expresso.utils.PlotUtils;
 import lombok.val;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,16 +21,17 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class PlotCommand implements CommandExecutor {
 
+    static SettingsConfiguration settings = Main.getSettings();
     MessageConfiguration messages = Main.getMessages();
-    SettingsConfiguration settings = Main.getSettings();
 
     public static boolean argLength0(Player player) {
         List<String> commandList = new ArrayList<>();
         commandList.add("§a/eplot §b: Aide du plugin Expresso");
-        commandList.add("§a/eplot info§b: Voir les info du plot");
+        commandList.add("§a/eplot info§b: Voir les infoormations du plot");
         for (String s : commandList) {
             player.sendMessage(s);
         }
@@ -43,17 +44,28 @@ public class PlotCommand implements CommandExecutor {
             case "info":
                 // Informations sur le plot
                 if (new PlotAPI().isInPlot(player)) {
-                    val plot = MainUtil.getPlotFromString(PlotPlayer.get(player.getName()), null, false);
-                    String name = MainUtil.getName(plot.owner);
-                    player.sendMessage("§0§7§m--- §fPlot §0§7§m---");
-                    player.sendMessage("§aId: §7" + PlotUtils.getPlotsPos(plot));
-                    player.sendMessage("§aOwner : §7" + name);
-                    player.sendMessage("§0§7§m------");
+                    if (new PlotAPI().getPlot(player.getLocation()).canClaim(UUIDHandler.getPlayer(player.getUniqueId()))) {
+                        val plot = MainUtil.getPlotFromString(PlotPlayer.get(player.getName()), null, false);
+                        String name = MainUtil.getName(plot.owner);
+                        List<String> membersList = new ArrayList<>();
+                        plot.getMembers().forEach(uuid -> membersList.add(UUIDHandler.getName(uuid)));
+                        player.sendMessage("§0§7§m--- §fPlot §0§7§m---");
+                        player.sendMessage("§aId: §7" + PlotUtils.getPlotsPos(plot));
+                        player.sendMessage("§aOwner : §7" + name);
+                        player.sendMessage("§aMembers : §7" + membersList.stream()
+                                .map(String::valueOf)
+                                .collect(Collectors.joining(" ,")));
+                        player.sendMessage("§0§7§m------");
+                    } else {
+                        player.sendMessage("§cCe plot n'est pas claim");
+                    }
                 } else {
                     player.sendMessage("§cTu n'est pas sur un plot, espèce de café moulu");
                 }
                 break;
-            case "paste":/*                Location loc = PlotUtils.convertBukkitLoc(player.getTargetBlock(null, 100).getLocation());
+            case "paste":
+                /*
+                Location loc = PlotUtils.convertBukkitLoc(player.getTargetBlock(null, 100).getLocation());
                 final Plot plot = loc.getPlotAbs();
                 PlotUtils.pasteSchematic(Main.getSettings().getSchematicToPaste(), plot);
                 player.sendMessage("§a Paste Plot Test");
@@ -82,7 +94,7 @@ public class PlotCommand implements CommandExecutor {
                 }
                 player.sendMessage("Ce plot a " + a.size() + "notation(s)");
                 for (Notation note : a) {
-                    player.sendMessage("Juge: " + Bukkit.getOfflinePlayer(note.getUUIDP()).getName() + " Fun: " + note.getFun());
+                    // player.sendMessage("Juge: " + Bukkit.getOfflinePlayer(note.getUUID()).getName() + " Fun: " + note.getFun());
                 }
                 break;
 
@@ -100,6 +112,12 @@ public class PlotCommand implements CommandExecutor {
                 PlotUtils.convertPlotCenterLoc(current.getCenter());
                 player.teleport(PlotUtils.convertPlotCenterLoc(current.getCenter()));
                 break;
+            case "schem":
+                new PlotUtils().exportAllSchematics(settings.getPath_for_backup(), () -> {
+                    System.out.println("Tout les plots on été schématisés");
+                });
+                break;
+
             default:
                 return false;
         }

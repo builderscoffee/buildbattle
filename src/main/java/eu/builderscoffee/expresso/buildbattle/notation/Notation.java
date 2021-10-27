@@ -1,60 +1,36 @@
 package eu.builderscoffee.expresso.buildbattle.notation;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Data
-@AllArgsConstructor
-
 public class Notation {
-    private UUID UUIDP;
-    private int baute, crea, amenagement, folklore, fun;
+    private UUID UUID;
+    private Map<NotationType, Integer> notes = new HashMap<>();
 
-
-    public boolean addCrea(int crea) {
-        if ((this.crea = this.crea + crea) > 22) {
-            return false;
-        } else {
-            this.crea = this.crea + crea;
-            return true;
-        }
+    public Notation(UUID uuid) {
+        this.UUID = uuid;
+        Arrays.stream(NotationType.values()).forEach(notationType -> notes.put(notationType, 0));
     }
 
-    public boolean addBaute(int baute) {
-        if ((this.baute = this.baute + baute) > 30) {
-            return false;
-        } else {
-            this.baute = this.baute + baute;
-            return true;
-        }
-    }
+    public enum NotationType {
 
-    public boolean addAmenagement(int amenagement) {
-        if ((this.amenagement = this.amenagement + amenagement) > 22) {
-            return false;
-        } else {
-            this.amenagement = this.amenagement + amenagement;
-            return true;
-        }
-    }
+        Beauty(30),
+        Creative(22),
+        Amenagement(22),
+        Folklore(22),
+        Fun(4);
 
-    public boolean addFolklore(int folklore) {
-        if ((this.folklore = this.folklore + folklore) > 22) {
-            return false;
-        } else {
-            this.folklore = this.folklore + folklore;
-            return true;
-        }
-    }
+        @Getter
+        private final int maxValue; // Valeur maximun d'une note
 
-    public boolean addFun(int fun) {
-        if ((this.fun = this.fun + fun) > 4) {
-            return false;
-        } else {
-            this.fun = this.fun + fun;
-            return true;
+        NotationType(int maxValue) {
+            this.maxValue = maxValue;
         }
     }
 

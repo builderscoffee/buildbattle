@@ -3,7 +3,7 @@ package eu.builderscoffee.expresso.board;
 
 import eu.builderscoffee.api.bukkit.board.FastBoard;
 import eu.builderscoffee.expresso.Main;
-import eu.builderscoffee.expresso.buildbattle.BBGameManager;
+import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
 import eu.builderscoffee.expresso.utils.TimeUtils;
 import lombok.val;
 
@@ -27,34 +27,33 @@ public class BBBoard {
      * @param board
      */
     public static void updateBoard(FastBoard board) {
-        if (Main.getBbGame().getBbState().equals(BBGameManager.BBState.WAITING)) {
+        if (Main.getBbGame().getGameState().equals(BuildBattleManager.GameState.WAITING)) {
             board.updateLines(
                     "§0§8§m----------§8§m------",
                     "§aSaison : " + Main.getSettings().getBoard_season_name(),
-                    "§aExpresso : §f" + Main.getBbGame().getExpressoType().getName(),
+                    "§aExpresso : §f" + Main.getBbGame().getExpressoGameType().getName(),
                     "§aThème : " + "§f§kLait",
                     "§aTimer : §fEn Attente",
                     "",
                     Main.getSettings().getBoard_server_ip(),
                     "§0§8§m----------§8§m------"
             );
-        } else if (Main.getBbGame().getBbState().equals(BBGameManager.BBState.LAUNCHING)) {
+        } else if (Main.getBbGame().getGameState().equals(BuildBattleManager.GameState.LAUNCHING)) {
             board.updateLines(
                     "§0§8§m----------§8§m------",
                     "§aSaison : " + Main.getSettings().getBoard_season_name(),
-                    "§aExpresso : §f" + Main.getBbGame().getExpressoType().getName(),
+                    "§aExpresso : §f" + Main.getBbGame().getExpressoGameType().getName(),
                     "§aThème : " + "§f§kLait",
-                    "§aTimer : §f" + TimeUtils.getDurationString(Main.getBbGame().getExpressoType().getCurrentPhase().time()),
+                    "§aTimer : §f" + TimeUtils.getDurationString(Main.getBbGame().getExpressoGameType().getCurrentPhase().time()),
                     "",
                     Main.getSettings().getBoard_server_ip(),
                     "§0§8§m----------§8§m------"
             );
-        } else if (Main.getBbGame().getBbState().equals(BBGameManager.BBState.IN_GAME)) {
-            val _board = new ArrayList<String>();
-            val part1 = Arrays.asList("§0§8§m----------§8§m------", "§aSaison :  " + Main.getSettings().getBoard_season_name(), "§aExpresso : §f" + Main.getBbGame().getExpressoType().getName());
-            _board.addAll(part1);
-            _board.addAll(getTheme());
-            val part2 = Arrays.asList("§aTimer : §f" + TimeUtils.getDurationString(Main.getBbGame().getExpressoType().getCurrentPhase().time()), "", Main.getSettings().getBoard_server_ip(), "§0§8§m----------§8§m------");
+        } else if (Main.getBbGame().getGameState().equals(BuildBattleManager.GameState.IN_GAME)) {
+            val part1 = Arrays.asList("§0§8§m----------§8§m------", "§aSaison :  " + Main.getSettings().getBoard_season_name(), "§aExpresso : §f" + Main.getBbGame().getExpressoGameType().getName());
+            val _board = new ArrayList<>(part1);
+            //_board.addAll(getTheme());
+            val part2 = Arrays.asList("§aTimer : §f" + TimeUtils.getDurationString(Main.getBbGame().getExpressoGameType().getCurrentPhase().time()), "", Main.getSettings().getBoard_server_ip(), "§0§8§m----------§8§m------");
             _board.addAll(part2);
             board.updateLines(_board);
         }

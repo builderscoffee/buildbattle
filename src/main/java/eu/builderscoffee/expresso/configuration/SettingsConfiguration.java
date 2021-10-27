@@ -14,6 +14,10 @@ public class SettingsConfiguration {
     // Global settings
     String global_spawn_location = "plotevent:0:65:0:90.0:0.0";
     String pluginMode = "DEV";
+    Boolean sqlMode = false;
+
+    // Schematic settings
+    String path_for_backup = "/home/builderscoffee/backup/minecraft/schematics/";
 
     // Permission settings
     String expresso_all_permission = "expresso.*";
@@ -29,5 +33,8 @@ public class SettingsConfiguration {
     // Game settings
     List<String> game_plugin_end_disable = Arrays.asList("worldedit", "fastasyncworldedit", "fastasyncvoxelsniper", "voxelsniper", "betterbrushes", "gobrush", "schematicbrush", "schematicsbrowser", "arceon", "gopaint");
     String game_schematic_to_paste = "cobble";
+
+    // Team settings
+    int team_maxplayer = 2;
 
 }

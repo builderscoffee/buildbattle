@@ -3,11 +3,13 @@ version: 0.1
 description: Expresso pour les build battle de Buildes Coffee.
 author: Ketsu_sama
 main: eu.builderscoffee.expresso.Main
-depend: [ BuildersCoffeeAPI ]
+depend: [ BuildersCoffeeAPI, BuildersCoffeeCommons ]
 commands:
   game:
-    description: Gerer le build battle
+    description: Gérer le build battle
   jury:
     description: Le menu jury
+  group:
+    description: Gestion de groupe
   eplot:
     description: Plot custom

@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class GameCommand implements CommandExecutor {
 
@@ -23,6 +24,7 @@ public class GameCommand implements CommandExecutor {
         commandList.add("§a/game type §b: Choisir le build battle");
         commandList.add("§a/game start §b: Démarrer le build battle");
         commandList.add("§a/game stop §b: Stopper le build battle");
+        commandList.add("§a/game sql <on/off> §b: Activer/Désactiver la sql pour la partie");
         for (String s : commandList) {
             player.sendMessage(s);
         }
@@ -33,7 +35,7 @@ public class GameCommand implements CommandExecutor {
         cmd = cmd.toLowerCase();
         switch (cmd) {
             case "type":
-                if (!Main.getBbGame().isReady()) {
+                if (Objects.nonNull(Main.getBbGame()) && !Main.getBbGame().isReady()) {
                     GameExpressoInventory.INVENTORY.open(player);
                 } else {
                     player.sendMessage(messages.getGlobal_prefix() + messages.getGame_cant_edit_type());
@@ -50,8 +52,26 @@ public class GameCommand implements CommandExecutor {
                 } else {
                     player.sendMessage(messages.getGlobal_prefix() + messages.getGame_not_going_to_start());
                 }
+            case "sql":
+
             default:
                 return false;
+        }
+        return true;
+    }
+
+    private boolean argLength2(Player player, String cmd, String arg1) {
+        cmd = cmd.toLowerCase();
+        if (cmd.equals("sql")) {
+            if (arg1.equals("on") && !Main.getSettings().getSqlMode()) {
+                Main.getSettings().setSqlMode(true);
+                player.sendMessage("§a SQL MODE ON");
+            } else if (arg1.equals("off") && Main.getSettings().getSqlMode()) {
+                Main.getSettings().setSqlMode(false);
+                player.sendMessage("§c SQL MODE OFF");
+            }
+        } else {
+            throw new IllegalStateException("Unexpected value: " + cmd);
         }
         return true;
     }
@@ -70,7 +90,7 @@ public class GameCommand implements CommandExecutor {
                         ret = argLength1(player, args[0]);
                         break;
                     case 2:
-                        //ret = argLength2(player, args[0], args[1]);
+                        ret = argLength2(player, args[0], args[1]);
                         break;
                     case 3:
                         //ret = argLength3(player, args[0], args[1], args[2]);
