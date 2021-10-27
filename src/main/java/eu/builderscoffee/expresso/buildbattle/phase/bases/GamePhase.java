@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Arrays;
 import java.util.stream.IntStream;
 
 import static eu.builderscoffee.expresso.utils.TimeUtils.HOUR;
@@ -34,8 +35,8 @@ public class GamePhase implements BBPhase {
 
     public GamePhase(int maxTime) {
         this.maxTime = maxTime;
-        this.bcTime = addTimeEach(new int[]{maxTime - 10 * MIN, maxTime - 30 * MIN, maxTime / 2}, 1 * HOUR);
-        this.titleTime = new int[]{maxTime - 1, maxTime - 2, maxTime - 3, maxTime - 4, maxTime - 5, maxTime - 10, maxTime - 20, maxTime - 30, maxTime - 1 * MIN};
+        this.bcTime = addTimeEach(new int[]{maxTime - 10 * MIN, maxTime - 30 * MIN, maxTime / 2}, HOUR);
+        this.titleTime = new int[]{maxTime - 1, maxTime - 2, maxTime - 3, maxTime - 4, maxTime - 5, maxTime - 10, maxTime - 20, maxTime - 30, maxTime - MIN};
     }
 
     @Override
@@ -54,8 +55,8 @@ public class GamePhase implements BBPhase {
     }
 
     @Override
-    public BuildBattleManager.BBState state() {
-        return BuildBattleManager.BBState.IN_GAME;
+    public BuildBattleManager.GameState state() {
+        return BuildBattleManager.GameState.IN_GAME;
     }
 
     @Override
@@ -72,9 +73,7 @@ public class GamePhase implements BBPhase {
                         @Override
                         public void run() {
                             getOnlinePlayers().forEach(p -> {
-
                                 //new Title("Thème", Main.getSettings().getBoard_build_theme(), 20, 20, 20).send(p);
-
                                 p.setGameMode(CREATIVE);
                             });
                         }
@@ -83,31 +82,19 @@ public class GamePhase implements BBPhase {
                     Main.getBbGame().broadcast(Main.getMessages().getGlobal_prefix() + "§a/plot auto pour participer");
                 }
                 // Log les minutes du jeux en console
-                if (time % 60 == 0) {
-                    Log.get().info(" " + time / 60 + " minutes de jeux");
-                }
+                if (time % 60 == 0) Log.get().info(" " + time / 60 + " minutes de jeux");
 
                 // Tout les X temps envoyé un broadcast pour le temps de jeux restant
-                for (int i : bcTime) {
-                    if (i == time) {
-                        Main.getBbGame().broadcast(Main.getMessages().getGlobal_prefix() + "§a" + TimeUtils.getDurationString(maxTime - time) + " §fde jeux restantes !");
-                    }
-                }
+                Arrays.stream(bcTime).filter(i -> i == time).forEach(i -> Main.getBbGame().broadcast(Main.getMessages().getGlobal_prefix() + "§a" + TimeUtils.getDurationString(maxTime - time) + " §fde jeux restantes !"));
 
                 // Tout les X temps envoyé un title pour la dernière minutes restante
-                for (int i : titleTime) {
-                    if (i == time) {
-                        getOnlinePlayers().forEach(p -> {
-                            new Title("§aTemps restant", TimeUtils.getDurationString(maxTime - time), 20, 5, 20).send(p);
-                        });
-                    }
-                }
+                Arrays.stream(titleTime).filter(i -> i == time).forEach(i -> getOnlinePlayers().forEach(p -> {
+                    new Title("§aTemps restant", TimeUtils.getDurationString(maxTime - time), 20, 5, 20).send(p);
+                }));
 
                 // Passer à l'étape suivante si le temps est écoulé
-                if (time >= maxTime) {
-                    //for (Player player : getOnlinePlayers()) player.setGameMode(SPECTATOR);
-                    Main.getBbGame().getBbGameManager().nextPhase();
-                }
+                //for (Player player : getOnlinePlayers()) player.setGameMode(SPECTATOR);
+                if (time >= maxTime) Main.getBbGame().getBbGameManager().nextPhase();
 
                 ++time;
             }

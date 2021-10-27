@@ -23,7 +23,6 @@ public class IlClassicoExpressoGameType extends ExpressoGameType {
     public ItemStack getIcon() {
         return new ItemBuilder(Material.INK_SACK, 1, (short) 0)
                 .setName(getName())
-                //.addLoreLine(getDescription())
                 .build();
     }
 

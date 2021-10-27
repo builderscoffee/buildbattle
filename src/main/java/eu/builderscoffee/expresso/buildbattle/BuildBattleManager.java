@@ -42,6 +42,9 @@ public class BuildBattleManager {
     @Getter
     @Setter
     private BBPhase bbPhase;
+    @Getter
+    @Setter
+    private String themes;
 
     public BuildBattleManager(final BuildBattle game) {
         // Instances
@@ -50,7 +53,7 @@ public class BuildBattleManager {
         // Managers
         setExpressoManager(game.getExpressoManager());
         // Définir la phase par défault
-        this.getGame().setBbState(BBState.WAITING);
+        this.getGame().setGameState(GameState.WAITING);
     }
 
     // GAME MANAGEMENT
@@ -92,7 +95,7 @@ public class BuildBattleManager {
      * @return
      */
     public boolean shouldStart() {
-        return this.getGame().getBbState() == BBState.WAITING
+        return this.getGame().getGameState() == GameState.WAITING
                 && this.getGame().isReady();
     }
 
@@ -101,7 +104,7 @@ public class BuildBattleManager {
      * @return
      */
     public boolean isRunning() {
-        return this.getGame().getBbState() != BBState.WAITING;
+        return this.getGame().getGameState() != GameState.WAITING;
     }
 
     /***
@@ -112,7 +115,7 @@ public class BuildBattleManager {
         // On stopper la phase en cours si ce n'est déja pas fait
         cancelPhase();
         // On redéfinis l'état
-        this.game.setBbState(BBState.WAITING);
+        this.game.setGameState(GameState.WAITING);
         this.game.setReady(false);
     }
 
@@ -120,11 +123,11 @@ public class BuildBattleManager {
      * Stopper la partie en cours
      */
     public void endGame() {
-        if (this.game.getBuildBattleGameType().getCurrentPhase().state() == BBState.ENDING) {
+        if (this.game.getBuildBattleGameType().getCurrentPhase().state() == GameState.ENDING) {
             Log.get().info("Une erreur est survenue lors de la fin de la partie !");
         } else {
             // Définir l'état de fin de la partie
-            this.getGame().setBbState(this.game.getExpressoGameType().getCurrentPhase().state());
+            this.getGame().setGameState(this.game.getExpressoGameType().getCurrentPhase().state());
             // Couper la phase en cours
             this.cancelPhase();
             // Désactiver les plugin de build
@@ -149,6 +152,7 @@ public class BuildBattleManager {
      * Stopper la phase en cours
      */
     public void cancelPhase() {
+        Log.get().info("Phase cancel" + this.game.getExpressoGameType().getCurrentPhase().name());
         if (!this.getCurrentTask().isCancelled()) {
             getCurrentTask().cancel();
         }
@@ -163,7 +167,7 @@ public class BuildBattleManager {
         this.game.getBuildBattleGameType().setCurrentPhase(this.game.getInstancePhases().poll());
         Log.get().info("Phase en cours " + this.game.getExpressoGameType().getCurrentPhase().name());
         // Définir le status de la prochaine phase
-        this.getGame().setBbState(this.game.getBuildBattleGameType().getCurrentPhase().state());
+        this.getGame().setGameState(this.game.getBuildBattleGameType().getCurrentPhase().state());
         // Lancer la Task de la prochaine phase
         this.startPhase(this.game.getBuildBattleGameType().getCurrentPhase().runnable());
         // Lancer le moteur de la partie si il en existe un pour la phase en cours
@@ -195,7 +199,7 @@ public class BuildBattleManager {
     /***
      * État d'une partie en cours
      */
-    public enum BBState {
+    public enum GameState {
         NONE,
         WAITING,
         LAUNCHING,

@@ -67,10 +67,7 @@ public class Main extends JavaPlugin {
         this.getCommand("eplot").setExecutor(new PlotCommand());
 
         // Init invt
-        inventoryManager = new InventoryManager(this);
-        inventoryManager.init();
-
-        //RSortedSet<Server> servers = Redis.getRedissonClient().getSortedSet("servers");
+        inventoryManager = eu.builderscoffee.commons.bukkit.Main.getInstance().getInventoryManager();
 
     }
 

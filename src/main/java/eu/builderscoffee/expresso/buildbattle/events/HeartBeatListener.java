@@ -18,7 +18,6 @@ public class HeartBeatListener implements EventListener {
     Timer : 1h
      */
 
-
     @ProcessEvent
     public void onHeartBeat(HeartBeatEvent event) {
         if (Objects.nonNull(Main.getBbGame())) {
@@ -28,7 +27,7 @@ public class HeartBeatListener implements EventListener {
             if(Objects.nonNull(Main.getBbGame().getBuildBattleGameType())) {
                 event.getServer().getProperties().put("GameSubType", Main.getBbGame().getBuildBattleGameType().getName());
             }
-            if (Main.getBbGame().isReady()) { event.getServer().getProperties().put("State", Main.getBbGame().getBbState().toString()); }
+            if (Main.getBbGame().isReady()) { event.getServer().getProperties().put("State", Main.getBbGame().getGameState().toString()); }
             event.getServer().getProperties().put("Timer", String.valueOf(Main.getBbGame().getBuildBattleGameType().getCurrentPhase().time()));
 
         }

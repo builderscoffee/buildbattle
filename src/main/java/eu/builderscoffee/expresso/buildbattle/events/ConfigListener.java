@@ -4,6 +4,8 @@ import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
 import eu.builderscoffee.api.common.redisson.Redis;
 import eu.builderscoffee.api.common.redisson.listeners.PacketListener;
 import eu.builderscoffee.api.common.redisson.listeners.ProcessPacket;
+import eu.builderscoffee.commons.common.data.DataManager;
+import eu.builderscoffee.commons.common.data.tables.BuildbattleThemeEntity;
 import eu.builderscoffee.commons.common.redisson.packets.ServerManagerRequest;
 import eu.builderscoffee.commons.common.redisson.packets.ServerManagerResponse;
 import eu.builderscoffee.commons.common.redisson.topics.CommonTopics;
@@ -72,6 +74,13 @@ public class ConfigListener implements PacketListener {
             Main.getBbGame().setExpressoGameType(Main.getBbGame().getExpressoManager().fetchExpressoByName(expressoString));
             Main.getBbGame().configureGameType(BuildBattleInstanceType.EXPRESSO);
             sendStartConfig(request);
+        }
+    }
+
+    @ProcessPacket
+    public void onRequestTheme(ServerManagerRequest request) {
+        if(request.getType().equals("game_theme")) {
+            //Main.getBbGame().getBbGameManager().setThemes(request.getType());
         }
     }
 
@@ -156,6 +165,24 @@ public class ConfigListener implements PacketListener {
             default:
                 throw new IllegalStateException("Unexpected value: " + Main.getBbGame().getBbGameTypes());
         }
+
+        // Publish the reponse
+        Redis.publish(CommonTopics.SERVER_MANAGER, response);
+    }
+
+    /***
+     * Selectioner un thème pour la partie
+     * @param request
+     */
+    public void sendThemesSelection(ServerManagerRequest request) {
+        // Create from the request
+        val response = new ServerManagerResponse(request);
+        val itemsAction = new ServerManagerResponse.Items();
+
+        val data = DataManager.getBuildbattleThemeStore().select(BuildbattleThemeEntity.class).get();
+        data.stream().forEach(theme -> itemsAction.addItem(-1,-1,new ItemBuilder(Material.MAP).setName(theme.getName()).build(),"game_theme"));
+
+        response.getActions().add(itemsAction);
 
         // Publish the reponse
         Redis.publish(CommonTopics.SERVER_MANAGER, response);

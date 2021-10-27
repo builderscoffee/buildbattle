@@ -22,7 +22,6 @@ public class HazarExpressoGameType extends ExpressoGameType {
     public ItemStack getIcon() {
         return new ItemBuilder(Material.INK_SACK, 1, (short) 2)
                 .setName(getName())
-                //.addLoreLine(getDescription())
                 .build();
     }
 

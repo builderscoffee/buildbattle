@@ -44,7 +44,7 @@ public class PlayerListener implements Listener {
         player.teleport(LocationsUtil.getLocationFromString(Main.getSettings().getGlobal_spawn_location()));
 
         if (Objects.nonNull(Main.getBbGame())) {
-            if (Main.getBbGame().getBbState().equals(BuildBattleManager.BBState.IN_GAME)) {
+            if (Main.getBbGame().getGameState().equals(BuildBattleManager.GameState.IN_GAME)) {
                 player.setGameMode(GameMode.CREATIVE);
                 player.sendMessage(Main.getMessages().getGlobal_prefix() + "§a/plot auto pour participer");
             }
@@ -64,7 +64,7 @@ public class PlayerListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onCommand(PlayerCommandPreprocessEvent event) {
         if (event.getMessage().toLowerCase().contains("/plot auto") || event.getMessage().toLowerCase().contains("/plot claim")) {
-            if (Main.getBbGame().getBbState().equals(BuildBattleManager.BBState.IN_GAME)) {
+            if (Main.getBbGame().getGameState().equals(BuildBattleManager.GameState.IN_GAME)) {
                 Main.getBbGame().addCompetitor(event.getPlayer());
             } else {
                 event.setCancelled(true);
@@ -76,14 +76,14 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
-        if (!Main.getBbGame().getBbState().equals(BuildBattleManager.BBState.IN_GAME)) {
+        if (!Main.getBbGame().getGameState().equals(BuildBattleManager.GameState.IN_GAME)) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
-        if (!Main.getBbGame().getBbState().equals(BuildBattleManager.BBState.IN_GAME)) {
+        if (!Main.getBbGame().getGameState().equals(BuildBattleManager.GameState.IN_GAME)) {
             event.setCancelled(true);
         }
     }

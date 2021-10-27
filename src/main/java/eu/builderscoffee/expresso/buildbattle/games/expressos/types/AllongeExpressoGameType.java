@@ -22,7 +22,6 @@ public class AllongeExpressoGameType extends ExpressoGameType {
     public ItemStack getIcon() {
         return new ItemBuilder(Material.INK_SACK, 1, (short) 3)
                 .setName(getName())
-                //.addLoreLine(getDescription())
                 .build();
     }
 

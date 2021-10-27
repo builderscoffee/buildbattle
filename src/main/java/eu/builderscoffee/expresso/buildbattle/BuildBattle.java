@@ -26,26 +26,29 @@ import java.util.List;
 @Accessors(chain = true)
 public class BuildBattle {
 
-    // Etat de la partie
-    public BuildBattleManager.BBState bbState = BuildBattleManager.BBState.WAITING;
-    public TeamManager teamManager;
     // Liste des compétiteurs
-    private List<Player> competitor = new ArrayList<>();
+    private List<Player> competitors = new ArrayList<>();
     // Liste des jurys
-    private List<Player> jury = new ArrayList<>();
+    private List<Player> jurors = new ArrayList<>();
+
     // Type d'instance ( Expresso , BB , tournois )
     private BuildBattleInstanceType bbGameTypes = BuildBattleInstanceType.NONE;
-    // Type de partie
     private BuildBattleGameType buildBattleGameType;
     private ExpressoGameType expressoGameType = new IlClassicoExpressoGameType();
     private ClassicGameType classicGameType = new ClassicGameType();
     private TournamentGameType tournamentGameType = new TournamentGameType();
-    // Phase de la partie
-    private Deque<BBPhase> instancePhases;
+
     // Manager
     private BuildBattleManager bbGameManager;
     private ExpressoManager expressoManager;
     private NotationManager notationManager;
+    public TeamManager teamManager;
+
+    // Phase de la partie
+    private Deque<BBPhase> instancePhases;
+    // Etat de la partie
+    public BuildBattleManager.GameState gameState = BuildBattleManager.GameState.WAITING;
+
     // Instance Check
     @Setter
     private boolean isReady = false;
@@ -102,7 +105,7 @@ public class BuildBattle {
      * @param player
      */
     public void addCompetitor(Player player) {
-        competitor.add(player);
+        competitors.add(player);
         Main.getInstance().getServer().getPluginManager().callEvent(new CompetitorJoinEvent(player));
     }
 
@@ -112,7 +115,7 @@ public class BuildBattle {
      * @param player
      */
     public void removeCompetitor(Player player) {
-        competitor.remove(player);
+        competitors.remove(player);
         Main.getInstance().getServer().getPluginManager().callEvent(new CompetitorLeaveEvent(player));
     }
 
@@ -124,7 +127,7 @@ public class BuildBattle {
      * @param player
      */
     public void addJury(Player player) {
-        jury.add(player);
+        jurors.add(player);
     }
 
     /**
@@ -133,7 +136,7 @@ public class BuildBattle {
      * @param player
      */
     public void removeJury(Player player) {
-        jury.remove(player);
+        jurors.remove(player);
     }
 
     // OTHER STUFF

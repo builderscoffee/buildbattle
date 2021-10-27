@@ -35,7 +35,7 @@ public interface BBPhase {
      *
      * @return
      */
-    BuildBattleManager.BBState state();
+    BuildBattleManager.GameState state();
 
     /**
      * Bukkit runnable de la phase

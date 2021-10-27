@@ -28,8 +28,8 @@ public class EndPhase implements BBPhase {
     }
 
     @Override
-    public BuildBattleManager.BBState state() {
-        return BuildBattleManager.BBState.ENDING;
+    public BuildBattleManager.GameState state() {
+        return BuildBattleManager.GameState.ENDING;
     }
 
     @Override

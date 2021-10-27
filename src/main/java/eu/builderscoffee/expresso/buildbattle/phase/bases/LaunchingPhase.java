@@ -40,8 +40,8 @@ public class LaunchingPhase implements BBPhase {
     }
 
     @Override
-    public BuildBattleManager.BBState state() {
-        return BuildBattleManager.BBState.LAUNCHING;
+    public BuildBattleManager.GameState state() {
+        return BuildBattleManager.GameState.LAUNCHING;
     }
 
     @Override
@@ -56,16 +56,13 @@ public class LaunchingPhase implements BBPhase {
                 // Lancer le chrono ( Title + Level )
                 for (final Player player : Bukkit.getOnlinePlayers()) {
                     player.setLevel(getStartTime());
-                    if (getStartTime() == 30 || getStartTime() == 20 || getStartTime() == 10 || getStartTime() == 5) {
+                    if (getStartTime() == 30 || getStartTime() == 20 || getStartTime() == 10 || getStartTime() == 5)
                         new Title("§eDébut dans", "§6" + getStartTime() + " §esecondes", 20, 10, 20).send(player);
-                    }
                 }
                 // Décompte du temps dans le chat
                 if (getStartTime() % 10 == 0 || getStartTime() == 10 || getStartTime() == 5 || getStartTime() == 4 || getStartTime() == 3 || getStartTime() == 2 || getStartTime() == 1) {
                     Bukkit.getServer().broadcastMessage(Main.getMessages().getGlobal_prefix() + "§eLa compétition commence dans " + TimeUtils.getDurationString(getStartTime()));
-                    for (final Player player2 : Bukkit.getOnlinePlayers()) {
-                        player2.playSound(player2.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 20.0f, 20.0f);
-                    }
+                    Bukkit.getOnlinePlayers().forEach(player2 -> player2.playSound(player2.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 20.0f, 20.0f));
                 }
                 // Lancer la compétition
                 if (getStartTime() < 1) {

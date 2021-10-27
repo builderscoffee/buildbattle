@@ -27,7 +27,7 @@ public class BBBoard {
      * @param board
      */
     public static void updateBoard(FastBoard board) {
-        if (Main.getBbGame().getBbState().equals(BuildBattleManager.BBState.WAITING)) {
+        if (Main.getBbGame().getGameState().equals(BuildBattleManager.GameState.WAITING)) {
             board.updateLines(
                     "§0§8§m----------§8§m------",
                     "§aSaison : " + Main.getSettings().getBoard_season_name(),
@@ -38,7 +38,7 @@ public class BBBoard {
                     Main.getSettings().getBoard_server_ip(),
                     "§0§8§m----------§8§m------"
             );
-        } else if (Main.getBbGame().getBbState().equals(BuildBattleManager.BBState.LAUNCHING)) {
+        } else if (Main.getBbGame().getGameState().equals(BuildBattleManager.GameState.LAUNCHING)) {
             board.updateLines(
                     "§0§8§m----------§8§m------",
                     "§aSaison : " + Main.getSettings().getBoard_season_name(),
@@ -49,7 +49,7 @@ public class BBBoard {
                     Main.getSettings().getBoard_server_ip(),
                     "§0§8§m----------§8§m------"
             );
-        } else if (Main.getBbGame().getBbState().equals(BuildBattleManager.BBState.IN_GAME)) {
+        } else if (Main.getBbGame().getGameState().equals(BuildBattleManager.GameState.IN_GAME)) {
             val part1 = Arrays.asList("§0§8§m----------§8§m------", "§aSaison :  " + Main.getSettings().getBoard_season_name(), "§aExpresso : §f" + Main.getBbGame().getExpressoGameType().getName());
             val _board = new ArrayList<>(part1);
             //_board.addAll(getTheme());

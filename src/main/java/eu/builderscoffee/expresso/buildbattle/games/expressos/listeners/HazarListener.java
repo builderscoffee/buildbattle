@@ -29,7 +29,7 @@ public class HazarListener implements Listener {
     @EventHandler
     public void onBlock(BlockPlaceEvent event) {
         // Check si la partie est commencer !
-        if (Main.getBbGame().getBbState() == BuildBattleManager.BBState.IN_GAME) {
+        if (Main.getBbGame().getGameState() == BuildBattleManager.GameState.IN_GAME) {
             // Get joueur et face du block
             val player = event.getPlayer();
             val face = event.getBlockAgainst().getFace(event.getBlock());
@@ -52,7 +52,6 @@ public class HazarListener implements Listener {
             // Réaliser une recherche par l'id puis si trouvé une correspondance checker via l'id et le short en
             // sachant qui si certaines catégorie bug si on cherche via le short
             // Catégorie STAIR , LOG
-
 
             // On check via l'engine le block à convertir
             System.out.println("BlockData Size " + engine.convertBlockdata.size());
@@ -88,7 +87,6 @@ public class HazarListener implements Listener {
 
                 // Calcul du y du block ou le joueur regarde
                 double y = (int) ((intersection.getY() - (int) (intersection.getY())) * 100) / 100.0;
-
 
                 // Récupère le block
                 val blockPlaced = event.getBlockPlaced();

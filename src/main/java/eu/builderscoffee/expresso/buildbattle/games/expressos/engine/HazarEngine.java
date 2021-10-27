@@ -24,7 +24,6 @@ public class HazarEngine implements BuildBattleEngine {
     @Setter
     private Main instance;
 
-
     public HazarEngine(Main instance) {
         // On défini l'instance de la class principale
         setInstance(instance);

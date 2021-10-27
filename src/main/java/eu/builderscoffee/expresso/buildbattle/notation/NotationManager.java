@@ -62,11 +62,7 @@ public class NotationManager {
     public boolean playerHasNote(Plot plot, Player pl) {
         Set<Notation> a = getNotationsByPlot(plot);
         if (a != null && !a.isEmpty()) {
-            for (Notation note : a) {
-                if (note.getUUID() == pl.getUniqueId()) {
-                    return true;
-                }
-            }
+            return a.stream().anyMatch(note -> note.getUUID() == pl.getUniqueId());
         }
         return false;
     }
