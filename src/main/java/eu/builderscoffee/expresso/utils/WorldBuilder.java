@@ -5,14 +5,10 @@ import com.intellectualcrafters.plot.object.PlotBlock;
 import com.intellectualcrafters.plot.object.SetupObject;
 import com.intellectualcrafters.plot.util.SetupUtils;
 import com.plotsquared.bukkit.util.BukkitSetupUtils;
-import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class WorldBuilder {
 
@@ -97,7 +93,7 @@ public class WorldBuilder {
 
             // Get default values from default generator
             for (ConfigurationNode node : getSetupObj().step) {
-                switch (node.getConstant()){
+                switch (node.getConstant()) {
                     case "plot.height":
                         plotHeight = (int) node.getDefaultValue();
                         break;
@@ -148,7 +144,7 @@ public class WorldBuilder {
         public void generate(String world) {
             // Set values
             for (ConfigurationNode node : getSetupObj().step) {
-                switch (node.getConstant()){
+                switch (node.getConstant()) {
                     case "plot.height":
                         node.setValue(String.valueOf(plotHeight));
                         break;

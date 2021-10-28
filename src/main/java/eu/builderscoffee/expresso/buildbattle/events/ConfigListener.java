@@ -12,14 +12,12 @@ import eu.builderscoffee.commons.common.redisson.topics.CommonTopics;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.BuildBattle;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleInstanceType;
+import eu.builderscoffee.expresso.utils.WorldBuilder;
 import lombok.val;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.Server;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 
 public class ConfigListener implements PacketListener {
@@ -37,13 +35,13 @@ public class ConfigListener implements PacketListener {
             } else if (Main.getBbGame().getBbGameTypes().equals(BuildBattleInstanceType.NONE)) {
                 sendGameType(request);
                 return;
-            } else if(Main.getBbGame().getBbGameTypes().equals(BuildBattleInstanceType.EXPRESSO) && Objects.isNull(Main.getBbGame().getExpressoGameType()) && !Main.getBbGame().isReady()) {
+            } else if (Main.getBbGame().getBbGameTypes().equals(BuildBattleInstanceType.EXPRESSO) && Objects.isNull(Main.getBbGame().getExpressoGameType()) && !Main.getBbGame().isReady()) {
                 sendGameType(request);
                 return;
             } else if (Main.getBbGame().isReady()) {
                 sendGameConfigCategories(request);
                 return;
-            } else if (!Main.getBbGame().isReady()){
+            } else if (!Main.getBbGame().isReady()) {
                 sendStartConfig(request);
                 return;
             }
@@ -56,8 +54,8 @@ public class ConfigListener implements PacketListener {
      */
     @ProcessPacket
     public void onRequestType(ServerManagerRequest request) {
-        if (request.getType().startsWith("type.")) {
-            val type = BuildBattleInstanceType.valueOf(request.getType().replaceFirst("type.", ""));
+        if (request.getType().equals("type")) {
+            val type = BuildBattleInstanceType.valueOf(request.getData());
             Main.setBbGame(new BuildBattle().setBbGameTypes(type));
             sendGameType(request);
         }
@@ -69,8 +67,8 @@ public class ConfigListener implements PacketListener {
      */
     @ProcessPacket
     public void onRequestExpresso(ServerManagerRequest request) {
-        if(request.getType().startsWith("expresso.")) {
-            val expressoString = request.getType().replace("expresso.","");
+        if (request.getType().equals("expresso")) {
+            val expressoString = request.getData();
             Main.getBbGame().setExpressoGameType(Main.getBbGame().getExpressoManager().fetchExpressoByName(expressoString));
             Main.getBbGame().configureGameType(BuildBattleInstanceType.EXPRESSO);
             sendStartConfig(request);
@@ -79,7 +77,7 @@ public class ConfigListener implements PacketListener {
 
     @ProcessPacket
     public void onRequestTheme(ServerManagerRequest request) {
-        if(request.getType().equals("game_theme")) {
+        if (request.getType().equals("theme")) {
             //Main.getBbGame().getBbGameManager().setThemes(request.getType());
         }
     }
@@ -90,24 +88,26 @@ public class ConfigListener implements PacketListener {
      */
     @ProcessPacket
     public void onRequestGame(ServerManagerRequest request) {
-        switch (request.getType()) {
-            case "game_settings":
+        if(!request.getType().equals("game")) return;
+
+        switch (request.getData()) {
+            case "settings":
                 sendGameConfig(request);
                 break;
-            case "game_utils":
+            case "utils":
                 sendGameUtils(request);
                 break;
-            case "game_start":
+            case "start":
                 Main.getBbGame().setReady(true);
                 Main.getBbGame().getBbGameManager().startGame();
                 break;
-            case "game_stop":
+            case "stop":
                 if (Main.getBbGame().isReady()) {
                     Main.getBbGame().getBbGameManager().cancelGame();
                     //TODO Send message to server
                 }
                 break;
-            case "game_pause":
+            case "pause":
                 //TODO Mettre la partie en pause
                 break;
         }
@@ -120,12 +120,13 @@ public class ConfigListener implements PacketListener {
     public void sendBuildBattleInstanceType(ServerManagerRequest request) {
         // Create from the request
         val response = new ServerManagerResponse(request);
-
         val itemsAction = new ServerManagerResponse.Items();
+
+        itemsAction.setType("type");
         for (BuildBattleInstanceType bbit : BuildBattleInstanceType.values()) {
-            if(bbit.equals(BuildBattleInstanceType.NONE)) continue;
+            if (bbit.equals(BuildBattleInstanceType.NONE)) continue;
             val item = new ItemBuilder(Material.PAPER).setName(bbit.name()).build();
-            itemsAction.addItem(-1, -1, item, "type." + bbit.name());
+            itemsAction.addItem(-1, -1, item, bbit.name());
 
         }
         response.getActions().add(itemsAction);
@@ -151,9 +152,11 @@ public class ConfigListener implements PacketListener {
             case EXPRESSO:
                 val expressoList = Main.getBbGame().getExpressoManager().getExpressoGameTypes();
                 val itemsAction = new ServerManagerResponse.Items();
+
+                itemsAction.setType("expresso");
                 expressoList
                         .forEach(expresso -> {
-                            itemsAction.addItem(-1, -1, new ItemBuilder(expresso.getIcon().getType(),1, expresso.getIcon().getDurability()).setName(expresso.getName()).addLoreLine(expresso.getDescription()).build(), "expresso." + expresso.getName());
+                            itemsAction.addItem(-1, -1, new ItemBuilder(expresso.getIcon().getType(), 1, expresso.getIcon().getDurability()).setName(expresso.getName()).addLoreLine(expresso.getDescription()).build(), expresso.getName());
                         });
                 response.getActions().add(itemsAction);
                 break;
@@ -178,14 +181,37 @@ public class ConfigListener implements PacketListener {
         // Create from the request
         val response = new ServerManagerResponse(request);
         val itemsAction = new ServerManagerResponse.Items();
-
+        itemsAction.setType("theme");
         val data = DataManager.getBuildbattleThemeStore().select(BuildbattleThemeEntity.class).get();
-        data.stream().forEach(theme -> itemsAction.addItem(-1,-1,new ItemBuilder(Material.MAP).setName(theme.getName()).build(),"game_theme"));
+        data.stream().forEach(theme -> itemsAction.addItem(-1, -1, new ItemBuilder(Material.MAP).setName(theme.getName()).build(), theme.getName()));
 
         response.getActions().add(itemsAction);
 
         // Publish the reponse
         Redis.publish(CommonTopics.SERVER_MANAGER, response);
+    }
+
+    public void sendMapGeneration(ServerManagerRequest request) {
+        // Create from the request
+        val response = new ServerManagerResponse(request);
+        val itemsAction = new ServerManagerResponse.Items();
+        itemsAction.setType("mapgen");
+        //itemsAction.addItem(-1,-1, new ItemBuilder(Mater));
+
+        new WorldBuilder.DefaultWorldBuilder()
+                .setBedrock(true)
+                .setPlotFilling(new ItemStack(Material.DIRT))
+                .setPlotFloor(new ItemStack(Material.GRASS, 1))
+                .setPlotHeight(64)
+                .setPlotSize(42)
+                .setRoadBlock(new ItemStack(Material.QUARTZ_BLOCK))
+                .setRoadHeight(64)
+                .setRoadWidth(7)
+                .setWall(new ItemStack(Material.STONE_SLAB2))
+                .setWallClaimed(new ItemStack(Material.STONE_SLAB2,1,(short)2))
+                .setWallFilling(new ItemStack(Material.STONE))
+                .setWallHeight(64)
+                .generate("worldName");
     }
 
     /***
@@ -196,11 +222,12 @@ public class ConfigListener implements PacketListener {
         // Create from the request
         val response = new ServerManagerResponse(request);
         val itemsAction = new ServerManagerResponse.Items();
-        if (!Main.getBbGame().getBbGameManager().isRunning()){
-            itemsAction.addItem(-1, -1, new ItemBuilder(Material.WOOL, 1, (short) 13).setName("Démarer").build(), "game_start");
+
+        itemsAction.setType("game");
+        if (!Main.getBbGame().getBbGameManager().isRunning()) {
+            itemsAction.addItem(-1, -1, new ItemBuilder(Material.WOOL, 1, (short) 13).setName("Démarer").build(), "start");
             response.getActions().add(itemsAction);
-        }
-        else
+        } else
             response.setFinished(true);
 
         // Publish the reponse
@@ -214,11 +241,11 @@ public class ConfigListener implements PacketListener {
     public void sendGameConfigCategories(ServerManagerRequest request) {
         // Create from the request
         val response = new ServerManagerResponse(request);
-
         val itemsAction = new ServerManagerResponse.Items();
+        itemsAction.setType("game");
 
-        itemsAction.addItem(-1,-1,new ItemBuilder(Material.WATCH).setName("Gestion de la partie").build(), "game_settings");
-        itemsAction.addItem(-1,-1,new ItemBuilder(Material.WORKBENCH).setName("Utilitaire de la partie").build(), "game_utils");
+        itemsAction.addItem(-1, -1, new ItemBuilder(Material.WATCH).setName("Gestion de la partie").build(), "settings");
+        itemsAction.addItem(-1, -1, new ItemBuilder(Material.WORKBENCH).setName("Utilitaire de la partie").build(), "utils");
 
         response.getActions().add(itemsAction);
 
@@ -233,12 +260,12 @@ public class ConfigListener implements PacketListener {
     public void sendGameConfig(ServerManagerRequest request) {
         // Create from the request
         val response = new ServerManagerResponse(request);
-
         val itemsAction = new ServerManagerResponse.Items();
+        itemsAction.setType("game");
 
-        itemsAction.addItem(-1,-1,new ItemBuilder(Material.WOOL,1,(short) 1).setName("Stop").build(), "game_stop");
-        itemsAction.addItem(-1,-1,new ItemBuilder(Material.WOOL,1,(short) 6).setName("Pause").build(), "game_pause");
-        itemsAction.addItem(-1,-1,new ItemBuilder(Material.DROPPER,1).setName("Reset").build(), "game_reset");
+        itemsAction.addItem(-1, -1, new ItemBuilder(Material.WOOL, 1, (short) 1).setName("Stop").build(), "stop");
+        itemsAction.addItem(-1, -1, new ItemBuilder(Material.WOOL, 1, (short) 6).setName("Pause").build(), "pause");
+        itemsAction.addItem(-1, -1, new ItemBuilder(Material.DROPPER, 1).setName("Reset").build(), "reset");
 
         response.getActions().add(itemsAction);
 
@@ -249,10 +276,10 @@ public class ConfigListener implements PacketListener {
     public void sendGameUtils(ServerManagerRequest request) {
         // Create from the request
         val response = new ServerManagerResponse(request);
-
         val itemsAction = new ServerManagerResponse.Items();
+        itemsAction.setType("game");
 
-        itemsAction.addItem(-1,-1, new ItemBuilder(Material.MAP).setName("Backup World").build(), "game_backup_world");
+        itemsAction.addItem(-1, -1, new ItemBuilder(Material.MAP).setName("Backup World").build(), "worldbackup");
 
         response.getActions().add(itemsAction);
 

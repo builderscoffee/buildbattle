@@ -1,6 +1,5 @@
 package eu.builderscoffee.expresso.buildbattle;
 
-import eu.builderscoffee.commons.common.data.tables.BuildbattleEntity;
 import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.events.competitor.CompetitorJoinEvent;
 import eu.builderscoffee.expresso.buildbattle.events.competitor.CompetitorLeaveEvent;
@@ -26,29 +25,25 @@ import java.util.List;
 @Accessors(chain = true)
 public class BuildBattle {
 
+    public TeamManager teamManager;
+    // Etat de la partie
+    public BuildBattleManager.GameState gameState = BuildBattleManager.GameState.WAITING;
     // Liste des compétiteurs
     private List<Player> competitors = new ArrayList<>();
     // Liste des jurys
     private List<Player> jurors = new ArrayList<>();
-
     // Type d'instance ( Expresso , BB , tournois )
     private BuildBattleInstanceType bbGameTypes = BuildBattleInstanceType.NONE;
     private BuildBattleGameType buildBattleGameType;
     private ExpressoGameType expressoGameType = new IlClassicoExpressoGameType();
     private ClassicGameType classicGameType = new ClassicGameType();
     private TournamentGameType tournamentGameType = new TournamentGameType();
-
     // Manager
     private BuildBattleManager bbGameManager;
     private ExpressoManager expressoManager;
     private NotationManager notationManager;
-    public TeamManager teamManager;
-
     // Phase de la partie
     private Deque<BBPhase> instancePhases;
-    // Etat de la partie
-    public BuildBattleManager.GameState gameState = BuildBattleManager.GameState.WAITING;
-
     // Instance Check
     @Setter
     private boolean isReady = false;
