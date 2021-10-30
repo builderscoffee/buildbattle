@@ -9,12 +9,14 @@ public abstract class ExpressoGameType extends BuildBattleGameType {
 
     /**
      * Retourne l'icone de l'expresso
+     *
      * @return
      */
     public abstract ItemStack getIcon();
 
     /**
      * Retourne la description de l'expresso
+     *
      * @return
      */
     public abstract List<String> getDescription();

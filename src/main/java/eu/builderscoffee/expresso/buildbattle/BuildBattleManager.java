@@ -152,7 +152,7 @@ public class BuildBattleManager {
      * Stopper la phase en cours
      */
     public void cancelPhase() {
-        Log.get().info("Phase cancel" + this.game.getExpressoGameType().getCurrentPhase().name());
+        Log.get().info("Phase cancel : " + this.game.getExpressoGameType().getCurrentPhase().name());
         if (!this.getCurrentTask().isCancelled()) {
             getCurrentTask().cancel();
         }
@@ -165,7 +165,7 @@ public class BuildBattleManager {
     public void nextPhase() {
         // Get & Poll la prochaine phase
         this.game.getBuildBattleGameType().setCurrentPhase(this.game.getInstancePhases().poll());
-        Log.get().info("Phase en cours " + this.game.getExpressoGameType().getCurrentPhase().name());
+        Log.get().info("Phase en cours : " + this.game.getExpressoGameType().getCurrentPhase().name());
         // Définir le status de la prochaine phase
         this.getGame().setGameState(this.game.getBuildBattleGameType().getCurrentPhase().state());
         // Lancer la Task de la prochaine phase
