@@ -273,6 +273,10 @@ public class ConfigListener implements PacketListener {
         Redis.publish(CommonTopics.SERVER_MANAGER, response);
     }
 
+    /***
+     * Répondre à la requète sur les utilitaires de la partie
+     * @param request
+     */
     public void sendGameUtils(ServerManagerRequest request) {
         // Create from the request
         val response = new ServerManagerResponse(request);
