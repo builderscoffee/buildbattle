@@ -24,12 +24,6 @@ public class SettingsConfiguration {
     String expresso_jury_permission = "expresso.jury";
     String expresso_eplot_permission = "expresso.eplot";
 
-    // Board settings
-    String board_title = "§6§l- Builders Coffee -";
-    String board_season_name = "§6Torréfaction";
-    String board_build_theme = "§7Les rouages de l'avenir";
-    String board_server_ip = " §6play.builderscoffee.eu";
-
     // Game settings
     List<String> game_plugin_end_disable = Arrays.asList("worldedit", "fastasyncworldedit", "fastasyncvoxelsniper", "voxelsniper", "betterbrushes", "gobrush", "schematicbrush", "schematicsbrowser", "arceon", "gopaint");
     String game_schematic_to_paste = "cobble";

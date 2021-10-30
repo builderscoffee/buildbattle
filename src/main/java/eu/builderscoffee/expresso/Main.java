@@ -1,10 +1,13 @@
 package eu.builderscoffee.expresso;
 
 
+import eu.builderscoffee.api.bukkit.BuildersCoffeeAPI;
 import eu.builderscoffee.api.bukkit.gui.InventoryManager;
 import eu.builderscoffee.api.bukkit.utils.Plugins;
 import eu.builderscoffee.api.common.events.EventHandler;
 import eu.builderscoffee.api.common.redisson.Redis;
+import eu.builderscoffee.commons.bukkit.CommonsBukkit;
+import eu.builderscoffee.commons.common.data.tables.Profil;
 import eu.builderscoffee.commons.common.redisson.topics.CommonTopics;
 import eu.builderscoffee.expresso.buildbattle.BuildBattle;
 import eu.builderscoffee.expresso.buildbattle.events.ConfigListener;
@@ -23,12 +26,14 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Map;
+
 import static eu.builderscoffee.api.common.configuration.Configuration.readOrCreateConfiguration;
 
 public class Main extends JavaPlugin {
 
     @Getter
-    public static MessageConfiguration messages;
+    public static Map<Profil.Languages, MessageConfiguration> messages;
     @Getter
     public static SettingsConfiguration settings;
     @Getter
@@ -46,7 +51,7 @@ public class Main extends JavaPlugin {
         instance = this;
 
         // Read or create configurations
-        messages = readOrCreateConfiguration(this.getName(), MessageConfiguration.class);
+        messages = readOrCreateConfiguration(this.getName(), MessageConfiguration.class, Profil.Languages.class);
         settings = readOrCreateConfiguration(this.getName(), SettingsConfiguration.class);
         cache = readOrCreateConfiguration(this.getName(), CacheConfiguration.class);
 
@@ -60,13 +65,12 @@ public class Main extends JavaPlugin {
         EventHandler.getInstance().addListener(new HeartBeatListener());
 
         // Register Command Executors
-        //this.getCommand("game").setExecutor(new GameCommand());
         this.getCommand("jury").setExecutor(new JuryCommand());
         this.getCommand("group").setExecutor(new TeamCommand());
         this.getCommand("eplot").setExecutor(new PlotCommand());
 
         // Init invt
-        inventoryManager = eu.builderscoffee.commons.bukkit.Main.getInstance().getInventoryManager();
+        inventoryManager = BuildersCoffeeAPI.getInvManager();
 
     }
 

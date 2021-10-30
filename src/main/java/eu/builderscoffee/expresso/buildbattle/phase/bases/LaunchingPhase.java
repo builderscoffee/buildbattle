@@ -6,6 +6,7 @@ import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleEngine;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
+import eu.builderscoffee.expresso.utils.MessageUtils;
 import eu.builderscoffee.expresso.utils.TimeUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -57,16 +58,16 @@ public class LaunchingPhase implements BBPhase {
                 for (final Player player : Bukkit.getOnlinePlayers()) {
                     player.setLevel(getStartTime());
                     if (getStartTime() == 30 || getStartTime() == 20 || getStartTime() == 10 || getStartTime() == 5)
-                        new Title("§eDébut dans", "§6" + getStartTime() + " §esecondes", 20, 10, 20).send(player);
+                        new Title(MessageUtils.getMessageConfig(player).getGame().getStartInTitle(), MessageUtils.getMessageConfig(player).getGame().getStartInSubTitle(), 20, 10, 20).send(player);
                 }
                 // Décompte du temps dans le chat
                 if (getStartTime() % 10 == 0 || getStartTime() == 10 || getStartTime() == 5 || getStartTime() == 4 || getStartTime() == 3 || getStartTime() == 2 || getStartTime() == 1) {
-                    Bukkit.getServer().broadcastMessage(Main.getMessages().getGlobal_prefix() + "§eLa compétition commence dans " + TimeUtils.getDurationString(getStartTime()));
+                    Main.getInstance().getServer().getOnlinePlayers().forEach(player -> player.sendMessage(MessageUtils.getMessageConfig(player).getGame().getCompetitionBeginningIn().replace("%prefix%",MessageUtils.getDefaultMessageConfig().getPrefix()).replace("%time%",TimeUtils.getDurationString(getStartTime()))));
                     Bukkit.getOnlinePlayers().forEach(player2 -> player2.playSound(player2.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 20.0f, 20.0f));
                 }
                 // Lancer la compétition
                 if (getStartTime() < 1) {
-                    Bukkit.getServer().broadcastMessage(Main.getMessages().getGlobal_prefix() + "§eLa compétition commence ! Bonne chance !");
+                    Main.getInstance().getServer().getOnlinePlayers().forEach(player -> player.sendMessage(MessageUtils.getMessageConfig(player).getGame().getCompetitionStarting().replace("%prefix%",MessageUtils.getDefaultMessageConfig().getPrefix())));
                     Bukkit.getOnlinePlayers().forEach(p -> p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 20.0f, 20.0f));
                     Main.getBbGame().getBbGameManager().nextPhase();
                     return;

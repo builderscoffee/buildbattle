@@ -4,6 +4,8 @@ import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
 import eu.builderscoffee.expresso.inventory.jury.JuryInventory;
+import eu.builderscoffee.expresso.utils.MessageUtils;
+import lombok.val;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,7 +13,6 @@ import org.bukkit.entity.Player;
 
 public class JuryCommand implements CommandExecutor {
 
-    MessageConfiguration messages = Main.getMessages();
     SettingsConfiguration settings = Main.getSettings();
 
     public static boolean argLength0(Player player) {
@@ -32,13 +33,13 @@ public class JuryCommand implements CommandExecutor {
             }
 
             if (!ret) {
-                player.sendMessage(messages.getGlobal_prefix() + messages.getCommand_bad_syntaxe());
+                player.sendMessage(MessageUtils.getMessageConfig(sender).getCommand().getBadSyntaxe().replace("%prefix%",MessageUtils.getDefaultMessageConfig().getPrefix()));
             }
 
             return ret;
         }
 
-        sender.sendMessage(messages.getGlobal_prefix() + messages.getCommand_must_be_player());
+        sender.sendMessage(MessageUtils.getMessageConfig(sender).getCommand().getMustBePlayer().replace("%prefix%",MessageUtils.getDefaultMessageConfig().getPrefix()));
         return true;
     }
 }

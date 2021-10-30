@@ -6,6 +6,7 @@ import eu.builderscoffee.expresso.buildbattle.events.team.TeamDisbandEvent;
 import eu.builderscoffee.expresso.buildbattle.events.team.TeamJoinEvent;
 import eu.builderscoffee.expresso.buildbattle.events.team.TeamLeaveEvent;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
+import eu.builderscoffee.expresso.utils.MessageUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,26 +15,21 @@ import java.util.List;
 
 public class TeamListeners implements Listener {
 
-    MessageConfiguration messages = Main.getMessages();
-
-
     @EventHandler
     public void onTeamCreateEvent(TeamCreateEvent event) {
         // Nothing
     }
-
 
     @EventHandler
     public void onTeamDisbandEvent(TeamDisbandEvent event) {
         // Nothing
     }
 
-
     @EventHandler
     public void onTeamJoinEvent(TeamJoinEvent event) {
         List<Player> members = event.getMemberList();
         // Envoyer un message quand le joueur rejoins
-        members.forEach(member -> member.sendMessage(messages.getTeam_player_join().replace("%target%", event.getPlayer().getName())));
+        members.forEach(member -> member.sendMessage(MessageUtils.getMessageConfig(member).getTeam().getPlayerJoin().replace("%target%", event.getPlayer().getName())));
         // Ajouter le joueur aux plot du leader du groupe
         Main.getBbGame().getTeamManager().addMemberToAllPlot(event.getPlayer());
     }
@@ -43,7 +39,7 @@ public class TeamListeners implements Listener {
     public void onTeamLeaveEvent(TeamLeaveEvent event) {
         List<Player> members = event.getMemberList();
         //Envoyer un message quand le joueur quitte
-        members.forEach(member -> member.sendMessage(messages.getTeam_player_quit()));
+        members.forEach(member -> member.sendMessage(MessageUtils.getMessageConfig(member).getTeam().getPlayerQuit()));
         // Retirer le joueur aux plot du leader du groupe
         Main.getBbGame().getTeamManager().removeMemberFromAllPlot(event.getPlayer());
     }

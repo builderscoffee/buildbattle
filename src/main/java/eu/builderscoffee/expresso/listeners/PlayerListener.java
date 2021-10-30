@@ -6,6 +6,8 @@ import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.board.BBBoard;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
+import eu.builderscoffee.expresso.utils.MessageUtils;
+import lombok.val;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -27,10 +29,11 @@ public class PlayerListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(PlayerJoinEvent event) {
         final Player player = event.getPlayer();
+        val messages = MessageUtils.getMessageConfig(player);
 
         // Scoreboard Updater
         FastBoard board = new FastBoard(player);
-        board.updateTitle(settings.getBoard_title()); // Même titre pour tout
+        board.updateTitle(messages.getBoard().getTitle()); // Même titre pour tout
         BBBoard.boards.put(player.getUniqueId(), board);
 
         // Player Inventory
@@ -46,7 +49,7 @@ public class PlayerListener implements Listener {
         if (Objects.nonNull(Main.getBbGame())) {
             if (Main.getBbGame().getGameState().equals(BuildBattleManager.GameState.IN_GAME)) {
                 player.setGameMode(GameMode.CREATIVE);
-                player.sendMessage(Main.getMessages().getGlobal_prefix() + "§a/plot auto pour participer");
+                player.sendMessage(messages.getGame().getPlotAuto().replace("%prefix%",MessageUtils.getDefaultMessageConfig().getPrefix()));
             }
         }
     }

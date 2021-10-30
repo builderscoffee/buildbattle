@@ -11,6 +11,8 @@ import eu.builderscoffee.expresso.buildbattle.events.team.TeamJoinEvent;
 import eu.builderscoffee.expresso.buildbattle.events.team.TeamLeaveEvent;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
+import eu.builderscoffee.expresso.utils.MessageUtils;
+import lombok.val;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -21,7 +23,6 @@ public class TeamManager {
     public List<Team> teams;
     public List<Invitation> invitations;
     // Configuration
-    public MessageConfiguration messages = Main.getMessages();
     public SettingsConfiguration settings = Main.getSettings();
     // Instance
     private PlotAPI plotAPI = new PlotAPI();
@@ -97,9 +98,10 @@ public class TeamManager {
      */
     public void viewTargetTeam(Player player, Player target) {
         Team team = getPlayerTeam(target);
+        val messages = MessageUtils.getMessageConfig(player);
         if (team != null) {
-            player.sendMessage(messages.getTeam_info_header());
-            player.sendMessage(messages.getTeam_info_leader() + team.leader.getName());
+            player.sendMessage(messages.getTeam().getInfoHeader());
+            player.sendMessage(messages.getTeam().getInfoLeader() + team.leader.getName());
             StringJoiner joiner = new StringJoiner(", ");
             for (Player m : team.getMembers()) {
                 if (team.getLeader() != null || !m.getName().equals(team.getLeader().getName())) {
@@ -107,11 +109,11 @@ public class TeamManager {
                     joiner.add(displayName);
                 }
             }
-            player.sendMessage(messages.getTeam_info_members() + joiner.toString());
+            player.sendMessage(messages.getTeam().getInfoMembers() + joiner.toString());
         } else if (!Objects.deepEquals(player, target)) {
-            player.sendMessage(messages.getTeam_no_team());
+            player.sendMessage(messages.getTeam().getNoTeam());
         } else {
-            player.sendMessage(messages.getTeam_info_no_team().replace("%target%", target.getName()));
+            player.sendMessage(messages.getTeam().getInfoNoTeam().replace("%target%", target.getName()));
         }
     }
 
@@ -122,14 +124,16 @@ public class TeamManager {
      */
     public void addPlayerToTeam(Player player, Player target) {
         Team team = getPlayerTeam(player);
+        val messages = MessageUtils.getMessageConfig(player);
+
         if (!AsNoTeam(target)) {
             team.members.add(target);
             TeamJoinEvent joinEvent = new TeamJoinEvent(target, team.members); // Fire TeamJoin Event
             Bukkit.getPluginManager().callEvent(joinEvent); // Call event
         } else if (IsSameTeam(player, target)) {
-            player.sendMessage(messages.getTeam_already_in_a_team().replace("%target%", target.getName()));
+            player.sendMessage(messages.getTeam().getAlreadyInTeam().replace("%target%", target.getName()));
         } else if (IsMembersReachLimit(player)) {
-            player.sendMessage(messages.getTeam_limit_reached().replace("%limit%", String.valueOf(settings.getTeam_maxplayer())));
+            player.sendMessage(messages.getTeam().getLimitReached().replace("%limit%", String.valueOf(settings.getTeam_maxplayer())));
         }
     }
 
@@ -145,7 +149,7 @@ public class TeamManager {
                 TeamLeaveEvent leaveEvent = new TeamLeaveEvent(player, team.members); // Fire TeamLeave Event
                 Bukkit.getPluginManager().callEvent(leaveEvent);
             } else {
-                player.sendMessage(messages.getTeam_leader_cannot_leave());
+                player.sendMessage(MessageUtils.getMessageConfig(player).getTeam().getLeaderCannotLeave());
             }
         }
     }
@@ -155,15 +159,16 @@ public class TeamManager {
      * @param player - Membre du groupe
      */
     public void registerTeam(Player player) {
+        val messages = MessageUtils.getMessageConfig(player);
         if (!AsNoTeam(player)) {
             Team _team = new Team(player.getName(), player.getName(), settings.getTeam_maxplayer(), player, new ArrayList<>());
             _team.members.add(player); // Ajouter le leader à la liste des membres
             teams.add(_team);
-            player.sendMessage(messages.getTeam_create_team());
+            player.sendMessage(messages.getTeam().getCreateTeam());
             TeamCreateEvent createEvent = new TeamCreateEvent(player); // Fire TeamCreate Event
             Bukkit.getPluginManager().callEvent(createEvent); // Call event
         } else {
-            player.sendMessage(messages.getTeam_already_created());
+            player.sendMessage(messages.getTeam().getAlreadyCreated());
         }
     }
 
@@ -177,7 +182,7 @@ public class TeamManager {
             TeamDisbandEvent disbandEvent = new TeamDisbandEvent(player, team.getMembers()); // Fire TeamDisband Event
             Bukkit.getPluginManager().callEvent(disbandEvent); // Call event
             teams.remove(team);
-            player.sendMessage(messages.getTeam_disband());
+            player.sendMessage(MessageUtils.getMessageConfig(player).getTeam().getDisband());
         }
     }
 
@@ -189,15 +194,16 @@ public class TeamManager {
      * @param target
      */
     public void SendInvitation(Player player, Player target) {
+        val messages = MessageUtils.getMessageConfig(player);
         // Check si le sender et la target ne sont pas les mêmes joueurs
         if (!Objects.deepEquals(player, target)) {
             Invitation invitation = new Invitation(player, target);
             // Check si l'invitation à déja été créer
             invitations.add(invitation);
-            player.sendMessage(messages.getInvitation_send().replace("%target%", target.getName()));
-            new FancyMessage(messages.getInvitation_receive_target().replace("%sender%", player.getName())).then(messages.getInvitation_receive_acceptance()).command("/group invite " + player.getName() + " accept").then(" ou ").then(messages.getInvitation_receive_denyance()).command("/group invite " + player.getName() + " deny").send(target);
+            player.sendMessage(messages.getInvitation().getSend().replace("%target%", target.getName()));
+            new FancyMessage(messages.getInvitation().getReceiveTarget().replace("%sender%", player.getName())).then(messages.getInvitation().getReceiveAcceptance()).command("/group invite " + player.getName() + " accept").then(" ou ").then(messages.getInvitation().getReceiveDenyance()).command("/group invite " + player.getName() + " deny").send(target);
         } else {
-            player.sendMessage(messages.getInvitation_not_invite_yourself());
+            player.sendMessage(messages.getInvitation().getNotInviteYourself());
         }
     }
 
@@ -223,14 +229,16 @@ public class TeamManager {
      * @param sender - Joueur qui envois l'invitation
      */
     public void DenyInvitation(Player receiver, Player sender) {
+        val messagesReceiver = MessageUtils.getMessageConfig(receiver);
+        val messagesSender = MessageUtils.getMessageConfig(sender);
         Invitation invitation = getInvitation(sender, receiver);
         if (invitation != null) {
             if (invitation.getTarget() != null)
-                receiver.sendMessage(messages.getInvitation_deny_target().replace("%sender%", sender.getName()));
-            sender.sendMessage(messages.getInvitation_deny_sender().replace("%target%", receiver.getName()));
+                receiver.sendMessage(messagesReceiver.getInvitation().getDenyTarget().replace("%sender%", sender.getName()));
+            sender.sendMessage(messagesSender.getInvitation().getDenySender().replace("%target%", receiver.getName()));
             invitations.remove(invitation); // Clean l'invitation accepter
         } else {
-            receiver.sendMessage(messages.getInvitation_not_avaliable().replace("%sender%", sender.getName()));
+            receiver.sendMessage(messagesReceiver.getInvitation().getNotAvaliable().replace("%sender%", sender.getName()));
         }
     }
 
@@ -284,7 +292,6 @@ public class TeamManager {
     /***
      * Retiré un joueur de tout les plots de la team
      * @param player - Joueur à retirer
-     * @param team - Team du leader
      */
     public void removeMemberFromAllPlot(Player player) {
         Team team = Main.getBbGame().getTeamManager().getPlayerTeam(player);

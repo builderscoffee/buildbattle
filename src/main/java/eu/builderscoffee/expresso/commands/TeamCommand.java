@@ -4,7 +4,9 @@ import eu.builderscoffee.expresso.Main;
 import eu.builderscoffee.expresso.buildbattle.BuildBattle;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
+import eu.builderscoffee.expresso.utils.MessageUtils;
 import lombok.Getter;
+import lombok.val;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,19 +21,17 @@ public class TeamCommand implements CommandExecutor {
     // Instances of
     @Getter
     private final BuildBattle bbGame = Main.getBbGame();
-    //Configurations
-    MessageConfiguration messages = Main.getMessages();
-    SettingsConfiguration settings = Main.getSettings();
 
     public static boolean argLength0(Player player) {
         List<String> commandList = new ArrayList<>();
-        commandList.add("§a/group §b: Aide du système de group");
-        commandList.add("§a/group add <joueur> §b: Ajouter un joueur dans votre group");
-        commandList.add("§a/group remove <joueur> §b: Retirer un joueur de votre group");
-        commandList.add("§a/group leave §b: Quitter le groupe votre groupe ( membre uniquement");
-        commandList.add("§a/group disband §b: Supprimer votre groupe ( leader uniquement");
-        commandList.add("§a/group invite <player> accept/deny §b: Accepter ou refuser l'invite d'un joueur");
-        commandList.add("§a/group info <player> §b: Voir les informations d'un groupe");
+        val messages = MessageUtils.getMessageConfig(player);
+        commandList.add(messages.getCommand().getGroupDefaults());
+        commandList.add(messages.getCommand().getGroupAdd());
+        commandList.add(messages.getCommand().getGroupRemove());
+        commandList.add(messages.getCommand().getGroupLeave());
+        commandList.add(messages.getCommand().getGroupDisband());
+        commandList.add(messages.getCommand().getGroupInvite());
+        commandList.add(messages.getCommand().getGroupInfo());
         for (String s : commandList) {
             player.sendMessage(s);
         }
@@ -65,7 +65,6 @@ public class TeamCommand implements CommandExecutor {
     public boolean argLength2(Player player, String args1, String args2) {
         args1 = args1.toLowerCase();
         Player targetLenght2 = Bukkit.getPlayer(args2);
-        //System.out.println("TeamCommand : ARGS1: " + args1 + "ARGS2: " + args2 + targetLenght2.getName());
         switch (args1) {
             case "add":
                 // Ajouter un joueur aux groupe
@@ -89,7 +88,6 @@ public class TeamCommand implements CommandExecutor {
         switch (args1) {
             case "invite":
                 // Gèrer les invitation
-                Player target = Bukkit.getPlayerExact(args2);
                 switch (args3) {
                     case "accept":
                         // Accepter l'invite du joueur
@@ -133,13 +131,13 @@ public class TeamCommand implements CommandExecutor {
             }
 
             if (!ret) {
-                player.sendMessage(messages.getGlobal_prefix() + messages.getCommand_bad_syntaxe());
+                player.sendMessage(MessageUtils.getMessageConfig(player).getPrefix() + MessageUtils.getMessageConfig(player).getCommand().getBadSyntaxe());
             }
 
             return ret;
         }
 
-        sender.sendMessage(messages.getGlobal_prefix() + messages.getCommand_must_be_player());
+        sender.sendMessage(MessageUtils.getMessageConfig(sender).getPrefix() + MessageUtils.getMessageConfig(sender).getCommand().getMustBePlayer());
         return true;
     }
 }

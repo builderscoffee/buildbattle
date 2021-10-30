@@ -8,9 +8,11 @@ import eu.builderscoffee.expresso.buildbattle.BuildBattleEngine;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.utils.Log;
+import eu.builderscoffee.expresso.utils.MessageUtils;
 import eu.builderscoffee.expresso.utils.TimeUtils;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Arrays;
@@ -73,23 +75,24 @@ public class GamePhase implements BBPhase {
                         @Override
                         public void run() {
                             getOnlinePlayers().forEach(p -> {
-                                //new Title("Thème", Main.getSettings().getBoard_build_theme(), 20, 20, 20).send(p);
+                                new Title(MessageUtils.getMessageConfig(p).getGame().getThemesTitle(), MessageUtils.getMessageConfig(p).getBoard().getBuildTheme(), 20, 20, 20).send(p);
                                 p.setGameMode(CREATIVE);
                             });
                         }
                     }.runTask(Main.getInstance());
 
-                    Main.getBbGame().broadcast(Main.getMessages().getGlobal_prefix() + "§a/plot auto pour participer");
+                    Main.getInstance().getServer().getOnlinePlayers().forEach(onlinePlayer -> onlinePlayer.sendMessage(MessageUtils.getMessageConfig(onlinePlayer).getGame().getPlotAuto().replace("%prefix%", MessageUtils.getDefaultMessageConfig().getPrefix())));
+
                 }
                 // Log les minutes du jeux en console
                 if (time % 60 == 0) Log.get().info(" " + time / 60 + " minutes de jeux");
 
                 // Tout les X temps envoyé un broadcast pour le temps de jeux restant
-                Arrays.stream(bcTime).filter(i -> i == time).forEach(i -> Main.getBbGame().broadcast(Main.getMessages().getGlobal_prefix() + "§a" + TimeUtils.getDurationString(maxTime - time) + " §fde jeux restantes !"));
+                Arrays.stream(bcTime).filter(i -> i == time).forEach(i -> Main.getInstance().getServer().getOnlinePlayers().forEach(player -> player.sendMessage(MessageUtils.getMessageConfig(player).getGame().getRemainingGames().replace("%prefix%",MessageUtils.getDefaultMessageConfig().getPrefix()).replace("%time%" ,TimeUtils.getDurationString(maxTime - time)))));
 
                 // Tout les X temps envoyé un title pour la dernière minutes restante
                 Arrays.stream(titleTime).filter(i -> i == time).forEach(i -> getOnlinePlayers().forEach(p -> {
-                    new Title("§aTemps restant", TimeUtils.getDurationString(maxTime - time), 20, 5, 20).send(p);
+                    new Title(MessageUtils.getMessageConfig(p).getGame().getRemainingTime(), TimeUtils.getDurationString(maxTime - time), 20, 5, 20).send(p);
                 }));
 
                 // Passer à l'étape suivante si le temps est écoulé
