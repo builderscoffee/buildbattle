@@ -21,6 +21,8 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 
 public class PlotUtils {
@@ -81,14 +83,14 @@ public class PlotUtils {
                 final Plot plot = i.next();
                 i.remove();
 
-                // Générer un UUID basé sur le temps
-                UUID uuid = Generators.timeBasedGenerator().generate();
-                String name = uuid.toString();
-
                 final Runnable THIS = this;
                 SchematicHandler.manager.getCompoundTag(plot, new RunnableVal<CompoundTag>() {
                     @Override
                     public void run(final CompoundTag value) {
+                        // Générer un UUID basé sur le temps
+                        UUID uuid = Generators.timeBasedGenerator().generate();
+                        String name = uuid.toString();
+
                         if (value == null) {
                             ExpressoBukkit.getBbGame().broadcast("§7 - Plot suivant §c" + plot.getId());
                         } else {
@@ -99,21 +101,29 @@ public class PlotUtils {
                                 if (!result)
                                     ExpressoBukkit.getBbGame().broadcast("§7 - Impossible à sauvegarder §c" + plot.getId());
                                 else {
-                                    ExpressoBukkit.getBbGame().broadcast("§7 - §a  sauvegarder: " + plot.getId());
-                                        HashSet<UUID> plotsMembers = plot.getMembers();
-                                        List<Player> name = new ArrayList<>();
-                                        val pl = DataManager.getProfilStore().select(ProfilEntity.class).get();
-                                        val bb = DataManager.getBuildbattlesStore().select(BuildbattleEntity.class).get().first();
 
-                                        System.out.println("Player1: " + pl.toList().get(0).getName());
-                                        System.out.println("Player2: " + pl.toList().get(1).getName());
                                         System.out.println("BB: " + bb.getNum());
+                                    Main.getBbGame().broadcast("§7 - §a  sauvegarder: " + plot.getId());
+ 
+                                        val plotsMembers = plot.getMembers().stream()
+                                                .map(memberUuid -> uuid.toString())
+                                                .distinct()
+                                                .collect(Collectors.toList());
+                                        val pl = DataManager.getProfilStore()
+                                                .where(ProfilEntity.UNIQUE_ID.in(plotsMembers))
+                                                .get();
+
+                                        // TODO Get buildbattle or cup stored in buildbattle manager
+                                        // Temp
+
+                                        System.out.println("\tPlayers:");
+                                        pl.forEach(p -> System.out.println("\t - " + p.getName()));
+                                        System.out.println("\tBB: " + bb.getNum());
 
                                         val schem = new SchematicsEntity();
                                         schem.setToken(uuid);
                                         schem.setBuildbattle(bb);
                                         schem.getProfils().add(pl.toList().get(0));
-                                        schem.getProfils().add(pl.toList().get(1));
 
                                         DataManager.getSchematicsStore().insert(schem);
                                 }
