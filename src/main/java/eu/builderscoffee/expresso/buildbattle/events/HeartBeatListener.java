@@ -3,7 +3,7 @@ package eu.builderscoffee.expresso.buildbattle.events;
 import eu.builderscoffee.api.common.events.EventListener;
 import eu.builderscoffee.api.common.events.ProcessEvent;
 import eu.builderscoffee.api.common.events.events.HeartBeatEvent;
-import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleInstanceType;
 
 import java.util.Objects;
@@ -20,18 +20,18 @@ public class HeartBeatListener implements EventListener {
 
     @ProcessEvent
     public void onHeartBeat(HeartBeatEvent event) {
-        if (Objects.nonNull(Main.getBbGame())) {
-            if (!Main.getBbGame().getBbGameTypes().equals(BuildBattleInstanceType.NONE)) {
-                event.getServer().getProperties().put("GameType", Main.getBbGame().getBbGameTypes().getBuildBattleGameTypeName());
+        if (Objects.nonNull(ExpressoBukkit.getBbGame())) {
+            if (!ExpressoBukkit.getBbGame().getBbGameTypes().equals(BuildBattleInstanceType.NONE)) {
+                event.getServer().getProperties().put("GameType", ExpressoBukkit.getBbGame().getBbGameTypes().getBuildBattleGameTypeName());
             }
-            if (Objects.nonNull(Main.getBbGame().getBuildBattleGameType())) {
-                event.getServer().getProperties().put("GameSubType", Main.getBbGame().getBuildBattleGameType().getName());
+            if (Objects.nonNull(ExpressoBukkit.getBbGame().getBuildBattleGameType())) {
+                event.getServer().getProperties().put("GameSubType", ExpressoBukkit.getBbGame().getBuildBattleGameType().getName());
             }
-            if (Main.getBbGame().isReady()) {
-                event.getServer().getProperties().put("State", Main.getBbGame().getGameState().toString());
+            if (ExpressoBukkit.getBbGame().isReady()) {
+                event.getServer().getProperties().put("State", ExpressoBukkit.getBbGame().getGameState().toString());
             }
-            if (Objects.nonNull(Main.getBbGame().getBuildBattleGameType().getCurrentPhase())) {
-                event.getServer().getProperties().put("Timer", String.valueOf(Main.getBbGame().getBuildBattleGameType().getCurrentPhase().time()));
+            if (Objects.nonNull(ExpressoBukkit.getBbGame().getBuildBattleGameType()) && Objects.nonNull(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase())) {
+                event.getServer().getProperties().put("Timer", String.valueOf(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().time()));
             }
         }
     }

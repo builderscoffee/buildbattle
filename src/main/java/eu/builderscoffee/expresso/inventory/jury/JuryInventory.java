@@ -6,7 +6,7 @@ import eu.builderscoffee.api.bukkit.gui.ClickableItem;
 import eu.builderscoffee.api.bukkit.gui.SmartInventory;
 import eu.builderscoffee.api.bukkit.gui.content.*;
 import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
-import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.utils.PlotUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -24,7 +24,7 @@ public class JuryInventory implements InventoryProvider {
             .provider(new JuryInventory())
             .size(3, 9)
             .title(ChatColor.WHITE + "§fMenu Jury")
-            .manager(Main.getInventoryManager())
+            .manager(ExpressoBukkit.getInventoryManager())
             .build();
 
     ClickableItem blackGlasses = ClickableItem.empty(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15));

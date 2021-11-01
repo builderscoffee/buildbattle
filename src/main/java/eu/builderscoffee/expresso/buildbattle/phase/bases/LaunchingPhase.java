@@ -2,7 +2,7 @@ package eu.builderscoffee.expresso.buildbattle.phase.bases;
 
 
 import eu.builderscoffee.api.bukkit.utils.Title;
-import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleEngine;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
@@ -51,7 +51,7 @@ public class LaunchingPhase implements BBPhase {
             @Override
             public void run() {
                 // Checker si la partie est prète à démarrer ?
-                if (!Main.getBbGame().isReady()) {
+                if (!ExpressoBukkit.getBbGame().isReady()) {
                     return;
                 }
                 // Lancer le chrono ( Title + Level )
@@ -62,14 +62,14 @@ public class LaunchingPhase implements BBPhase {
                 }
                 // Décompte du temps dans le chat
                 if (getStartTime() % 10 == 0 || getStartTime() == 10 || getStartTime() == 5 || getStartTime() == 4 || getStartTime() == 3 || getStartTime() == 2 || getStartTime() == 1) {
-                    Main.getInstance().getServer().getOnlinePlayers().forEach(player -> player.sendMessage(MessageUtils.getMessageConfig(player).getGame().getCompetitionBeginningIn().replace("%prefix%",MessageUtils.getDefaultMessageConfig().getPrefix()).replace("%time%",TimeUtils.getDurationString(getStartTime()))));
+                    ExpressoBukkit.getInstance().getServer().getOnlinePlayers().forEach(player -> player.sendMessage(MessageUtils.getMessageConfig(player).getGame().getCompetitionBeginningIn().replace("%prefix%",MessageUtils.getDefaultMessageConfig().getPrefix()).replace("%time%",TimeUtils.getDurationString(getStartTime()))));
                     Bukkit.getOnlinePlayers().forEach(player2 -> player2.playSound(player2.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 20.0f, 20.0f));
                 }
                 // Lancer la compétition
                 if (getStartTime() < 1) {
-                    Main.getInstance().getServer().getOnlinePlayers().forEach(player -> player.sendMessage(MessageUtils.getMessageConfig(player).getGame().getCompetitionStarting().replace("%prefix%",MessageUtils.getDefaultMessageConfig().getPrefix())));
+                    ExpressoBukkit.getInstance().getServer().getOnlinePlayers().forEach(player -> player.sendMessage(MessageUtils.getMessageConfig(player).getGame().getCompetitionStarting().replace("%prefix%",MessageUtils.getDefaultMessageConfig().getPrefix())));
                     Bukkit.getOnlinePlayers().forEach(p -> p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 20.0f, 20.0f));
-                    Main.getBbGame().getBbGameManager().nextPhase();
+                    ExpressoBukkit.getBbGame().getBbGameManager().nextPhase();
                     return;
                 }
                 --startTime;

@@ -12,9 +12,8 @@ import java.util.List;
 public class SettingsConfiguration {
 
     // Global settings
+    String plotWorldName = "plotevent2";
     String global_spawn_location = "plotevent:0:65:0:90.0:0.0";
-    String pluginMode = "DEV";
-    Boolean sqlMode = false;
 
     // Schematic settings
     String path_for_backup = "/home/builderscoffee/backup/minecraft/schematics/";

@@ -4,12 +4,11 @@ import com.intellectualcrafters.plot.api.PlotAPI;
 import com.intellectualcrafters.plot.object.Plot;
 import com.intellectualcrafters.plot.util.UUIDHandler;
 import com.plotsquared.bukkit.chat.FancyMessage;
-import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.events.team.TeamCreateEvent;
 import eu.builderscoffee.expresso.buildbattle.events.team.TeamDisbandEvent;
 import eu.builderscoffee.expresso.buildbattle.events.team.TeamJoinEvent;
 import eu.builderscoffee.expresso.buildbattle.events.team.TeamLeaveEvent;
-import eu.builderscoffee.expresso.configuration.MessageConfiguration;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
 import eu.builderscoffee.expresso.utils.MessageUtils;
 import lombok.val;
@@ -23,7 +22,7 @@ public class TeamManager {
     public List<Team> teams;
     public List<Invitation> invitations;
     // Configuration
-    public SettingsConfiguration settings = Main.getSettings();
+    public SettingsConfiguration settings = ExpressoBukkit.getSettings();
     // Instance
     private PlotAPI plotAPI = new PlotAPI();
 
@@ -282,7 +281,7 @@ public class TeamManager {
      * @param player - Joueur à ajouter
      */
     public void addMemberToAllPlot(Player player) {
-        Team team = Main.getBbGame().getTeamManager().getPlayerTeam(player);
+        Team team = ExpressoBukkit.getBbGame().getTeamManager().getPlayerTeam(player);
         Set<Plot> plots = new PlotAPI().getPlayerPlots(team.getLeader());
         plots.forEach(plot -> {
             plot.addTrusted(UUIDHandler.getPlayer(player.getName()).getUUID());
@@ -294,7 +293,7 @@ public class TeamManager {
      * @param player - Joueur à retirer
      */
     public void removeMemberFromAllPlot(Player player) {
-        Team team = Main.getBbGame().getTeamManager().getPlayerTeam(player);
+        Team team = ExpressoBukkit.getBbGame().getTeamManager().getPlayerTeam(player);
         Set<Plot> plots = new PlotAPI().getPlayerPlots(team.getLeader());
         plots.forEach(plot -> {
             plot.removeTrusted(UUIDHandler.getPlayer(player.getName()).getUUID());

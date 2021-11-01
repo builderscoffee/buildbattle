@@ -1,11 +1,9 @@
 package eu.builderscoffee.expresso.commands;
 
-import eu.builderscoffee.expresso.Main;
-import eu.builderscoffee.expresso.configuration.MessageConfiguration;
+import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
 import eu.builderscoffee.expresso.inventory.jury.JuryInventory;
 import eu.builderscoffee.expresso.utils.MessageUtils;
-import lombok.val;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,7 +11,7 @@ import org.bukkit.entity.Player;
 
 public class JuryCommand implements CommandExecutor {
 
-    SettingsConfiguration settings = Main.getSettings();
+    SettingsConfiguration settings = ExpressoBukkit.getSettings();
 
     public static boolean argLength0(Player player) {
         JuryInventory.INVENTORY.open(player);

@@ -1,6 +1,6 @@
 package eu.builderscoffee.expresso.buildbattle;
 
-import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.events.competitor.CompetitorJoinEvent;
 import eu.builderscoffee.expresso.buildbattle.events.competitor.CompetitorLeaveEvent;
 import eu.builderscoffee.expresso.buildbattle.games.classic.ClassicGameType;
@@ -35,7 +35,7 @@ public class BuildBattle {
     // Type d'instance ( Expresso , BB , tournois )
     private BuildBattleInstanceType bbGameTypes = BuildBattleInstanceType.NONE;
     private BuildBattleGameType buildBattleGameType;
-    private ExpressoGameType expressoGameType = new IlClassicoExpressoGameType();
+    private ExpressoGameType expressoGameType = null;
     private ClassicGameType classicGameType = new ClassicGameType();
     private TournamentGameType tournamentGameType = new TournamentGameType();
     // Manager
@@ -101,7 +101,7 @@ public class BuildBattle {
      */
     public void addCompetitor(Player player) {
         competitors.add(player);
-        Main.getInstance().getServer().getPluginManager().callEvent(new CompetitorJoinEvent(player));
+        ExpressoBukkit.getInstance().getServer().getPluginManager().callEvent(new CompetitorJoinEvent(player));
     }
 
     /**
@@ -111,7 +111,7 @@ public class BuildBattle {
      */
     public void removeCompetitor(Player player) {
         competitors.remove(player);
-        Main.getInstance().getServer().getPluginManager().callEvent(new CompetitorLeaveEvent(player));
+        ExpressoBukkit.getInstance().getServer().getPluginManager().callEvent(new CompetitorLeaveEvent(player));
     }
 
     // JURY

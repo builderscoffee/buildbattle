@@ -2,7 +2,7 @@ name: Expresso
 version: 0.1
 description: Expresso pour les build battle de Buildes Coffee.
 author: Ketsu_sama
-main: eu.builderscoffee.expresso.Main
+main: eu.builderscoffee.expresso.ExpressoBukkit
 depend: [ BuildersCoffeeAPI, BuildersCoffeeCommons ]
 commands:
   game:

@@ -1,11 +1,10 @@
 package eu.builderscoffee.expresso.listeners;
 
-import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.events.team.TeamCreateEvent;
 import eu.builderscoffee.expresso.buildbattle.events.team.TeamDisbandEvent;
 import eu.builderscoffee.expresso.buildbattle.events.team.TeamJoinEvent;
 import eu.builderscoffee.expresso.buildbattle.events.team.TeamLeaveEvent;
-import eu.builderscoffee.expresso.configuration.MessageConfiguration;
 import eu.builderscoffee.expresso.utils.MessageUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -31,7 +30,7 @@ public class TeamListeners implements Listener {
         // Envoyer un message quand le joueur rejoins
         members.forEach(member -> member.sendMessage(MessageUtils.getMessageConfig(member).getTeam().getPlayerJoin().replace("%target%", event.getPlayer().getName())));
         // Ajouter le joueur aux plot du leader du groupe
-        Main.getBbGame().getTeamManager().addMemberToAllPlot(event.getPlayer());
+        ExpressoBukkit.getBbGame().getTeamManager().addMemberToAllPlot(event.getPlayer());
     }
 
 
@@ -41,7 +40,7 @@ public class TeamListeners implements Listener {
         //Envoyer un message quand le joueur quitte
         members.forEach(member -> member.sendMessage(MessageUtils.getMessageConfig(member).getTeam().getPlayerQuit()));
         // Retirer le joueur aux plot du leader du groupe
-        Main.getBbGame().getTeamManager().removeMemberFromAllPlot(event.getPlayer());
+        ExpressoBukkit.getBbGame().getTeamManager().removeMemberFromAllPlot(event.getPlayer());
     }
 
 }

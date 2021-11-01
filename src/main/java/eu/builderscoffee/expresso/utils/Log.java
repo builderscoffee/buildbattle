@@ -1,6 +1,6 @@
 package eu.builderscoffee.expresso.utils;
 
-import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.ExpressoBukkit;
 
 public class Log {
     private static Log instance;
@@ -14,14 +14,14 @@ public class Log {
     }
 
     public void info(final String msg) {
-        Main.getInstance().getLogger().info(msg);
+        ExpressoBukkit.getInstance().getLogger().info(msg);
     }
 
     public void severe(final String msg) {
-        Main.getInstance().getLogger().severe(msg);
+        ExpressoBukkit.getInstance().getLogger().severe(msg);
     }
 
     public void warning(final String msg) {
-        Main.getInstance().getLogger().warning(msg);
+        ExpressoBukkit.getInstance().getLogger().warning(msg);
     }
 }

@@ -4,7 +4,7 @@ import eu.builderscoffee.api.bukkit.gui.ClickableItem;
 import eu.builderscoffee.api.bukkit.gui.SmartInventory;
 import eu.builderscoffee.api.bukkit.gui.content.*;
 import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
-import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.games.expressos.engine.HazarEngine;
 import eu.builderscoffee.expresso.utils.blocks.BlockData;
 import lombok.Getter;
@@ -27,7 +27,7 @@ public class HazardExpressoInventory implements InventoryProvider {
             .provider(new HazardExpressoInventory(getHazarEngine()))
             .size(3, 9)
             .title(ChatColor.WHITE + "§fListe des blocks")
-            .manager(Main.getInventoryManager())
+            .manager(ExpressoBukkit.getInventoryManager())
             .build();
     ClickableItem whiteGlasses = ClickableItem.empty(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 0));
 

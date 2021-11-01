@@ -1,6 +1,6 @@
 package eu.builderscoffee.expresso.buildbattle.games.expressos.listeners;
 
-import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
 import eu.builderscoffee.expresso.buildbattle.games.expressos.engine.HazarEngine;
 import eu.builderscoffee.expresso.utils.Log;
@@ -21,15 +21,15 @@ public class HazarListener implements Listener {
 
     private final HazarEngine engine;
 
-    public HazarListener(Main main, HazarEngine engine) {
+    public HazarListener(ExpressoBukkit expressoBukkit, HazarEngine engine) {
         this.engine = engine;
-        Bukkit.getServer().getPluginManager().registerEvents(this, main);
+        Bukkit.getServer().getPluginManager().registerEvents(this, expressoBukkit);
     }
 
     @EventHandler
     public void onBlock(BlockPlaceEvent event) {
         // Check si la partie est commencer !
-        if (Main.getBbGame().getGameState() == BuildBattleManager.GameState.IN_GAME) {
+        if (ExpressoBukkit.getBbGame().getGameState() == BuildBattleManager.GameState.IN_GAME) {
             // Get joueur et face du block
             val player = event.getPlayer();
             val face = event.getBlockAgainst().getFace(event.getBlock());

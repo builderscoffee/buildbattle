@@ -7,7 +7,7 @@ import eu.builderscoffee.api.bukkit.gui.SmartInventory;
 import eu.builderscoffee.api.bukkit.gui.content.InventoryContents;
 import eu.builderscoffee.api.bukkit.gui.content.InventoryProvider;
 import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
-import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.notation.Notation;
 import eu.builderscoffee.expresso.utils.PlotUtils;
 import org.bukkit.ChatColor;
@@ -21,7 +21,7 @@ public class JuryNotationInventory implements InventoryProvider {
             .provider(new JuryNotationInventory())
             .size(4, 9)
             .title(ChatColor.WHITE + "Menu Notation")
-            .manager(Main.getInventoryManager())
+            .manager(ExpressoBukkit.getInventoryManager())
             .build();
 
     private int beaute, crea, ame, folkore, fun = 0;
@@ -40,7 +40,7 @@ public class JuryNotationInventory implements InventoryProvider {
         contents.set(3, 4, ClickableItem.of(new ItemBuilder(Material.RAW_FISH).setName("§bValider mon verdict").build(),
                 e -> {
                     Notation note = new Notation(player.getUniqueId());
-                    Main.getBbGame().getNotationManager().addNotationInPlot(plot, note);
+                    ExpressoBukkit.getBbGame().getNotationManager().addNotationInPlot(plot, note);
                     INVENTORY.close(player);
                 }));
         contents.set(1, 2, ClickableItem.of(new ItemBuilder(Material.YELLOW_FLOWER).setName("§bBeauté/Technicité").build(),

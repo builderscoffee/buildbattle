@@ -1,6 +1,6 @@
 package eu.builderscoffee.expresso.buildbattle.phase.bases;
 
-import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleEngine;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
@@ -38,9 +38,9 @@ public class EndPhase implements BBPhase {
             @Override
             public void run() {
                 // Finir la partie
-                Main.getBbGame().getBbGameManager().endGame();
+                ExpressoBukkit.getBbGame().getBbGameManager().endGame();
                 // Cancel cette phase
-                Main.getBbGame().getBbGameManager().cancelPhase();
+                ExpressoBukkit.getBbGame().getBbGameManager().cancelPhase();
                 //TODO Autre chose à faire avant de fermer le serveur ?
             }
         };

@@ -1,7 +1,7 @@
 package eu.builderscoffee.expresso.buildbattle.phase.bases;
 
 
-import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleEngine;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
@@ -41,7 +41,7 @@ public class JuryPhase implements BBPhase {
                     public void run() {
                         Bukkit.getOnlinePlayers().forEach(s -> s.kickPlayer("Les plots sont en cours de notation"));
                     }
-                }.runTask(Main.getInstance());
+                }.runTask(ExpressoBukkit.getInstance());
 
 
                 // Permettre la notation des plots

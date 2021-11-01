@@ -1,4 +1,4 @@
-import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.utils.Tuple;
 import eu.builderscoffee.expresso.utils.blocks.BlockData;
 import lombok.Getter;
@@ -15,12 +15,12 @@ public class HazarEngine {
     public Map<Object, Object> convertBlockdata = new HashMap<>();
     @Getter
     @Setter
-    private Main instance;
+    private ExpressoBukkit instance;
 
     @Test
     public void HazarEngine() {
         // On défini l'instance de la class principale
-        setInstance(Main.getInstance());
+        setInstance(ExpressoBukkit.getInstance());
         // On charge l'engine
         load();
         // On enregistre les listeners

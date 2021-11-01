@@ -6,7 +6,7 @@ import eu.builderscoffee.api.bukkit.gui.ClickableItem;
 import eu.builderscoffee.api.bukkit.gui.SmartInventory;
 import eu.builderscoffee.api.bukkit.gui.content.*;
 import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
-import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.utils.PlotUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -25,7 +25,7 @@ public class JuryTeleportation implements InventoryProvider {
             .provider(new JuryTeleportation())
             .size(6, 9)
             .title(ChatColor.WHITE + "§fList des participants")
-            .manager(Main.getInventoryManager())
+            .manager(ExpressoBukkit.getInventoryManager())
             .build();
 
     ClickableItem blackGlasses = ClickableItem.empty(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15));
@@ -43,7 +43,7 @@ public class JuryTeleportation implements InventoryProvider {
         for (int i = 0; i < plotsItem.length; i++) {
             int tempPlot = i;
             Plot currentPlot = list.get(tempPlot);
-            if (Main.getBbGame().getNotationManager().playerHasNote(currentPlot, player)) {
+            if (ExpressoBukkit.getBbGame().getNotationManager().playerHasNote(currentPlot, player)) {
                 plotsItem[i] = ClickableItem.of(new ItemBuilder(Material.GRASS).addGLow().setName("§aPlot §f# " + i).build(),
                         e -> {
                             PlotUtils.convertPlotCenterLoc(currentPlot.getCenter());

@@ -2,7 +2,7 @@ package eu.builderscoffee.expresso.utils;
 
 import eu.builderscoffee.commons.bukkit.CommonsBukkit;
 import eu.builderscoffee.commons.common.data.tables.Profil;
-import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
 import lombok.experimental.UtilityClass;
 import lombok.val;
@@ -24,11 +24,11 @@ public class MessageUtils {
         return profil.getLang();
     }
     public static MessageConfiguration getMessageConfig(Player player) {
-        return Main.getMessages().get(getLang(player));
+        return ExpressoBukkit.getMessages().get(getLang(player));
     }
 
     public static MessageConfiguration getMessageConfig(UUID uuid) {
-        return Main.getMessages().get(getLang(uuid));
+        return ExpressoBukkit.getMessages().get(getLang(uuid));
     }
 
     public static MessageConfiguration getMessageConfig(CommandSender sender) {
@@ -41,7 +41,7 @@ public class MessageUtils {
     }
 
     public static MessageConfiguration getDefaultMessageConfig() {
-        return Main.getMessages().get(Profil.Languages.FR);
+        return ExpressoBukkit.getMessages().get(Profil.Languages.FR);
     }
 
 }

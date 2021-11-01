@@ -1,6 +1,6 @@
 package eu.builderscoffee.expresso.buildbattle.games.expressos.phases;
 
-import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleEngine;
 import eu.builderscoffee.expresso.buildbattle.games.expressos.engine.HazarEngine;
 import eu.builderscoffee.expresso.buildbattle.phase.bases.GamePhase;
@@ -13,7 +13,7 @@ public class HazarPhase extends GamePhase {
     public HazarPhase(int maxTime) {
         super(maxTime);
         // Enregistrer l'engine de la partie
-        hazarEngine = new HazarEngine(Main.getInstance());
+        hazarEngine = new HazarEngine(ExpressoBukkit.getInstance());
     }
 
     @Override

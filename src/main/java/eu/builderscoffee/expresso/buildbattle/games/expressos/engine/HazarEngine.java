@@ -1,7 +1,7 @@
 package eu.builderscoffee.expresso.buildbattle.games.expressos.engine;
 
 import eu.builderscoffee.api.common.configuration.Configuration;
-import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleEngine;
 import eu.builderscoffee.expresso.buildbattle.games.expressos.listeners.HazarListener;
 import eu.builderscoffee.expresso.inventory.HazardExpressoInventory;
@@ -22,9 +22,9 @@ public class HazarEngine implements BuildBattleEngine {
     public Map<Object, Object> convertBlockdata = new HashMap<>();
     @Getter
     @Setter
-    private Main instance;
+    private ExpressoBukkit instance;
 
-    public HazarEngine(Main instance) {
+    public HazarEngine(ExpressoBukkit instance) {
         // On défini l'instance de la class principale
         setInstance(instance);
         // On init le menu
@@ -105,7 +105,7 @@ public class HazarEngine implements BuildBattleEngine {
     public void PrintBlockData() {
         List<Tuple<Object, Object>> tupleList = new ArrayList<>();
         convertBlockdata.forEach((o, o2) -> tupleList.add(new Tuple(o, o2)));
-        Main.getCache().getPairList().addAll(tupleList);
-        Configuration.writeConfiguration(Main.getInstance().getName(), Main.getCache());
+        ExpressoBukkit.getCache().getPairList().addAll(tupleList);
+        Configuration.writeConfiguration(ExpressoBukkit.getInstance().getName(), ExpressoBukkit.getCache());
     }
 }

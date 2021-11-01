@@ -5,14 +5,13 @@ import com.intellectualcrafters.plot.object.Plot;
 import com.intellectualcrafters.plot.object.PlotPlayer;
 import com.intellectualcrafters.plot.util.MainUtil;
 import com.intellectualcrafters.plot.util.UUIDHandler;
-import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
 import eu.builderscoffee.expresso.inventory.jury.JuryNotationInventory;
 import eu.builderscoffee.expresso.inventory.jury.JuryTeleportation;
 import eu.builderscoffee.expresso.utils.MessageUtils;
 import eu.builderscoffee.expresso.utils.PlotUtils;
 import lombok.val;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -24,7 +23,7 @@ import java.util.stream.Collectors;
 
 public class PlotCommand implements CommandExecutor {
 
-    static SettingsConfiguration settings = Main.getSettings();
+    static SettingsConfiguration settings = ExpressoBukkit.getSettings();
 
     public static boolean argLength0(Player player) {
         List<String> commandList = new ArrayList<>();
@@ -75,7 +74,7 @@ public class PlotCommand implements CommandExecutor {
                 //checker
                 if (new PlotAPI().isInPlot(player)) {
                     Plot plotinv = (PlotUtils.convertBukkitLoc(player.getLocation()).getPlotAbs());
-                    if (!Main.getBbGame().getNotationManager().playerHasNote(plotinv, player)) {
+                    if (!ExpressoBukkit.getBbGame().getNotationManager().playerHasNote(plotinv, player)) {
                         JuryNotationInventory.INVENTORY.open(player);
                     } else {
                         player.sendMessage(MessageUtils.getMessageConfig(player).getCommand().getPlotAlReadyNoted().replace("%prefix%",MessageUtils.getDefaultMessageConfig().getPrefix()));
@@ -88,7 +87,7 @@ public class PlotCommand implements CommandExecutor {
             case "seenote":
                 val messages = MessageUtils.getMessageConfig(player);
                 val plot = (PlotUtils.convertBukkitLoc(player.getLocation()).getPlotAbs());
-                val notationsByPlot = Main.getBbGame().getNotationManager().getNotationsByPlot(plot);
+                val notationsByPlot = ExpressoBukkit.getBbGame().getNotationManager().getNotationsByPlot(plot);
                 if (notationsByPlot == null || notationsByPlot.isEmpty()) {
                     player.sendMessage(messages.getCommand().getPlotNotNoted().replace("%prefix%",MessageUtils.getDefaultMessageConfig().getPrefix()));
                     break;

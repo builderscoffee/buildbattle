@@ -6,7 +6,6 @@ import eu.builderscoffee.api.bukkit.gui.InventoryManager;
 import eu.builderscoffee.api.bukkit.utils.Plugins;
 import eu.builderscoffee.api.common.events.EventHandler;
 import eu.builderscoffee.api.common.redisson.Redis;
-import eu.builderscoffee.commons.bukkit.CommonsBukkit;
 import eu.builderscoffee.commons.common.data.tables.Profil;
 import eu.builderscoffee.commons.common.redisson.topics.CommonTopics;
 import eu.builderscoffee.expresso.buildbattle.BuildBattle;
@@ -30,7 +29,7 @@ import java.util.Map;
 
 import static eu.builderscoffee.api.common.configuration.Configuration.readOrCreateConfiguration;
 
-public class Main extends JavaPlugin {
+public class ExpressoBukkit extends JavaPlugin {
 
     @Getter
     public static Map<Profil.Languages, MessageConfiguration> messages;
@@ -41,7 +40,7 @@ public class Main extends JavaPlugin {
     @Getter
     public static InventoryManager inventoryManager;
     @Getter
-    private static Main instance;
+    private static ExpressoBukkit instance;
     @Getter
     @Setter
     private static BuildBattle bbGame;

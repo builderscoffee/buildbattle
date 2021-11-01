@@ -2,7 +2,7 @@ package eu.builderscoffee.expresso.listeners;
 
 import eu.builderscoffee.api.bukkit.board.FastBoard;
 import eu.builderscoffee.api.bukkit.utils.LocationsUtil;
-import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.board.BBBoard;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
@@ -24,7 +24,7 @@ import java.util.Objects;
 
 public class PlayerListener implements Listener {
 
-    SettingsConfiguration settings = Main.getSettings();
+    SettingsConfiguration settings = ExpressoBukkit.getSettings();
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onJoin(PlayerJoinEvent event) {
@@ -44,10 +44,10 @@ public class PlayerListener implements Listener {
         player.getInventory().clear();
 
         // If player as plot
-        player.teleport(LocationsUtil.getLocationFromString(Main.getSettings().getGlobal_spawn_location()));
+        player.teleport(LocationsUtil.getLocationFromString(ExpressoBukkit.getSettings().getGlobal_spawn_location()));
 
-        if (Objects.nonNull(Main.getBbGame())) {
-            if (Main.getBbGame().getGameState().equals(BuildBattleManager.GameState.IN_GAME)) {
+        if (Objects.nonNull(ExpressoBukkit.getBbGame())) {
+            if (ExpressoBukkit.getBbGame().getGameState().equals(BuildBattleManager.GameState.IN_GAME)) {
                 player.setGameMode(GameMode.CREATIVE);
                 player.sendMessage(messages.getGame().getPlotAuto().replace("%prefix%",MessageUtils.getDefaultMessageConfig().getPrefix()));
             }
@@ -67,8 +67,8 @@ public class PlayerListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onCommand(PlayerCommandPreprocessEvent event) {
         if (event.getMessage().toLowerCase().contains("/plot auto") || event.getMessage().toLowerCase().contains("/plot claim")) {
-            if (Main.getBbGame().getGameState().equals(BuildBattleManager.GameState.IN_GAME)) {
-                Main.getBbGame().addCompetitor(event.getPlayer());
+            if (ExpressoBukkit.getBbGame().getGameState().equals(BuildBattleManager.GameState.IN_GAME)) {
+                ExpressoBukkit.getBbGame().addCompetitor(event.getPlayer());
             } else {
                 event.setCancelled(true);
                 event.getPlayer().sendMessage("§cVous devez attendre le lancement de la partie avant de créer votre plot");
@@ -79,14 +79,14 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
-        if (!Main.getBbGame().getGameState().equals(BuildBattleManager.GameState.IN_GAME)) {
+        if (!ExpressoBukkit.getBbGame().getGameState().equals(BuildBattleManager.GameState.IN_GAME)) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
-        if (!Main.getBbGame().getGameState().equals(BuildBattleManager.GameState.IN_GAME)) {
+        if (!ExpressoBukkit.getBbGame().getGameState().equals(BuildBattleManager.GameState.IN_GAME)) {
             event.setCancelled(true);
         }
     }

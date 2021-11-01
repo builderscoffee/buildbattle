@@ -1,9 +1,7 @@
 package eu.builderscoffee.expresso.commands;
 
-import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.BuildBattle;
-import eu.builderscoffee.expresso.configuration.MessageConfiguration;
-import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
 import eu.builderscoffee.expresso.utils.MessageUtils;
 import lombok.Getter;
 import lombok.val;
@@ -20,7 +18,7 @@ public class TeamCommand implements CommandExecutor {
 
     // Instances of
     @Getter
-    private final BuildBattle bbGame = Main.getBbGame();
+    private final BuildBattle bbGame = ExpressoBukkit.getBbGame();
 
     public static boolean argLength0(Player player) {
         List<String> commandList = new ArrayList<>();
@@ -47,14 +45,14 @@ public class TeamCommand implements CommandExecutor {
                 break;
             case "leave":
                 // Quitter le groupe d'un joueur
-                Main.getBbGame().getTeamManager().removePlayerFromTeam(player);
+                ExpressoBukkit.getBbGame().getTeamManager().removePlayerFromTeam(player);
                 break;
             case "disband":
                 // Supprimer votre groupe si vous êtes leader
-                Main.getBbGame().getTeamManager().unregisterTeam(player);
+                ExpressoBukkit.getBbGame().getTeamManager().unregisterTeam(player);
                 break;
             case "info":
-                Main.getBbGame().getTeamManager().viewTeam(player);
+                ExpressoBukkit.getBbGame().getTeamManager().viewTeam(player);
                 break;
             default:
                 return false;
@@ -68,14 +66,14 @@ public class TeamCommand implements CommandExecutor {
         switch (args1) {
             case "add":
                 // Ajouter un joueur aux groupe
-                Main.getBbGame().getTeamManager().SendInvitation(player, targetLenght2.getPlayer());
+                ExpressoBukkit.getBbGame().getTeamManager().SendInvitation(player, targetLenght2.getPlayer());
                 break;
             case "remove":
                 // Retirer un joueur aux groupe
-                Main.getBbGame().getTeamManager().removePlayerFromTeam(targetLenght2.getPlayer());
+                ExpressoBukkit.getBbGame().getTeamManager().removePlayerFromTeam(targetLenght2.getPlayer());
                 break;
             case "info":
-                Main.getBbGame().getTeamManager().viewTargetTeam(player, Bukkit.getPlayer(args1));
+                ExpressoBukkit.getBbGame().getTeamManager().viewTargetTeam(player, Bukkit.getPlayer(args1));
                 break;
             default:
                 return false;
@@ -91,11 +89,11 @@ public class TeamCommand implements CommandExecutor {
                 switch (args3) {
                     case "accept":
                         // Accepter l'invite du joueur
-                        Main.getBbGame().getTeamManager().AcceptInvitation(player, Bukkit.getPlayerExact(args2));
+                        ExpressoBukkit.getBbGame().getTeamManager().AcceptInvitation(player, Bukkit.getPlayerExact(args2));
                         break;
                     case "deny":
                         // Refuser l'invite du joueur
-                        Main.getBbGame().getTeamManager().DenyInvitation(player, Bukkit.getPlayerExact(args2));
+                        ExpressoBukkit.getBbGame().getTeamManager().DenyInvitation(player, Bukkit.getPlayerExact(args2));
                         break;
                 }
                 break;

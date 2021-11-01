@@ -1,6 +1,6 @@
 package eu.builderscoffee.expresso.buildbattle;
 
-import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.board.BBBoard;
 import eu.builderscoffee.expresso.buildbattle.games.expressos.ExpressoManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
@@ -20,7 +20,7 @@ public class BuildBattleManager {
 
     // Instances
     @Getter
-    private final Main main;
+    private final ExpressoBukkit expressoBukkit;
     @Getter
     private final BuildBattle game;
     // Managers
@@ -48,7 +48,7 @@ public class BuildBattleManager {
 
     public BuildBattleManager(final BuildBattle game) {
         // Instances
-        this.main = Main.getInstance();
+        this.expressoBukkit = ExpressoBukkit.getInstance();
         this.game = game;
         // Managers
         setExpressoManager(game.getExpressoManager());
@@ -63,17 +63,17 @@ public class BuildBattleManager {
      */
     public void startGame() {
         // La partie est prête à démarrer
-        Main.getBbGame().setReady(true);
+        ExpressoBukkit.getBbGame().setReady(true);
 
         // Lancer le check de démarrage
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), () -> {
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(ExpressoBukkit.getInstance(), () -> {
             if (game != null) {
                 this.checkStart();
             }
         }, 0L, 20L);
 
         // Mettre à jour le scoreboard
-        Main.getInstance().getServer().getScheduler().runTaskTimer(Main.getInstance(), () -> {
+        ExpressoBukkit.getInstance().getServer().getScheduler().runTaskTimer(ExpressoBukkit.getInstance(), () -> {
             BBBoard.boards.values().forEach(BBBoard::updateBoard);
         }, 0, 20);
     }
@@ -145,7 +145,7 @@ public class BuildBattleManager {
         if (getCurrentTask() != null) {
             getCurrentTask().cancel();
         }
-        setCurrentTask(runnable.runTaskTimerAsynchronously(main, 0, 20));
+        setCurrentTask(runnable.runTaskTimerAsynchronously(expressoBukkit, 0, 20));
     }
 
     /***
@@ -185,8 +185,8 @@ public class BuildBattleManager {
      * Désactiver les plugin non nécessaire après la phase IN-GAME
      */
     public void disablePlugins() {
-        PluginManager pm = Main.getInstance().getServer().getPluginManager();
-        List<String> pluginToDisable = Main.getSettings().getGame_plugin_end_disable();
+        PluginManager pm = ExpressoBukkit.getInstance().getServer().getPluginManager();
+        List<String> pluginToDisable = ExpressoBukkit.getSettings().getGame_plugin_end_disable();
         pluginToDisable.forEach(s -> {
             if (pm.getPlugin(s) != null) {
                 pm.disablePlugin(pm.getPlugin(s));

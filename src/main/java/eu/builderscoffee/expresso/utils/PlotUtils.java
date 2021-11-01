@@ -11,7 +11,7 @@ import eu.builderscoffee.commons.common.data.DataManager;
 import eu.builderscoffee.commons.common.data.tables.BuildbattleEntity;
 import eu.builderscoffee.commons.common.data.tables.ProfilEntity;
 import eu.builderscoffee.commons.common.data.tables.SchematicsEntity;
-import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
 import lombok.NonNull;
 import lombok.val;
@@ -26,7 +26,7 @@ import java.util.*;
 public class PlotUtils {
 
     public static Set<Plot> allPlots = new PlotAPI().getAllPlots();
-    SettingsConfiguration settings = Main.getSettings();
+    SettingsConfiguration settings = ExpressoBukkit.getSettings();
 
     /***
      * Convertir une Location Plot en Location Bukkit
@@ -90,17 +90,16 @@ public class PlotUtils {
                     @Override
                     public void run(final CompoundTag value) {
                         if (value == null) {
-                            Main.getBbGame().broadcast("§7 - Plot suivant §c" + plot.getId());
+                            ExpressoBukkit.getBbGame().broadcast("§7 - Plot suivant §c" + plot.getId());
                         } else {
                             TaskManager.runTaskAsync(() -> {
-                                Main.getBbGame().broadcast("§6ID: §f" + plot.getId() + "§6UUID: §7" + name);
+                                ExpressoBukkit.getBbGame().broadcast("§6ID: §f" + plot.getId() + "§6UUID: §7" + name);
                                 boolean result = SchematicHandler.manager
                                         .save(value, outputDir + File.separator + name + ".schematic");
                                 if (!result)
-                                    Main.getBbGame().broadcast("§7 - Impossible à sauvegarder §c" + plot.getId());
+                                    ExpressoBukkit.getBbGame().broadcast("§7 - Impossible à sauvegarder §c" + plot.getId());
                                 else {
-                                    Main.getBbGame().broadcast("§7 - §a  sauvegarder: " + plot.getId());
-                                    if (settings.getSqlMode()) {
+                                    ExpressoBukkit.getBbGame().broadcast("§7 - §a  sauvegarder: " + plot.getId());
                                         HashSet<UUID> plotsMembers = plot.getMembers();
                                         List<Player> name = new ArrayList<>();
                                         val pl = DataManager.getProfilStore().select(ProfilEntity.class).get();
@@ -117,7 +116,6 @@ public class PlotUtils {
                                         schem.getProfils().add(pl.toList().get(1));
 
                                         DataManager.getSchematicsStore().insert(schem);
-                                    }
                                 }
                                 TaskManager.runTask(() -> THIS.run());
                             });
