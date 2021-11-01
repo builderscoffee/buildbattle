@@ -15,8 +15,9 @@ public class SettingsConfiguration {
     String plotWorldName = "plotevent2";
     String global_spawn_location = "plotevent:0:65:0:90.0:0.0";
 
-    // Schematic settings
+    // Backup settings
     String path_for_backup = "/home/builderscoffee/backup/minecraft/schematics/";
+    String path_for_backup_world = "/home/builderscoffee/backup/minecraft/worlds/";
 
     // Permission settings
     String expresso_all_permission = "expresso.*";
