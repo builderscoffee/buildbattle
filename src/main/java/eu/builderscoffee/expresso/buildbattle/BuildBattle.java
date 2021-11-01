@@ -36,17 +36,19 @@ public class BuildBattle {
     private BuildBattleInstanceType bbGameTypes = BuildBattleInstanceType.NONE;
     private BuildBattleGameType buildBattleGameType;
     private ExpressoGameType expressoGameType = null;
-    private ClassicGameType classicGameType = new ClassicGameType();
-    private TournamentGameType tournamentGameType = new TournamentGameType();
+    private ClassicGameType classicGameType = null;
+    private TournamentGameType tournamentGameType = null;
     // Manager
     private BuildBattleManager bbGameManager;
+    private Object bbGameManagerClone;
     private ExpressoManager expressoManager;
     private NotationManager notationManager;
     // Phase de la partie
     private Deque<BBPhase> instancePhases;
     // Instance Check
-    @Setter
     private boolean isReady = false;
+    private boolean isPaused = false;
+
 
 
     /***

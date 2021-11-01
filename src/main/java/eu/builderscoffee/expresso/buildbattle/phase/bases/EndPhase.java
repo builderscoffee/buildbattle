@@ -39,8 +39,6 @@ public class EndPhase implements BBPhase {
             public void run() {
                 // Finir la partie
                 ExpressoBukkit.getBbGame().getBbGameManager().endGame();
-                // Cancel cette phase
-                ExpressoBukkit.getBbGame().getBbGameManager().cancelPhase();
                 //TODO Autre chose à faire avant de fermer le serveur ?
             }
         };

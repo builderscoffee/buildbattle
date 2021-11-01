@@ -12,6 +12,7 @@ import eu.builderscoffee.commons.common.redisson.topics.CommonTopics;
 import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.BuildBattle;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleInstanceType;
+import eu.builderscoffee.expresso.utils.Log;
 import eu.builderscoffee.expresso.utils.WorldBuilder;
 import lombok.val;
 import org.bukkit.Bukkit;
@@ -60,8 +61,8 @@ public class ConfigListener implements PacketListener {
             } else if (Objects.isNull(Bukkit.getWorld(ExpressoBukkit.getSettings().getPlotWorldName()))) {
                 sendMapGeneration(request);
                 return;
-                // La partie n'est pas démarrer
-            } else if (!ExpressoBukkit.getBbGame().isReady()) {
+                // La partie n'est pas démarrer ou est en pause
+            } else if (!ExpressoBukkit.getBbGame().isReady() || ExpressoBukkit.getBbGame().isPaused()) {
                 sendStartConfig(request);
                 return;
                 // La partie est démarrer
@@ -95,7 +96,6 @@ public class ConfigListener implements PacketListener {
             val expressoString = request.getData();
             ExpressoBukkit.getBbGame().setExpressoGameType(ExpressoBukkit.getBbGame().getExpressoManager().fetchExpressoByName(expressoString));
             ExpressoBukkit.getBbGame().configureGameType(BuildBattleInstanceType.EXPRESSO);
-            //sendStartConfig(request);
             sendThemesSelection(request);
         }
     }
@@ -135,26 +135,26 @@ public class ConfigListener implements PacketListener {
                     // Si oui le supprimer
                     Bukkit.getWorld(ExpressoBukkit.getSettings().getPlotWorldName()).getWorldFolder().delete();
                 }
-                // Générer la map
-                new WorldBuilder.DefaultWorldBuilder()
-                        .setBedrock(true)
-                        .setPlotFilling(new ItemStack(Material.DIRT))
-                        .setPlotFloor(new ItemStack(Material.GRASS, 1))
-                        .setPlotHeight(64)
-                        .setPlotSize(plotSize)
-                        .setRoadBlock(new ItemStack(Material.QUARTZ_BLOCK))
-                        .setRoadHeight(64)
-                        .setRoadWidth(7)
-                        .setWall(new ItemStack(Material.STONE_SLAB2))
-                        .setWallClaimed(new ItemStack(Material.STONE_SLAB2, 1, (short) 2))
-                        .setWallFilling(new ItemStack(Material.STONE))
-                        .setWallHeight(64)
-                        .generate(ExpressoBukkit.getSettings().getPlotWorldName());
-
-                // Lancer la partie
-                ExpressoBukkit.getBbGame().setReady(true);
-                ExpressoBukkit.getBbGame().getBbGameManager().startGame();
-
+                if(Objects.isNull(ExpressoBukkit.getInstance().getServer().getWorld(ExpressoBukkit.getSettings().getPlotWorldName()))) {
+                    // Générer la map
+                    new WorldBuilder.DefaultWorldBuilder()
+                            .setBedrock(true)
+                            .setPlotFilling(new ItemStack(Material.DIRT))
+                            .setPlotFloor(new ItemStack(Material.GRASS, 1))
+                            .setPlotHeight(64)
+                            .setPlotSize(plotSize)
+                            .setRoadBlock(new ItemStack(Material.QUARTZ_BLOCK))
+                            .setRoadHeight(64)
+                            .setRoadWidth(7)
+                            .setWall(new ItemStack(Material.STONE_SLAB2))
+                            .setWallClaimed(new ItemStack(Material.STONE_SLAB2, 1, (short) 2))
+                            .setWallFilling(new ItemStack(Material.STONE))
+                            .setWallHeight(64)
+                            .generate(ExpressoBukkit.getSettings().getPlotWorldName());
+                }
+                    // Lancer la partie
+                    ExpressoBukkit.getBbGame().setReady(true);
+                    ExpressoBukkit.getBbGame().getBbGameManager().startGame();
                 break;
             case "stop":
                 // Stopper la partie
@@ -164,7 +164,11 @@ public class ConfigListener implements PacketListener {
                 }
                 break;
             case "pause":
-                //TODO Mettre la partie en pause
+                Log.get().info("Receive Pause Action");
+                // Mettre en pause la partie
+                ExpressoBukkit.getBbGame().getBbGameManager().PauseGame();
+                // Envoyer le menu start
+                sendStartConfig(request);
                 break;
         }
     }
@@ -271,6 +275,11 @@ public class ConfigListener implements PacketListener {
         Redis.publish(CommonTopics.SERVER_MANAGER, response);
     }
 
+    /***
+     * Répondre à la requète de génération d'une map
+     * - Il faut la valider la laine verte :p
+     * @param request
+     */
     public void sendMapGeneration(ServerManagerRequest request) {
         // Create from the request
         val response = new ServerManagerResponse(request);
@@ -295,7 +304,7 @@ public class ConfigListener implements PacketListener {
         val itemsAction = new ServerManagerResponse.Items();
 
         itemsAction.setType("game");
-        if (!ExpressoBukkit.getBbGame().getBbGameManager().isRunning()) {
+        if (!ExpressoBukkit.getBbGame().getBbGameManager().isRunning() || ExpressoBukkit.getBbGame().isPaused()) {
             itemsAction.addItem(2, 4, new ItemBuilder(Material.WOOL, 1, (short) 13).setName("§aDémarer").build(), "start");
             response.getActions().add(itemsAction);
         }

@@ -1,22 +1,26 @@
 package eu.builderscoffee.expresso.buildbattle;
 
 import eu.builderscoffee.expresso.ExpressoBukkit;
-import eu.builderscoffee.expresso.board.BBBoard;
 import eu.builderscoffee.expresso.buildbattle.games.expressos.ExpressoManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
+import eu.builderscoffee.expresso.buildbattle.tasks.BoardTask;
+import eu.builderscoffee.expresso.buildbattle.tasks.CheckStartTask;
 import eu.builderscoffee.expresso.utils.Log;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class BuildBattleManager {
+public class BuildBattleManager implements Cloneable {
 
     // Instances
     @Getter
@@ -64,18 +68,16 @@ public class BuildBattleManager {
     public void startGame() {
         // La partie est prête à démarrer
         ExpressoBukkit.getBbGame().setReady(true);
-
-        // Lancer le check de démarrage
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(ExpressoBukkit.getInstance(), () -> {
-            if (game != null) {
-                this.checkStart();
-            }
-        }, 0L, 20L);
-
-        // Mettre à jour le scoreboard
-        ExpressoBukkit.getInstance().getServer().getScheduler().runTaskTimer(ExpressoBukkit.getInstance(), () -> {
-            BBBoard.boards.values().forEach(BBBoard::updateBoard);
-        }, 0, 20);
+        if(!ExpressoBukkit.getBbGame().isPaused()) {
+            // Lancer la task de check
+            ExpressoBukkit.getExecutionManager().getTasks().put("checkstart", new CheckStartTask().runTaskTimer(expressoBukkit, 0L, 20L));
+            // Lancer la task de board
+            ExpressoBukkit.getExecutionManager().getTasks().put("board", new BoardTask().runTaskTimer(expressoBukkit, 0L, 20L));
+        } else {
+            Log.get().info("Start Clone");
+            ExpressoBukkit.getBbGame().setPaused(false);
+            ExpressoBukkit.getBbGame().setBbGameManager((BuildBattleManager) ExpressoBukkit.getBbGame().getBbGameManagerClone());
+        }
     }
 
 
@@ -113,10 +115,16 @@ public class BuildBattleManager {
      */
     public void cancelGame() {
         // On stopper la phase en cours si ce n'est déja pas fait
+        this.cancelPhase();
+        // On stopper toutes les task
+        ExpressoBukkit.getExecutionManager().cancelAllTasks();
+    }
+
+    public void PauseGame() {
+        //Mettre en pause la phase
+        pausePhase();
+        // Cancel la phase en cours
         cancelPhase();
-        // On redéfinis l'état
-        this.game.setGameState(GameState.WAITING);
-        this.game.setReady(false);
     }
 
     /***
@@ -127,7 +135,7 @@ public class BuildBattleManager {
             Log.get().info("Une erreur est survenue lors de la fin de la partie !");
         } else {
             // Définir l'état de fin de la partie
-            this.getGame().setGameState(this.game.getExpressoGameType().getCurrentPhase().state());
+            this.getGame().setGameState(this.game.getBuildBattleGameType().getCurrentPhase().state());
             // Couper la phase en cours
             this.cancelPhase();
             // Désactiver les plugin de build
@@ -152,9 +160,23 @@ public class BuildBattleManager {
      * Stopper la phase en cours
      */
     public void cancelPhase() {
-        Log.get().info("Phase cancel : " + this.game.getExpressoGameType().getCurrentPhase().name());
+        Log.get().info("Phase cancel : " + this.game.getBuildBattleGameType().getCurrentPhase().name());
         if (!this.getCurrentTask().isCancelled()) {
             getCurrentTask().cancel();
+        }
+    }
+
+    /***
+     * Mettre en pause la partie en cours
+     */
+    @SneakyThrows
+    public void pausePhase() {
+        Log.get().info("Phase pause : " + this.game.getBuildBattleGameType().getCurrentPhase().name());
+        Log.get().info("Pause BBGame");
+        game.setPaused(true);
+        if(game.isPaused()) {
+            Log.get().info("Clone BBGame");
+            game.setBbGameManagerClone(this.clone());
         }
     }
 

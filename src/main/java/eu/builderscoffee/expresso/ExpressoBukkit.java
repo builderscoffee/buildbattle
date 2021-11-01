@@ -44,6 +44,8 @@ public class ExpressoBukkit extends JavaPlugin {
     @Getter
     @Setter
     private static BuildBattle bbGame;
+    @Getter
+    private static ExecutionManager executionManager;
 
     @Override
     public void onEnable() {
@@ -53,6 +55,11 @@ public class ExpressoBukkit extends JavaPlugin {
         messages = readOrCreateConfiguration(this.getName(), MessageConfiguration.class, Profil.Languages.class);
         settings = readOrCreateConfiguration(this.getName(), SettingsConfiguration.class);
         cache = readOrCreateConfiguration(this.getName(), CacheConfiguration.class);
+
+        // Init Task Manager
+        executionManager = new ExecutionManager();
+        // Start Task Manager
+        executionManager.start();
 
         // Register Bukkit Listeners
         Plugins.registerListeners(this, new PlayerListener(), new CompetitorListener(), new TeamListeners(), new PlotListener());
@@ -75,7 +82,8 @@ public class ExpressoBukkit extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
+        // Stop custom tasks
+        executionManager.shutdown();
     }
 
 }
