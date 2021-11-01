@@ -102,7 +102,7 @@ public class PlotUtils {
                                     ExpressoBukkit.getBbGame().broadcast("§7 - Impossible à sauvegarder §c" + plot.getId());
                                 else {
 
-                                    Main.getBbGame().broadcast("§7 - §a  sauvegarder: " + plot.getId());
+                                    ExpressoBukkit.getBbGame().broadcast("§7 - §a  sauvegarder: " + plot.getId());
  
                                         val plotsMembers = plot.getMembers().stream()
                                                 .map(memberUuid -> uuid.toString())

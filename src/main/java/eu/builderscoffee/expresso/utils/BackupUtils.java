@@ -1,7 +1,7 @@
 package eu.builderscoffee.expresso.utils;
 
 import eu.builderscoffee.api.common.utils.LogUtils;
-import eu.builderscoffee.expresso.Main;
+import eu.builderscoffee.expresso.ExpressoBukkit;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
@@ -26,7 +26,7 @@ public class BackupUtils {
     @SneakyThrows
     public static void backupWorld(@NonNull String worldName, @NonNull String serverName) {
         val dir = Paths.get(worldName);
-        val dest = Paths.get(Main.getSettings().getPath_for_backup_world(), serverName, worldName);
+        val dest = Paths.get(ExpressoBukkit.getSettings().getPath_for_backup_world(), serverName, worldName);
 
         // Check if world directory exists
         if (!Files.exists(dir) || !Files.isDirectory(dir)) {
@@ -54,7 +54,7 @@ public class BackupUtils {
         copyDirectory(dir.toAbsolutePath().toString(), dest.toAbsolutePath().toString());
 
         val plotsquared = Paths.get("plugins", "PlotSquared");
-        val destPlotsquared = Paths.get(Main.getSettings().getPath_for_backup_world(), serverName, "PlotSquared");
+        val destPlotsquared = Paths.get(ExpressoBukkit.getSettings().getPath_for_backup_world(), serverName, "PlotSquared");
 
         // Delete plotsquared config files at destination
         if(Files.exists(destPlotsquared)){
@@ -72,7 +72,7 @@ public class BackupUtils {
      * @return Returns true if a backup of this world exists
      */
     public static boolean backupOfWorldExist(@NonNull String worldName, @NonNull String serverName){
-        val dest = Paths.get(Main.getSettings().getPath_for_backup_world(), serverName, worldName);
+        val dest = Paths.get(ExpressoBukkit.getSettings().getPath_for_backup_world(), serverName, worldName);
         return Files.exists(dest) && Files.isDirectory(dest);
     }
 
