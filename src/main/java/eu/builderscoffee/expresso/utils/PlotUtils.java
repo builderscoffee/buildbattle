@@ -102,7 +102,6 @@ public class PlotUtils {
                                     ExpressoBukkit.getBbGame().broadcast("§7 - Impossible à sauvegarder §c" + plot.getId());
                                 else {
 
-                                        System.out.println("BB: " + bb.getNum());
                                     Main.getBbGame().broadcast("§7 - §a  sauvegarder: " + plot.getId());
  
                                         val plotsMembers = plot.getMembers().stream()
@@ -110,11 +109,13 @@ public class PlotUtils {
                                                 .distinct()
                                                 .collect(Collectors.toList());
                                         val pl = DataManager.getProfilStore()
+                                                .select(ProfilEntity.class)
                                                 .where(ProfilEntity.UNIQUE_ID.in(plotsMembers))
                                                 .get();
 
                                         // TODO Get buildbattle or cup stored in buildbattle manager
                                         // Temp
+                                        val bb = new BuildbattleEntity();
 
                                         System.out.println("\tPlayers:");
                                         pl.forEach(p -> System.out.println("\t - " + p.getName()));
@@ -123,7 +124,7 @@ public class PlotUtils {
                                         val schem = new SchematicsEntity();
                                         schem.setToken(uuid);
                                         schem.setBuildbattle(bb);
-                                        schem.getProfils().add(pl.toList().get(0));
+                                        pl.forEach(schem.getProfils()::add);
 
                                         DataManager.getSchematicsStore().insert(schem);
                                 }
