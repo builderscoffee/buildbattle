@@ -1,6 +1,7 @@
 package eu.builderscoffee.expresso.commands;
 
 import eu.builderscoffee.expresso.ExpressoBukkit;
+import eu.builderscoffee.expresso.buildbattle.toolbars.ToolbarManager;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
 import eu.builderscoffee.expresso.inventory.jury.JuryInventory;
 import eu.builderscoffee.expresso.utils.MessageUtils;
@@ -14,7 +15,7 @@ public class JuryCommand implements CommandExecutor {
     SettingsConfiguration settings = ExpressoBukkit.getSettings();
 
     public static boolean argLength0(Player player) {
-        JuryInventory.INVENTORY.open(player);
+        ExpressoBukkit.getBbGame().getToolbarManager().addToolBar(player, ToolbarManager.Toolbars.JURORS);
         return true;
     }
 

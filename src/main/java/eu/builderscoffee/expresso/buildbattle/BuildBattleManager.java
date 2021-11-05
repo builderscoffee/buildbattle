@@ -120,6 +120,9 @@ public class BuildBattleManager implements Cloneable {
         ExpressoBukkit.getExecutionManager().cancelAllTasks();
     }
 
+    /***
+     * Mettre en pause la partie
+     */
     public void PauseGame() {
         //Mettre en pause la phase
         pausePhase();
@@ -131,9 +134,6 @@ public class BuildBattleManager implements Cloneable {
      * Stopper la partie en cours
      */
     public void endGame() {
-        if (this.game.getBuildBattleGameType().getCurrentPhase().state() == GameState.ENDING) {
-            Log.get().info("Une erreur est survenue lors de la fin de la partie !");
-        } else {
             // Définir l'état de fin de la partie
             this.getGame().setGameState(this.game.getBuildBattleGameType().getCurrentPhase().state());
             // Couper la phase en cours
@@ -141,7 +141,6 @@ public class BuildBattleManager implements Cloneable {
             // Désactiver les plugin de build
             this.disablePlugins();
         }
-    }
 
     // PHASE SYSTEM
 
@@ -162,6 +161,7 @@ public class BuildBattleManager implements Cloneable {
     public void cancelPhase() {
         Log.get().info("Phase cancel : " + this.game.getBuildBattleGameType().getCurrentPhase().name());
         if (!this.getCurrentTask().isCancelled()) {
+            System.out.println("Cancel phase task " + getCurrentTask().getTaskId());
             getCurrentTask().cancel();
         }
     }

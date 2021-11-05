@@ -8,9 +8,4 @@ public class TournamentGameType extends BuildBattleGameType {
     public String getName() {
         return "Manche X du tournois X";
     }
-
-    @Override
-    public String getThemes() {
-        return "Pull";
-    }
 }

@@ -5,6 +5,7 @@ import eu.builderscoffee.api.bukkit.utils.LocationsUtil;
 import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.board.BBBoard;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
+import eu.builderscoffee.expresso.buildbattle.toolbars.ToolbarManager;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
 import eu.builderscoffee.expresso.utils.MessageUtils;
 import lombok.val;
@@ -50,6 +51,7 @@ public class PlayerListener implements Listener {
             if (ExpressoBukkit.getBbGame().getGameState().equals(BuildBattleManager.GameState.IN_GAME)) {
                 player.setGameMode(GameMode.CREATIVE);
                 player.sendMessage(messages.getGame().getPlotAuto().replace("%prefix%",MessageUtils.getDefaultMessageConfig().getPrefix()));
+                ExpressoBukkit.getBbGame().getToolbarManager().addToolBar(player, ToolbarManager.Toolbars.SPECTATOR);
             }
         }
     }
@@ -71,7 +73,7 @@ public class PlayerListener implements Listener {
                 ExpressoBukkit.getBbGame().addCompetitor(event.getPlayer());
             } else {
                 event.setCancelled(true);
-                event.getPlayer().sendMessage("§cVous devez attendre le lancement de la partie avant de créer votre plot");
+                event.getPlayer().sendMessage(MessageUtils.getMessageConfig(event.getPlayer()).getGame().getPlotAutoSpam());
             }
         }
     }

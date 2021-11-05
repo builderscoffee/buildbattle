@@ -36,11 +36,6 @@ public class IlClassicoExpressoGameType extends ExpressoGameType {
         return Arrays.asList("L'expresso des plus classique");
     }
 
-    @Override
-    public String getThemes() {
-        return null;
-    }
-
     /***
      * Retourne les phases d'un expresso classic
      * @return

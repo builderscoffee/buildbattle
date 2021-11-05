@@ -35,11 +35,6 @@ public class AllongeExpressoGameType extends ExpressoGameType {
         return Arrays.asList("Expresso classique à longue durée");
     }
 
-    @Override
-    public String getThemes() {
-        return null;
-    }
-
     /***
      * Retourne les phases d'un expresso allonge
      * @return

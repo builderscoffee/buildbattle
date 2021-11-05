@@ -11,6 +11,7 @@ import eu.builderscoffee.expresso.buildbattle.games.tournament.TournamentGameTyp
 import eu.builderscoffee.expresso.buildbattle.notation.NotationManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.buildbattle.teams.TeamManager;
+import eu.builderscoffee.expresso.buildbattle.toolbars.ToolbarManager;
 import lombok.Data;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -43,6 +44,7 @@ public class BuildBattle {
     private Object bbGameManagerClone;
     private ExpressoManager expressoManager;
     private NotationManager notationManager;
+    private ToolbarManager toolbarManager;
     // Phase de la partie
     private Deque<BBPhase> instancePhases;
     // Instance Check
@@ -62,6 +64,7 @@ public class BuildBattle {
         // Setup les managers
         teamManager = new TeamManager();
         notationManager = new NotationManager();
+        toolbarManager = new ToolbarManager();
 
         // Setup game managers
         expressoManager = new ExpressoManager(this);

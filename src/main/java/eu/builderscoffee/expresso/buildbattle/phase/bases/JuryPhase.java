@@ -5,6 +5,7 @@ import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleEngine;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
+import eu.builderscoffee.expresso.buildbattle.toolbars.ToolbarManager;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -39,14 +40,20 @@ public class JuryPhase implements BBPhase {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        Bukkit.getOnlinePlayers().forEach(s -> s.kickPlayer("Les plots sont en cours de notation"));
+                        Bukkit.getOnlinePlayers().forEach(s -> {
+                            if(Bukkit.getServer().getWhitelistedPlayers().contains(s)) {
+                                return;
+                            }
+                            s.kickPlayer("Les plots sont en cours de notation");
+                        });
                     }
                 }.runTask(ExpressoBukkit.getInstance());
 
+                // Whitelist le serveur pour permettre au jury de noter les plots
+                Bukkit.getServer().setWhitelist(true);
 
-                // Permettre la notation des plots
-                // TODO some stuff here
-
+                // Ajouter la toolbar au jury
+                ExpressoBukkit.getBbGame().getJurors().forEach(jury -> ExpressoBukkit.getBbGame().getToolbarManager().addToolBar(jury, ToolbarManager.Toolbars.JURORS));
             }
         };
     }

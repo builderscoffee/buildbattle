@@ -37,11 +37,6 @@ public class BoucheTrouExpressoGameType extends ExpressoGameType {
         return Arrays.asList("Une schématique est coller sur le plot");
     }
 
-    @Override
-    public String getThemes() {
-        return null;
-    }
-
     /***
      * Retourne les phases d'un expresso bouche trou
      * @return

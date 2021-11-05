@@ -20,11 +20,6 @@ public class ClassicGameType extends BuildBattleGameType {
     }
 
     @Override
-    public String getThemes() {
-        return "null";
-    }
-
-    @Override
     public Deque<BBPhase> getPhases() {
         val phases = new LinkedList();
         phases.add(new LaunchingPhase(30));

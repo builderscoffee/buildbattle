@@ -9,6 +9,9 @@ public class GameConfigurationPart {
     String competitorJoin = "§f%player% §aa rejoins la compétition";
     String competitorLeave = "§f%player% §ca quitté la compétition";
 
+    /* Waiting Game Configuration */
+    String plotAutoSpam = "§cVous devez attendre le lancement de la partie avant de créer votre plot";
+
     /* InGame Game Configuration */
     String plotAuto = "%prefix% §a/plot auto pour participer";
     String themesTitle = "Thème";

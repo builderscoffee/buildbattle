@@ -12,6 +12,7 @@ import eu.builderscoffee.commons.common.redisson.topics.CommonTopics;
 import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.BuildBattle;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleInstanceType;
+import eu.builderscoffee.expresso.utils.BackupUtils;
 import eu.builderscoffee.expresso.utils.Log;
 import eu.builderscoffee.expresso.utils.WorldBuilder;
 import lombok.val;
@@ -170,6 +171,12 @@ public class ConfigListener implements PacketListener {
                 // Envoyer le menu start
                 sendStartConfig(request);
                 break;
+            case "worldbackup":
+                if(!BackupUtils.backupOfWorldExist(ExpressoBukkit.getSettings().getPlotWorldName(), ExpressoBukkit.getInstance().getServer().getServerName())) {
+                    BackupUtils.backupWorld(ExpressoBukkit.getSettings().getPlotWorldName(), ExpressoBukkit.getInstance().getServer().getServerName());
+                    Log.get().info("Le monde à été backup");
+                }
+                break;
         }
     }
 
@@ -313,6 +320,10 @@ public class ConfigListener implements PacketListener {
         Redis.publish(CommonTopics.SERVER_MANAGER, response);
     }
 
+    /***
+     * Répondre à la requète en disant que la configuration est terminée
+     * @param request
+     */
     public void sendEndConfig(ServerManagerRequest request) {
         // Create from the request
         val response = new ServerManagerResponse(request);

@@ -35,11 +35,6 @@ public class HazarExpressoGameType extends ExpressoGameType {
         return Arrays.asList("Mélange les blocs du même type entre eux");
     }
 
-    @Override
-    public String getThemes() {
-        return null;
-    }
-
     /***
      * Retourne les phases d'un expresso hazard
      * @return

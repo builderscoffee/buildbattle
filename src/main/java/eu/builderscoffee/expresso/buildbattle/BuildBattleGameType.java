@@ -20,12 +20,6 @@ public abstract class BuildBattleGameType {
      */
     public abstract String getName();
 
-    /**
-     * Retourne le thèmes du buildbattle
-     *
-     * @return
-     */
-    public abstract String getThemes();
 
     /**
      * Retournes les phases du buildbattle

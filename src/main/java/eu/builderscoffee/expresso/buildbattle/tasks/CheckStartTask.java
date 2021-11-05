@@ -5,6 +5,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class CheckStartTask extends BukkitRunnable {
 
+    /***
+     * Tache permettant de checker si la partie est prète à démarrer
+     */
+
     @Override
     public void run() {
         if (ExpressoBukkit.getBbGame().getBbGameManager().getGame() != null) {
