@@ -20,17 +20,23 @@ public class Notation {
 
     public enum NotationType {
 
-        Beauty(30),
-        Creative(22),
-        Amenagement(22),
-        Folklore(22),
-        Fun(4);
+        Beauty(30, 1, 5),
+        Creative(22, 1, 5),
+        Amenagement(22, 1, 5),
+        Folklore(22, 1, 5),
+        Fun(4, 1, 5);
 
         @Getter
         private final int maxValue; // Valeur maximun d'une note
+        @Getter
+        private final int normalClickValue; // Valeur d'un clicks
+        @Getter
+        private final int shiftClickValue; // Valeur d'un shifts clicks
 
-        NotationType(int maxValue) {
+        NotationType(int maxValue, int normalClickValue, int shiftClickValue) {
             this.maxValue = maxValue;
+            this.normalClickValue = normalClickValue;
+            this.shiftClickValue = shiftClickValue;
         }
     }
 

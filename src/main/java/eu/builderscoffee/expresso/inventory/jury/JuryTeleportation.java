@@ -7,7 +7,9 @@ import eu.builderscoffee.api.bukkit.gui.SmartInventory;
 import eu.builderscoffee.api.bukkit.gui.content.*;
 import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
 import eu.builderscoffee.expresso.ExpressoBukkit;
+import eu.builderscoffee.expresso.utils.MessageUtils;
 import eu.builderscoffee.expresso.utils.PlotUtils;
+import lombok.val;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -24,7 +26,7 @@ public class JuryTeleportation implements InventoryProvider {
             .id("juryTeleporte")
             .provider(new JuryTeleportation())
             .size(6, 9)
-            .title(ChatColor.WHITE + "§fList des participants")
+            .title(ChatColor.WHITE + MessageUtils.getDefaultMessageConfig().getMenu().getTeleportsMenu())
             .manager(ExpressoBukkit.getInventoryManager())
             .build();
 
@@ -33,6 +35,7 @@ public class JuryTeleportation implements InventoryProvider {
     @Override
     public void init(Player player, InventoryContents contents) {
         Pagination pagination = contents.pagination();
+        val messages = MessageUtils.getMessageConfig(player).getMenu();
 
         // Get All plots
         Set<Plot> plots = new PlotAPI().getAllPlots();
@@ -44,13 +47,13 @@ public class JuryTeleportation implements InventoryProvider {
             int tempPlot = i;
             Plot currentPlot = list.get(tempPlot);
             if (ExpressoBukkit.getBbGame().getNotationManager().playerHasNote(currentPlot, player)) {
-                plotsItem[i] = ClickableItem.of(new ItemBuilder(Material.GRASS).addGLow().setName("§aPlot §f# " + i).build(),
+                plotsItem[i] = ClickableItem.of(new ItemBuilder(Material.GRASS).addGLow().setName(messages.getPlotItem().replace("%plot%",String.valueOf(i))).build(),
                         e -> {
                             PlotUtils.convertPlotCenterLoc(currentPlot.getCenter());
                             player.teleport(PlotUtils.convertPlotCenterLoc(currentPlot.getCenter()));
                         });
             } else {
-                plotsItem[i] = ClickableItem.of(new ItemBuilder(Material.GRASS).setName("§aPlot §f# " + i).build(),
+                plotsItem[i] = ClickableItem.of(new ItemBuilder(Material.GRASS).setName(messages.getPlotItem().replace("%plot%",String.valueOf(i))).build(),
                         e -> {
                             PlotUtils.convertPlotCenterLoc(currentPlot.getCenter());
                             player.teleport(PlotUtils.convertPlotCenterLoc(currentPlot.getCenter()));
@@ -61,13 +64,13 @@ public class JuryTeleportation implements InventoryProvider {
         //Fill Black borders
         contents.fillBorders(blackGlasses);
 
-        contents.set(5, 3, ClickableItem.of(new ItemBuilder(Material.ARROW).setName("§6Précédente").build(),
+        contents.set(5, 3, ClickableItem.of(new ItemBuilder(Material.ARROW).setName(messages.getPreviousItem()).build(),
                 e -> INVENTORY.open(player, pagination.previous().getPage())));
-        contents.set(5, 4, ClickableItem.of(new ItemBuilder(Material.BARRIER).setName("§cFermer").build(),
+        contents.set(5, 4, ClickableItem.of(new ItemBuilder(Material.BARRIER).setName(messages.getCloseItem()).build(),
                 e -> INVENTORY.close(player)));
-        contents.set(5, 5, ClickableItem.of(new ItemBuilder(Material.ARROW).setName("§6Suivant").build(),
+        contents.set(5, 5, ClickableItem.of(new ItemBuilder(Material.ARROW).setName(messages.getNextItem()).build(),
                 e -> INVENTORY.open(player, pagination.next().getPage())));
-        contents.set(5, 8, ClickableItem.empty(new ItemBuilder(Material.PAPER).setName("§aPage §f" + pagination.getPage()).build()));
+        contents.set(5, 8, ClickableItem.empty(new ItemBuilder(Material.PAPER).setName(messages.getPageItem().replace("%page%",String.valueOf(pagination.getPage()))).build()));
 
         pagination.setItems(plotsItem);
         pagination.setItemsPerPage(36);

@@ -136,7 +136,7 @@ public class ConfigListener implements PacketListener {
                     // Si oui le supprimer
                     Bukkit.getWorld(ExpressoBukkit.getSettings().getPlotWorldName()).getWorldFolder().delete();
                 }
-                if(Objects.isNull(ExpressoBukkit.getInstance().getServer().getWorld(ExpressoBukkit.getSettings().getPlotWorldName()))) {
+                if (Objects.isNull(ExpressoBukkit.getInstance().getServer().getWorld(ExpressoBukkit.getSettings().getPlotWorldName()))) {
                     // Générer la map
                     new WorldBuilder.DefaultWorldBuilder()
                             .setBedrock(true)
@@ -153,9 +153,9 @@ public class ConfigListener implements PacketListener {
                             .setWallHeight(64)
                             .generate(ExpressoBukkit.getSettings().getPlotWorldName());
                 }
-                    // Lancer la partie
-                    ExpressoBukkit.getBbGame().setReady(true);
-                    ExpressoBukkit.getBbGame().getBbGameManager().startGame();
+                // Lancer la partie
+                ExpressoBukkit.getBbGame().setReady(true);
+                ExpressoBukkit.getBbGame().getBbGameManager().startGame();
                 break;
             case "stop":
                 // Stopper la partie
@@ -172,7 +172,7 @@ public class ConfigListener implements PacketListener {
                 sendStartConfig(request);
                 break;
             case "worldbackup":
-                if(!BackupUtils.backupOfWorldExist(ExpressoBukkit.getSettings().getPlotWorldName(), ExpressoBukkit.getInstance().getServer().getServerName())) {
+                if (!BackupUtils.backupOfWorldExist(ExpressoBukkit.getSettings().getPlotWorldName(), ExpressoBukkit.getInstance().getServer().getServerName())) {
                     BackupUtils.backupWorld(ExpressoBukkit.getSettings().getPlotWorldName(), ExpressoBukkit.getInstance().getServer().getServerName());
                     Log.get().info("Le monde à été backup");
                 }

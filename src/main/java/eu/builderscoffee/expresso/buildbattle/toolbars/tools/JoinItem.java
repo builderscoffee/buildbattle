@@ -1,0 +1,28 @@
+package eu.builderscoffee.expresso.buildbattle.toolbars.tools;
+
+import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
+import eu.builderscoffee.expresso.ExpressoBukkit;
+import eu.builderscoffee.expresso.buildbattle.toolbars.ToolbarItem;
+import eu.builderscoffee.expresso.utils.MessageUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.block.Action;
+
+public class JoinItem extends ToolbarItem {
+
+    public JoinItem(int slot) {
+        super(new ItemBuilder(Material.BIRCH_DOOR), slot);
+        builder.setName(MessageUtils.getMessageConfig(player).getToolbar().getJoinItems());
+    }
+
+    @Override
+    public void interact(Player player, Action action) {
+        // Ajouter le joueur à la liste des participant
+        if (!ExpressoBukkit.getBbGame().getCompetitors().contains(player)) {
+            ExpressoBukkit.getBbGame().addCompetitor(player);
+            // Faire executer la commande au joueurs pour l'ajouter dans un plot 
+            Bukkit.getServer().getPlayer(player.getName()).performCommand("/plot auto");
+        }
+    }
+}

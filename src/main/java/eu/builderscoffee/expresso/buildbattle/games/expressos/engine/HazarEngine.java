@@ -4,7 +4,7 @@ import eu.builderscoffee.api.common.configuration.Configuration;
 import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleEngine;
 import eu.builderscoffee.expresso.buildbattle.games.expressos.listeners.HazarListener;
-import eu.builderscoffee.expresso.inventory.HazardExpressoInventory;
+import eu.builderscoffee.expresso.inventory.game.HazardExpressoInventory;
 import eu.builderscoffee.expresso.utils.Log;
 import eu.builderscoffee.expresso.utils.Tuple;
 import eu.builderscoffee.expresso.utils.blocks.BlockData;

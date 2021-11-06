@@ -14,6 +14,8 @@ public final class MessageConfiguration {
     private BoardConfigurationPart board = new BoardConfigurationPart();
     private CommandConfigurationPart command = new CommandConfigurationPart();
     private GameConfigurationPart game = new GameConfigurationPart();
+    private MenuConfigurationPart menu = new MenuConfigurationPart();
+    private ToolbarConfigurationPart toolbar = new ToolbarConfigurationPart();
     private TeamConfigurationPart team = new TeamConfigurationPart();
     private InvitationConfigurationPart invitation = new InvitationConfigurationPart();
 }

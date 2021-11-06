@@ -1,4 +1,4 @@
-package eu.builderscoffee.expresso.inventory;
+package eu.builderscoffee.expresso.inventory.game;
 
 import eu.builderscoffee.api.bukkit.gui.ClickableItem;
 import eu.builderscoffee.api.bukkit.gui.SmartInventory;

@@ -1,6 +1,7 @@
 package eu.builderscoffee.expresso.buildbattle.toolbars;
 
 import eu.builderscoffee.expresso.ExpressoBukkit;
+import eu.builderscoffee.expresso.buildbattle.toolbars.tools.JoinItem;
 import eu.builderscoffee.expresso.buildbattle.toolbars.tools.NotationItem;
 import eu.builderscoffee.expresso.buildbattle.toolbars.tools.PlotItem;
 import eu.builderscoffee.expresso.buildbattle.toolbars.tools.TeleportationItem;
@@ -25,7 +26,7 @@ public class ToolbarManager implements Listener {
         Bukkit.getPluginManager().registerEvents(this, ExpressoBukkit.getInstance());
 
         // Ajouter toutes les bar et leurs items à la liste
-        Arrays.stream(Toolbars.values()).forEach(toolbars -> toolbarItems.put(toolbars,toolbars.getToolbarItems()));
+        Arrays.stream(Toolbars.values()).forEach(toolbars -> toolbarItems.put(toolbars, toolbars.getToolbarItems()));
     }
 
     /***
@@ -39,7 +40,10 @@ public class ToolbarManager implements Listener {
         // Nettoyer la HotBar du joueur
         cleanHotBar(player);
         // Set les items suivants la bar choisie en fonction de leur slot
-        toolbars.getToolbarItems().forEach(toolbarItem -> player.getInventory().setItem(toolbarItem.getSlot(),toolbarItem.builder.build()));
+        toolbars.getToolbarItems().forEach(toolbarItem -> {
+            toolbarItem.setPlayer(player);
+            player.getInventory().setItem(toolbarItem.getSlot(), toolbarItem.builder.build());
+        });
     }
 
     /***
@@ -47,11 +51,12 @@ public class ToolbarManager implements Listener {
      * @param player
      */
     public void removeToolBar(Player player) {
-        if(playerToolbars.containsKey(player)) {
+        if (playerToolbars.containsKey(player)) {
             // Retirer le joueur de la liste active
             playerToolbars.remove(player);
             // Nettoyer la HotBar du joueur
-            cleanHotBar(player);}
+            cleanHotBar(player);
+        }
     }
 
     /***
@@ -59,7 +64,7 @@ public class ToolbarManager implements Listener {
      * @param player
      */
     public void cleanHotBar(Player player) {
-        for(int slot = 0; slot <8; slot++) {
+        for (int slot = 0; slot < 8; slot++) {
             player.getInventory().clear(slot);
         }
     }
@@ -73,13 +78,13 @@ public class ToolbarManager implements Listener {
         // Checker si le joueur est dans la liste
         if (!playerToolbars.containsKey(event.getPlayer())) return;
         // Check si le joueur à un item en main
-        if(Objects.nonNull(event.getPlayer().getInventory().getItemInHand())) {
+        if (Objects.nonNull(event.getPlayer().getInventory().getItemInHand())) {
             if ((event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR)) {
                 event.setCancelled(true);
                 // Check si l'item correspond à la liste de sa toolbar
                 val item = playerToolbars.get(event.getPlayer()).getToolbarItems().stream().filter(toolbarItem ->
-                    toolbarItem.getSlot() == event.getPlayer().getInventory().getHeldItemSlot()).findFirst().orElse(null);
-                if(Objects.nonNull(item)) item.interact(event.getPlayer(), event.getAction());
+                        toolbarItem.getSlot() == event.getPlayer().getInventory().getHeldItemSlot()).findFirst().orElse(null);
+                if (Objects.nonNull(item)) item.interact(event.getPlayer(), event.getAction());
             }
         }
     }
@@ -87,7 +92,7 @@ public class ToolbarManager implements Listener {
     public enum Toolbars {
 
         JURORS("Jury", Arrays.asList(new PlotItem(0), new TeleportationItem(1), new NotationItem(2))),
-        SPECTATOR("Spectateur", Arrays.asList(new PlotItem(0)));
+        SPECTATOR("Spectateur", Arrays.asList(new PlotItem(0), new JoinItem(1)));
 
         @Getter
         private final String barName;

@@ -50,7 +50,7 @@ public class PlayerListener implements Listener {
         if (Objects.nonNull(ExpressoBukkit.getBbGame())) {
             if (ExpressoBukkit.getBbGame().getGameState().equals(BuildBattleManager.GameState.IN_GAME)) {
                 player.setGameMode(GameMode.CREATIVE);
-                player.sendMessage(messages.getGame().getPlotAuto().replace("%prefix%",MessageUtils.getDefaultMessageConfig().getPrefix()));
+                player.sendMessage(messages.getGame().getPlotAuto().replace("%prefix%", MessageUtils.getDefaultMessageConfig().getPrefix()));
                 ExpressoBukkit.getBbGame().getToolbarManager().addToolBar(player, ToolbarManager.Toolbars.SPECTATOR);
             }
         }
@@ -64,6 +64,8 @@ public class PlayerListener implements Listener {
         if (board != null) {
             board.delete();
         }
+        // Clean toolbars
+        ExpressoBukkit.getBbGame().getToolbarManager().removeToolBar(event.getPlayer());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
