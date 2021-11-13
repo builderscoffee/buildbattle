@@ -75,15 +75,17 @@
 
     <repositories>
         <repository>
-            <id>github-api</id>
+            <id>github</id>
             <name>GitHub BuildersCoffee API Packages</name>
-            <url>https://maven.pkg.github.com/builderscoffee/api</url>
+            <url>https://maven.pkg.github.com/builderscoffee/*</url>
         </repository>
+        <!--
         <repository>
-            <id>github-commons</id>
+            <id>githubbc</id>
             <name>GitHub BuildersCoffee Commons Packages</name>
             <url>https://maven.pkg.github.com/builderscoffee/commons</url>
         </repository>
+        -->
         <repository>
             <id>spigotmc-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
