@@ -68,7 +68,7 @@ jobs:
         with:
           url: 'http://54.36.124.50:3000/'
           data: '{"type": "buildbattle" ,"version": "${{ steps.branch_check.outputs.env_name }}" }'
-          files: '{ "file": "${{ github.workspace }}/target/BuildersCoffeeCommons.jar" }'
+          files: '{ "file": "${{ github.workspace }}/target/BuildBattle.jar" }'
           username: ${{ secrets.INFRA_USER }}
           password: ${{ secrets.INFRA_PASSWORD }}
 
