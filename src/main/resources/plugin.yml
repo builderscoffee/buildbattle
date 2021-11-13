@@ -1,9 +1,9 @@
-name: Expresso
+name: BuildBattle
 version: 0.1
-description: Expresso pour les build battle de Buildes Coffee.
+description: Gestion des builbattle de BuildersCoffee.
 author: Ketsu_sama
 main: eu.builderscoffee.expresso.ExpressoBukkit
-depend: [ BuildersCoffeeAPI, BuildersCoffeeCommons ]
+depend: [ API, Commons ]
 commands:
   game:
     description: Gérer le build battle
