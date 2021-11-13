@@ -8,12 +8,17 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
 
 public class JoinItem extends ToolbarItem {
 
     public JoinItem(int slot) {
-        super(new ItemBuilder(Material.BIRCH_DOOR), slot);
-        builder.setName(MessageUtils.getMessageConfig(player).getToolbar().getJoinItems());
+        super(slot);
+    }
+
+    @Override
+    public ItemStack getItem(Player player) {
+        return new ItemBuilder(Material.BIRCH_DOOR).setName(MessageUtils.getMessageConfig(player).getToolbar().getPlotItems()).build();
     }
 
     @Override

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Expresso.iml" filepath="$PROJECT_DIR$/Expresso.iml" />
+      <module fileurl="file://$PROJECT_DIR$/buildbattle.iml" filepath="$PROJECT_DIR$/buildbattle.iml" />
     </modules>
   </component>
 </project>

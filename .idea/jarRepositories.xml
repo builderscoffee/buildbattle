@@ -3,8 +3,8 @@
   <component name="RemoteRepositoriesConfiguration">
     <remote-repository>
       <option name="id" value="github" />
-      <option name="name" value="GitHub TobseF Apache Maven Packages" />
-      <option name="url" value="https://maven.pkg.github.com/builderscoffee/Expresso" />
+      <option name="name" value="GitHub BuildersCoffee Commons Packages" />
+      <option name="url" value="https://maven.pkg.github.com/builderscoffee/commons" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="central" />
@@ -32,11 +32,6 @@
       <option name="url" value="https://maven.pkg.github.com/builderscoffee/Expresso" />
     </remote-repository>
     <remote-repository>
-      <option name="id" value="spigotmc-repo" />
-      <option name="name" value="spigotmc-repo" />
-      <option name="url" value="https://hub.spigotmc.org/nexus/content/repositories/snapshots/" />
-    </remote-repository>
-    <remote-repository>
       <option name="id" value="github-bc" />
       <option name="name" value="GitHub BuildersCoffee Apache Maven Packages" />
       <option name="url" value="https://maven.pkg.github.com/builderscoffee/Expresso" />
@@ -45,6 +40,16 @@
       <option name="id" value="central" />
       <option name="name" value="Maven Central repository" />
       <option name="url" value="https://repo1.maven.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="github" />
+      <option name="name" value="GitHub TobseF Apache Maven Packages" />
+      <option name="url" value="https://maven.pkg.github.com/builderscoffee/Expresso" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="spigotmc-repo" />
+      <option name="name" value="spigotmc-repo" />
+      <option name="url" value="https://hub.spigotmc.org/nexus/content/repositories/snapshots/" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="jboss.community" />

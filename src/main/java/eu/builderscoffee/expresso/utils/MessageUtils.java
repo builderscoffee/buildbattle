@@ -1,7 +1,7 @@
 package eu.builderscoffee.expresso.utils;
 
+import eu.builderscoffee.api.common.data.tables.Profil;
 import eu.builderscoffee.commons.bukkit.CommonsBukkit;
-import eu.builderscoffee.commons.common.data.tables.Profil;
 import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.configuration.MessageConfiguration;
 import lombok.experimental.UtilityClass;

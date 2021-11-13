@@ -7,12 +7,17 @@ import eu.builderscoffee.expresso.utils.MessageUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
 
 public class TeleportationItem extends ToolbarItem {
 
     public TeleportationItem(int slot) {
-        super(new ItemBuilder(Material.EYE_OF_ENDER), slot);
-        builder.setName(MessageUtils.getMessageConfig(player).getToolbar().getTeleportationItems());
+        super(slot);
+    }
+
+    @Override
+    public ItemStack getItem(Player player) {
+        return new ItemBuilder(Material.EYE_OF_ENDER).setName(MessageUtils.getMessageConfig(player).getToolbar().getTeleportationItems()).build();
     }
 
     @Override

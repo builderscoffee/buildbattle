@@ -8,12 +8,19 @@ import eu.builderscoffee.expresso.utils.MessageUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.Objects;
 
 public class NotationItem extends ToolbarItem {
 
     public NotationItem(int slot) {
-        super(new ItemBuilder(Material.SIGN), slot);
-        builder.setName(MessageUtils.getMessageConfig(player).getToolbar().getNotationsItems());
+        super(slot);
+    }
+
+    @Override
+    public ItemStack getItem(Player player) {
+        return new ItemBuilder(Material.SIGN).setName(MessageUtils.getMessageConfig(player).getToolbar().getNotationsItems()).build();
     }
 
     @Override

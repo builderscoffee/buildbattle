@@ -8,13 +8,17 @@ import eu.builderscoffee.expresso.utils.MessageUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
 
 public class PlotItem extends ToolbarItem {
 
     public PlotItem(int slot) {
-        super(new ItemBuilder(Material.GRASS), slot);
-        builder.setName(MessageUtils.getMessageConfig(player).getToolbar().getPlotItems());
+        super(slot);
+    }
 
+    @Override
+    public ItemStack getItem(Player player) {
+        return new ItemBuilder(Material.GRASS).setName(MessageUtils.getMessageConfig(player).getToolbar().getPlotItems()).build();
     }
 
     @Override

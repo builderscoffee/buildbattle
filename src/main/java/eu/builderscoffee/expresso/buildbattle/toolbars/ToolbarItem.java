@@ -1,29 +1,18 @@
 package eu.builderscoffee.expresso.buildbattle.toolbars;
 
-import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
+import org.bukkit.inventory.ItemStack;
 
 public abstract class ToolbarItem {
-
-    protected ItemBuilder builder;
     @Getter
     protected int slot;
-    @Getter
-    @Setter
-    protected Player player;
-
-    public ToolbarItem(ItemBuilder builder, int slot) {
-        this.builder = builder;
+    public ToolbarItem(int slot) {
         this.slot = slot;
     }
-
-    protected void set(Player player) {
-        player.getInventory().setItem(slot, builder.build());
-    }
-
+    public abstract ItemStack getItem(Player player);
     public abstract void interact(Player player, Action action);
+
 
 }

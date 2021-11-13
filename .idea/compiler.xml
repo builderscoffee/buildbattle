@@ -8,9 +8,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Expresso" />
+        <module name="buildbattle" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="buildbattle" target="1.8" />
       <module name="Expresso" target="1.8" />
     </bytecodeTargetLevel>
   </component>
