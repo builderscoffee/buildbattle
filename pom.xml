@@ -75,12 +75,12 @@
 
     <repositories>
         <repository>
-            <id>github</id>
+            <id>github-api</id>
             <name>GitHub BuildersCoffee API Packages</name>
             <url>https://maven.pkg.github.com/builderscoffee/api</url>
         </repository>
         <repository>
-            <id>github</id>
+            <id>github-commons</id>
             <name>GitHub BuildersCoffee Commons Packages</name>
             <url>https://maven.pkg.github.com/builderscoffee/commons</url>
         </repository>

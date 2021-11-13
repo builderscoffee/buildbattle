@@ -32,9 +32,19 @@
       <option name="url" value="https://maven.pkg.github.com/builderscoffee/Expresso" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="github-commons" />
+      <option name="name" value="GitHub BuildersCoffee Commons Packages" />
+      <option name="url" value="https://maven.pkg.github.com/builderscoffee/commons" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="github-bc" />
       <option name="name" value="GitHub BuildersCoffee Apache Maven Packages" />
       <option name="url" value="https://maven.pkg.github.com/builderscoffee/Expresso" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="github-api" />
+      <option name="name" value="GitHub BuildersCoffee API Packages" />
+      <option name="url" value="https://maven.pkg.github.com/builderscoffee/api" />
     </remote-repository>
     <remote-repository>
       <option name="id" value="central" />
