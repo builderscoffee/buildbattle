@@ -14,7 +14,7 @@ public abstract class BuildBattleGameType {
     public static Deque<BBPhase> phases = new LinkedBlockingDeque<>();
     public BukkitRunnable currentRunnable;
     public BBPhase currentPhase;
-    private int gamePlayTime;
+    public int gamePlayTime;
 
     /**
      * Retourne le nom du buildbattle
