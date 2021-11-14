@@ -50,6 +50,11 @@ public class LaunchingPhase implements BBPhase {
     }
 
     @Override
+    public int currentTime() {
+        return time;
+    }
+
+    @Override
     public int defaultTime() {
         return defaultTime;
     }

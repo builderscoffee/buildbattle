@@ -58,6 +58,11 @@ public class GamePhase implements BBPhase {
     }
 
     @Override
+    public int currentTime() {
+        return currentTime;
+    }
+
+    @Override
     public void setTime(int time) {
         this.time = time;
     }
@@ -79,8 +84,10 @@ public class GamePhase implements BBPhase {
 
     @Override
     public BukkitRunnable runnable() {
-        if(Objects.isNull(this.bcTime)) this.bcTime = addTimeEach(new int[]{defaultTime - 10 * MIN, defaultTime - 30 * MIN, defaultTime / 2}, HOUR);
-        if(Objects.isNull(this.titleTime)) this.titleTime = new int[]{defaultTime - 1, defaultTime - 2, defaultTime - 3, defaultTime - 4, defaultTime - 5, defaultTime - 10, defaultTime - 20, defaultTime - 30, defaultTime - MIN};
+        if (Objects.isNull(this.bcTime))
+            this.bcTime = addTimeEach(new int[]{time - 10 * MIN, time - 30 * MIN, time / 2}, HOUR);
+        if (Objects.isNull(this.titleTime))
+            this.titleTime = new int[]{time - 1, time - 2, time - 3, time - 4, time - 5, time - 10, time - 20, time - 30, time - MIN};
         return new BukkitRunnable() {
             @Override
             public void run() {
@@ -106,7 +113,7 @@ public class GamePhase implements BBPhase {
                 if (currentTime % 60 == 0) Log.get().info(" " + currentTime / 60 + " minutes de jeux");
 
                 // Tout les X temps envoyé un broadcast pour le temps de jeux restant
-                Arrays.stream(bcTime).filter(i -> i == currentTime).forEach(i -> ExpressoBukkit.getInstance().getServer().getOnlinePlayers().forEach(player -> player.sendMessage(MessageUtils.getMessageConfig(player).getGame().getRemainingGames().replace("%prefix%",MessageUtils.getDefaultMessageConfig().getPrefix()).replace("%time%" ,TimeUtils.getDurationString(time - currentTime)))));
+                Arrays.stream(bcTime).filter(i -> i == currentTime).forEach(i -> ExpressoBukkit.getInstance().getServer().getOnlinePlayers().forEach(player -> player.sendMessage(MessageUtils.getMessageConfig(player).getGame().getRemainingGames().replace("%prefix%", MessageUtils.getDefaultMessageConfig().getPrefix()).replace("%time%", TimeUtils.getDurationString(time - currentTime)))));
 
                 // Tout les X temps envoyé un title pour la dernière minutes restante
                 Arrays.stream(titleTime).filter(i -> i == currentTime).forEach(i -> getOnlinePlayers().forEach(p -> {

@@ -30,6 +30,11 @@ public class EndPhase implements BBPhase {
     }
 
     @Override
+    public int currentTime() {
+        return time();
+    }
+
+    @Override
     public void setTime(int time) {
         // Nothing to do
     }

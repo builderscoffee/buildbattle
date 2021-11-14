@@ -33,7 +33,13 @@ public interface BBPhase {
     int time();
 
     /**
-     * Metre le temps
+     * Temps en cours de la partie
+     * @return
+     */
+    int currentTime();
+
+    /**
+     * Mettre le temps
      *
      * @return
      */

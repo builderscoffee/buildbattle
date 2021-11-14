@@ -14,7 +14,6 @@ import eu.builderscoffee.expresso.buildbattle.BuildBattle;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleInstanceType;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.bases.EndPhase;
-import eu.builderscoffee.expresso.buildbattle.phase.bases.LaunchingPhase;
 import eu.builderscoffee.expresso.utils.BackupUtils;
 import eu.builderscoffee.expresso.utils.Log;
 import eu.builderscoffee.expresso.utils.TimeUtils;
@@ -29,7 +28,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ConfigListener implements PacketListener {
@@ -37,16 +35,6 @@ public class ConfigListener implements PacketListener {
     @Getter
     @Setter
     private int plotSize = 0;
-    @Getter
-    @Setter
-    private static int defaultPlayTime = 60;
-
-    private enum SelectPlayTime {DEFAULT, CUSTOM}
-
-    ;
-    @Getter
-    @Setter
-    private SelectPlayTime selectedPlayTime = SelectPlayTime.DEFAULT;
 
     /***
      * Recevoir l'action de configuration de la partie
@@ -75,6 +63,8 @@ public class ConfigListener implements PacketListener {
             } else if (ExpressoBukkit.getBbGame().getBbGameTypes().equals(BuildBattleInstanceType.TOURNAMENT) && Objects.isNull(ExpressoBukkit.getBbGame().getTournamentGameType())) {
                 sendGameConfig(request);
                 return;
+            } else if (Objects.isNull(ExpressoBukkit.getBbGame().getInstancePhases())) {
+                sendPlayTime(request);
                 // Le thème de la partie n'est pas définie
             } else if (Objects.isNull(ExpressoBukkit.getBbGame().getBbGameManager().getThemes())) {
                 sendThemesSelection(request);
