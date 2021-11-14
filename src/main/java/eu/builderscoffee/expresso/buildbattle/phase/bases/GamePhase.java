@@ -57,7 +57,9 @@ public class GamePhase implements BBPhase {
 
     @Override
     public void setTime(int time) {
+        System.out.println("Set before : " + this.time);
         this.time = time;
+        System.out.println("Set after : " + this.time);
     }
 
     @Override
