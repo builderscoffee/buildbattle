@@ -50,7 +50,7 @@ public class BBBoard {
                     "§aSaison : " + message.getBoard().getSeasonName(),
                     "§aExpresso : §f" + ExpressoBukkit.getBbGame().getExpressoGameType().getName(),
                     "§aThème : " + "§f§kLait",
-                    "§aTimer : §f" + TimeUtils.getDurationString(ExpressoBukkit.getBbGame().getExpressoGameType().getCurrentPhase().currentTime()),
+                    "§aTimer : §f" + TimeUtils.getDurationString(ExpressoBukkit.getBbGame().getExpressoGameType().getCurrentPhase().time() - ExpressoBukkit.getBbGame().getExpressoGameType().getCurrentPhase().currentTime()),
                     "",
                     message.getBoard().getServerIp(),
                     "§0§8§m----------§8§m------"
@@ -59,7 +59,7 @@ public class BBBoard {
             val part1 = Arrays.asList("§0§8§m----------§8§m------", "§aSaison :  " + message.getBoard().getSeasonName(), "§aExpresso : §f" + ExpressoBukkit.getBbGame().getExpressoGameType().getName());
             val _board = new ArrayList<>(part1);
             _board.addAll(getTheme());
-            val part2 = Arrays.asList("§aTimer : §f" + TimeUtils.getDurationString(ExpressoBukkit.getBbGame().getExpressoGameType().getCurrentPhase().currentTime()), "", message.getBoard().getServerIp(), "§0§8§m----------§8§m------");
+            val part2 = Arrays.asList("§aTimer : §f" + TimeUtils.getDurationString(ExpressoBukkit.getBbGame().getExpressoGameType().getCurrentPhase().time() - ExpressoBukkit.getBbGame().getExpressoGameType().getCurrentPhase().currentTime()), "", message.getBoard().getServerIp(), "§0§8§m----------§8§m------");
             _board.addAll(part2);
             board.updateLines(_board);
         }
