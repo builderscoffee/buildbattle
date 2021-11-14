@@ -27,6 +27,16 @@ public class JuryPhase implements BBPhase {
     }
 
     @Override
+    public void setTime(int time) {
+        // Nothing to do here
+    }
+
+    @Override
+    public int defaultTime() {
+        return 0;
+    }
+
+    @Override
     public BuildBattleManager.GameState state() {
         return BuildBattleManager.GameState.ENDING;
     }
