@@ -200,52 +200,6 @@ public class BuildBattleManager implements Cloneable {
         }
     }
 
-    /***
-     * Retournes tout les phases
-     */
-    private List<BBPhase> getAllBBPhase() {
-        val reflections = new Reflections(BBPhase.class.getPackage().getName());
-        val classes = reflections.getSubTypesOf(BBPhase.class);
-        val phases = new ArrayList<BBPhase>();
-        classes.forEach(phaseClass -> {
-            try {
-                phaseClass.getDeclaredConstructor().setAccessible(true);
-                val phase = phaseClass.newInstance();
-                phases.add(phase);
-            } catch (IllegalAccessException | InstantiationException | NoSuchMethodException e) {
-                e.printStackTrace();
-            }
-        });
-        return phases;
-    }
-
-    /***
-     * Changer le temps d'une phase et le reinjecter dans la liste en cours
-     * @param name
-     * @param time
-     */
-    public boolean changePhaseTime(String name, int time) {
-        // Get all current game phase
-        val phases = ExpressoBukkit.getBbGame().getInstancePhases();
-        phases.forEach(phase -> {
-            if (phase.name().equals(name)) {
-                int phaseIndex = getAllBBPhase().indexOf(phase); // Get index of current phase
-                BBPhase bbPhase = getAllBBPhase().get(phaseIndex); // Get phase classes
-                //bbPhase.getClass().get
-            }
-        });
-        return true;
-    }
-
-    /*
-    public static <T> T override(T object, T override) {
-        if (object instanceof Number) {
-            return (T) (Number) ((Number) object).doubleValue() + ((Number) override).doubleValue();
-        }
-        return override;
-    }
-    */
-
     // OTHER STUFF
 
     /***
