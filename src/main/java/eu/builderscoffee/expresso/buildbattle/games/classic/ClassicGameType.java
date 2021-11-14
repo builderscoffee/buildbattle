@@ -14,17 +14,10 @@ import static eu.builderscoffee.expresso.utils.TimeUtils.HOUR;
 
 public class ClassicGameType extends BuildBattleGameType {
 
-    @Override
-    public String getName() {
-        return "BuildBattle Classic";
-    }
-
-    @Override
-    public Deque<BBPhase> getPhases() {
-        val phases = new LinkedList();
-        phases.add(new LaunchingPhase(30));
-        phases.add(new GamePhase(2 * HOUR));
-        phases.add(new EndPhase());
-        return phases;
+    public ClassicGameType() {
+        super("BuildBattle Classic");
+        this.phases.add(new LaunchingPhase(30));
+        this.phases.add(new GamePhase(2 * HOUR));
+        this.phases.add(new EndPhase());
     }
 }

@@ -29,6 +29,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ConfigListener implements PacketListener {
@@ -131,8 +132,6 @@ public class ConfigListener implements PacketListener {
         if (request.getType().equals("playtime")) {
             val gameType = ExpressoBukkit.getBbGame().getBuildBattleGameType();
 
-            System.out.println("Data: " + request.getData());
-
             if(request.getData().equals("setplaytime")){
                 ExpressoBukkit.getBbGame().setInstancePhases(ExpressoBukkit.getBbGame().getBuildBattleGameType().getPhases());
                 sendThemesSelection(request);
@@ -141,25 +140,20 @@ public class ConfigListener implements PacketListener {
 
             for(BBPhase phase: gameType.getPhases()){
                 if(request.getData().equals(phase.getClass().getSimpleName())){
-                    System.out.println("Time: " + phase.time());
                     switch (request.getItemAction()) {
                         case LEFT_CLICK:
-                            phase.setTime(phase.time() + 60);
+                            phase.setTime(phase.time() + (int) phase.timeUnit().toSeconds(1));
                             break;
                         case SHIFT_LEFT_CLICK:
-                            System.out.println(phase.time());
-                            phase.setTime(phase.time() + 3600);
+                            phase.setTime(phase.time() + (int) phase.timeUnit().toSeconds(60));
                             break;
                         case RIGHT_CLICK:
-                            System.out.println(phase.time());
-                            phase.setTime(phase.time() <= 60 ? 0 : phase.time() - 60);
+                            phase.setTime(phase.time() <= (int) phase.timeUnit().toSeconds(1) ? 0 : phase.time() - (int) phase.timeUnit().toSeconds(1));
                             break;
                         case SHIFT_RIGHT_CLICK:
-                            System.out.println(phase.time());
-                            phase.setTime(phase.time() <= 3600 ? 0 : phase.time() - 3600);
+                            phase.setTime(phase.time() <= (int) phase.timeUnit().toSeconds(60) ? 0 : phase.time() - (int) phase.timeUnit().toSeconds(60));
                             break;
                         case DROP:
-                            System.out.println(phase.time());
                             phase.setTime(phase.defaultTime());
                             break;
                     }
@@ -345,22 +339,10 @@ public class ConfigListener implements PacketListener {
 
         val gameType = ExpressoBukkit.getBbGame().getBuildBattleGameType();
 
-        /*if (glowDefault) {
-            itemsAction.addItem(2, 2, new ItemBuilder(Material.WATCH).setName("§a Temps de jeux Défault").addLoreLine("§f" + TimeUtils.getDurationString(defaultPlayTime)).addGLow().build(), "default");
-        } else {
-            itemsAction.addItem(2, 2, new ItemBuilder(Material.WATCH).setName("§a Temps de jeux Défault").addLoreLine("§f" + TimeUtils.getDurationString(defaultPlayTime)).build(), "default");
-        }
-
-        if (glowCustom) {
-            itemsAction.addItem(2, 6, new ItemBuilder(Material.WATCH).setName("§a Temps de jeux Custom").addLoreLine("§f" + TimeUtils.getDurationString(defaultPlayTime)).addGLow().build(), "custom");
-        } else {
-            itemsAction.addItem(2, 6, new ItemBuilder(Material.WATCH).setName("§a Temps de jeux Custom").addLoreLine("§f" + TimeUtils.getDurationString(defaultPlayTime)).build(), "custom");
-        }*/
-
         AtomicInteger i = new AtomicInteger(0);
         gameType.getPhases().stream()
-                .filter(phase -> !(phase instanceof LaunchingPhase || phase instanceof EndPhase))
-                .forEach(phase -> itemsAction.addItem(2, 2 + i.incrementAndGet(), new ItemBuilder(Material.WATCH).setName("§a Temps de jeux " + phase.name()).addLoreLine(Arrays.asList("§btemp par default: §f" + TimeUtils.getDurationString(phase.defaultTime()), "§bTemps: §f" + TimeUtils.getDurationString(phase.time()), phase.getClass().getSimpleName())).build(), phase.getClass().getSimpleName()));
+                .filter(phase -> !(phase instanceof EndPhase))
+                .forEach(phase -> itemsAction.addItem(2, 2 + i.incrementAndGet(), new ItemBuilder(Material.WATCH).setName("§a Temps de jeux " + phase.name()).addLoreLine(Arrays.asList("§btemp par default: §f" + TimeUtils.getDurationString(phase.defaultTime()), "§bTemps: §f" + TimeUtils.getDurationString(phase.time()))).build(), phase.getClass().getSimpleName()));
 
         itemsAction.addItem(3, 4, new ItemBuilder(Material.WOOL, 1, (short) 13).setName("§aValider le temps").build(), "setplaytime");
 

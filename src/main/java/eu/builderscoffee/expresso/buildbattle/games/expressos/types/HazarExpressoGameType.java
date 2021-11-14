@@ -18,6 +18,14 @@ import java.util.List;
 import static eu.builderscoffee.expresso.utils.TimeUtils.HOUR;
 
 public class HazarExpressoGameType extends ExpressoGameType {
+
+    public HazarExpressoGameType() {
+        super("Hazar");
+        this.phases.add(new LaunchingPhase(30));
+        this.phases.add(new HazarPhase(2 * HOUR));
+        this.phases.add(new EndPhase());
+    }
+
     @Override
     public ItemStack getIcon() {
         return new ItemBuilder(Material.INK_SACK, 1, (short) 2)
@@ -26,25 +34,7 @@ public class HazarExpressoGameType extends ExpressoGameType {
     }
 
     @Override
-    public String getName() {
-        return "Hazar";
-    }
-
-    @Override
     public List<String> getDescription() {
         return Arrays.asList("§7Mélange les blocs du même type entre eux");
-    }
-
-    /***
-     * Retourne les phases d'un expresso hazard
-     * @return
-     */
-    @Override
-    public Deque<BBPhase> getPhases() {
-        val phases = new LinkedList();
-        phases.add(new LaunchingPhase(30));
-        phases.add(new HazarPhase(2 * HOUR));
-        phases.add(new EndPhase());
-        return phases;
     }
 }

@@ -16,6 +16,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
 import static eu.builderscoffee.expresso.utils.TimeUtils.HOUR;
@@ -33,11 +34,12 @@ public class GamePhase implements BBPhase {
     private int time;
     private int currentTime;
     private int defaultTime;
-
-
+    private TimeUnit timeUnit;
 
     public GamePhase(int defaultTime) {
         this.defaultTime = defaultTime;
+        this.time = defaultTime;
+        this.timeUnit = TimeUnit.MINUTES;
     }
 
     @Override
@@ -57,14 +59,17 @@ public class GamePhase implements BBPhase {
 
     @Override
     public void setTime(int time) {
-        System.out.println("Set before : " + this.time);
         this.time = time;
-        System.out.println("Set after : " + this.time);
     }
 
     @Override
     public int defaultTime() {
         return defaultTime;
+    }
+
+    @Override
+    public TimeUnit timeUnit() {
+        return timeUnit;
     }
 
     @Override

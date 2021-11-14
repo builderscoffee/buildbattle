@@ -6,6 +6,8 @@ import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.concurrent.TimeUnit;
+
 public class EndPhase implements BBPhase {
 
     public EndPhase() {
@@ -35,6 +37,11 @@ public class EndPhase implements BBPhase {
     @Override
     public int defaultTime() {
         return 0;
+    }
+
+    @Override
+    public TimeUnit timeUnit() {
+        return TimeUnit.SECONDS;
     }
 
     @Override

@@ -4,8 +4,7 @@ import eu.builderscoffee.expresso.buildbattle.BuildBattleGameType;
 
 public class TournamentGameType extends BuildBattleGameType {
 
-    @Override
-    public String getName() {
-        return "Manche X du tournois X";
+    public TournamentGameType() {
+        super("Manche X du tournois X");
     }
 }

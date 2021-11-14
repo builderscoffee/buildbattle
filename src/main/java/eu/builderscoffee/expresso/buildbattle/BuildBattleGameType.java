@@ -9,16 +9,24 @@ import java.util.concurrent.LinkedBlockingDeque;
 
 @Data
 public abstract class BuildBattleGameType {
-    public static Deque<BBPhase> phases = new LinkedBlockingDeque<>();
+
+    protected final String name;
+    protected Deque<BBPhase> phases = new LinkedBlockingDeque<>();
     public BukkitRunnable currentRunnable;
     public BBPhase currentPhase;
+
+    public BuildBattleGameType(String name) {
+        this.name = name;
+    }
 
     /**
      * Retourne le nom du buildbattle
      *
      * @return
      */
-    public abstract String getName();
+    public final String getName(){
+        return name;
+    }
 
 
     /**
@@ -26,7 +34,7 @@ public abstract class BuildBattleGameType {
      *
      * @return
      */
-    public Deque<BBPhase> getPhases() {
+    public final Deque<BBPhase> getPhases() {
         return phases;
     }
 

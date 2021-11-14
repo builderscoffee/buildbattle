@@ -18,6 +18,14 @@ import java.util.List;
 import static eu.builderscoffee.expresso.utils.TimeUtils.HOUR;
 
 public class AllongeExpressoGameType extends ExpressoGameType {
+
+    public AllongeExpressoGameType() {
+        super("Allongé");
+        this.phases.add(new LaunchingPhase(30));
+        this.phases.add(new GamePhase(8 * HOUR));
+        this.phases.add(new EndPhase());
+    }
+
     @Override
     public ItemStack getIcon() {
         return new ItemBuilder(Material.INK_SACK, 1, (short) 3)
@@ -26,25 +34,7 @@ public class AllongeExpressoGameType extends ExpressoGameType {
     }
 
     @Override
-    public String getName() {
-        return "Allongé";
-    }
-
-    @Override
     public List<String> getDescription() {
         return Arrays.asList("§7Expresso classique à longue durée");
-    }
-
-    /***
-     * Retourne les phases d'un expresso allonge
-     * @return
-     */
-    @Override
-    public Deque<BBPhase> getPhases() {
-        val phases = new LinkedList();
-        phases.add(new LaunchingPhase(30));
-        phases.add(new GamePhase(8 * HOUR));
-        phases.add(new EndPhase());
-        return phases;
     }
 }

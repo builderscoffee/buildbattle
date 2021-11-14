@@ -9,6 +9,10 @@ import java.util.List;
 
 public abstract class ExpressoGameType extends BuildBattleGameType {
 
+    public ExpressoGameType(String name) {
+        super(name);
+    }
+
     /**
      * Retourne l'icone de l'expresso
      *

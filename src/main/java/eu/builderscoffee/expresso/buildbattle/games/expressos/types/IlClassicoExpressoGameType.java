@@ -20,6 +20,13 @@ import static eu.builderscoffee.expresso.utils.TimeUtils.HOUR;
 
 public class IlClassicoExpressoGameType extends ExpressoGameType {
 
+    public IlClassicoExpressoGameType() {
+        super("IlClassico");
+        this.phases.add(new LaunchingPhase(30));
+        this.phases.add(new GamePhase(2 * HOUR));
+        this.phases.add(new EndPhase());
+    }
+
     @Override
     public ItemStack getIcon() {
         return new ItemBuilder(Material.INK_SACK, 1, (short) 0)
@@ -28,25 +35,7 @@ public class IlClassicoExpressoGameType extends ExpressoGameType {
     }
 
     @Override
-    public String getName() {
-        return "IlClassico";
-    }
-
-    @Override
     public List<String> getDescription() {
         return Arrays.asList("§7L'expresso des plus classique");
-    }
-
-    /***
-     * Retourne les phases d'un expresso classic
-     * @return
-     */
-    @Override
-    public Deque<BBPhase> getPhases() {
-        val phases = new LinkedList();
-        phases.add(new LaunchingPhase(30));
-        phases.add(new GamePhase(2 * HOUR));
-        phases.add(new EndPhase());
-        return phases;
     }
 }

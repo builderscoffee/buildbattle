@@ -15,14 +15,18 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.concurrent.TimeUnit;
+
 public class LaunchingPhase implements BBPhase {
 
     private int time;
-
-    final int defaultTime;
+    private final int defaultTime;
+    private final TimeUnit timeUnit;
 
     public LaunchingPhase(int defaultTime) {
         this.defaultTime = defaultTime;
+        this.time = defaultTime;
+        this.timeUnit = TimeUnit.SECONDS;
     }
 
     @Override
@@ -50,6 +54,10 @@ public class LaunchingPhase implements BBPhase {
         return defaultTime;
     }
 
+    @Override
+    public TimeUnit timeUnit() {
+        return this.timeUnit;
+    }
 
     @Override
     public BuildBattleManager.GameState state() {

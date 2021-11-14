@@ -9,6 +9,8 @@ import eu.builderscoffee.expresso.buildbattle.toolbars.ToolbarManager;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.concurrent.TimeUnit;
+
 public class JuryPhase implements BBPhase {
 
     @Override
@@ -34,6 +36,11 @@ public class JuryPhase implements BBPhase {
     @Override
     public int defaultTime() {
         return 0;
+    }
+
+    @Override
+    public TimeUnit timeUnit() {
+        return TimeUnit.SECONDS;
     }
 
     @Override

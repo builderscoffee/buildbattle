@@ -20,6 +20,13 @@ import static eu.builderscoffee.expresso.utils.TimeUtils.HOUR;
 
 public class BoucheTrouExpressoGameType extends ExpressoGameType {
 
+    public BoucheTrouExpressoGameType() {
+        super("Bouche Trou");
+        this.phases.add(new LaunchingPhase(30));
+        this.phases.add(new GamePhase(2 * HOUR));
+        this.phases.add(new EndPhase());
+    }
+
     @Override
     public ItemStack getIcon() {
         return new ItemBuilder(Material.INK_SACK, 1, (short) 1)
@@ -28,26 +35,7 @@ public class BoucheTrouExpressoGameType extends ExpressoGameType {
     }
 
     @Override
-    public String getName() {
-        return "Bouche Trou";
-    }
-
-    @Override
     public List<String> getDescription() {
         return Arrays.asList("§7Une schématique est coller sur le plot");
-    }
-
-
-    /***
-     * Retourne les phases d'un expresso bouche trou
-     * @return
-     */
-    @Override
-    public Deque<BBPhase> getPhases() {
-        val phases = new LinkedList();
-        phases.add(new LaunchingPhase(30));
-        phases.add(new GamePhase(2 * HOUR));
-        phases.add(new EndPhase());
-        return phases;
     }
 }
