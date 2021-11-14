@@ -1,6 +1,7 @@
 package eu.builderscoffee.expresso.buildbattle.games.expressos.types;
 
 import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
+import eu.builderscoffee.expresso.buildbattle.events.ConfigListener;
 import eu.builderscoffee.expresso.buildbattle.games.expressos.ExpressoGameType;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.bases.EndPhase;
@@ -33,7 +34,7 @@ public class IlClassicoExpressoGameType extends ExpressoGameType {
 
     @Override
     public List<String> getDescription() {
-        return Arrays.asList("L'expresso des plus classique");
+        return Arrays.asList("§7L'expresso des plus classique");
     }
 
     /***
@@ -44,7 +45,7 @@ public class IlClassicoExpressoGameType extends ExpressoGameType {
     public Deque<BBPhase> getPhases() {
         val phases = new LinkedList();
         phases.add(new LaunchingPhase(30));
-        phases.add(new GamePhase(2 * HOUR));
+        phases.add(new GamePhase(getGamePlayTime()));
         phases.add(new EndPhase());
         return phases;
     }

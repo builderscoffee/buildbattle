@@ -34,7 +34,12 @@ public class BoucheTrouExpressoGameType extends ExpressoGameType {
 
     @Override
     public List<String> getDescription() {
-        return Arrays.asList("Une schématique est coller sur le plot");
+        return Arrays.asList("§7Une schématique est coller sur le plot");
+    }
+
+    @Override
+    public int getGamePlayTime() {
+        return 2 * HOUR;
     }
 
     /***
@@ -45,7 +50,7 @@ public class BoucheTrouExpressoGameType extends ExpressoGameType {
     public Deque<BBPhase> getPhases() {
         val phases = new LinkedList();
         phases.add(new LaunchingPhase(30));
-        phases.add(new GamePhase(2 * HOUR));
+        phases.add(new GamePhase(getGamePlayTime()));
         phases.add(new EndPhase());
         return phases;
     }

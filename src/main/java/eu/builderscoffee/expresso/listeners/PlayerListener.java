@@ -9,7 +9,9 @@ import eu.builderscoffee.expresso.buildbattle.toolbars.ToolbarManager;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
 import eu.builderscoffee.expresso.utils.MessageUtils;
 import lombok.val;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -44,8 +46,15 @@ public class PlayerListener implements Listener {
         player.setAllowFlight(true);
         player.getInventory().clear();
 
-        // If player as plot
-        player.teleport(LocationsUtil.getLocationFromString(ExpressoBukkit.getSettings().getGlobal_spawn_location()));
+        // Teleport Player If player as plot
+        World world = Bukkit.getWorld(ExpressoBukkit.getSettings().getPlotWorldName());
+        if(Objects.nonNull(world)) {
+            // If World in config exist teleport to spawn location
+            player.teleport(LocationsUtil.getLocationFromString(ExpressoBukkit.getSettings().getGlobal_spawn_location()));
+        } else {
+            // If World doesn't exist teleport to default location
+            player.teleport(Bukkit.getWorld("world").getSpawnLocation());
+        }
 
         if (Objects.nonNull(ExpressoBukkit.getBbGame())) {
             if (ExpressoBukkit.getBbGame().getGameState().equals(BuildBattleManager.GameState.IN_GAME)) {

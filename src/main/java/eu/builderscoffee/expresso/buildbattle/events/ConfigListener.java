@@ -12,9 +12,13 @@ import eu.builderscoffee.commons.common.redisson.topics.CommonTopics;
 import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.BuildBattle;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleInstanceType;
+import eu.builderscoffee.expresso.buildbattle.games.expressos.ExpressoGameType;
 import eu.builderscoffee.expresso.utils.BackupUtils;
 import eu.builderscoffee.expresso.utils.Log;
+import eu.builderscoffee.expresso.utils.TimeUtils;
 import eu.builderscoffee.expresso.utils.WorldBuilder;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.val;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -26,6 +30,12 @@ import java.util.Objects;
 public class ConfigListener implements PacketListener {
 
     private int plotSize = 0;
+    @Getter
+    @Setter
+    private static int defaultPlayTime = 60;
+    @Getter
+    @Setter
+    private String bbName = "";
 
     /***
      * Recevoir l'action de configuration de la partie
@@ -97,7 +107,43 @@ public class ConfigListener implements PacketListener {
             val expressoString = request.getData();
             ExpressoBukkit.getBbGame().setExpressoGameType(ExpressoBukkit.getBbGame().getExpressoManager().fetchExpressoByName(expressoString));
             ExpressoBukkit.getBbGame().configureGameType(BuildBattleInstanceType.EXPRESSO);
-            sendThemesSelection(request);
+            setDefaultPlayTime(ExpressoBukkit.getBbGame().getBuildBattleGameType().getGamePlayTime()); // Set default play time
+            sendPlayTime(request);
+        }
+    }
+
+    /***
+     * Recevoir l'action de changer le temps de la partie'
+     * @param request
+     */
+    @ProcessPacket
+    public void onRequestPlayTime(ServerManagerRequest request) {
+        val gameType = ExpressoBukkit.getBbGame().getBuildBattleGameType();
+        if (request.getType().equals("playtime")) {
+            switch (request.getData()) {
+                case "custom":
+                    switch (request.getItemAction()) {
+                        case LEFT_CLICK:
+                            gameType.setGamePlayTime(gameType.getGamePlayTime() + 60);
+                            break;
+                        case SHIFT_LEFT_CLICK:
+                            gameType.setGamePlayTime(gameType.getGamePlayTime() + 3600);
+                            break;
+                        case RIGHT_CLICK:
+                            gameType.setGamePlayTime(gameType.getGamePlayTime() <= 60? 0 : gameType.getGamePlayTime() - 60);
+                            break;
+                        case SHIFT_RIGHT_CLICK:
+                            gameType.setGamePlayTime(gameType.getGamePlayTime() <= 3600? 0 : gameType.getGamePlayTime() - 3600);
+                            break;
+                    }
+                    sendPlayTime(request);
+                    break;
+                case "default":
+                    sendThemesSelection(request);
+                        break;
+
+                        //TODO Ajouter un inventaire intermédaire pour confirmer le type de temps choisi
+            }
         }
     }
 
@@ -187,21 +233,22 @@ public class ConfigListener implements PacketListener {
     @ProcessPacket
     public void onRequestMapGen(ServerManagerRequest request) {
         if (!request.getType().startsWith("plot")) return;
-
+        val maxPlotSize = ExpressoBukkit.getSettings().getPlotMaxSize();
+        val minPlotSize = ExpressoBukkit.getSettings().getPlotMinSize();
         switch (request.getData()) {
             case "size":
                 switch (request.getItemAction()) {
                     case LEFT_CLICK:
-                        plotSize++;
+                        plotSize = plotSize >= maxPlotSize ? maxPlotSize : plotSize + 1;
                         break;
                     case SHIFT_LEFT_CLICK:
-                        plotSize += 10;
+                        plotSize = plotSize >= maxPlotSize ? maxPlotSize : plotSize + 10;
                         break;
                     case RIGHT_CLICK:
-                        plotSize--;
+                        plotSize = plotSize <= minPlotSize ? 0 : plotSize - 1;
                         break;
                     case SHIFT_RIGHT_CLICK:
-                        plotSize -= 10;
+                        plotSize = plotSize <= minPlotSize ? 0 : plotSize - 10;
                         break;
                 }
                 sendMapGeneration(request);
@@ -252,13 +299,35 @@ public class ConfigListener implements PacketListener {
                 itemsAction.setType("expresso");
                 expressoList
                         .forEach(expresso -> {
-                            itemsAction.addItem(-1, -1, new ItemBuilder(expresso.getIcon().getType(), 1, expresso.getIcon().getDurability()).setName("§a" + expresso.getName()).addLoreLine("§7" + expresso.getDescription()).build(), expresso.getName());
+                            itemsAction.addItem(-1, -1, new ItemBuilder(expresso.getIcon().getType(), 1, expresso.getIcon().getDurability()).setName("§a" + expresso.getName()).addLoreLine(expresso.getDescription()).build(), expresso.getName());
                         });
                 response.getActions().add(itemsAction);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + ExpressoBukkit.getBbGame().getBbGameTypes());
         }
+
+        // Publish the reponse
+        Redis.publish(CommonTopics.SERVER_MANAGER, response);
+    }
+
+    /***
+     * Sélectioner le temps de jeux d'une partie
+     * @param request
+     */
+    public void sendPlayTime(ServerManagerRequest request) {
+        // Create from the request
+        val response = new ServerManagerResponse(request);
+        val itemsAction = new ServerManagerResponse.Items();
+        itemsAction.setType("playtime");
+
+        val gameType = ExpressoBukkit.getBbGame().getBuildBattleGameType();
+
+        itemsAction.addItem(2, 6, new ItemBuilder(Material.WATCH).addLoreLine("§f" + TimeUtils.getDurationString(gameType.getGamePlayTime())).setName("§a Temps de jeux Custom").build(), "custom");
+        itemsAction.addItem(2, 2, new ItemBuilder(Material.WATCH).addLoreLine("§f" + TimeUtils.getDurationString(defaultPlayTime)).setName("§a Temps de jeux Défault ").build(), "default");
+        itemsAction.addItem(3, 4, new ItemBuilder(Material.WOOL, 1, (short) 13).setName("§aValider le temps").build(), "setplaytime");
+
+        response.getActions().add(itemsAction);
 
         // Publish the reponse
         Redis.publish(CommonTopics.SERVER_MANAGER, response);
@@ -293,7 +362,7 @@ public class ConfigListener implements PacketListener {
         val itemsAction = new ServerManagerResponse.Items();
         itemsAction.setType("plot");
 
-        itemsAction.addItem(2, 3, new ItemBuilder(Material.NAME_TAG).addLoreLine("§7Taille du plot " + plotSize).setName("§aTaille").addLoreLine(Arrays.asList("§7(Click gauche) +1 ", "(Click droit) -1", "(Shift click gauche) +10", "(Shift click droit) -10")).build(), "size");
+        itemsAction.addItem(2, 2, new ItemBuilder(Material.NAME_TAG).addLoreLine("§7Taille du plot " + plotSize).setName("§aTaille").addLoreLine(Arrays.asList("§f(Click gauche) §6+1 ", "§f(Click droit) §6-1", "§f(Shift click gauche) §6+10", "§f(Shift click droit) §6-10")).build(), "size");
         itemsAction.addItem(3, 4, new ItemBuilder(Material.WOOL, 1, (short) 13).setName("§aValider la génération").build(), "mapgen");
 
         response.getActions().add(itemsAction);

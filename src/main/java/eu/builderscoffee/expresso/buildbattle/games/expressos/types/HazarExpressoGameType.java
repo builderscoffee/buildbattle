@@ -32,7 +32,12 @@ public class HazarExpressoGameType extends ExpressoGameType {
 
     @Override
     public List<String> getDescription() {
-        return Arrays.asList("Mélange les blocs du même type entre eux");
+        return Arrays.asList("§7Mélange les blocs du même type entre eux");
+    }
+
+    @Override
+    public int getGamePlayTime() {
+        return 2 * HOUR;
     }
 
     /***
@@ -43,7 +48,7 @@ public class HazarExpressoGameType extends ExpressoGameType {
     public Deque<BBPhase> getPhases() {
         val phases = new LinkedList();
         phases.add(new LaunchingPhase(30));
-        phases.add(new HazarPhase(2 * HOUR));
+        phases.add(new HazarPhase(getGamePlayTime()));
         phases.add(new EndPhase());
         return phases;
     }
