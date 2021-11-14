@@ -24,11 +24,15 @@ public interface BBPhase {
     String description();
 
     /**
-     * Temps maximun de la phase
+     * Temps en cours de la phase
      *
      * @return
      */
     int time();
+
+    void setTime(int time);
+
+    int defaultTime();
 
     /**
      * Etat de la phase

@@ -45,7 +45,7 @@ public class IlClassicoExpressoGameType extends ExpressoGameType {
     public Deque<BBPhase> getPhases() {
         val phases = new LinkedList();
         phases.add(new LaunchingPhase(30));
-        phases.add(new GamePhase(getGamePlayTime()));
+        phases.add(new GamePhase(2 * HOUR));
         phases.add(new EndPhase());
         return phases;
     }

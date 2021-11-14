@@ -10,8 +10,8 @@ public class HazarPhase extends GamePhase {
 
     public static HazarEngine hazarEngine;
 
-    public HazarPhase(int maxTime) {
-        super(maxTime);
+    public HazarPhase(int defaultTime) {
+        super(defaultTime);
         // Enregistrer l'engine de la partie
         hazarEngine = new HazarEngine(ExpressoBukkit.getInstance());
     }

@@ -2,8 +2,6 @@ package eu.builderscoffee.expresso.buildbattle;
 
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Deque;
@@ -14,7 +12,6 @@ public abstract class BuildBattleGameType {
     public static Deque<BBPhase> phases = new LinkedBlockingDeque<>();
     public BukkitRunnable currentRunnable;
     public BBPhase currentPhase;
-    public int gamePlayTime;
 
     /**
      * Retourne le nom du buildbattle

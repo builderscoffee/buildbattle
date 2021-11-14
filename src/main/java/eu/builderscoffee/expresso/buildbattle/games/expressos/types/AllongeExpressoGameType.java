@@ -35,11 +35,6 @@ public class AllongeExpressoGameType extends ExpressoGameType {
         return Arrays.asList("§7Expresso classique à longue durée");
     }
 
-    @Override
-    public int getGamePlayTime() {
-        return 8 * HOUR;
-    }
-
     /***
      * Retourne les phases d'un expresso allonge
      * @return
@@ -48,7 +43,7 @@ public class AllongeExpressoGameType extends ExpressoGameType {
     public Deque<BBPhase> getPhases() {
         val phases = new LinkedList();
         phases.add(new LaunchingPhase(30));
-        phases.add(new GamePhase(getGamePlayTime()));
+        phases.add(new GamePhase(8 * HOUR));
         phases.add(new EndPhase());
         return phases;
     }

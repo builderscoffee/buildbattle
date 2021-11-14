@@ -9,10 +9,13 @@ import eu.builderscoffee.expresso.utils.Log;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import lombok.val;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+import org.reflections.Reflections;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -64,7 +67,7 @@ public class BuildBattleManager implements Cloneable {
     public void startGame() {
         // La partie est prête à démarrer
         ExpressoBukkit.getBbGame().setReady(true);
-        if(!ExpressoBukkit.getBbGame().isPaused()) {
+        if (!ExpressoBukkit.getBbGame().isPaused()) {
             // Lancer la task de check
             ExpressoBukkit.getExecutionManager().getTasks().put("checkstart", new CheckStartTask().runTaskTimer(expressoBukkit, 0L, 20L));
             // Lancer la task de board
@@ -130,13 +133,13 @@ public class BuildBattleManager implements Cloneable {
      * Stopper la partie en cours
      */
     public void endGame() {
-            // Définir l'état de fin de la partie
-            this.getGame().setGameState(this.game.getBuildBattleGameType().getCurrentPhase().state());
-            // Couper la phase en cours
-            this.cancelPhase();
-            // Désactiver les plugin de build
-            this.disablePlugins();
-        }
+        // Définir l'état de fin de la partie
+        this.getGame().setGameState(this.game.getBuildBattleGameType().getCurrentPhase().state());
+        // Couper la phase en cours
+        this.cancelPhase();
+        // Désactiver les plugin de build
+        this.disablePlugins();
+    }
 
     // PHASE SYSTEM
 
@@ -170,7 +173,7 @@ public class BuildBattleManager implements Cloneable {
         Log.get().info("Phase pause : " + this.game.getBuildBattleGameType().getCurrentPhase().name());
         Log.get().info("Pause BBGame");
         game.setPaused(true);
-        if(game.isPaused()) {
+        if (game.isPaused()) {
             Log.get().info("Clone BBGame");
             game.setBbGameManagerClone(this.clone());
         }
@@ -196,6 +199,52 @@ public class BuildBattleManager implements Cloneable {
             this.game.getBuildBattleGameType().getCurrentPhase().engine().registerListener();
         }
     }
+
+    /***
+     * Retournes tout les phases
+     */
+    private List<BBPhase> getAllBBPhase() {
+        val reflections = new Reflections(BBPhase.class.getPackage().getName());
+        val classes = reflections.getSubTypesOf(BBPhase.class);
+        val phases = new ArrayList<BBPhase>();
+        classes.forEach(phaseClass -> {
+            try {
+                phaseClass.getDeclaredConstructor().setAccessible(true);
+                val phase = phaseClass.newInstance();
+                phases.add(phase);
+            } catch (IllegalAccessException | InstantiationException | NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+        });
+        return phases;
+    }
+
+    /***
+     * Changer le temps d'une phase et le reinjecter dans la liste en cours
+     * @param name
+     * @param time
+     */
+    public boolean changePhaseTime(String name, int time) {
+        // Get all current game phase
+        val phases = ExpressoBukkit.getBbGame().getInstancePhases();
+        phases.forEach(phase -> {
+            if (phase.name().equals(name)) {
+                int phaseIndex = getAllBBPhase().indexOf(phase); // Get index of current phase
+                BBPhase bbPhase = getAllBBPhase().get(phaseIndex); // Get phase classes
+                //bbPhase.getClass().get
+            }
+        });
+        return true;
+    }
+
+    /*
+    public static <T> T override(T object, T override) {
+        if (object instanceof Number) {
+            return (T) (Number) ((Number) object).doubleValue() + ((Number) override).doubleValue();
+        }
+        return override;
+    }
+    */
 
     // OTHER STUFF
 

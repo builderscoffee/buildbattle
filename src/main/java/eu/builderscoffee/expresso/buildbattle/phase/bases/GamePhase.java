@@ -15,6 +15,7 @@ import lombok.Setter;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 import static eu.builderscoffee.expresso.utils.TimeUtils.HOUR;
@@ -24,20 +25,19 @@ import static org.bukkit.GameMode.CREATIVE;
 
 public class GamePhase implements BBPhase {
 
-    private final int maxTime;
-    private final int[] titleTime;
+    private int[] titleTime;
     private int[] bcTime;
     @Getter
     @Setter
     private BuildBattle game;
-    @Getter
-    @Setter
     private int time;
+    private int currentTime;
+    private int defaultTime;
 
-    public GamePhase(int maxTime) {
-        this.maxTime = maxTime;
-        this.bcTime = addTimeEach(new int[]{maxTime - 10 * MIN, maxTime - 30 * MIN, maxTime / 2}, HOUR);
-        this.titleTime = new int[]{maxTime - 1, maxTime - 2, maxTime - 3, maxTime - 4, maxTime - 5, maxTime - 10, maxTime - 20, maxTime - 30, maxTime - MIN};
+
+
+    public GamePhase(int defaultTime) {
+        this.defaultTime = defaultTime;
     }
 
     @Override
@@ -56,16 +56,28 @@ public class GamePhase implements BBPhase {
     }
 
     @Override
+    public void setTime(int time) {
+        this.time = time;
+    }
+
+    @Override
+    public int defaultTime() {
+        return defaultTime;
+    }
+
+    @Override
     public BuildBattleManager.GameState state() {
         return BuildBattleManager.GameState.IN_GAME;
     }
 
     @Override
     public BukkitRunnable runnable() {
+        if(Objects.isNull(this.bcTime)) this.bcTime = addTimeEach(new int[]{defaultTime - 10 * MIN, defaultTime - 30 * MIN, defaultTime / 2}, HOUR);
+        if(Objects.isNull(this.titleTime)) this.titleTime = new int[]{defaultTime - 1, defaultTime - 2, defaultTime - 3, defaultTime - 4, defaultTime - 5, defaultTime - 10, defaultTime - 20, defaultTime - 30, defaultTime - MIN};
         return new BukkitRunnable() {
             @Override
             public void run() {
-                if (time == 0) {
+                if (currentTime == 0) {
                     // Démarrer la game en dévoilant le thème
                     // et définir la gamemode en créatif pour chaques
                     // joueurs
@@ -84,21 +96,21 @@ public class GamePhase implements BBPhase {
 
                 }
                 // Log les minutes du jeux en console
-                if (time % 60 == 0) Log.get().info(" " + time / 60 + " minutes de jeux");
+                if (currentTime % 60 == 0) Log.get().info(" " + currentTime / 60 + " minutes de jeux");
 
                 // Tout les X temps envoyé un broadcast pour le temps de jeux restant
-                Arrays.stream(bcTime).filter(i -> i == time).forEach(i -> ExpressoBukkit.getInstance().getServer().getOnlinePlayers().forEach(player -> player.sendMessage(MessageUtils.getMessageConfig(player).getGame().getRemainingGames().replace("%prefix%",MessageUtils.getDefaultMessageConfig().getPrefix()).replace("%time%" ,TimeUtils.getDurationString(maxTime - time)))));
+                Arrays.stream(bcTime).filter(i -> i == currentTime).forEach(i -> ExpressoBukkit.getInstance().getServer().getOnlinePlayers().forEach(player -> player.sendMessage(MessageUtils.getMessageConfig(player).getGame().getRemainingGames().replace("%prefix%",MessageUtils.getDefaultMessageConfig().getPrefix()).replace("%time%" ,TimeUtils.getDurationString(time - currentTime)))));
 
                 // Tout les X temps envoyé un title pour la dernière minutes restante
-                Arrays.stream(titleTime).filter(i -> i == time).forEach(i -> getOnlinePlayers().forEach(p -> {
-                    new Title(MessageUtils.getMessageConfig(p).getGame().getRemainingTime(), TimeUtils.getDurationString(maxTime - time), 20, 5, 20).send(p);
+                Arrays.stream(titleTime).filter(i -> i == currentTime).forEach(i -> getOnlinePlayers().forEach(p -> {
+                    new Title(MessageUtils.getMessageConfig(p).getGame().getRemainingTime(), TimeUtils.getDurationString(time - currentTime), 20, 5, 20).send(p);
                 }));
 
                 // Passer à l'étape suivante si le temps est écoulé
                 //for (Player player : getOnlinePlayers()) player.setGameMode(SPECTATOR);
-                if (time >= maxTime) ExpressoBukkit.getBbGame().getBbGameManager().nextPhase();
+                if (currentTime >= time) ExpressoBukkit.getBbGame().getBbGameManager().nextPhase();
 
-                ++time;
+                ++currentTime;
             }
         };
     }
@@ -109,11 +121,11 @@ public class GamePhase implements BBPhase {
     }
 
     protected int[] addTimeEach(int[] array, int seconds) {
-        int[] newArray = new int[(int) (array.length + Math.floor(maxTime / seconds) - 1)];
+        int[] newArray = new int[(int) (array.length + Math.floor(time / seconds) - 1)];
 
         IntStream.range(0, array.length).forEach(i -> newArray[i] = array[i]);
 
-        for (int i = 1; i < maxTime / seconds; i++)
+        for (int i = 1; i < time / seconds; i++)
             newArray[array.length + i - 1] = seconds * i;
 
         return newArray;

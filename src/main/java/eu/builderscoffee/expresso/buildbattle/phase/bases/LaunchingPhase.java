@@ -17,12 +17,12 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class LaunchingPhase implements BBPhase {
 
-    @Getter
-    @Setter
-    private int startTime;
+    private int time;
 
-    public LaunchingPhase(int startTime) {
-        setStartTime(startTime);
+    final int defaultTime;
+
+    public LaunchingPhase(int defaultTime) {
+        this.defaultTime = defaultTime;
     }
 
     @Override
@@ -36,9 +36,20 @@ public class LaunchingPhase implements BBPhase {
     }
 
     @Override
-    public int time() {
-        return startTime;
+    public void setTime(int time) {
+        this.time = time;
     }
+
+    @Override
+    public int time() {
+        return time;
+    }
+
+    @Override
+    public int defaultTime() {
+        return defaultTime;
+    }
+
 
     @Override
     public BuildBattleManager.GameState state() {
@@ -56,23 +67,23 @@ public class LaunchingPhase implements BBPhase {
                 }
                 // Lancer le chrono ( Title + Level )
                 for (final Player player : Bukkit.getOnlinePlayers()) {
-                    player.setLevel(getStartTime());
-                    if (getStartTime() == 30 || getStartTime() == 20 || getStartTime() == 10 || getStartTime() == 5)
+                    player.setLevel(time());
+                    if (time() == 30 || time() == 20 || time() == 10 || time() == 5)
                         new Title(MessageUtils.getMessageConfig(player).getGame().getStartInTitle(), MessageUtils.getMessageConfig(player).getGame().getStartInSubTitle(), 20, 10, 20).send(player);
                 }
                 // Décompte du temps dans le chat
-                if (getStartTime() % 10 == 0 || getStartTime() == 10 || getStartTime() == 5 || getStartTime() == 4 || getStartTime() == 3 || getStartTime() == 2 || getStartTime() == 1) {
-                    ExpressoBukkit.getInstance().getServer().getOnlinePlayers().forEach(player -> player.sendMessage(MessageUtils.getMessageConfig(player).getGame().getCompetitionBeginningIn().replace("%prefix%",MessageUtils.getDefaultMessageConfig().getPrefix()).replace("%time%",TimeUtils.getDurationString(getStartTime()))));
+                if (time() % 10 == 0 || time() == 10 || time() == 5 || time() == 4 || time() == 3 || time() == 2 || time() == 1) {
+                    ExpressoBukkit.getInstance().getServer().getOnlinePlayers().forEach(player -> player.sendMessage(MessageUtils.getMessageConfig(player).getGame().getCompetitionBeginningIn().replace("%prefix%", MessageUtils.getDefaultMessageConfig().getPrefix()).replace("%time%", TimeUtils.getDurationString(time()))));
                     Bukkit.getOnlinePlayers().forEach(player2 -> player2.playSound(player2.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 20.0f, 20.0f));
                 }
                 // Lancer la compétition
-                if (getStartTime() < 1) {
-                    ExpressoBukkit.getInstance().getServer().getOnlinePlayers().forEach(player -> player.sendMessage(MessageUtils.getMessageConfig(player).getGame().getCompetitionStarting().replace("%prefix%",MessageUtils.getDefaultMessageConfig().getPrefix())));
+                if (time() < 1) {
+                    ExpressoBukkit.getInstance().getServer().getOnlinePlayers().forEach(player -> player.sendMessage(MessageUtils.getMessageConfig(player).getGame().getCompetitionStarting().replace("%prefix%", MessageUtils.getDefaultMessageConfig().getPrefix())));
                     Bukkit.getOnlinePlayers().forEach(p -> p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 20.0f, 20.0f));
                     ExpressoBukkit.getBbGame().getBbGameManager().nextPhase();
                     return;
                 }
-                --startTime;
+                --time;
             }
         };
     }
