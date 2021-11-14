@@ -12,7 +12,6 @@ import eu.builderscoffee.commons.common.redisson.topics.CommonTopics;
 import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.BuildBattle;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleInstanceType;
-import eu.builderscoffee.expresso.buildbattle.games.expressos.ExpressoGameType;
 import eu.builderscoffee.expresso.utils.BackupUtils;
 import eu.builderscoffee.expresso.utils.Log;
 import eu.builderscoffee.expresso.utils.TimeUtils;
@@ -29,13 +28,15 @@ import java.util.Objects;
 
 public class ConfigListener implements PacketListener {
 
+    @Getter
+    @Setter
     private int plotSize = 0;
     @Getter
     @Setter
     private static int defaultPlayTime = 60;
-    @Getter
-    @Setter
-    private String bbName = "";
+    private enum SelectPlayTime { DEFAULT,CUSTOM};
+    @Getter @Setter
+    private SelectPlayTime selectedPlayTime = SelectPlayTime.DEFAULT;
 
     /***
      * Recevoir l'action de configuration de la partie
@@ -108,7 +109,7 @@ public class ConfigListener implements PacketListener {
             ExpressoBukkit.getBbGame().setExpressoGameType(ExpressoBukkit.getBbGame().getExpressoManager().fetchExpressoByName(expressoString));
             ExpressoBukkit.getBbGame().configureGameType(BuildBattleInstanceType.EXPRESSO);
             setDefaultPlayTime(ExpressoBukkit.getBbGame().getBuildBattleGameType().getGamePlayTime()); // Set default play time
-            sendPlayTime(request);
+            sendPlayTime(request,false,false);
         }
     }
 
@@ -122,6 +123,7 @@ public class ConfigListener implements PacketListener {
         if (request.getType().equals("playtime")) {
             switch (request.getData()) {
                 case "custom":
+                    System.out.println("Change PlayTime : " + gameType.getGamePlayTime());
                     switch (request.getItemAction()) {
                         case LEFT_CLICK:
                             gameType.setGamePlayTime(gameType.getGamePlayTime() + 60);
@@ -130,19 +132,32 @@ public class ConfigListener implements PacketListener {
                             gameType.setGamePlayTime(gameType.getGamePlayTime() + 3600);
                             break;
                         case RIGHT_CLICK:
-                            gameType.setGamePlayTime(gameType.getGamePlayTime() <= 60? 0 : gameType.getGamePlayTime() - 60);
+                            gameType.setGamePlayTime(gameType.getGamePlayTime() <= 60 ? 0 : gameType.getGamePlayTime() - 60);
                             break;
                         case SHIFT_RIGHT_CLICK:
-                            gameType.setGamePlayTime(gameType.getGamePlayTime() <= 3600? 0 : gameType.getGamePlayTime() - 3600);
+                            gameType.setGamePlayTime(gameType.getGamePlayTime() <= 3600 ? 0 : gameType.getGamePlayTime() - 3600);
+                            break;
+                        case MIDDLE_CLICK:
+                            sendPlayTime(request, false, true);
+                            setSelectedPlayTime(SelectPlayTime.CUSTOM);
                             break;
                     }
-                    sendPlayTime(request);
+                    sendPlayTime(request, false, false);
                     break;
                 case "default":
-                    sendThemesSelection(request);
-                        break;
+                    if (request.getItemAction().equals(ServerManagerRequest.ItemAction.MIDDLE_CLICK)) {
+                        sendPlayTime(request, true, false);
+                        setSelectedPlayTime(SelectPlayTime.DEFAULT);
+                    }
+                    sendPlayTime(request, false, false);
+                    break;
 
-                        //TODO Ajouter un inventaire intermédaire pour confirmer le type de temps choisi
+                case "setplaytime":
+                    if(getSelectedPlayTime().equals(SelectPlayTime.DEFAULT)) {
+                        gameType.setGamePlayTime(defaultPlayTime);
+                    }
+                    sendThemesSelection(request);
+                    break;
             }
         }
     }
@@ -315,7 +330,7 @@ public class ConfigListener implements PacketListener {
      * Sélectioner le temps de jeux d'une partie
      * @param request
      */
-    public void sendPlayTime(ServerManagerRequest request) {
+    public void sendPlayTime(ServerManagerRequest request, boolean glowDefault, boolean glowCustom) {
         // Create from the request
         val response = new ServerManagerResponse(request);
         val itemsAction = new ServerManagerResponse.Items();
@@ -323,8 +338,18 @@ public class ConfigListener implements PacketListener {
 
         val gameType = ExpressoBukkit.getBbGame().getBuildBattleGameType();
 
-        itemsAction.addItem(2, 6, new ItemBuilder(Material.WATCH).addLoreLine("§f" + TimeUtils.getDurationString(gameType.getGamePlayTime())).setName("§a Temps de jeux Custom").build(), "custom");
-        itemsAction.addItem(2, 2, new ItemBuilder(Material.WATCH).addLoreLine("§f" + TimeUtils.getDurationString(defaultPlayTime)).setName("§a Temps de jeux Défault ").build(), "default");
+        if (glowDefault) {
+            itemsAction.addItem(2, 2, new ItemBuilder(Material.WATCH).setName("§a Temps de jeux Défault").addLoreLine("§f" + TimeUtils.getDurationString(defaultPlayTime)).addGLow().build(), "default");
+        } else {
+            itemsAction.addItem(2, 2, new ItemBuilder(Material.WATCH).setName("§a Temps de jeux Défault").addLoreLine("§f" + TimeUtils.getDurationString(defaultPlayTime)).build(), "default");
+        }
+
+        if (glowCustom) {
+            itemsAction.addItem(2, 6, new ItemBuilder(Material.WATCH).setName("§a Temps de jeux Custom").addLoreLine("§f" + TimeUtils.getDurationString(gameType.getGamePlayTime())).addGLow().build(), "custom");
+        } else {
+            itemsAction.addItem(2, 6, new ItemBuilder(Material.WATCH).setName("§a Temps de jeux Custom").addLoreLine("§f" + TimeUtils.getDurationString(gameType.getGamePlayTime())).build(), "custom");
+        }
+
         itemsAction.addItem(3, 4, new ItemBuilder(Material.WOOL, 1, (short) 13).setName("§aValider le temps").build(), "setplaytime");
 
         response.getActions().add(itemsAction);
@@ -363,6 +388,7 @@ public class ConfigListener implements PacketListener {
         itemsAction.setType("plot");
 
         itemsAction.addItem(2, 2, new ItemBuilder(Material.NAME_TAG).addLoreLine("§7Taille du plot " + plotSize).setName("§aTaille").addLoreLine(Arrays.asList("§f(Click gauche) §6+1 ", "§f(Click droit) §6-1", "§f(Shift click gauche) §6+10", "§f(Shift click droit) §6-10")).build(), "size");
+        itemsAction.addItem(2, 6, new ItemBuilder(Material.BARRIER).setName("§cBientot").build(), "commingsoon");
         itemsAction.addItem(3, 4, new ItemBuilder(Material.WOOL, 1, (short) 13).setName("§aValider la génération").build(), "mapgen");
 
         response.getActions().add(itemsAction);
