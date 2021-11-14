@@ -18,11 +18,14 @@ import eu.builderscoffee.expresso.utils.TimeUtils;
 import eu.builderscoffee.expresso.utils.WorldBuilder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import lombok.val;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -34,8 +37,12 @@ public class ConfigListener implements PacketListener {
     @Getter
     @Setter
     private static int defaultPlayTime = 60;
-    private enum SelectPlayTime { DEFAULT,CUSTOM};
-    @Getter @Setter
+
+    private enum SelectPlayTime {DEFAULT, CUSTOM}
+
+    ;
+    @Getter
+    @Setter
     private SelectPlayTime selectedPlayTime = SelectPlayTime.DEFAULT;
 
     /***
@@ -109,7 +116,7 @@ public class ConfigListener implements PacketListener {
             ExpressoBukkit.getBbGame().setExpressoGameType(ExpressoBukkit.getBbGame().getExpressoManager().fetchExpressoByName(expressoString));
             ExpressoBukkit.getBbGame().configureGameType(BuildBattleInstanceType.EXPRESSO);
             setDefaultPlayTime(ExpressoBukkit.getBbGame().getBuildBattleGameType().getGamePlayTime()); // Set default play time
-            sendPlayTime(request,false,false);
+            sendPlayTime(request, false, false);
         }
     }
 
@@ -117,48 +124,56 @@ public class ConfigListener implements PacketListener {
      * Recevoir l'action de changer le temps de la partie'
      * @param request
      */
+    @SneakyThrows
     @ProcessPacket
     public void onRequestPlayTime(ServerManagerRequest request) {
-        val gameType = ExpressoBukkit.getBbGame().getBuildBattleGameType();
-        if (request.getType().equals("playtime")) {
-            switch (request.getData()) {
-                case "custom":
-                    System.out.println("Change PlayTime : " + gameType.getGamePlayTime());
-                    switch (request.getItemAction()) {
-                        case LEFT_CLICK:
-                            gameType.setGamePlayTime(gameType.getGamePlayTime() + 60);
-                            break;
-                        case SHIFT_LEFT_CLICK:
-                            gameType.setGamePlayTime(gameType.getGamePlayTime() + 3600);
-                            break;
-                        case RIGHT_CLICK:
-                            gameType.setGamePlayTime(gameType.getGamePlayTime() <= 60 ? 0 : gameType.getGamePlayTime() - 60);
-                            break;
-                        case SHIFT_RIGHT_CLICK:
-                            gameType.setGamePlayTime(gameType.getGamePlayTime() <= 3600 ? 0 : gameType.getGamePlayTime() - 3600);
-                            break;
-                        case MIDDLE_CLICK:
-                            sendPlayTime(request, false, true);
-                            setSelectedPlayTime(SelectPlayTime.CUSTOM);
-                            break;
-                    }
-                    sendPlayTime(request, false, false);
-                    break;
-                case "default":
-                    if (request.getItemAction().equals(ServerManagerRequest.ItemAction.MIDDLE_CLICK)) {
-                        sendPlayTime(request, true, false);
-                        setSelectedPlayTime(SelectPlayTime.DEFAULT);
-                    }
-                    sendPlayTime(request, false, false);
-                    break;
+        if (Objects.nonNull(ExpressoBukkit.getBbGame().getBuildBattleGameType())) {
+            val gameType = ExpressoBukkit.getBbGame().getBuildBattleGameType();
+            if (request.getType().equals("playtime")) {
+                switch (request.getData()) {
+                    case "custom":
+                        System.out.println("Change PlayTime : " + gameType.getGamePlayTime());
+                        switch (request.getItemAction()) {
+                            case LEFT_CLICK:
+                                FieldUtils.writeField(gameType.getClass().getName(),"gamePlayTime",String.valueOf(gameType.getGamePlayTime() + 60), true);
+                                //gameType.setGamePlayTime(gameType.getGamePlayTime() + 60);
+                                break;
+                            case SHIFT_LEFT_CLICK:
+                                FieldUtils.writeField(gameType.getClass().getName(),"gamePlayTime",String.valueOf(gameType.getGamePlayTime() + 3600), true);
+                                //gameType.setGamePlayTime(gameType.getGamePlayTime() + 3600);
+                                break;
+                            case RIGHT_CLICK:
+                                FieldUtils.writeField(gameType.getClass().getName(),"gamePlayTime",String.valueOf(gameType.getGamePlayTime() <= 60 ? 0 : gameType.getGamePlayTime() - 60), true);
+                                //gameType.setGamePlayTime(gameType.getGamePlayTime() <= 60 ? 0 : gameType.getGamePlayTime() - 60);
+                                break;
+                            case SHIFT_RIGHT_CLICK:
+                                FieldUtils.writeField(gameType.getClass().getName(),"gamePlayTime",String.valueOf(gameType.getGamePlayTime() <= 3600 ? 0 : gameType.getGamePlayTime() - 3600), true);
+                                //gameType.setGamePlayTime(gameType.getGamePlayTime() <= 3600 ? 0 : gameType.getGamePlayTime() - 3600);
+                                break;
+                            case MIDDLE_CLICK:
+                                sendPlayTime(request, false, true);
+                                setSelectedPlayTime(SelectPlayTime.CUSTOM);
+                                break;
+                        }
+                        sendPlayTime(request, false, false);
+                        break;
+                    case "default":
+                        if (request.getItemAction().equals(ServerManagerRequest.ItemAction.MIDDLE_CLICK)) {
+                            sendPlayTime(request, true, false);
+                            setSelectedPlayTime(SelectPlayTime.DEFAULT);
+                        }
+                        sendPlayTime(request, false, false);
+                        break;
 
-                case "setplaytime":
-                    if(getSelectedPlayTime().equals(SelectPlayTime.DEFAULT)) {
-                        gameType.setGamePlayTime(defaultPlayTime);
-                    }
-                    ExpressoBukkit.getBbGame().setInstancePhases(ExpressoBukkit.getBbGame().getBuildBattleGameType().getPhases());
-                    sendThemesSelection(request);
-                    break;
+                    case "setplaytime":
+                        if (getSelectedPlayTime().equals(SelectPlayTime.DEFAULT)) {
+                            //gameType.setGamePlayTime(defaultPlayTime);
+                            FieldUtils.writeField(gameType.getClass().getName(),"gamePlayTime",String.valueOf(defaultPlayTime), true);
+                        }
+                        ExpressoBukkit.getBbGame().setInstancePhases(ExpressoBukkit.getBbGame().getBuildBattleGameType().getPhases());
+                        sendThemesSelection(request);
+                        break;
+                }
             }
         }
     }
