@@ -92,8 +92,6 @@ public class BuildBattle {
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }
-        setInstancePhases(buildBattleGameType.getPhases());
-
     }
 
 

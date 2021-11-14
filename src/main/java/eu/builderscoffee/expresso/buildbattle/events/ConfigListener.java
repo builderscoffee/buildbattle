@@ -156,6 +156,7 @@ public class ConfigListener implements PacketListener {
                     if(getSelectedPlayTime().equals(SelectPlayTime.DEFAULT)) {
                         gameType.setGamePlayTime(defaultPlayTime);
                     }
+                    ExpressoBukkit.getBbGame().setInstancePhases(ExpressoBukkit.getBbGame().getBuildBattleGameType().getPhases());
                     sendThemesSelection(request);
                     break;
             }
