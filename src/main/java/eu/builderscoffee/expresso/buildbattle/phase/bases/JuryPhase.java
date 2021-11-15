@@ -1,12 +1,15 @@
 package eu.builderscoffee.expresso.buildbattle.phase.bases;
 
 
+import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
 import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleEngine;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.buildbattle.toolbars.ToolbarManager;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.concurrent.TimeUnit;
@@ -26,6 +29,11 @@ public class JuryPhase implements BBPhase {
     @Override
     public int time() {
         return -1;
+    }
+
+    @Override
+    public ItemStack icon() {
+        return new ItemBuilder(Material.RAW_FISH).setName(name()).build();
     }
 
     @Override

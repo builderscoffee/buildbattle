@@ -2,6 +2,7 @@ package eu.builderscoffee.expresso.buildbattle.phase;
 
 import eu.builderscoffee.expresso.buildbattle.BuildBattleEngine;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.concurrent.TimeUnit;
@@ -19,14 +20,21 @@ public interface BBPhase {
     String name();
 
     /**
-     * Bref description d'une phase
+     * Description d'une phase
      *
      * @return
      */
     String description();
 
     /**
-     * Temps
+     * Icon de la phase
+     *
+     * @return
+     */
+    ItemStack icon();
+
+    /**
+     * Temps à display de la phase
      *
      * @return
      */
@@ -39,7 +47,7 @@ public interface BBPhase {
     int currentTime();
 
     /**
-     * Mettre le temps
+     * Définir un nouveau temps
      *
      * @return
      */
@@ -53,7 +61,7 @@ public interface BBPhase {
     int defaultTime();
 
     /**
-     * Temps totale
+     * Unité du temps de la phase
      *
      * @return
      */

@@ -1,6 +1,7 @@
 package eu.builderscoffee.expresso.buildbattle.phase.bases;
 
 
+import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
 import eu.builderscoffee.api.bukkit.utils.Title;
 import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.BuildBattle;
@@ -12,6 +13,8 @@ import eu.builderscoffee.expresso.utils.MessageUtils;
 import eu.builderscoffee.expresso.utils.TimeUtils;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Arrays;
@@ -50,6 +53,11 @@ public class GamePhase implements BBPhase {
     @Override
     public String description() {
         return "Représente une partie en cours";
+    }
+
+    @Override
+    public ItemStack icon() {
+        return new ItemBuilder(Material.WATCH).setName(name()).build();
     }
 
     @Override

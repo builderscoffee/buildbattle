@@ -332,7 +332,7 @@ public class ConfigListener implements PacketListener {
         AtomicInteger i = new AtomicInteger(0);
         gameType.getPhases().stream()
                 .filter(phase -> !(phase instanceof EndPhase))
-                .forEach(phase -> itemsAction.addItem(2, 2 + i.incrementAndGet(), new ItemBuilder(Material.WATCH).setName("§a Temps de jeux " + phase.name()).addLoreLine(Arrays.asList("§btemp par default: §f" + TimeUtils.getDurationString(phase.defaultTime()), "§bTemps: §f" + TimeUtils.getDurationString(phase.time()))).build(), phase.getClass().getSimpleName()));
+                .forEach(phase -> itemsAction.addItem(2, 2 + i.incrementAndGet(), new ItemBuilder(phase.icon().getType()).setName("§aPhase " + phase.name()).addLoreLine(Arrays.asList("§bTemp par default: §f" + TimeUtils.getDurationString(phase.defaultTime()), "§bTemps: §f" + TimeUtils.getDurationString(phase.time()))).build(), phase.getClass().getSimpleName()));
 
         itemsAction.addItem(3, 4, new ItemBuilder(Material.WOOL, 1, (short) 13).setName("§aValider le temps").build(), "setplaytime");
 

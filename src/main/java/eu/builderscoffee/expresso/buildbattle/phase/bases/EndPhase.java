@@ -1,9 +1,12 @@
 package eu.builderscoffee.expresso.buildbattle.phase.bases;
 
+import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
 import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleEngine;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.concurrent.TimeUnit;
@@ -22,6 +25,11 @@ public class EndPhase implements BBPhase {
     @Override
     public String description() {
         return "Mettre fin à la partie";
+    }
+
+    @Override
+    public ItemStack icon() {
+        return new ItemBuilder(Material.NETHER_WARTS).setName(name()).build();
     }
 
     @Override

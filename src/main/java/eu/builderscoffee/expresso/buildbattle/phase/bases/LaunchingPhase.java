@@ -1,6 +1,7 @@
 package eu.builderscoffee.expresso.buildbattle.phase.bases;
 
 
+import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
 import eu.builderscoffee.api.bukkit.utils.Title;
 import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleEngine;
@@ -8,11 +9,11 @@ import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.utils.MessageUtils;
 import eu.builderscoffee.expresso.utils.TimeUtils;
-import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.concurrent.TimeUnit;
@@ -40,6 +41,11 @@ public class LaunchingPhase implements BBPhase {
     }
 
     @Override
+    public ItemStack icon() {
+        return new ItemBuilder(Material.FIREWORK).setName(name()).build();
+    }
+
+    @Override
     public void setTime(int time) {
         this.time = time;
     }
@@ -51,7 +57,7 @@ public class LaunchingPhase implements BBPhase {
 
     @Override
     public int currentTime() {
-        return time;
+        return 0;
     }
 
     @Override
