@@ -27,6 +27,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -35,6 +36,7 @@ public class ConfigListener implements PacketListener {
     @Getter
     @Setter
     private int plotSize = 0;
+    private int themeIndex = 0;
 
     /***
      * Recevoir l'action de configuration de la partie
@@ -122,14 +124,14 @@ public class ConfigListener implements PacketListener {
         if (request.getType().equals("playtime")) {
             val gameType = ExpressoBukkit.getBbGame().getBuildBattleGameType();
 
-            if(request.getData().equals("setplaytime")){
+            if (request.getData().equals("setplaytime")) {
                 ExpressoBukkit.getBbGame().setInstancePhases(ExpressoBukkit.getBbGame().getBuildBattleGameType().getPhases());
                 sendThemesSelection(request);
                 return;
             }
 
-            for(BBPhase phase: gameType.getPhases()){
-                if(request.getData().equals(phase.getClass().getSimpleName())){
+            for (BBPhase phase : gameType.getPhases()) {
+                if (request.getData().equals(phase.getClass().getSimpleName())) {
                     switch (request.getItemAction()) {
                         case LEFT_CLICK:
                             phase.setTime(phase.time() + (int) phase.timeUnit().toSeconds(1));
@@ -332,9 +334,9 @@ public class ConfigListener implements PacketListener {
         AtomicInteger i = new AtomicInteger(0);
         gameType.getPhases().stream()
                 .filter(phase -> !(phase instanceof EndPhase))
-                .forEach(phase -> itemsAction.addItem(2, 2 + i.incrementAndGet(), new ItemBuilder(phase.icon().getType()).setName("§aPhase " + phase.name()).addLoreLine(Arrays.asList("§bTemp par default: §f" + TimeUtils.getDurationString(phase.defaultTime()), "§bTemps: §f" + TimeUtils.getDurationString(phase.time()))).build(), phase.getClass().getSimpleName()));
+                .forEach(phase -> itemsAction.addItem(2, 2 + i.incrementAndGet(), new ItemBuilder(phase.icon().getType()).setName("§a" + phase.name()).addLoreLine(Arrays.asList("§bTemps:", "§bPar défault: §f" + TimeUtils.getDurationString(phase.defaultTime()), "§bCustom :§f" + TimeUtils.getDurationString(phase.time()))).build(), phase.getClass().getSimpleName()));
 
-        itemsAction.addItem(3, 4, new ItemBuilder(Material.WOOL, 1, (short) 13).setName("§aValider le temps").build(), "setplaytime");
+        itemsAction.addItem(3, 4, new ItemBuilder(Material.WOOL, 1, (short) 13).setName("§aValider les phases").build(), "setplaytime");
 
         response.getActions().add(itemsAction);
 
@@ -353,7 +355,13 @@ public class ConfigListener implements PacketListener {
         itemsAction.setType("theme");
         val data = DataManager.getBuildbattleThemeStore().select(BuildbattleThemeEntity.class).get();
         data.stream().forEach(theme -> itemsAction.addItem(-1, -1, new ItemBuilder(Material.MAP).setName("§a" + theme.getName()).build(), theme.getName()));
-
+        //TODO Menu Page system
+        //data.stream().map(Collections.)
+        if(themeIndex !=0) {
+            itemsAction.addItem(3, 4, new ItemBuilder(Material.ARROW).setName("§7Page précédente").build(), "themeprevious");
+        }
+        itemsAction.addItem(3,6,new ItemBuilder(Material.ARROW).setName("§7Page suivante").build(),"themenext");
+        itemsAction.addItem(3,5,new ItemBuilder(Material.PAPER).setName("§7Page").build(),"themepages");
         response.getActions().add(itemsAction);
 
         // Publish the reponse
@@ -371,7 +379,7 @@ public class ConfigListener implements PacketListener {
         val itemsAction = new ServerManagerResponse.Items();
         itemsAction.setType("plot");
 
-        itemsAction.addItem(2, 2, new ItemBuilder(Material.NAME_TAG).addLoreLine("§7Taille du plot " + plotSize).setName("§aTaille").addLoreLine(Arrays.asList("§f(Click gauche) §6+1 ", "§f(Click droit) §6-1", "§f(Shift click gauche) §6+10", "§f(Shift click droit) §6-10")).build(), "size");
+        itemsAction.addItem(2, 2, new ItemBuilder(Material.NAME_TAG).setName("§aTaille").addLoreLine(Arrays.asList("§7Taille du plot " + plotSize,"", "§aClick gauche +1 ", "§aClick droit -1", "§aShift click gauche +10", "§aShift click droit -10")).build(), "size");
         itemsAction.addItem(2, 6, new ItemBuilder(Material.BARRIER).setName("§cBientot").build(), "commingsoon");
         itemsAction.addItem(3, 4, new ItemBuilder(Material.WOOL, 1, (short) 13).setName("§aValider la génération").build(), "mapgen");
 

@@ -32,7 +32,7 @@ public class LaunchingPhase implements BBPhase {
 
     @Override
     public String name() {
-        return "Lancement";
+        return "Démarrage";
     }
 
     @Override
