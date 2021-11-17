@@ -27,7 +27,6 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -353,15 +352,25 @@ public class ConfigListener implements PacketListener {
         val response = new ServerManagerResponse(request);
         val itemsAction = new ServerManagerResponse.Items();
         itemsAction.setType("theme");
+        // Get Themes form database
         val data = DataManager.getBuildbattleThemeStore().select(BuildbattleThemeEntity.class).get();
-        data.stream().forEach(theme -> itemsAction.addItem(-1, -1, new ItemBuilder(Material.MAP).setName("§a" + theme.getName()).build(), theme.getName()));
-        //TODO Menu Page system
-        //data.stream().map(Collections.)
-        if(themeIndex !=0) {
-            itemsAction.addItem(3, 4, new ItemBuilder(Material.ARROW).setName("§7Page précédente").build(), "themeprevious");
+        val themeSize = data.stream().count(); // Theme size
+        val pages = themeSize / 18;
+
+        itemsAction.addItem(3, 5, new ItemBuilder(Material.ARROW).setName("§7Page suivante").build(), "themenext");
+        itemsAction.addItem(3, 4, new ItemBuilder(Material.PAPER).setName("§7Page").build(), "themepages");
+
+        if (themeIndex != 0) {
+            itemsAction.addItem(3, 3, new ItemBuilder(Material.ARROW).setName("§7Page précédente").build(), "themeprevious");
+            for (int row = 1; row < 2; ++row) {
+                for (int column = 0; column < 8; ++column) {
+                    data.stream().skip(themeSize * (pages * themeIndex))
+                            .limit(themeSize * (18))
+                            .forEach(theme -> itemsAction.addItem(-1, -1, new ItemBuilder(Material.MAP).setName("§a" + theme.getName()).build(), theme.getName()));
+                }
+            }
         }
-        itemsAction.addItem(3,6,new ItemBuilder(Material.ARROW).setName("§7Page suivante").build(),"themenext");
-        itemsAction.addItem(3,5,new ItemBuilder(Material.PAPER).setName("§7Page").build(),"themepages");
+        //data.stream().forEach(theme -> itemsAction.addItem(-1, -1, new ItemBuilder(Material.MAP).setName("§a" + theme.getName()).build(), theme.getName()));
         response.getActions().add(itemsAction);
 
         // Publish the reponse
@@ -379,7 +388,7 @@ public class ConfigListener implements PacketListener {
         val itemsAction = new ServerManagerResponse.Items();
         itemsAction.setType("plot");
 
-        itemsAction.addItem(2, 2, new ItemBuilder(Material.NAME_TAG).setName("§aTaille").addLoreLine(Arrays.asList("§7Taille du plot " + plotSize,"", "§aClick gauche +1 ", "§aClick droit -1", "§aShift click gauche +10", "§aShift click droit -10")).build(), "size");
+        itemsAction.addItem(2, 2, new ItemBuilder(Material.NAME_TAG).setName("§aTaille").addLoreLine(Arrays.asList("§7Taille du plot " + plotSize, "", "§aClick gauche +1 ", "§aClick droit -1", "§aShift click gauche +10", "§aShift click droit -10")).build(), "size");
         itemsAction.addItem(2, 6, new ItemBuilder(Material.BARRIER).setName("§cBientot").build(), "commingsoon");
         itemsAction.addItem(3, 4, new ItemBuilder(Material.WOOL, 1, (short) 13).setName("§aValider la génération").build(), "mapgen");
 
