@@ -302,13 +302,13 @@ public class ConfigListener implements PacketListener {
                 break;
             case EXPRESSO:
                 val expressoList = ExpressoBukkit.getBbGame().getExpressoManager().getExpressoGameTypes();
-                val itemsAction = new ServerManagerResponse.Items();
-                itemsAction.setType("expresso");
+                val pageItemsAction = new ServerManagerResponse.PageItems();
+                pageItemsAction.setType("expresso");
                 expressoList
                         .forEach(expresso -> {
-                            itemsAction.addItem(-1, -1, new ItemBuilder(expresso.getIcon().getType(), 1, expresso.getIcon().getDurability()).setName("§a" + expresso.getName()).addLoreLine(expresso.getDescription()).build(), expresso.getName());
+                            pageItemsAction.addItem(new ItemBuilder(expresso.getIcon().getType(), 1, expresso.getIcon().getDurability()).setName("§a" + expresso.getName()).addLoreLine(expresso.getDescription()).build(), expresso.getName());
                         });
-                response.getActions().add(itemsAction);
+                response.getActions().add(pageItemsAction);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + ExpressoBukkit.getBbGame().getBbGameTypes());
@@ -350,28 +350,16 @@ public class ConfigListener implements PacketListener {
     public void sendThemesSelection(ServerManagerRequest request) {
         // Create from the request
         val response = new ServerManagerResponse(request);
-        val itemsAction = new ServerManagerResponse.Items();
-        itemsAction.setType("theme");
+        val pageItemsAction = new ServerManagerResponse.PageItems();
+        pageItemsAction.setType("theme");
         // Get Themes form database
         val data = DataManager.getBuildbattleThemeStore().select(BuildbattleThemeEntity.class).get();
         val themeSize = data.stream().count(); // Theme size
         val pages = themeSize / 18;
 
-        itemsAction.addItem(3, 5, new ItemBuilder(Material.ARROW).setName("§7Page suivante").build(), "themenext");
-        itemsAction.addItem(3, 4, new ItemBuilder(Material.PAPER).setName("§7Page").build(), "themepages");
+        data.forEach(theme -> pageItemsAction.addItem(new ItemBuilder(Material.MAP).setName("§a" + theme.getName()).build(), theme.getName()));
 
-        if (themeIndex != 0) {
-            itemsAction.addItem(3, 3, new ItemBuilder(Material.ARROW).setName("§7Page précédente").build(), "themeprevious");
-        }
-            for (int row = 1; row < 2; ++row) {
-                for (int column = 0; column < 8; ++column) {
-                    data.stream().skip(themeSize * (pages * themeIndex))
-                            .limit(themeSize * (18))
-                            .forEach(theme -> itemsAction.addItem(-1, -1, new ItemBuilder(Material.MAP).setName("§a" + theme.getName()).build(), theme.getName()));
-                }
-            }
-        //data.stream().forEach(theme -> itemsAction.addItem(-1, -1, new ItemBuilder(Material.MAP).setName("§a" + theme.getName()).build(), theme.getName()));
-        response.getActions().add(itemsAction);
+        response.getActions().add(pageItemsAction);
 
         // Publish the reponse
         Redis.publish(CommonTopics.SERVER_MANAGER, response);
