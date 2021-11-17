@@ -362,6 +362,7 @@ public class ConfigListener implements PacketListener {
 
         if (themeIndex != 0) {
             itemsAction.addItem(3, 3, new ItemBuilder(Material.ARROW).setName("§7Page précédente").build(), "themeprevious");
+        }
             for (int row = 1; row < 2; ++row) {
                 for (int column = 0; column < 8; ++column) {
                     data.stream().skip(themeSize * (pages * themeIndex))
@@ -369,7 +370,6 @@ public class ConfigListener implements PacketListener {
                             .forEach(theme -> itemsAction.addItem(-1, -1, new ItemBuilder(Material.MAP).setName("§a" + theme.getName()).build(), theme.getName()));
                 }
             }
-        }
         //data.stream().forEach(theme -> itemsAction.addItem(-1, -1, new ItemBuilder(Material.MAP).setName("§a" + theme.getName()).build(), theme.getName()));
         response.getActions().add(itemsAction);
 
