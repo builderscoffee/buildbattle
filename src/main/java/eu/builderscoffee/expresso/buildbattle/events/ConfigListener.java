@@ -12,6 +12,8 @@ import eu.builderscoffee.commons.common.redisson.topics.CommonTopics;
 import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.BuildBattle;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleInstanceType;
+import eu.builderscoffee.expresso.buildbattle.events.configs.ConfigTemplate;
+import eu.builderscoffee.expresso.buildbattle.games.expressos.ExpressoGameType;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.bases.EndPhase;
 import eu.builderscoffee.expresso.utils.BackupUtils;
@@ -25,8 +27,11 @@ import lombok.val;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.reflections.Reflections;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -36,6 +41,61 @@ public class ConfigListener implements PacketListener {
     @Setter
     private int plotSize = 0;
 
+    /*
+    public static class ConfigStage {
+        public static final ConfigStage TEST = new ConfigStage();
+        public static final ConfigStage TEST2 = new ConfigStage(TEST);
+
+        final ConfigStage previous;
+        public ConfigStage() {
+            previous = null;
+        }
+
+        public ConfigStage(ConfigStage previous) {
+            this.previous = previous;
+        }
+    }*/
+
+    @Getter
+    private static Map<Class<? extends ConfigTemplate>, ConfigTemplate> configs = new HashMap<>();
+
+    public ConfigListener() {
+        val reflections = new Reflections(ConfigTemplate.class.getPackage().getName());
+        val classes = reflections.getSubTypesOf(ConfigTemplate.class);
+        classes.forEach(config -> {
+            try {
+                config.getDeclaredConstructor().setAccessible(true);
+                val instance = config.newInstance();
+                configs.put(config, instance);
+            } catch (IllegalAccessException | InstantiationException | NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @ProcessPacket
+    public void onConfigRequest(ServerManagerRequest request){
+        getConfigs().values().stream()
+                .filter(config -> config.getType().equals(request.getType()))
+                .forEach(config -> config.onRequest(request));
+    }
+
+    public enum ConfigStage {
+        BBINSTANCETYPE(null),
+        GAMETYPE_EXPRESSO(ConfigStage.BBINSTANCETYPE),
+        GAMETYPE_BUILDBATTLE(ConfigStage.BBINSTANCETYPE),
+        GAMETYPE_TOURNAMENT(ConfigStage.BBINSTANCETYPE),
+        EXPRESSO_TYPE(ConfigStage.GAMETYPE_EXPRESSO);
+
+        final ConfigStage previous;
+
+        ConfigStage(ConfigStage previous) {
+            this.previous = previous;
+        }
+    }
+
+    private ConfigStage configStage = ConfigStage.BBINSTANCETYPE;
+
     /***
      * Recevoir l'action de configuration de la partie
      * Sinon renvoyer l'étape de configuration en cours
@@ -43,7 +103,7 @@ public class ConfigListener implements PacketListener {
      */
     @ProcessPacket
     public void onRequestConfig(ServerManagerRequest request) {
-        if (request.getType().equals("request_config")) {
+        /*if (request.getType().equals("request_config")) {
             // On check si l'instance de la partie est null ?
             if (Objects.isNull(ExpressoBukkit.getBbGame())) {
                 sendBuildBattleInstanceType(request);
@@ -83,7 +143,7 @@ public class ConfigListener implements PacketListener {
                 sendGameConfigCategories(request);
                 return;
             }
-        }
+        }*/
     }
 
     /***
@@ -286,6 +346,9 @@ public class ConfigListener implements PacketListener {
         // Add Action to response
         response.getActions().add(itemsAction);
 
+        //Set Stage
+        configStage = ConfigStage.BBINSTANCETYPE;
+
         // Publish the reponse
         Redis.publish(CommonTopics.SERVER_MANAGER, response);
     }
@@ -313,6 +376,9 @@ public class ConfigListener implements PacketListener {
                         });
                 // Add Action to response
                 response.getActions().add(pageItemsAction);
+
+                //Set Stage
+                configStage = ConfigStage.BBINSTANCETYPE;
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + ExpressoBukkit.getBbGame().getBbGameTypes());
@@ -343,6 +409,8 @@ public class ConfigListener implements PacketListener {
 
         // Add Action to response
         response.getActions().add(itemsAction);
+
+        // Set
 
         // Publish the reponse
         Redis.publish(CommonTopics.SERVER_MANAGER, response);
