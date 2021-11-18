@@ -45,7 +45,6 @@ public class GamePhase extends BBPhase {
         this.state = BuildBattleManager.GameState.IN_GAME;
         this.engine = null;
         this.defaultTime = defaultTime;
-        this.time = defaultTime;
     }
 
     @Override

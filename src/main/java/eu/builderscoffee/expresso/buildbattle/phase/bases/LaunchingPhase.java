@@ -30,7 +30,6 @@ public class LaunchingPhase extends BBPhase {
         this.state = BuildBattleManager.GameState.LAUNCHING;
         this.engine = null;
         this.defaultTime = defaultTime;
-        this.time = defaultTime;
     }
 
     @Override
