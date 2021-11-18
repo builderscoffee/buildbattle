@@ -35,7 +35,6 @@ public class GamePhase extends BBPhase {
     private int time;
     private int currentTime;
     private int defaultTime;
-    private TimeUnit timeUnit;
 
     public GamePhase(int defaultTime) {
         this.name = "En jeux";
@@ -46,16 +45,6 @@ public class GamePhase extends BBPhase {
         this.engine = null;
         this.defaultTime = defaultTime;
         this.time = defaultTime;
-    }
-
-    @Override
-    public int getTime() {
-        return time;
-    }
-
-    @Override
-    public void setTime(int time) {
-        this.time = time;
     }
 
     @Override

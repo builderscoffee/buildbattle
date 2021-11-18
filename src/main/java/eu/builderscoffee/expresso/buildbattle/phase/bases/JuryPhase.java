@@ -27,16 +27,6 @@ public class JuryPhase extends BBPhase {
     }
 
     @Override
-    public int getTime() {
-        return time;
-    }
-
-    @Override
-    public void setTime(int time) {
-        this.time = time;
-    }
-
-    @Override
     public BukkitRunnable runnable() {
         return new BukkitRunnable() {
             @Override

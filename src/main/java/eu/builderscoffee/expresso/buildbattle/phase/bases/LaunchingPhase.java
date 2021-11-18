@@ -20,7 +20,6 @@ import java.util.concurrent.TimeUnit;
 public class LaunchingPhase extends BBPhase {
 
     private final int defaultTime;
-    private int time;
 
     public LaunchingPhase(int defaultTime) {
         this.name = "Démarrage";
@@ -30,16 +29,6 @@ public class LaunchingPhase extends BBPhase {
         this.state = BuildBattleManager.GameState.LAUNCHING;
         this.engine = null;
         this.defaultTime = defaultTime;
-    }
-
-    @Override
-    public int getTime() {
-        return time;
-    }
-
-    @Override
-    public void setTime(int time) {
-        this.time = time;
     }
 
     @Override
