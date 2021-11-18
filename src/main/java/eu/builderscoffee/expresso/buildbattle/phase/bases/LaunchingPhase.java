@@ -19,8 +19,6 @@ import java.util.concurrent.TimeUnit;
 
 public class LaunchingPhase extends BBPhase {
 
-    private final int defaultTime;
-
     public LaunchingPhase(int defaultTime) {
         this.name = "Démarrage";
         this.descriptions = Arrays.asList("Lancement de la partie");

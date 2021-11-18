@@ -32,10 +32,6 @@ public class GamePhase extends BBPhase {
     @Getter
     @Setter
     private BuildBattle game;
-    private int time;
-    private int currentTime;
-    private int defaultTime;
-
     public GamePhase(int defaultTime) {
         this.name = "En jeux";
         this.descriptions = Arrays.asList("Représente une partie en cours");
