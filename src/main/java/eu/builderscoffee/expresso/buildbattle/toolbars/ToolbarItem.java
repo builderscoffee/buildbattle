@@ -8,10 +8,13 @@ import org.bukkit.inventory.ItemStack;
 public abstract class ToolbarItem {
     @Getter
     protected int slot;
+
     public ToolbarItem(int slot) {
         this.slot = slot;
     }
+
     public abstract ItemStack getItem(Player player);
+
     public abstract void interact(Player player, Action action);
 
 

@@ -4,7 +4,6 @@ package eu.builderscoffee.expresso.buildbattle.phase.bases;
 import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
 import eu.builderscoffee.api.bukkit.utils.Title;
 import eu.builderscoffee.expresso.ExpressoBukkit;
-import eu.builderscoffee.expresso.buildbattle.BuildBattleEngine;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.utils.MessageUtils;
@@ -13,66 +12,35 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
-public class LaunchingPhase implements BBPhase {
+public class LaunchingPhase extends BBPhase {
 
-    private int time;
     private final int defaultTime;
-    private final TimeUnit timeUnit;
+    private int time;
 
     public LaunchingPhase(int defaultTime) {
+        this.name = "Démarrage";
+        this.descriptions = Arrays.asList("Lancement de la partie");
+        this.icons = new ItemBuilder(Material.FIREWORK).setName(name).build();
+        this.unit = TimeUnit.SECONDS;
+        this.state = BuildBattleManager.GameState.LAUNCHING;
+        this.engine = null;
         this.defaultTime = defaultTime;
         this.time = defaultTime;
-        this.timeUnit = TimeUnit.SECONDS;
     }
 
     @Override
-    public String name() {
-        return "Démarrage";
-    }
-
-    @Override
-    public String description() {
-        return "Lancement de la partie";
-    }
-
-    @Override
-    public ItemStack icon() {
-        return new ItemBuilder(Material.FIREWORK).setName(name()).build();
+    public int getTime() {
+        return time;
     }
 
     @Override
     public void setTime(int time) {
         this.time = time;
-    }
-
-    @Override
-    public int time() {
-        return time;
-    }
-
-    @Override
-    public int currentTime() {
-        return 0;
-    }
-
-    @Override
-    public int defaultTime() {
-        return defaultTime;
-    }
-
-    @Override
-    public TimeUnit timeUnit() {
-        return this.timeUnit;
-    }
-
-    @Override
-    public BuildBattleManager.GameState state() {
-        return BuildBattleManager.GameState.LAUNCHING;
     }
 
     @Override
@@ -86,17 +54,17 @@ public class LaunchingPhase implements BBPhase {
                 }
                 // Lancer le chrono ( Title + Level )
                 for (final Player player : Bukkit.getOnlinePlayers()) {
-                    player.setLevel(time());
-                    if (time() == 30 || time() == 20 || time() == 10 || time() == 5)
+                    player.setLevel(time);
+                    if (time == 30 || time == 20 || time == 10 || time == 5)
                         new Title(MessageUtils.getMessageConfig(player).getGame().getStartInTitle(), MessageUtils.getMessageConfig(player).getGame().getStartInSubTitle(), 20, 10, 20).send(player);
                 }
                 // Décompte du temps dans le chat
-                if (time() % 10 == 0 || time() == 10 || time() == 5 || time() == 4 || time() == 3 || time() == 2 || time() == 1) {
-                    ExpressoBukkit.getInstance().getServer().getOnlinePlayers().forEach(player -> player.sendMessage(MessageUtils.getMessageConfig(player).getGame().getCompetitionBeginningIn().replace("%prefix%", MessageUtils.getDefaultMessageConfig().getPrefix()).replace("%time%", TimeUtils.getDurationString(time()))));
+                if (time % 10 == 0 || time == 10 || time == 5 || time == 4 || time == 3 || time == 2 || time == 1) {
+                    ExpressoBukkit.getInstance().getServer().getOnlinePlayers().forEach(player -> player.sendMessage(MessageUtils.getMessageConfig(player).getGame().getCompetitionBeginningIn().replace("%prefix%", MessageUtils.getDefaultMessageConfig().getPrefix()).replace("%time%", TimeUtils.getDurationString(time))));
                     Bukkit.getOnlinePlayers().forEach(player2 -> player2.playSound(player2.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 20.0f, 20.0f));
                 }
                 // Lancer la compétition
-                if (time() < 1) {
+                if (time < 1) {
                     ExpressoBukkit.getInstance().getServer().getOnlinePlayers().forEach(player -> player.sendMessage(MessageUtils.getMessageConfig(player).getGame().getCompetitionStarting().replace("%prefix%", MessageUtils.getDefaultMessageConfig().getPrefix())));
                     Bukkit.getOnlinePlayers().forEach(p -> p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 20.0f, 20.0f));
                     ExpressoBukkit.getBbGame().getBbGameManager().nextPhase();
@@ -105,10 +73,5 @@ public class LaunchingPhase implements BBPhase {
                 --time;
             }
         };
-    }
-
-    @Override
-    public BuildBattleEngine engine() {
-        return null;
     }
 }

@@ -47,13 +47,13 @@ public class JuryTeleportation implements InventoryProvider {
             int tempPlot = i;
             Plot currentPlot = list.get(tempPlot);
             if (ExpressoBukkit.getBbGame().getNotationManager().playerHasNote(currentPlot, player)) {
-                plotsItem[i] = ClickableItem.of(new ItemBuilder(Material.GRASS).addGLow().setName(messages.getPlotItem().replace("%plot%",String.valueOf(i))).build(),
+                plotsItem[i] = ClickableItem.of(new ItemBuilder(Material.GRASS).addGLow().setName(messages.getPlotItem().replace("%plot%", String.valueOf(i))).build(),
                         e -> {
                             PlotUtils.convertPlotCenterLoc(currentPlot.getCenter());
                             player.teleport(PlotUtils.convertPlotCenterLoc(currentPlot.getCenter()));
                         });
             } else {
-                plotsItem[i] = ClickableItem.of(new ItemBuilder(Material.GRASS).setName(messages.getPlotItem().replace("%plot%",String.valueOf(i))).build(),
+                plotsItem[i] = ClickableItem.of(new ItemBuilder(Material.GRASS).setName(messages.getPlotItem().replace("%plot%", String.valueOf(i))).build(),
                         e -> {
                             PlotUtils.convertPlotCenterLoc(currentPlot.getCenter());
                             player.teleport(PlotUtils.convertPlotCenterLoc(currentPlot.getCenter()));
@@ -70,7 +70,7 @@ public class JuryTeleportation implements InventoryProvider {
                 e -> INVENTORY.close(player)));
         contents.set(5, 5, ClickableItem.of(new ItemBuilder(Material.ARROW).setName(messages.getNextItem()).build(),
                 e -> INVENTORY.open(player, pagination.next().getPage())));
-        contents.set(5, 8, ClickableItem.empty(new ItemBuilder(Material.PAPER).setName(messages.getPageItem().replace("%page%",String.valueOf(pagination.getPage()))).build()));
+        contents.set(5, 8, ClickableItem.empty(new ItemBuilder(Material.PAPER).setName(messages.getPageItem().replace("%page%", String.valueOf(pagination.getPage()))).build()));
 
         pagination.setItems(plotsItem);
         pagination.setItemsPerPage(36);

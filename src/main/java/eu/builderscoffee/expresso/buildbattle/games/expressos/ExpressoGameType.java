@@ -1,8 +1,6 @@
 package eu.builderscoffee.expresso.buildbattle.games.expressos;
 
 import eu.builderscoffee.expresso.buildbattle.BuildBattleGameType;
-import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;

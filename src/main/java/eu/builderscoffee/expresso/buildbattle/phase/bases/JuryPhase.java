@@ -3,62 +3,37 @@ package eu.builderscoffee.expresso.buildbattle.phase.bases;
 
 import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
 import eu.builderscoffee.expresso.ExpressoBukkit;
-import eu.builderscoffee.expresso.buildbattle.BuildBattleEngine;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.buildbattle.toolbars.ToolbarManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
-public class JuryPhase implements BBPhase {
+public class JuryPhase extends BBPhase {
 
-    @Override
-    public String name() {
-        return "Jury";
+    public JuryPhase(int defaultTime) {
+        this.name = "Jury";
+        this.descriptions = Arrays.asList("Notation des plots");
+        this.icons = new ItemBuilder(Material.RAW_FISH).setName(name).build();
+        this.unit = TimeUnit.MINUTES;
+        this.state = BuildBattleManager.GameState.ENDING;
+        this.engine = null;
+        this.defaultTime = defaultTime;
+        this.time = defaultTime;
     }
 
     @Override
-    public String description() {
-        return "Notation des plots";
-    }
-
-    @Override
-    public int time() {
-        return -1;
-    }
-
-    @Override
-    public ItemStack icon() {
-        return new ItemBuilder(Material.RAW_FISH).setName(name()).build();
-    }
-
-    @Override
-    public int currentTime() {
-        return time();
+    public int getTime() {
+        return time;
     }
 
     @Override
     public void setTime(int time) {
-        // Nothing to do here
-    }
-
-    @Override
-    public int defaultTime() {
-        return 0;
-    }
-
-    @Override
-    public TimeUnit timeUnit() {
-        return TimeUnit.SECONDS;
-    }
-
-    @Override
-    public BuildBattleManager.GameState state() {
-        return BuildBattleManager.GameState.ENDING;
+        this.time = time;
     }
 
     @Override
@@ -71,7 +46,7 @@ public class JuryPhase implements BBPhase {
                     @Override
                     public void run() {
                         Bukkit.getOnlinePlayers().forEach(s -> {
-                            if(Bukkit.getServer().getWhitelistedPlayers().contains(s)) {
+                            if (Bukkit.getServer().getWhitelistedPlayers().contains(s)) {
                                 return;
                             }
                             s.kickPlayer("Les plots sont en cours de notation");
@@ -86,10 +61,5 @@ public class JuryPhase implements BBPhase {
                 ExpressoBukkit.getBbGame().getJurors().forEach(jury -> ExpressoBukkit.getBbGame().getToolbarManager().addToolBar(jury, ToolbarManager.Toolbars.JURORS));
             }
         };
-    }
-
-    @Override
-    public BuildBattleEngine engine() {
-        return null;
     }
 }

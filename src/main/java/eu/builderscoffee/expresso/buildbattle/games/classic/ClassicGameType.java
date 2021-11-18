@@ -1,14 +1,9 @@
 package eu.builderscoffee.expresso.buildbattle.games.classic;
 
 import eu.builderscoffee.expresso.buildbattle.BuildBattleGameType;
-import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.bases.EndPhase;
 import eu.builderscoffee.expresso.buildbattle.phase.bases.GamePhase;
 import eu.builderscoffee.expresso.buildbattle.phase.bases.LaunchingPhase;
-import lombok.val;
-
-import java.util.Deque;
-import java.util.LinkedList;
 
 import static eu.builderscoffee.expresso.utils.TimeUtils.HOUR;
 

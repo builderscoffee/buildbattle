@@ -10,8 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Objects;
-
 public class NotationItem extends ToolbarItem {
 
     public NotationItem(int slot) {

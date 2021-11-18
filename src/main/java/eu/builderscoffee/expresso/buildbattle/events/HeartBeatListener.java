@@ -11,32 +11,31 @@ import java.util.Objects;
 
 public class HeartBeatListener implements EventListener {
 
-    /**
-    - Exemple d'affichage -
-    GameType : Expresso
-    GameSubType : Allongé
-    State :  in_game
-    Timer : 1h
-     */
 
+    /***
+     * Envois une mise à jours des informations du serveur
+     * - GameType & SubType
+     * - State & Timer
+     * @param event
+     */
     @ProcessEvent
     public void onHeartBeat(HeartBeatEvent event) {
         if (Objects.nonNull(ExpressoBukkit.getBbGame())) {
-            // Type de partie
+            // Type de la partie ( Expresso, Buildbattle etc... )
             if (!ExpressoBukkit.getBbGame().getBbGameTypes().equals(BuildBattleInstanceType.NONE)) {
                 event.getServer().getProperties().put("GameType", ExpressoBukkit.getBbGame().getBbGameTypes().getBuildBattleGameTypeName());
             }
-            // Type de sous partie
+            // Type de sous partie ( Allongé, IlClassico etc... )
             if (Objects.nonNull(ExpressoBukkit.getBbGame().getBuildBattleGameType())) {
                 event.getServer().getProperties().put("GameSubType", ExpressoBukkit.getBbGame().getBuildBattleGameType().getName());
             }
-            // Etat de la partie
+            // Etat de la partie ( In_Game , End etc... )
             if (ExpressoBukkit.getBbGame().isReady()) {
                 event.getServer().getProperties().put("State", ExpressoBukkit.getBbGame().getGameState().toString());
             }
             // Timer de la partie
             if (Objects.nonNull(ExpressoBukkit.getBbGame().getBuildBattleGameType()) && Objects.nonNull(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase())) {
-                event.getServer().getProperties().put("Timer", TimeUtils.getDurationString(ExpressoBukkit.getBbGame().getExpressoGameType().getCurrentPhase().time()));
+                event.getServer().getProperties().put("Timer", TimeUtils.getDurationString(ExpressoBukkit.getBbGame().getExpressoGameType().getCurrentPhase().getTime()));
             }
         }
     }

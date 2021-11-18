@@ -104,30 +104,30 @@ public class PlotUtils {
                                 else {
 
                                     ExpressoBukkit.getBbGame().broadcast("§7 - §a  sauvegarder: " + plot.getId());
- 
-                                        val plotsMembers = plot.getMembers().stream()
-                                                .map(memberUuid -> uuid.toString())
-                                                .distinct()
-                                                .collect(Collectors.toList());
-                                        val pl = DataManager.getProfilStore()
-                                                .select(ProfilEntity.class)
-                                                .where(ProfilEntity.UNIQUE_ID.in(plotsMembers))
-                                                .get();
 
-                                        // TODO Get buildbattle or cup stored in buildbattle manager
-                                        // Temp
-                                        val bb = new BuildbattleEntity();
+                                    val plotsMembers = plot.getMembers().stream()
+                                            .map(memberUuid -> uuid.toString())
+                                            .distinct()
+                                            .collect(Collectors.toList());
+                                    val pl = DataManager.getProfilStore()
+                                            .select(ProfilEntity.class)
+                                            .where(ProfilEntity.UNIQUE_ID.in(plotsMembers))
+                                            .get();
 
-                                        System.out.println("\tPlayers:");
-                                        pl.forEach(p -> System.out.println("\t - " + p.getName()));
-                                        System.out.println("\tBB: " + bb.getNum());
+                                    // TODO Get buildbattle or cup stored in buildbattle manager
+                                    // Temp
+                                    val bb = new BuildbattleEntity();
 
-                                        val schem = new SchematicsEntity();
-                                        schem.setToken(uuid);
-                                        schem.setBuildbattle(bb);
-                                        pl.forEach(schem.getProfils()::add);
+                                    System.out.println("\tPlayers:");
+                                    pl.forEach(p -> System.out.println("\t - " + p.getName()));
+                                    System.out.println("\tBB: " + bb.getNum());
 
-                                        DataManager.getSchematicsStore().insert(schem);
+                                    val schem = new SchematicsEntity();
+                                    schem.setToken(uuid);
+                                    schem.setBuildbattle(bb);
+                                    pl.forEach(schem.getProfils()::add);
+
+                                    DataManager.getSchematicsStore().insert(schem);
                                 }
                                 TaskManager.runTask(() -> THIS.run());
                             });

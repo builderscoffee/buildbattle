@@ -6,14 +6,12 @@ import eu.builderscoffee.expresso.buildbattle.events.competitor.CompetitorLeaveE
 import eu.builderscoffee.expresso.buildbattle.games.classic.ClassicGameType;
 import eu.builderscoffee.expresso.buildbattle.games.expressos.ExpressoGameType;
 import eu.builderscoffee.expresso.buildbattle.games.expressos.ExpressoManager;
-import eu.builderscoffee.expresso.buildbattle.games.expressos.types.IlClassicoExpressoGameType;
 import eu.builderscoffee.expresso.buildbattle.games.tournament.TournamentGameType;
 import eu.builderscoffee.expresso.buildbattle.notation.NotationManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.buildbattle.teams.TeamManager;
 import eu.builderscoffee.expresso.buildbattle.toolbars.ToolbarManager;
 import lombok.Data;
-import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -50,7 +48,6 @@ public class BuildBattle {
     // Instance Check
     private boolean isReady = false;
     private boolean isPaused = false;
-
 
 
     /***

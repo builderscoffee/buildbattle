@@ -23,6 +23,7 @@ public class MessageUtils {
         val profil = CommonsBukkit.getInstance().getProfilCache().get(uuid.toString());
         return profil.getLang();
     }
+
     public static MessageConfiguration getMessageConfig(Player player) {
         return ExpressoBukkit.getMessages().get(getLang(player));
     }
@@ -34,8 +35,7 @@ public class MessageUtils {
     public static MessageConfiguration getMessageConfig(CommandSender sender) {
         if (sender instanceof Player) {
             return getMessageConfig((Player) sender);
-        }
-        else{
+        } else {
             return getDefaultMessageConfig();
         }
     }

@@ -49,9 +49,9 @@ public class PlotCommand implements CommandExecutor {
                         List<String> membersList = new ArrayList<>();
                         plot.getMembers().forEach(uuid -> membersList.add(UUIDHandler.getName(uuid)));
                         player.sendMessage(messages.getCommand().getPlotInfoHeader());
-                        player.sendMessage(messages.getCommand().getPlotInfoId().replace("%id%",String.valueOf(PlotUtils.getPlotsPos(plot))));
-                        player.sendMessage(messages.getCommand().getPlotInfoOwner().replace("%owner%",name));
-                        player.sendMessage(messages.getCommand().getPlotInfoMembers().replace("%members%",membersList.stream()
+                        player.sendMessage(messages.getCommand().getPlotInfoId().replace("%id%", String.valueOf(PlotUtils.getPlotsPos(plot))));
+                        player.sendMessage(messages.getCommand().getPlotInfoOwner().replace("%owner%", name));
+                        player.sendMessage(messages.getCommand().getPlotInfoMembers().replace("%members%", membersList.stream()
                                 .map(String::valueOf)
                                 .collect(Collectors.joining(" ,"))));
                         player.sendMessage(messages.getCommand().getFooterText());
@@ -59,7 +59,7 @@ public class PlotCommand implements CommandExecutor {
                         player.sendMessage(messages.getCommand().getPlotNotClaim());
                     }
                 } else {
-                    player.sendMessage(MessageUtils.getMessageConfig(player).getCommand().getPlotNotIn().replace("%prefix",MessageUtils.getDefaultMessageConfig().getPrefix()));
+                    player.sendMessage(MessageUtils.getMessageConfig(player).getCommand().getPlotNotIn().replace("%prefix", MessageUtils.getDefaultMessageConfig().getPrefix()));
                 }
                 break;
             case "paste":
@@ -77,10 +77,10 @@ public class PlotCommand implements CommandExecutor {
                     if (!ExpressoBukkit.getBbGame().getNotationManager().playerHasNote(plotinv, player)) {
                         JuryNotationInventory.INVENTORY.open(player);
                     } else {
-                        player.sendMessage(MessageUtils.getMessageConfig(player).getCommand().getPlotAlReadyNoted().replace("%prefix%",MessageUtils.getDefaultMessageConfig().getPrefix()));
+                        player.sendMessage(MessageUtils.getMessageConfig(player).getCommand().getPlotAlReadyNoted().replace("%prefix%", MessageUtils.getDefaultMessageConfig().getPrefix()));
                     }
                 } else {
-                    player.sendMessage(MessageUtils.getMessageConfig(player).getCommand().getPlotNotIn().replace("%prefix",MessageUtils.getDefaultMessageConfig().getPrefix()));
+                    player.sendMessage(MessageUtils.getMessageConfig(player).getCommand().getPlotNotIn().replace("%prefix", MessageUtils.getDefaultMessageConfig().getPrefix()));
                 }
                 break;
 
@@ -89,10 +89,10 @@ public class PlotCommand implements CommandExecutor {
                 val plot = (PlotUtils.convertBukkitLoc(player.getLocation()).getPlotAbs());
                 val notationsByPlot = ExpressoBukkit.getBbGame().getNotationManager().getNotationsByPlot(plot);
                 if (notationsByPlot == null || notationsByPlot.isEmpty()) {
-                    player.sendMessage(messages.getCommand().getPlotNotNoted().replace("%prefix%",MessageUtils.getDefaultMessageConfig().getPrefix()));
+                    player.sendMessage(messages.getCommand().getPlotNotNoted().replace("%prefix%", MessageUtils.getDefaultMessageConfig().getPrefix()));
                     break;
                 }
-                player.sendMessage(messages.getCommand().getPlotNoteSize().replace("%prefix%",MessageUtils.getDefaultMessageConfig().getPrefix()));
+                player.sendMessage(messages.getCommand().getPlotNoteSize().replace("%prefix%", MessageUtils.getDefaultMessageConfig().getPrefix()));
 
                 /*for (Object note : notationsByPlot) {
                     player.sendMessage("Juge: " + Bukkit.getOfflinePlayer(note.getUUID()).getName() + " Fun: " + note.getFun());
@@ -154,13 +154,13 @@ public class PlotCommand implements CommandExecutor {
             }
 
             if (!ret) {
-                player.sendMessage(MessageUtils.getMessageConfig(sender).getCommand().getBadSyntaxe().replace("%prefix%",MessageUtils.getDefaultMessageConfig().getPrefix()));
+                player.sendMessage(MessageUtils.getMessageConfig(sender).getCommand().getBadSyntaxe().replace("%prefix%", MessageUtils.getDefaultMessageConfig().getPrefix()));
             }
 
             return ret;
         }
 
-        sender.sendMessage(MessageUtils.getMessageConfig(sender).getCommand().getMustBePlayer().replace("%prefix%",MessageUtils.getDefaultMessageConfig().getPrefix()));
+        sender.sendMessage(MessageUtils.getMessageConfig(sender).getCommand().getMustBePlayer().replace("%prefix%", MessageUtils.getDefaultMessageConfig().getPrefix()));
         return true;
     }
 }

@@ -36,7 +36,7 @@ public class ExpressoManager {
     }
 
     /**
-     * Retournes tout les expresso crées
+     * Retournes tout les class expressos
      */
     private void getAllExpresso() {
         val reflections = new Reflections(ExpressoGameType.class.getPackage().getName());

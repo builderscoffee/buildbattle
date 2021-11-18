@@ -48,7 +48,7 @@ public class PlayerListener implements Listener {
 
         // Teleport Player If player as plot
         World world = Bukkit.getWorld(ExpressoBukkit.getSettings().getPlotWorldName());
-        if(Objects.nonNull(world)) {
+        if (Objects.nonNull(world)) {
             // If World in config exist teleport to spawn location
             player.teleport(LocationsUtil.getLocationFromString(ExpressoBukkit.getSettings().getGlobal_spawn_location()));
         } else {

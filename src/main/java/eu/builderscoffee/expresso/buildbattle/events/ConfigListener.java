@@ -35,10 +35,10 @@ public class ConfigListener implements PacketListener {
     @Getter
     @Setter
     private int plotSize = 0;
-    private int themeIndex = 0;
 
     /***
      * Recevoir l'action de configuration de la partie
+     * Sinon renvoyer l'étape de configuration en cours
      * @param request
      */
     @ProcessPacket
@@ -114,7 +114,7 @@ public class ConfigListener implements PacketListener {
     }
 
     /***
-     * Recevoir l'action de changer le temps de la partie'
+     * Recevoir l'action de changer le temps des phases
      * @param request
      */
     @SneakyThrows
@@ -133,19 +133,19 @@ public class ConfigListener implements PacketListener {
                 if (request.getData().equals(phase.getClass().getSimpleName())) {
                     switch (request.getItemAction()) {
                         case LEFT_CLICK:
-                            phase.setTime(phase.time() + (int) phase.timeUnit().toSeconds(1));
+                            phase.setTime(phase.getTime() + (int) phase.getUnit().toSeconds(1));
                             break;
                         case SHIFT_LEFT_CLICK:
-                            phase.setTime(phase.time() + (int) phase.timeUnit().toSeconds(60));
+                            phase.setTime(phase.getTime() + (int) phase.getUnit().toSeconds(60));
                             break;
                         case RIGHT_CLICK:
-                            phase.setTime(phase.time() <= (int) phase.timeUnit().toSeconds(1) ? 0 : phase.time() - (int) phase.timeUnit().toSeconds(1));
+                            phase.setTime(phase.getTime() <= (int) phase.getUnit().toSeconds(1) ? 0 : phase.getTime() - (int) phase.getUnit().toSeconds(1));
                             break;
                         case SHIFT_RIGHT_CLICK:
-                            phase.setTime(phase.time() <= (int) phase.timeUnit().toSeconds(60) ? 0 : phase.time() - (int) phase.timeUnit().toSeconds(60));
+                            phase.setTime(phase.getTime() <= (int) phase.getUnit().toSeconds(60) ? 0 : phase.getTime() - (int) phase.getUnit().toSeconds(60));
                             break;
                         case DROP:
-                            phase.setTime(phase.defaultTime());
+                            phase.setTime(phase.getDefaultTime());
                             break;
                     }
                     sendPlayTime(request);
@@ -282,7 +282,10 @@ public class ConfigListener implements PacketListener {
             itemsAction.addItem(2, column, bbit.getIcon(), bbit.name());
             column += 2;
         }
+
+        // Add Action to response
         response.getActions().add(itemsAction);
+
         // Publish the reponse
         Redis.publish(CommonTopics.SERVER_MANAGER, response);
     }
@@ -308,6 +311,7 @@ public class ConfigListener implements PacketListener {
                         .forEach(expresso -> {
                             pageItemsAction.addItem(new ItemBuilder(expresso.getIcon().getType(), 1, expresso.getIcon().getDurability()).setName("§a" + expresso.getName()).addLoreLine(expresso.getDescription()).build(), expresso.getName());
                         });
+                // Add Action to response
                 response.getActions().add(pageItemsAction);
                 break;
             default:
@@ -333,10 +337,11 @@ public class ConfigListener implements PacketListener {
         AtomicInteger i = new AtomicInteger(0);
         gameType.getPhases().stream()
                 .filter(phase -> !(phase instanceof EndPhase))
-                .forEach(phase -> itemsAction.addItem(2, 2 + i.incrementAndGet(), new ItemBuilder(phase.icon().getType()).setName("§a" + phase.name()).addLoreLine(Arrays.asList("§bTemps:", "§bPar défault: §f" + TimeUtils.getDurationString(phase.defaultTime()), "§bCustom :§f" + TimeUtils.getDurationString(phase.time()))).build(), phase.getClass().getSimpleName()));
+                .forEach(phase -> itemsAction.addItem(2, 2 + i.incrementAndGet(), new ItemBuilder(phase.getIcon().getType()).setName("§a" + phase.getName()).addLoreLine(Arrays.asList("§bTemps:", "§bPar défault: §f" + TimeUtils.getDurationString(phase.getDefaultTime()), "§bCustom :§f" + TimeUtils.getDurationString(phase.getTime()))).build(), phase.getClass().getSimpleName()));
 
         itemsAction.addItem(3, 4, new ItemBuilder(Material.WOOL, 1, (short) 13).setName("§aValider les phases").build(), "setplaytime");
 
+        // Add Action to response
         response.getActions().add(itemsAction);
 
         // Publish the reponse
@@ -354,11 +359,11 @@ public class ConfigListener implements PacketListener {
         pageItemsAction.setType("theme");
         // Get Themes form database
         val data = DataManager.getBuildbattleThemeStore().select(BuildbattleThemeEntity.class).get();
-        val themeSize = data.stream().count(); // Theme size
-        val pages = themeSize / 18;
 
+        // Paginate the themes
         data.forEach(theme -> pageItemsAction.addItem(new ItemBuilder(Material.MAP).setName("§a" + theme.getName()).build(), theme.getName()));
 
+        // Add Action to response
         response.getActions().add(pageItemsAction);
 
         // Publish the reponse
@@ -380,7 +385,9 @@ public class ConfigListener implements PacketListener {
         itemsAction.addItem(2, 6, new ItemBuilder(Material.BARRIER).setName("§cBientot").build(), "commingsoon");
         itemsAction.addItem(3, 4, new ItemBuilder(Material.WOOL, 1, (short) 13).setName("§aValider la génération").build(), "mapgen");
 
+        // Add Action to response
         response.getActions().add(itemsAction);
+
         // Publish the reponse
         Redis.publish(CommonTopics.SERVER_MANAGER, response);
     }
@@ -397,6 +404,8 @@ public class ConfigListener implements PacketListener {
         itemsAction.setType("game");
         if (!ExpressoBukkit.getBbGame().getBbGameManager().isRunning() || ExpressoBukkit.getBbGame().isPaused()) {
             itemsAction.addItem(2, 4, new ItemBuilder(Material.WOOL, 1, (short) 13).setName("§aDémarer").build(), "start");
+
+            // Add Action to response
             response.getActions().add(itemsAction);
         }
 
@@ -430,6 +439,7 @@ public class ConfigListener implements PacketListener {
         itemsAction.addItem(2, 2, new ItemBuilder(Material.WATCH).setName("§7Gestion de la partie").build(), "settings");
         itemsAction.addItem(2, 6, new ItemBuilder(Material.WORKBENCH).setName("§7Utilitaire de la partie").build(), "utils");
 
+        // Add Action to response
         response.getActions().add(itemsAction);
 
         // Publish the response
@@ -450,6 +460,7 @@ public class ConfigListener implements PacketListener {
         itemsAction.addItem(2, 4, new ItemBuilder(Material.WOOL, 1, (short) 6).setName("§7Pause").build(), "pause");
         itemsAction.addItem(2, 6, new ItemBuilder(Material.DROPPER, 1).setName("§6Reset").build(), "reset");
 
+        // Add Action to response
         response.getActions().add(itemsAction);
 
         // Publish the response
@@ -468,6 +479,7 @@ public class ConfigListener implements PacketListener {
 
         itemsAction.addItem(2, 4, new ItemBuilder(Material.MAP).setName("§aBackup World").build(), "worldbackup");
 
+        // Add Action to response
         response.getActions().add(itemsAction);
 
         // Publish the response

@@ -2,87 +2,87 @@ package eu.builderscoffee.expresso.buildbattle.phase;
 
 import eu.builderscoffee.expresso.buildbattle.BuildBattleEngine;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
+import lombok.Data;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /***
  * Représente une phase/étapes d'une partie
  */
-public interface BBPhase {
+@Data
+public abstract class BBPhase {
+
+    public int time; // Temps display d'une phase
+    public int currentTime; // Temps en cours de la phase
+    public int defaultTime; // Temps par défault de la phase
+    protected String name;
+    protected List<String> descriptions;
+    protected ItemStack icons;
+    protected TimeUnit unit;
+    protected BuildBattleManager.GameState state;
+    protected BuildBattleEngine engine;
+    protected BukkitRunnable runnable; // Bukkit runnable de la phase
+
 
     /**
-     * Représente le nom d'une phase
+     * Retourne le nom d'une phase
      *
      * @return
      */
-    String name();
+    public final String getName() {
+        return name;
+    }
 
     /**
-     * Description d'une phase
+     * Retourne la description d'une phase
      *
      * @return
      */
-    String description();
+    public final List<String> getDescription() {
+        return descriptions;
+    }
 
     /**
-     * Icon de la phase
+     * Retourne l'icon de la phase
      *
      * @return
      */
-    ItemStack icon();
+    public final ItemStack getIcon() {
+        return icons;
+    }
 
     /**
-     * Temps à display de la phase
+     * Retourne l'unité de temps de la phase
      *
      * @return
      */
-    int time();
+    public final TimeUnit getTimeUnit() {
+        return unit;
+    }
 
     /**
-     * Temps en cours de la partie
-     * @return
-     */
-    int currentTime();
-
-    /**
-     * Définir un nouveau temps
+     * Retourne l'état de la phase
      *
      * @return
      */
-    void setTime(int time);
+    public final BuildBattleManager.GameState getState() {
+        return state;
+    }
 
     /**
-     * Temps par default
-     *
-     * @return
+     * Retourne le moteur chargé de la partie
      */
-    int defaultTime();
-
-    /**
-     * Unité du temps de la phase
-     *
-     * @return
-     */
-    TimeUnit timeUnit();
-
-    /**
-     * Etat de la phase
-     *
-     * @return
-     */
-    BuildBattleManager.GameState state();
+    public final BuildBattleEngine getEngine() {
+        return engine;
+    }
 
     /**
      * Bukkit runnable de la phase
      *
      * @return
      */
-    BukkitRunnable runnable();
-
-    /**
-     * Charger le moteur de la partie si il a lieu d'être
-     */
-    BuildBattleEngine engine();
+    public abstract BukkitRunnable runnable();
 }

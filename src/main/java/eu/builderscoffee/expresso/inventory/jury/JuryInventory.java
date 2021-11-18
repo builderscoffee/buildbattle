@@ -44,7 +44,7 @@ public class JuryInventory implements InventoryProvider {
 
         for (int i = 0; i < plotsItem.length; i++) {
             int tempPlot = i;
-            plotsItem[i] = ClickableItem.of(new ItemBuilder(Material.GRASS).setName(messages.getPlotItem().replace("%plot%",String.valueOf(i))).build(),
+            plotsItem[i] = ClickableItem.of(new ItemBuilder(Material.GRASS).setName(messages.getPlotItem().replace("%plot%", String.valueOf(i))).build(),
                     e -> {
                         Plot currentPlot = list.get(tempPlot);
                         PlotUtils.convertPlotCenterLoc(currentPlot.getCenter());
@@ -63,7 +63,7 @@ public class JuryInventory implements InventoryProvider {
                 e -> INVENTORY.close(player)));
         contents.set(2, 5, ClickableItem.of(new ItemBuilder(Material.ARROW).setName(messages.getNextItem()).build(),
                 e -> INVENTORY.open(player, pagination.next().getPage())));
-        contents.set(2, 8, ClickableItem.empty(new ItemBuilder(Material.PAPER).setName(messages.getPageItem().replace("%page%",String.valueOf(pagination.getPage()))).build()));
+        contents.set(2, 8, ClickableItem.empty(new ItemBuilder(Material.PAPER).setName(messages.getPageItem().replace("%page%", String.valueOf(pagination.getPage()))).build()));
 
         pagination.setItems(plotsItem);
         pagination.setItemsPerPage(18);

@@ -10,9 +10,9 @@ import org.bukkit.inventory.ItemStack;
 
 public enum BuildBattleInstanceType {
 
-    EXPRESSO(ExpressoGameType.class, "Expresso",new ItemBuilder(Material.INK_SACK,1,(short)3).setName("§cExpresso").addLoreLine("§7Mélange savoureux d'arôme").build()),
+    EXPRESSO(ExpressoGameType.class, "Expresso", new ItemBuilder(Material.INK_SACK, 1, (short) 3).setName("§cExpresso").addLoreLine("§7Mélange savoureux d'arôme").build()),
     CLASSIC(ClassicGameType.class, "Classic", new ItemBuilder(Material.WORKBENCH, 1).setName("§cClassic").addLoreLine("§7Décaféiné").build()),
-    TOURNAMENT(TournamentGameType.class, "Tournois", new ItemBuilder(Material.BANNER,1).setName("§cTournois").addLoreLine("§7Mélange maison").build()),
+    TOURNAMENT(TournamentGameType.class, "Tournois", new ItemBuilder(Material.BANNER, 1).setName("§cTournois").addLoreLine("§7Mélange maison").build()),
     NONE(null, "Rien", null);
 
     @Getter

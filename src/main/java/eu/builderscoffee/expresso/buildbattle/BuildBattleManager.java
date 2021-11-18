@@ -9,13 +9,10 @@ import eu.builderscoffee.expresso.utils.Log;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
-import lombok.val;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-import org.reflections.Reflections;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -134,7 +131,7 @@ public class BuildBattleManager implements Cloneable {
      */
     public void endGame() {
         // Définir l'état de fin de la partie
-        this.getGame().setGameState(this.game.getBuildBattleGameType().getCurrentPhase().state());
+        this.getGame().setGameState(this.game.getBuildBattleGameType().getCurrentPhase().getState());
         // Couper la phase en cours
         this.cancelPhase();
         // Désactiver les plugin de build
@@ -158,7 +155,7 @@ public class BuildBattleManager implements Cloneable {
      * Stopper la phase en cours
      */
     public void cancelPhase() {
-        Log.get().info("Phase cancel : " + this.game.getBuildBattleGameType().getCurrentPhase().name());
+        Log.get().info("Phase cancel : " + this.game.getBuildBattleGameType().getCurrentPhase().getName());
         if (!this.getCurrentTask().isCancelled()) {
             System.out.println("Cancel phase task " + getCurrentTask().getTaskId());
             getCurrentTask().cancel();
@@ -170,7 +167,7 @@ public class BuildBattleManager implements Cloneable {
      */
     @SneakyThrows
     public void pausePhase() {
-        Log.get().info("Phase pause : " + this.game.getBuildBattleGameType().getCurrentPhase().name());
+        Log.get().info("Phase pause : " + this.game.getBuildBattleGameType().getCurrentPhase().getName());
         Log.get().info("Pause BBGame");
         game.setPaused(true);
         if (game.isPaused()) {
@@ -186,17 +183,17 @@ public class BuildBattleManager implements Cloneable {
     public void nextPhase() {
         // Get & Poll la prochaine phase
         this.game.getBuildBattleGameType().setCurrentPhase(this.game.getInstancePhases().poll());
-        Log.get().info("Phase en cours : " + this.game.getExpressoGameType().getCurrentPhase().name());
+        Log.get().info("Phase en cours : " + this.game.getExpressoGameType().getCurrentPhase().getName());
         // Définir le status de la prochaine phase
-        this.getGame().setGameState(this.game.getBuildBattleGameType().getCurrentPhase().state());
+        this.getGame().setGameState(this.game.getBuildBattleGameType().getCurrentPhase().getState());
         // Lancer la Task de la prochaine phase
         this.startPhase(this.game.getBuildBattleGameType().getCurrentPhase().runnable());
         // Lancer le moteur de la partie si il en existe un pour la phase en cours
-        if (this.game.getBuildBattleGameType().getCurrentPhase().engine() != null) {
+        if (this.game.getBuildBattleGameType().getCurrentPhase().getEngine() != null) {
             // Lancer le moteur de la partie
-            this.game.getBuildBattleGameType().getCurrentPhase().engine().load();
+            this.game.getBuildBattleGameType().getCurrentPhase().getEngine().load();
             // Enregister les evenements propre aux moteur de la partie
-            this.game.getBuildBattleGameType().getCurrentPhase().engine().registerListener();
+            this.game.getBuildBattleGameType().getCurrentPhase().getEngine().registerListener();
         }
     }
 

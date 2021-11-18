@@ -5,7 +5,6 @@ import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
 import eu.builderscoffee.api.bukkit.utils.Title;
 import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.BuildBattle;
-import eu.builderscoffee.expresso.buildbattle.BuildBattleEngine;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.utils.Log;
@@ -14,7 +13,6 @@ import eu.builderscoffee.expresso.utils.TimeUtils;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Arrays;
@@ -27,7 +25,7 @@ import static eu.builderscoffee.expresso.utils.TimeUtils.MIN;
 import static org.bukkit.Bukkit.getOnlinePlayers;
 import static org.bukkit.GameMode.CREATIVE;
 
-public class GamePhase implements BBPhase {
+public class GamePhase extends BBPhase {
 
     private int[] titleTime;
     private int[] bcTime;
@@ -40,54 +38,24 @@ public class GamePhase implements BBPhase {
     private TimeUnit timeUnit;
 
     public GamePhase(int defaultTime) {
+        this.name = "En jeux";
+        this.descriptions = Arrays.asList("Représente une partie en cours");
+        this.icons = new ItemBuilder(Material.WATCH).setName(name).build();
+        this.unit = TimeUnit.MINUTES;
+        this.state = BuildBattleManager.GameState.IN_GAME;
+        this.engine = null;
         this.defaultTime = defaultTime;
         this.time = defaultTime;
-        this.timeUnit = TimeUnit.MINUTES;
     }
 
     @Override
-    public String name() {
-        return "En jeux";
-    }
-
-    @Override
-    public String description() {
-        return "Représente une partie en cours";
-    }
-
-    @Override
-    public ItemStack icon() {
-        return new ItemBuilder(Material.WATCH).setName(name()).build();
-    }
-
-    @Override
-    public int time() {
+    public int getTime() {
         return time;
-    }
-
-    @Override
-    public int currentTime() {
-        return currentTime;
     }
 
     @Override
     public void setTime(int time) {
         this.time = time;
-    }
-
-    @Override
-    public int defaultTime() {
-        return defaultTime;
-    }
-
-    @Override
-    public TimeUnit timeUnit() {
-        return timeUnit;
-    }
-
-    @Override
-    public BuildBattleManager.GameState state() {
-        return BuildBattleManager.GameState.IN_GAME;
     }
 
     @Override
@@ -135,11 +103,6 @@ public class GamePhase implements BBPhase {
                 ++currentTime;
             }
         };
-    }
-
-    @Override
-    public BuildBattleEngine engine() {
-        return null;
     }
 
     protected int[] addTimeEach(int[] array, int seconds) {

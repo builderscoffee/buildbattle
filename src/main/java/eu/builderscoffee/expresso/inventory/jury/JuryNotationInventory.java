@@ -38,7 +38,7 @@ public class JuryNotationInventory implements InventoryProvider {
         contents.fillRow(0, blackGlasses);
         contents.fillRow(3, blackGlasses);
 
-       // Items montrant les catégories
+        // Items montrant les catégories
 
         contents.set(1, 2, ClickableItem.of(new ItemBuilder(Material.YELLOW_FLOWER).setName(MessageUtils.getMessageConfig(player).getMenu().getBeautyCategory()).build(),
                 e -> INVENTORY.close(player)));
@@ -46,36 +46,36 @@ public class JuryNotationInventory implements InventoryProvider {
                 e -> INVENTORY.close(player)));
         contents.set(1, 4, ClickableItem.of(new ItemBuilder(Material.SIGN).setName(MessageUtils.getMessageConfig(player).getMenu().getAmenagementCategory()).build(),
                 e -> INVENTORY.close(player)));
-        contents.set(1, 5, ClickableItem.of(new ItemBuilder(Material.WRITTEN_BOOK).setName(MessageUtils.getMessageConfig(player).getMenu().getFolkloreCategory().replace("%plot%",plot.getId().toString())).build(),
+        contents.set(1, 5, ClickableItem.of(new ItemBuilder(Material.WRITTEN_BOOK).setName(MessageUtils.getMessageConfig(player).getMenu().getFolkloreCategory().replace("%plot%", plot.getId().toString())).build(),
                 e -> INVENTORY.close(player)));
         contents.set(1, 6, ClickableItem.of(new ItemBuilder(Material.RAW_FISH).setName(MessageUtils.getMessageConfig(player).getMenu().getFunCategory()).build(),
                 e -> INVENTORY.close(player)));
 
         // Items montrant les points en caches
 
-        contents.set(2, 2, ClickableItem.of(new ItemBuilder(Material.PAPER).setName(MessageUtils.getMessageConfig(player).getMenu().getPointsItem().replace("%points%",String.valueOf(beaute))).build(),
+        contents.set(2, 2, ClickableItem.of(new ItemBuilder(Material.PAPER).setName(MessageUtils.getMessageConfig(player).getMenu().getPointsItem().replace("%points%", String.valueOf(beaute))).build(),
                 e -> {
                     changeValues(beaute, Notation.NotationType.Beauty, e.getClick());
                     INVENTORY.open(player);
                 }));
 
-        contents.set(2, 3, ClickableItem.of(new ItemBuilder(Material.PAPER).setName(MessageUtils.getMessageConfig(player).getMenu().getPointsItem().replace("%points%",String.valueOf(crea))).build(),
+        contents.set(2, 3, ClickableItem.of(new ItemBuilder(Material.PAPER).setName(MessageUtils.getMessageConfig(player).getMenu().getPointsItem().replace("%points%", String.valueOf(crea))).build(),
                 e -> {
                     changeValues(crea, Notation.NotationType.Creative, e.getClick());
                     INVENTORY.open(player);
                 }));
-        contents.set(2, 4, ClickableItem.of(new ItemBuilder(Material.PAPER).setName(MessageUtils.getMessageConfig(player).getMenu().getPointsItem().replace("%points%",String.valueOf(ame))).build(),
+        contents.set(2, 4, ClickableItem.of(new ItemBuilder(Material.PAPER).setName(MessageUtils.getMessageConfig(player).getMenu().getPointsItem().replace("%points%", String.valueOf(ame))).build(),
                 e -> {
                     changeValues(ame, Notation.NotationType.Amenagement, e.getClick());
                     INVENTORY.open(player);
                 }));
-        contents.set(2, 5, ClickableItem.of(new ItemBuilder(Material.PAPER).setName(MessageUtils.getMessageConfig(player).getMenu().getPointsItem().replace("%points%",String.valueOf(folkore))).build(),
+        contents.set(2, 5, ClickableItem.of(new ItemBuilder(Material.PAPER).setName(MessageUtils.getMessageConfig(player).getMenu().getPointsItem().replace("%points%", String.valueOf(folkore))).build(),
                 e -> {
                     changeValues(folkore, Notation.NotationType.Folklore, e.getClick());
                     INVENTORY.open(player);
                 }));
 
-        contents.set(2, 6, ClickableItem.of(new ItemBuilder(Material.PAPER).setName(MessageUtils.getMessageConfig(player).getMenu().getPointsItem().replace("%points%",String.valueOf(fun))).build(),
+        contents.set(2, 6, ClickableItem.of(new ItemBuilder(Material.PAPER).setName(MessageUtils.getMessageConfig(player).getMenu().getPointsItem().replace("%points%", String.valueOf(fun))).build(),
                 e -> {
                     changeValues(fun, Notation.NotationType.Fun, e.getClick());
                     INVENTORY.open(player);

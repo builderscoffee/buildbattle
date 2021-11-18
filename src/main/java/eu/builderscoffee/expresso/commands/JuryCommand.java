@@ -3,7 +3,6 @@ package eu.builderscoffee.expresso.commands;
 import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.toolbars.ToolbarManager;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
-import eu.builderscoffee.expresso.inventory.jury.JuryInventory;
 import eu.builderscoffee.expresso.utils.MessageUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -32,13 +31,13 @@ public class JuryCommand implements CommandExecutor {
             }
 
             if (!ret) {
-                player.sendMessage(MessageUtils.getMessageConfig(sender).getCommand().getBadSyntaxe().replace("%prefix%",MessageUtils.getDefaultMessageConfig().getPrefix()));
+                player.sendMessage(MessageUtils.getMessageConfig(sender).getCommand().getBadSyntaxe().replace("%prefix%", MessageUtils.getDefaultMessageConfig().getPrefix()));
             }
 
             return ret;
         }
 
-        sender.sendMessage(MessageUtils.getMessageConfig(sender).getCommand().getMustBePlayer().replace("%prefix%",MessageUtils.getDefaultMessageConfig().getPrefix()));
+        sender.sendMessage(MessageUtils.getMessageConfig(sender).getCommand().getMustBePlayer().replace("%prefix%", MessageUtils.getDefaultMessageConfig().getPrefix()));
         return true;
     }
 }

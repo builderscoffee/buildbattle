@@ -26,12 +26,12 @@ public class CommandConfigurationPart {
     String plotNoteSize = "Ce plot a %size% notation";
 
     /* Group Command Configuration */
-     String groupDefaults = "§a/group §b: Aide du système de group";
-     String groupAdd = "§a/group add <joueur> §b: Ajouter un joueur dans votre group";
-     String groupRemove = "§a/group remove <joueur> §b: Retirer un joueur de votre group";
-     String groupLeave = "§a/group leave §b: Quitter le groupe votre groupe ( membre uniquement";
-     String groupDisband = "§a/group disband §b: Supprimer votre groupe ( leader uniquement";
-     String groupInvite = "§a/group invite <player> accept/deny §b: Accepter ou refuser l'invite d'un joueur";
-     String groupInfo = "§a/group info <player> §b: Voir les informations d'un groupe";
+    String groupDefaults = "§a/group §b: Aide du système de group";
+    String groupAdd = "§a/group add <joueur> §b: Ajouter un joueur dans votre group";
+    String groupRemove = "§a/group remove <joueur> §b: Retirer un joueur de votre group";
+    String groupLeave = "§a/group leave §b: Quitter le groupe votre groupe ( membre uniquement";
+    String groupDisband = "§a/group disband §b: Supprimer votre groupe ( leader uniquement";
+    String groupInvite = "§a/group invite <player> accept/deny §b: Accepter ou refuser l'invite d'un joueur";
+    String groupInfo = "§a/group info <player> §b: Voir les informations d'un groupe";
 
 }

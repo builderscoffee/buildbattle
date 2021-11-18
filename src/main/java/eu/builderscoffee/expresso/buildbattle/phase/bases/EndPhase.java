@@ -2,64 +2,34 @@ package eu.builderscoffee.expresso.buildbattle.phase.bases;
 
 import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
 import eu.builderscoffee.expresso.ExpressoBukkit;
-import eu.builderscoffee.expresso.buildbattle.BuildBattleEngine;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
-public class EndPhase implements BBPhase {
+public class EndPhase extends BBPhase {
 
     public EndPhase() {
-        // Mettre fin à la game
+        this.name = "Fin de la partie";
+        this.descriptions = Arrays.asList("Mettre fin à la partie");
+        this.icons = new ItemBuilder(Material.NETHER_WARTS).setName(name).build();
+        this.unit = TimeUnit.MINUTES;
+        this.state = BuildBattleManager.GameState.ENDING;
+        this.engine = null;
+        this.time = defaultTime;
     }
 
     @Override
-    public String name() {
-        return "Fin de la partie";
-    }
-
-    @Override
-    public String description() {
-        return "Mettre fin à la partie";
-    }
-
-    @Override
-    public ItemStack icon() {
-        return new ItemBuilder(Material.NETHER_WARTS).setName(name()).build();
-    }
-
-    @Override
-    public int time() {
-        return 0;
-    }
-
-    @Override
-    public int currentTime() {
-        return time();
+    public int getTime() {
+        return time;
     }
 
     @Override
     public void setTime(int time) {
-        // Nothing to do
-    }
-
-    @Override
-    public int defaultTime() {
-        return 0;
-    }
-
-    @Override
-    public TimeUnit timeUnit() {
-        return TimeUnit.SECONDS;
-    }
-
-    @Override
-    public BuildBattleManager.GameState state() {
-        return BuildBattleManager.GameState.ENDING;
+        this.time = time;
     }
 
     @Override
@@ -72,10 +42,5 @@ public class EndPhase implements BBPhase {
                 //TODO Autre chose à faire avant de fermer le serveur ?
             }
         };
-    }
-
-    @Override
-    public BuildBattleEngine engine() {
-        return null;
     }
 }

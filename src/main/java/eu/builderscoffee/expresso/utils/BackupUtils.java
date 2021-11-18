@@ -20,7 +20,8 @@ public class BackupUtils {
 
     /**
      * Backups the world
-     * @param worldName The world name
+     *
+     * @param worldName  The world name
      * @param serverName Server name
      */
     @SneakyThrows
@@ -36,17 +37,17 @@ public class BackupUtils {
 
         // Save the world before backup
         val world = Bukkit.getWorld(worldName);
-        if(Objects.nonNull(world)){
+        if (Objects.nonNull(world)) {
             world.save();
         }
 
         // Delete previous destination world backup
-        if(Files.exists(dest)){
+        if (Files.exists(dest)) {
             deleteDirectory(dest.toFile());
         }
 
         // Create directories at backup destination directory
-        if(!Files.exists(dest) || !Files.isDirectory(dest)){
+        if (!Files.exists(dest) || !Files.isDirectory(dest)) {
             Files.createDirectories(dest.getParent());
         }
 
@@ -57,7 +58,7 @@ public class BackupUtils {
         val destPlotsquared = Paths.get(ExpressoBukkit.getSettings().getPath_for_backup_world(), serverName, "PlotSquared");
 
         // Delete plotsquared config files at destination
-        if(Files.exists(destPlotsquared)){
+        if (Files.exists(destPlotsquared)) {
             deleteDirectory(destPlotsquared.toFile());
         }
 
@@ -67,17 +68,19 @@ public class BackupUtils {
 
     /**
      * Check if a world has been backup
-     * @param worldName The world name
+     *
+     * @param worldName  The world name
      * @param serverName Server name
      * @return Returns true if a backup of this world exists
      */
-    public static boolean backupOfWorldExist(@NonNull String worldName, @NonNull String serverName){
+    public static boolean backupOfWorldExist(@NonNull String worldName, @NonNull String serverName) {
         val dest = Paths.get(ExpressoBukkit.getSettings().getPath_for_backup_world(), serverName, worldName);
         return Files.exists(dest) && Files.isDirectory(dest);
     }
 
     /**
      * Delete directory and its content
+     *
      * @param directoryToBeDeleted The file object of a directory
      * @return Returns true if it is correctly deleted
      */
@@ -93,7 +96,8 @@ public class BackupUtils {
 
     /**
      * Copy directory
-     * @param sourceDirectoryLocation Source path
+     *
+     * @param sourceDirectoryLocation      Source path
      * @param destinationDirectoryLocation Destination path
      * @throws IOException
      */
