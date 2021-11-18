@@ -26,7 +26,6 @@ public abstract class BBPhase {
     protected BuildBattleEngine engine;
     protected BukkitRunnable runnable; // Bukkit runnable de la phase
 
-
     /**
      * Retourne le nom d'une phase
      *

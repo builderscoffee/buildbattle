@@ -34,7 +34,7 @@ public class GamePhase extends BBPhase {
     private BuildBattle game;
     private int time;
     private int currentTime;
-    private int defaultTime;
+    private final int defaultTime;
     private TimeUnit timeUnit;
 
     public GamePhase(int defaultTime) {
@@ -76,7 +76,7 @@ public class GamePhase extends BBPhase {
                         @Override
                         public void run() {
                             getOnlinePlayers().forEach(p -> {
-                                new Title(MessageUtils.getMessageConfig(p).getGame().getThemesTitle(), MessageUtils.getMessageConfig(p).getBoard().getBuildTheme(), 20, 20, 20).send(p);
+                                new Title(MessageUtils.getMessageConfig(p).getGame().getThemesTitle(), ExpressoBukkit.getBbGame().getBbGameManager().getThemes(), 20, 20, 20).send(p);
                                 p.setGameMode(CREATIVE);
                             });
                         }
@@ -97,7 +97,6 @@ public class GamePhase extends BBPhase {
                 }));
 
                 // Passer à l'étape suivante si le temps est écoulé
-                //for (Player player : getOnlinePlayers()) player.setGameMode(SPECTATOR);
                 if (currentTime >= time) ExpressoBukkit.getBbGame().getBbGameManager().nextPhase();
 
                 ++currentTime;
