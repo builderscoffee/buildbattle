@@ -4,7 +4,7 @@ import eu.builderscoffee.commons.common.redisson.packets.ServerManagerRequest;
 import eu.builderscoffee.commons.common.redisson.packets.ServerManagerResponse;
 
 public class RequestConfig extends ConfigTemplate{
-    public RequestConfig(String action) {
+    public RequestConfig() {
         super("request_config");
     }
 
