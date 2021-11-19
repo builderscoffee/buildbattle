@@ -29,7 +29,7 @@ public class GameConfig extends ConfigTemplate {
             case "settings":
                 return response(response);
             case "utils":
-                return redirect(Utils.class, response);
+                return redirect(UtilsConfig.class, response);
             case "start":
                 // Checker si le monde exist
                 if (Objects.nonNull(ExpressoBukkit.getInstance().getServer().getWorld(ExpressoBukkit.getSettings().getPlotWorldName()))) {
@@ -56,7 +56,7 @@ public class GameConfig extends ConfigTemplate {
                 // Lancer la partie
                 ExpressoBukkit.getBbGame().setReady(true);
                 ExpressoBukkit.getBbGame().getBbGameManager().startGame();
-                return redirect(End.class, response);
+                return redirect(EndConfig.class, response);
             case "stop":
                 // Stopper la partie
                 if (ExpressoBukkit.getBbGame().isReady()) {
@@ -69,7 +69,7 @@ public class GameConfig extends ConfigTemplate {
                 // Mettre en pause la partie
                 ExpressoBukkit.getBbGame().getBbGameManager().PauseGame();
                 // Envoyer le menu start
-                return redirect(Start.class, response);
+                return redirect(StartConfig.class, response);
             case "worldbackup":
                 if (!BackupUtils.backupOfWorldExist(ExpressoBukkit.getSettings().getPlotWorldName(), ExpressoBukkit.getInstance().getServer().getServerName())) {
                     BackupUtils.backupWorld(ExpressoBukkit.getSettings().getPlotWorldName(), ExpressoBukkit.getInstance().getServer().getServerName());

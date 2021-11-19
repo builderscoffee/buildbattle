@@ -8,7 +8,7 @@ import eu.builderscoffee.expresso.buildbattle.config.ConfigTemplate;
 import lombok.val;
 import org.bukkit.Material;
 
-public class Utils implements ConfigResponsible {
+public class UtilsConfig implements ConfigResponsible {
 
     @Override
     public ServerManagerResponse response(ServerManagerResponse response) {

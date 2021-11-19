@@ -20,7 +20,7 @@ public class BuildbattleInstanceType extends ConfigTemplate {
         System.out.println(">> Request " + this.getClass().getSimpleName());
         val type = BuildBattleInstanceType.valueOf(request.getData());
         ExpressoBukkit.setBbGame(new BuildBattle().setBbGameTypes(type));
-        return redirect(ExpressoType.class, response);
+        return redirect(GameTypesConfig.class, response);
     }
 
     @Override

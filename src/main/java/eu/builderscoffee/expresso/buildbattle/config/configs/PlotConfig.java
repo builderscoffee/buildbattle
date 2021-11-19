@@ -5,7 +5,7 @@ import eu.builderscoffee.commons.common.redisson.packets.ServerManagerRequest;
 import eu.builderscoffee.commons.common.redisson.packets.ServerManagerResponse;
 import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.config.ConfigTemplate;
-import eu.builderscoffee.expresso.buildbattle.config.configs.game.Start;
+import eu.builderscoffee.expresso.buildbattle.config.configs.game.StartConfig;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.val;
@@ -46,7 +46,7 @@ public class PlotConfig extends ConfigTemplate {
                 }
                 return response(response);
             case "mapgen":
-                return redirect(Start.class, response);
+                return redirect(StartConfig.class, response);
         }
         return response(response);
     }
@@ -63,6 +63,9 @@ public class PlotConfig extends ConfigTemplate {
 
         // Add Action to response
         response.getActions().add(itemsAction);
+
+        // Add return item
+        addPreviousConfigItem(response, SingleThemeConfig.class);
         return response;
     }
 }

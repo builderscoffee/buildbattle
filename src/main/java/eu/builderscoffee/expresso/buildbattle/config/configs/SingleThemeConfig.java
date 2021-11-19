@@ -10,9 +10,9 @@ import eu.builderscoffee.expresso.buildbattle.config.ConfigTemplate;
 import lombok.val;
 import org.bukkit.Material;
 
-public class ExpressoTheme extends ConfigTemplate {
+public class SingleThemeConfig extends ConfigTemplate {
 
-    public ExpressoTheme() {
+    public SingleThemeConfig() {
         super("theme");
     }
 
@@ -36,6 +36,9 @@ public class ExpressoTheme extends ConfigTemplate {
 
         // Add Action to response
         response.getActions().add(pageItemsAction);
+
+        // Add return item
+        addPreviousConfigItem(response, PhasesConfig.class);
         return response;
     }
 }

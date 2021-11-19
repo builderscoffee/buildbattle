@@ -14,9 +14,9 @@ import org.bukkit.Material;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class ExpressoPlayTime extends ConfigTemplate {
+public class PhasesConfig extends ConfigTemplate {
 
-    public ExpressoPlayTime() {
+    public PhasesConfig() {
         super("playtime");
     }
 
@@ -27,7 +27,7 @@ public class ExpressoPlayTime extends ConfigTemplate {
 
         if (request.getData().equals("setplaytime")) {
             ExpressoBukkit.getBbGame().setInstancePhases(ExpressoBukkit.getBbGame().getBuildBattleGameType().getPhases());
-            return redirect(ExpressoTheme.class, response);
+            return redirect(SingleThemeConfig.class, response);
         }
 
         for (BBPhase phase : gameType.getPhases()) {
@@ -72,6 +72,9 @@ public class ExpressoPlayTime extends ConfigTemplate {
 
         // Add Action to response
         response.getActions().add(itemsAction);
+
+        // Add return item
+        addPreviousConfigItem(response, GameTypesConfig.class);
         return response;
     }
 }
