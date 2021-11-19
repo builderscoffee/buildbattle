@@ -1,4 +1,4 @@
-package eu.builderscoffee.expresso.listeners;
+package eu.builderscoffee.expresso.listeners.bukkit;
 
 import eu.builderscoffee.api.bukkit.board.FastBoard;
 import eu.builderscoffee.api.bukkit.utils.LocationsUtil;

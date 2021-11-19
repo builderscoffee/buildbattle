@@ -1,4 +1,4 @@
-package eu.builderscoffee.expresso.buildbattle.events.competitor;
+package eu.builderscoffee.expresso.events.competitor;
 
 import lombok.Data;
 import lombok.Getter;

@@ -1,10 +1,11 @@
-package eu.builderscoffee.expresso.buildbattle.events.configs;
+package eu.builderscoffee.expresso.buildbattle.config.configs;
 
 import eu.builderscoffee.commons.common.redisson.packets.ServerManagerRequest;
 import eu.builderscoffee.commons.common.redisson.packets.ServerManagerResponse;
 import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.BuildBattle;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleInstanceType;
+import eu.builderscoffee.expresso.buildbattle.config.ConfigTemplate;
 import lombok.val;
 
 public class BuildbattleInstanceType extends ConfigTemplate {
@@ -15,14 +16,16 @@ public class BuildbattleInstanceType extends ConfigTemplate {
     }
 
     @Override
-    public ServerManagerRequest request(ServerManagerRequest request) {
+    public ServerManagerResponse request(ServerManagerRequest request, ServerManagerResponse response) {
+        System.out.println(">> Request " + this.getClass().getSimpleName());
         val type = BuildBattleInstanceType.valueOf(request.getData());
         ExpressoBukkit.setBbGame(new BuildBattle().setBbGameTypes(type));
-        return request;
+        return redirect(ExpressoType.class, response);
     }
 
     @Override
     public ServerManagerResponse response(ServerManagerResponse response) {
+        System.out.println(">> Response " + this.getClass().getSimpleName());
         val itemsAction = new ServerManagerResponse.Items();
 
         itemsAction.setType(type);

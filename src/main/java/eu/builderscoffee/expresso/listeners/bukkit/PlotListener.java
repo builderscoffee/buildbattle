@@ -1,4 +1,4 @@
-package eu.builderscoffee.expresso.listeners;
+package eu.builderscoffee.expresso.listeners.bukkit;
 
 import com.plotsquared.bukkit.events.PlayerClaimPlotEvent;
 import eu.builderscoffee.expresso.ExpressoBukkit;

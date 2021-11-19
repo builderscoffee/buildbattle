@@ -1,4 +1,4 @@
-package eu.builderscoffee.expresso.buildbattle.events;
+package eu.builderscoffee.expresso.listeners.redisson;
 
 import eu.builderscoffee.api.common.events.EventListener;
 import eu.builderscoffee.api.common.events.ProcessEvent;

@@ -1,8 +1,8 @@
 package eu.builderscoffee.expresso.buildbattle;
 
 import eu.builderscoffee.expresso.ExpressoBukkit;
-import eu.builderscoffee.expresso.buildbattle.events.competitor.CompetitorJoinEvent;
-import eu.builderscoffee.expresso.buildbattle.events.competitor.CompetitorLeaveEvent;
+import eu.builderscoffee.expresso.events.competitor.CompetitorJoinEvent;
+import eu.builderscoffee.expresso.events.competitor.CompetitorLeaveEvent;
 import eu.builderscoffee.expresso.buildbattle.games.classic.ClassicGameType;
 import eu.builderscoffee.expresso.buildbattle.games.expressos.ExpressoGameType;
 import eu.builderscoffee.expresso.buildbattle.games.expressos.ExpressoManager;

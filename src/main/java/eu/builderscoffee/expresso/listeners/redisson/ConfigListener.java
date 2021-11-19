@@ -1,8 +1,6 @@
-package eu.builderscoffee.expresso.buildbattle.events;
+package eu.builderscoffee.expresso.listeners.redisson;
 
 import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
-import eu.builderscoffee.api.common.data.DataManager;
-import eu.builderscoffee.api.common.data.tables.BuildbattleThemeEntity;
 import eu.builderscoffee.api.common.redisson.Redis;
 import eu.builderscoffee.api.common.redisson.listeners.PacketListener;
 import eu.builderscoffee.api.common.redisson.listeners.ProcessPacket;
@@ -10,29 +8,19 @@ import eu.builderscoffee.commons.common.redisson.packets.ServerManagerRequest;
 import eu.builderscoffee.commons.common.redisson.packets.ServerManagerResponse;
 import eu.builderscoffee.commons.common.redisson.topics.CommonTopics;
 import eu.builderscoffee.expresso.ExpressoBukkit;
-import eu.builderscoffee.expresso.buildbattle.BuildBattle;
-import eu.builderscoffee.expresso.buildbattle.BuildBattleInstanceType;
-import eu.builderscoffee.expresso.buildbattle.events.configs.ConfigTemplate;
-import eu.builderscoffee.expresso.buildbattle.games.expressos.ExpressoGameType;
-import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
+import eu.builderscoffee.expresso.buildbattle.config.ConfigRequestable;
+import eu.builderscoffee.expresso.buildbattle.config.ConfigResponsible;
 import eu.builderscoffee.expresso.buildbattle.phase.bases.EndPhase;
-import eu.builderscoffee.expresso.utils.BackupUtils;
-import eu.builderscoffee.expresso.utils.Log;
+import eu.builderscoffee.expresso.utils.ReflectionUtils;
 import eu.builderscoffee.expresso.utils.TimeUtils;
-import eu.builderscoffee.expresso.utils.WorldBuilder;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.SneakyThrows;
 import lombok.val;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-import org.reflections.Reflections;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ConfigListener implements PacketListener {
@@ -57,27 +45,25 @@ public class ConfigListener implements PacketListener {
     }*/
 
     @Getter
-    private static Map<Class<? extends ConfigTemplate>, ConfigTemplate> configs = new HashMap<>();
+    private static Map<Class<? extends ConfigRequestable>, ConfigRequestable> requestables = new HashMap<>();
+    @Getter
+    private static Map<Class<? extends ConfigResponsible>, ConfigResponsible> responsibles = new HashMap<>();
 
     public ConfigListener() {
-        val reflections = new Reflections(ConfigTemplate.class.getPackage().getName());
-        val classes = reflections.getSubTypesOf(ConfigTemplate.class);
-        classes.forEach(config -> {
-            try {
-                config.getDeclaredConstructor().setAccessible(true);
-                val instance = config.newInstance();
-                configs.put(config, instance);
-            } catch (IllegalAccessException | InstantiationException | NoSuchMethodException e) {
-                e.printStackTrace();
-            }
-        });
+        ReflectionUtils.reflectInstances(ConfigRequestable.class.getPackage(), ConfigRequestable.class)
+                .forEach(requestable -> requestables.put(requestable.getClass(), requestable));
+        ReflectionUtils.reflectInstances(ConfigResponsible.class.getPackage(), ConfigResponsible.class)
+                .forEach(responsable -> responsibles.put(responsable.getClass(), responsable));
     }
 
     @ProcessPacket
     public void onConfigRequest(ServerManagerRequest request){
-        getConfigs().values().stream()
-                .filter(config -> config.getType().equals(request.getType()))
-                .forEach(config -> config.onRequest(request));
+        System.out.println("Request: " + request.getType());
+        getRequestables().values().stream()
+                .filter(config -> request.getType().equals(config.getType()))
+                .forEach(config -> {
+                    Redis.publish(CommonTopics.SERVER_MANAGER, config.request(request, new ServerManagerResponse(request)));
+                });
     }
 
     public enum ConfigStage {
@@ -150,20 +136,20 @@ public class ConfigListener implements PacketListener {
      * Recevoir l'action du choix de type de partie
      * @param request
      */
-    @ProcessPacket
+    /*@ProcessPacket
     public void onRequestType(ServerManagerRequest request) {
         if (request.getType().equals("type")) {
             val type = BuildBattleInstanceType.valueOf(request.getData());
             ExpressoBukkit.setBbGame(new BuildBattle().setBbGameTypes(type));
             sendGameType(request);
         }
-    }
+    }*/
 
     /***
      * Recevoir l'action du type d'expresso choisi
      * @param request
      */
-    @ProcessPacket
+    /*@ProcessPacket
     public void onRequestExpresso(ServerManagerRequest request) {
         if (request.getType().equals("expresso")) {
             val expressoString = request.getData();
@@ -171,13 +157,13 @@ public class ConfigListener implements PacketListener {
             ExpressoBukkit.getBbGame().configureGameType(BuildBattleInstanceType.EXPRESSO);
             sendPlayTime(request);
         }
-    }
+    }*/
 
     /***
      * Recevoir l'action de changer le temps des phases
      * @param request
      */
-    @SneakyThrows
+    /*@SneakyThrows
     @ProcessPacket
     public void onRequestPlayTime(ServerManagerRequest request) {
         if (request.getType().equals("playtime")) {
@@ -212,25 +198,25 @@ public class ConfigListener implements PacketListener {
                 }
             }
         }
-    }
+    }*/
 
     /***
      * Recevoir l'action du thème choisi
      * @param request
      */
-    @ProcessPacket
+    /*@ProcessPacket
     public void onRequestTheme(ServerManagerRequest request) {
         if (request.getType().equals("theme")) {
             ExpressoBukkit.getBbGame().getBbGameManager().setThemes(request.getData());
             sendMapGeneration(request);
         }
-    }
+    }*/
 
     /***
      * Recevoir l'action lié à la partie
      * @param request
      */
-    @ProcessPacket
+    /*@ProcessPacket
     public void onRequestGame(ServerManagerRequest request) {
         if (!request.getType().equals("game")) return;
 
@@ -291,13 +277,13 @@ public class ConfigListener implements PacketListener {
                 }
                 break;
         }
-    }
+    }*/
 
     /***
      * Recevoir l'action lié à la génération de la map
      * @param request
      */
-    @ProcessPacket
+    /*@ProcessPacket
     public void onRequestMapGen(ServerManagerRequest request) {
         if (!request.getType().startsWith("plot")) return;
         val maxPlotSize = ExpressoBukkit.getSettings().getPlotMaxSize();
@@ -324,13 +310,13 @@ public class ConfigListener implements PacketListener {
                 sendStartConfig(request);
                 break;
         }
-    }
+    }*/
 
     /***
      * Répondre à la requète avec le type de partie voulue
      * @param request
      */
-    public void sendBuildBattleInstanceType(ServerManagerRequest request) {
+    /*public void sendBuildBattleInstanceType(ServerManagerRequest request) {
         // Create from the request
         val response = new ServerManagerResponse(request);
         val itemsAction = new ServerManagerResponse.Items();
@@ -351,13 +337,13 @@ public class ConfigListener implements PacketListener {
 
         // Publish the reponse
         Redis.publish(CommonTopics.SERVER_MANAGER, response);
-    }
+    }*/
 
     /***
      * Répondre à la requète avec les types de sous partie pour chaques instances
      * @param request
      */
-    public void sendGameType(ServerManagerRequest request) {
+    /*public void sendGameType(ServerManagerRequest request) {
         // Create from the request
         val response = new ServerManagerResponse(request);
 
@@ -386,7 +372,7 @@ public class ConfigListener implements PacketListener {
 
         // Publish the reponse
         Redis.publish(CommonTopics.SERVER_MANAGER, response);
-    }
+    }*/
 
     /***
      * Sélectioner le temps de jeux d'une partie
@@ -420,7 +406,7 @@ public class ConfigListener implements PacketListener {
      * Selectioner un thème pour la partie
      * @param request
      */
-    public void sendThemesSelection(ServerManagerRequest request) {
+    /*public void sendThemesSelection(ServerManagerRequest request) {
         // Create from the request
         val response = new ServerManagerResponse(request);
         val pageItemsAction = new ServerManagerResponse.PageItems();
@@ -436,14 +422,14 @@ public class ConfigListener implements PacketListener {
 
         // Publish the reponse
         Redis.publish(CommonTopics.SERVER_MANAGER, response);
-    }
+    }*/
 
     /***
      * Répondre à la requète de génération d'une map
      * - Il faut la valider la laine verte :p
      * @param request
      */
-    public void sendMapGeneration(ServerManagerRequest request) {
+    /*public void sendMapGeneration(ServerManagerRequest request) {
         // Create from the request
         val response = new ServerManagerResponse(request);
         val itemsAction = new ServerManagerResponse.Items();
@@ -458,7 +444,7 @@ public class ConfigListener implements PacketListener {
 
         // Publish the reponse
         Redis.publish(CommonTopics.SERVER_MANAGER, response);
-    }
+    }*/
 
     /***
      * Répondre à la requète avec une confirmation pour démarrer la partie
@@ -521,15 +507,7 @@ public class ConfigListener implements PacketListener {
     public void sendGameConfig(ServerManagerRequest request) {
         // Create from the request
         val response = new ServerManagerResponse(request);
-        val itemsAction = new ServerManagerResponse.Items();
-        itemsAction.setType("game");
 
-        itemsAction.addItem(2, 2, new ItemBuilder(Material.WOOL, 1, (short) 1).setName("§cStop").build(), "stop");
-        itemsAction.addItem(2, 4, new ItemBuilder(Material.WOOL, 1, (short) 6).setName("§7Pause").build(), "pause");
-        itemsAction.addItem(2, 6, new ItemBuilder(Material.DROPPER, 1).setName("§6Reset").build(), "reset");
-
-        // Add Action to response
-        response.getActions().add(itemsAction);
 
         // Publish the response
         Redis.publish(CommonTopics.SERVER_MANAGER, response);

@@ -1,10 +1,10 @@
-package eu.builderscoffee.expresso.listeners;
+package eu.builderscoffee.expresso.listeners.bukkit;
 
 import eu.builderscoffee.expresso.ExpressoBukkit;
-import eu.builderscoffee.expresso.buildbattle.events.team.TeamCreateEvent;
-import eu.builderscoffee.expresso.buildbattle.events.team.TeamDisbandEvent;
-import eu.builderscoffee.expresso.buildbattle.events.team.TeamJoinEvent;
-import eu.builderscoffee.expresso.buildbattle.events.team.TeamLeaveEvent;
+import eu.builderscoffee.expresso.events.team.TeamCreateEvent;
+import eu.builderscoffee.expresso.events.team.TeamDisbandEvent;
+import eu.builderscoffee.expresso.events.team.TeamJoinEvent;
+import eu.builderscoffee.expresso.events.team.TeamLeaveEvent;
 import eu.builderscoffee.expresso.utils.MessageUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

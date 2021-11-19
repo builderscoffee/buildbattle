@@ -1,8 +1,8 @@
-package eu.builderscoffee.expresso.listeners;
+package eu.builderscoffee.expresso.listeners.bukkit;
 
 import eu.builderscoffee.expresso.ExpressoBukkit;
-import eu.builderscoffee.expresso.buildbattle.events.competitor.CompetitorJoinEvent;
-import eu.builderscoffee.expresso.buildbattle.events.competitor.CompetitorLeaveEvent;
+import eu.builderscoffee.expresso.events.competitor.CompetitorJoinEvent;
+import eu.builderscoffee.expresso.events.competitor.CompetitorLeaveEvent;
 import eu.builderscoffee.expresso.utils.MessageUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

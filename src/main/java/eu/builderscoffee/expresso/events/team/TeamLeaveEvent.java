@@ -1,4 +1,4 @@
-package eu.builderscoffee.expresso.buildbattle.events.team;
+package eu.builderscoffee.expresso.events.team;
 
 import lombok.Getter;
 import org.bukkit.entity.Player;
