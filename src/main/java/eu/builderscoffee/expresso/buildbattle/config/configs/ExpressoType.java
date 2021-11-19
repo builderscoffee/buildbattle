@@ -45,7 +45,7 @@ public class ExpressoType extends ConfigTemplate {
                 throw new IllegalStateException("Unexpected value: " + ExpressoBukkit.getBbGame().getBbGameTypes());
         }
 
-        addPreviousConfigItem(response);
+        addPreviousConfigItem(response, BuildbattleInstanceType.class);
         return response;
     }
 }
