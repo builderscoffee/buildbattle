@@ -4,6 +4,8 @@ import lombok.experimental.UtilityClass;
 import lombok.val;
 import org.reflections.Reflections;
 
+import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -18,6 +20,7 @@ public class ReflectionUtils {
 
     public static <T> List<? extends T> reflectInstances(Package packageObj, Class<? extends T> clazz) {
         return reflect(packageObj, clazz).stream()
+                .filter(loopClazz -> !Modifier.isAbstract(loopClazz.getModifiers()))
                 .map(loopClazz -> {
                     try {
                         return loopClazz.newInstance();
