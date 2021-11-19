@@ -6,6 +6,7 @@ import eu.builderscoffee.commons.common.redisson.packets.ServerManagerResponse;
 import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleInstanceType;
 import eu.builderscoffee.expresso.buildbattle.config.ConfigTemplate;
+import eu.builderscoffee.expresso.buildbattle.games.classic.ClassicGameType;
 import lombok.val;
 
 public class GameTypesConfig extends ConfigTemplate {
@@ -17,9 +18,20 @@ public class GameTypesConfig extends ConfigTemplate {
     @Override
     public ServerManagerResponse request(ServerManagerRequest request, ServerManagerResponse response) {
         System.out.println(">> Request " + this.getClass().getSimpleName());
-        val expressoString = request.getData();
-        ExpressoBukkit.getBbGame().setExpressoGameType(ExpressoBukkit.getBbGame().getExpressoManager().fetchExpressoByName(expressoString));
-        ExpressoBukkit.getBbGame().configureGameType(BuildBattleInstanceType.EXPRESSO);
+        val buildbattleString = request.getData();
+        switch (ExpressoBukkit.getBbGame().getBbGameTypes()) {
+            case EXPRESSO:
+                ExpressoBukkit.getBbGame().setExpressoGameType(ExpressoBukkit.getBbGame().getExpressoManager().fetchExpressoByName(buildbattleString));
+                ExpressoBukkit.getBbGame().configureGameType(BuildBattleInstanceType.EXPRESSO);
+                break;
+            case CLASSIC:
+                ExpressoBukkit.getBbGame().setClassicGameType(new ClassicGameType());
+                ExpressoBukkit.getBbGame().configureGameType(BuildBattleInstanceType.CLASSIC);
+                break;
+            case TOURNAMENT:
+                break;
+        }
+
         return redirect(PhasesConfig.class, response);
     }
 
