@@ -92,6 +92,6 @@ public class GameConfig extends ConfigTemplate {
 
         // Add Action to response
         response.getActions().add(itemsAction);
-        return null;
+        return response;
     }
 }
