@@ -28,6 +28,22 @@ public class BBBoard {
     }
 
     /***
+     * Si le string est supérieur à 30 caractères
+     * alors split le string en plusieurs lignes
+     * pour l'afficher dans le scoreboard
+     * @param line - String à vérifier
+     * @return
+     */
+    public static String InlineString(String line) {
+        val strings = new ArrayList<String>();
+        if (line.length() < 30) {
+            String[] arraySplit = line.split("\\s");
+            strings.addAll(Arrays.asList(arraySplit));
+        }
+        return strings.size() < 1 ? String.valueOf(strings) : line;
+    }
+
+    /***
      * Mettre à jours le scoreboard tout les ticks
      * @param board
      */
@@ -36,8 +52,8 @@ public class BBBoard {
         if (ExpressoBukkit.getBbGame().getGameState().equals(BuildBattleManager.GameState.WAITING)) {
             board.updateLines(
                     "§0§8§m----------§8§m------",
-                    "§aSaison : " + message.getBoard().getSeasonName(),
-                    "§aExpresso : §f" + ExpressoBukkit.getBbGame().getBuildBattleGameType().getName(),
+                    InlineString("§aSaison : " + message.getBoard().getSeasonName()),
+                    InlineString("§aExpresso : §f" + ExpressoBukkit.getBbGame().getBuildBattleGameType().getName()),
                     "§aThème : " + "§f§kLait",
                     "§aTimer : §fEn Attente",
                     "",
@@ -47,25 +63,25 @@ public class BBBoard {
         } else if (ExpressoBukkit.getBbGame().getGameState().equals(BuildBattleManager.GameState.LAUNCHING)) {
             board.updateLines(
                     "§0§8§m----------§8§m------",
-                    "§aSaison : " + message.getBoard().getSeasonName(),
-                    "§aExpresso : §f" + ExpressoBukkit.getBbGame().getBuildBattleGameType().getName(),
+                    InlineString("§aSaison : " + message.getBoard().getSeasonName()),
+                    InlineString("§aExpresso : §f" + ExpressoBukkit.getBbGame().getBuildBattleGameType().getName()),
                     "§aThème : " + "§f§kLait",
-                    "§aTimer : §f" + TimeUtils.getDurationString(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getTime() - ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getCurrentTime()),
+                    InlineString("§aTimer : §f" + TimeUtils.getDurationString(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getTime() - ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getCurrentTime())),
                     "",
                     message.getBoard().getServerIp(),
                     "§0§8§m----------§8§m------"
             );
         } else if (ExpressoBukkit.getBbGame().getGameState().equals(BuildBattleManager.GameState.IN_GAME)) {
-            val part1 = Arrays.asList("§0§8§m----------§8§m------", "§aSaison :  " + message.getBoard().getSeasonName(), "§aExpresso : §f" + ExpressoBukkit.getBbGame().getBuildBattleGameType().getName());
-            val _board = new ArrayList<>(part1);
-            _board.addAll(getTheme());
-            val part2 = Arrays.asList("§aTimer : §f" + TimeUtils.getDurationString(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getTime() - ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getCurrentTime()), "", message.getBoard().getServerIp(), "§0§8§m----------§8§m------");
-            _board.addAll(part2);
-            board.updateLines(_board);
-            val phase = ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase();
-            System.out.println("Time" + phase.getTime());
-            System.out.println("CurrentTime" + phase.getCurrentTime());
-            System.out.println("Time - CurrentTime" + (phase.getTime() - phase.getCurrentTime()));
+            board.updateLines(
+                    "§0§8§m----------§8§m------",
+                    InlineString("§aSaison : " + message.getBoard().getSeasonName()),
+                    InlineString("§aExpresso : §f" + ExpressoBukkit.getBbGame().getBuildBattleGameType().getName()),
+                    InlineString(ExpressoBukkit.getBbGame().getBbGameManager().getThemes()),
+                    InlineString("§aTimer : §f" + TimeUtils.getDurationString(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getTime() - ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getCurrentTime())),
+                    "",
+                    message.getBoard().getServerIp(),
+                    "§0§8§m----------§8§m------");
+            ;
         }
     }
 }

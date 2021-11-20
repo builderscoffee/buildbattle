@@ -35,7 +35,7 @@ public class HeartBeatListener implements EventListener {
             }
             // Timer de la partie
             if (Objects.nonNull(ExpressoBukkit.getBbGame().getBuildBattleGameType()) && Objects.nonNull(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase())) {
-                event.getServer().getProperties().put("Timer", TimeUtils.getDurationString(ExpressoBukkit.getBbGame().getExpressoGameType().getCurrentPhase().getTime()));
+                event.getServer().getProperties().put("Timer", TimeUtils.getDurationString(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getTime()));
             }
         }
     }
