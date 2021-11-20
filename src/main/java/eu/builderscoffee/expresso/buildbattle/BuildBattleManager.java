@@ -183,7 +183,7 @@ public class BuildBattleManager implements Cloneable {
     public void nextPhase() {
         // Get & Poll la prochaine phase
         this.game.getBuildBattleGameType().setCurrentPhase(this.game.getInstancePhases().poll());
-        Log.get().info("Phase en cours : " + this.game.getExpressoGameType().getCurrentPhase().getName());
+        Log.get().info("Phase en cours : " + this.game.getBuildBattleGameType().getCurrentPhase().getName());
         // Définir le status de la prochaine phase
         this.getGame().setGameState(this.game.getBuildBattleGameType().getCurrentPhase().getState());
         // Lancer la Task de la prochaine phase
