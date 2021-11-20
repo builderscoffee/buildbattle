@@ -28,10 +28,10 @@ public class BaseBoard {
         fb = playerBoards.get(player.getUniqueId());
         System.out.println("Update getFastBoard");
 
-        if (Objects.nonNull(getBoards().containsKey(ExpressoBukkit.getBbGame()))
-                && Objects.nonNull(getBoards().containsKey(ExpressoBukkit.getBbGame().getBuildBattleGameType())
-                && Objects.nonNull(getBoards().containsKey(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase()))
-                && getBoards().containsKey(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getClass()))) {
+        if (Objects.nonNull(ExpressoBukkit.getBbGame())
+                && Objects.nonNull(ExpressoBukkit.getBbGame().getBuildBattleGameType())
+                && Objects.nonNull(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase())
+                && getBoards().containsKey(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getClass())) {
             System.out.println("Update UpdateLines");
             fb.updateLines(getBoards().get(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getClass()).apply(player));
         } else {
