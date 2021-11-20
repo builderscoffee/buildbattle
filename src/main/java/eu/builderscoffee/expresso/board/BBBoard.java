@@ -45,40 +45,39 @@ public class BBBoard {
      */
     public static void updateBoard(FastBoard board) {
         val message = MessageUtils.getMessageConfig(board.getPlayer());
+        val sf = new ArrayList<>();
         if (ExpressoBukkit.getBbGame().getGameState().equals(BuildBattleManager.GameState.WAITING)) {
-            board.updateLines(String.valueOf(Collections.addAll(new ArrayList<>(),
+            board.updateLines(
                     "§0§8§m----------§8§m------",
-                    getTheme(),
-                    InlineString("§aSaison : ", message.getBoard().getSeasonName()),
-                    InlineString("§aExpresso : §f", ExpressoBukkit.getBbGame().getBuildBattleGameType().getName()),
+                    //getTheme(),
+                    //InlineString("§aSaison : ", message.getBoard().getSeasonName()),
+                    //InlineString("§aExpresso : §f", ExpressoBukkit.getBbGame().getBuildBattleGameType().getName()),
                     "§aThème : " + "§f§kLait",
                     "§aTimer : §fEn Attente",
                     "",
                     message.getBoard().getServerIp(),
                     "§0§8§m----------§8§m------"
-            )));
+            );
         } else if (ExpressoBukkit.getBbGame().getGameState().equals(BuildBattleManager.GameState.LAUNCHING)) {
-            board.updateLines(String.valueOf(Collections.addAll(new ArrayList<>(),
+            board.updateLines(
                     "§0§8§m----------§8§m------",
-                    InlineString("§aSaison : ", message.getBoard().getSeasonName()),
-                    InlineString("§aExpresso : §f", ExpressoBukkit.getBbGame().getBuildBattleGameType().getName()),
+                    "§aSaison : ", message.getBoard().getSeasonName(),
+                    "§aExpresso : §f", ExpressoBukkit.getBbGame().getBuildBattleGameType().getName(),
                     "§aThème : " + "§f§kLait",
-                    InlineString("§aTimer : §f", TimeUtils.getDurationString(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getTime() - ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getCurrentTime())),
+                    "§aTimer : §f", TimeUtils.getDurationString(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getTime() - ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getCurrentTime()),
                     "",
                     message.getBoard().getServerIp(),
-                    "§0§8§m----------§8§m------"
-            )));
+                    "§0§8§m----------§8§m------");
         } else if (ExpressoBukkit.getBbGame().getGameState().equals(BuildBattleManager.GameState.IN_GAME)) {
-            board.updateLines(String.valueOf(Collections.addAll(new ArrayList<>(),
+            board.updateLines(
                     "§0§8§m----------§8§m------",
-                    InlineString("§aSaison : ", message.getBoard().getSeasonName()),
-                    InlineString("§aExpresso : §f", ExpressoBukkit.getBbGame().getBuildBattleGameType().getName()),
-                    InlineString("§aThème : ", ExpressoBukkit.getBbGame().getBbGameManager().getThemes()),
-                    InlineString("§aTimer : §f", TimeUtils.getDurationString(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getTime() - ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getCurrentTime())),
+                    "§aSaison : ", message.getBoard().getSeasonName(),
+                    "§aExpresso : §f", ExpressoBukkit.getBbGame().getBuildBattleGameType().getName(),
+                    "§aThème : ", ExpressoBukkit.getBbGame().getBbGameManager().getThemes(),
+                    "§aTimer : §f", TimeUtils.getDurationString(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getTime() - ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getCurrentTime()),
                     "",
                     message.getBoard().getServerIp(),
-                    "§0§8§m----------§8§m------")));
-            ;
+                    "§0§8§m----------§8§m------");
         }
     }
 }

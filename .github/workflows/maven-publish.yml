@@ -72,12 +72,6 @@ jobs:
           username: ${{ secrets.INFRA_USER }}
           password: ${{ secrets.INFRA_PASSWORD }}
 
-      # Deploy Package to Github
-      - name: Publish to GitHub Packages Apache Maven
-        run: mvn --batch-mode -B deploy
-        env:
-          GITHUB_TOKEN: ${{ secrets.INFRA_TOKEN }}
-
     outputs:
       env_name: ${{ steps.branch_check.outputs.env_name }} # Save branche name
       env_jar: ${{ steps.maven_build.outputs.env_jar }} # Save jar version

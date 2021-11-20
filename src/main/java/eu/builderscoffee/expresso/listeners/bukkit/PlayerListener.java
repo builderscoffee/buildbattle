@@ -4,6 +4,8 @@ import eu.builderscoffee.api.bukkit.board.FastBoard;
 import eu.builderscoffee.api.bukkit.utils.LocationsUtil;
 import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.board.BBBoard;
+import eu.builderscoffee.expresso.board.IScoreboard;
+import eu.builderscoffee.expresso.board.type.BaseScoreboard;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
 import eu.builderscoffee.expresso.buildbattle.toolbars.ToolbarManager;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
@@ -35,10 +37,13 @@ public class PlayerListener implements Listener {
         val messages = MessageUtils.getMessageConfig(player);
 
         // Scoreboard Updater
+        /*
         FastBoard board = new FastBoard(player);
         board.updateTitle(messages.getBoard().getTitle()); // Même titre pour tout
         BBBoard.boards.put(player.getUniqueId(), board);
-
+        */
+        IScoreboard iScoreboard = new BaseScoreboard(player);
+        IScoreboard.boards.put(player.getUniqueId(), iScoreboard);
         // Player Inventory
         player.setGameMode(GameMode.ADVENTURE);
         player.setHealth(20);
