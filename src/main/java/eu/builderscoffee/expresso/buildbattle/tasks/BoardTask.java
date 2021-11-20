@@ -14,7 +14,7 @@ public class BoardTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        if (Objects.nonNull(ExpressoBukkit.getBbGame())) {
+        if (Objects.nonNull(ExpressoBukkit.getBbGame()) && Objects.nonNull(ExpressoBukkit.getBbGame().getBbGameTypes())) {
             Bukkit.getOnlinePlayers().forEach(player -> ExpressoBukkit.getBbGame().getBbGameTypes().getBaseBoard().update(player));
         }
     }
