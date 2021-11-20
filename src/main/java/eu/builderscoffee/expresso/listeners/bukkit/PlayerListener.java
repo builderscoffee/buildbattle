@@ -2,7 +2,6 @@ package eu.builderscoffee.expresso.listeners.bukkit;
 
 import eu.builderscoffee.api.bukkit.utils.LocationsUtil;
 import eu.builderscoffee.expresso.ExpressoBukkit;
-import eu.builderscoffee.expresso.board.BaseBoard;
 import eu.builderscoffee.expresso.buildbattle.BuildBattleManager;
 import eu.builderscoffee.expresso.buildbattle.toolbars.ToolbarManager;
 import eu.builderscoffee.expresso.configuration.SettingsConfiguration;
@@ -34,7 +33,9 @@ public class PlayerListener implements Listener {
         val messages = MessageUtils.getMessageConfig(player);
 
         // Scoreboard Updater
-        ExpressoBukkit.getBbGame().getBbGameTypes().getBaseBoard().update(player);
+        if (Objects.nonNull(ExpressoBukkit.getBbGame())) {
+            ExpressoBukkit.getBbGame().getBbGameTypes().getBaseBoard().update(player);
+        }
         // Player Inventory
         player.setGameMode(GameMode.ADVENTURE);
         player.setHealth(20);
