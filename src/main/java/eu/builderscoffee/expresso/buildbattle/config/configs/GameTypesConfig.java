@@ -19,19 +19,8 @@ public class GameTypesConfig extends ConfigTemplate {
     public ServerManagerResponse request(ServerManagerRequest request, ServerManagerResponse response) {
         System.out.println(">> Request " + this.getClass().getSimpleName());
         val buildbattleString = request.getData();
-        switch (ExpressoBukkit.getBbGame().getBbGameTypes()) {
-            case EXPRESSO:
-                ExpressoBukkit.getBbGame().setExpressoGameType(ExpressoBukkit.getBbGame().getExpressoManager().fetchExpressoByName(buildbattleString));
-                ExpressoBukkit.getBbGame().configureGameType(BuildBattleInstanceType.EXPRESSO);
-                break;
-            case CLASSIC:
-                ExpressoBukkit.getBbGame().setClassicGameType(new ClassicGameType());
-                ExpressoBukkit.getBbGame().configureGameType(BuildBattleInstanceType.CLASSIC);
-                break;
-            case TOURNAMENT:
-                break;
-        }
-
+        ExpressoBukkit.getBbGame().setExpressoGameType(ExpressoBukkit.getBbGame().getExpressoManager().fetchExpressoByName(buildbattleString));
+        ExpressoBukkit.getBbGame().configureGameType(BuildBattleInstanceType.EXPRESSO);
         return redirect(PhasesConfig.class, response);
     }
 
@@ -40,6 +29,9 @@ public class GameTypesConfig extends ConfigTemplate {
         System.out.println(">> Response " + this.getClass().getSimpleName());
         switch (ExpressoBukkit.getBbGame().getBbGameTypes()) {
             case CLASSIC:
+                System.out.println(">> Classic Config Type");
+                ExpressoBukkit.getBbGame().setClassicGameType((new ClassicGameType()));
+                ExpressoBukkit.getBbGame().configureGameType(BuildBattleInstanceType.CLASSIC);
                 return redirect(PhasesConfig.class, response);
             case TOURNAMENT:
                 return redirect(GameTypesConfig.class, response);
@@ -49,7 +41,7 @@ public class GameTypesConfig extends ConfigTemplate {
                 pageItemsAction.setType(type);
                 expressoList
                         .forEach(expresso -> {
-                            pageItemsAction.addItem(new ItemBuilder(expresso.getIcon().getType(), 1, expresso.getIcon().getDurability()).setName("§a" + expresso.getName()).addLoreLine(expresso.getDescription()).build(), expresso.getName());
+                            pageItemsAction.addItem(new ItemBuilder(expresso.getIcon().getType(), 1, expresso.getIcon().getDurability()).setName("§a" + expresso.getName()).addLoreLine(expresso.getDescription()).build(), "expresso" + expresso.getName());
                         });
                 // Add Action to response
                 response.getActions().add(pageItemsAction);
