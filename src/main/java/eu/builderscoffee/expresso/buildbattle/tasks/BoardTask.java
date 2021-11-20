@@ -1,9 +1,10 @@
 package eu.builderscoffee.expresso.buildbattle.tasks;
 
 import eu.builderscoffee.expresso.ExpressoBukkit;
-import eu.builderscoffee.expresso.board.BaseBoard;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.Objects;
 
 public class BoardTask extends BukkitRunnable {
 
@@ -13,6 +14,8 @@ public class BoardTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        Bukkit.getOnlinePlayers().forEach(player -> ExpressoBukkit.getBbGame().getBbGameTypes().getBaseBoard().update(player));
+        if (Objects.nonNull(ExpressoBukkit.getBbGame())) {
+            Bukkit.getOnlinePlayers().forEach(player -> ExpressoBukkit.getBbGame().getBbGameTypes().getBaseBoard().update(player));
+        }
     }
 }
