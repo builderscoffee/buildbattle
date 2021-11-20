@@ -54,7 +54,7 @@ public class BuildBattle {
      * Créer une instance d'une BBGame
      */
 
-    public BuildBattle() {
+    public BuildBattle(BuildBattleInstanceType type) {
         // Définir l'instance du BuildBattleManager
         setBbGameManager(new BuildBattleManager(this));
 
@@ -66,6 +66,7 @@ public class BuildBattle {
         // Setup game managers
         expressoManager = new ExpressoManager(this);
 
+        this.bbGameTypes = type;
     }
 
     // CONFIGURE GAME TYPE

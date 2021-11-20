@@ -8,6 +8,8 @@ import eu.builderscoffee.expresso.buildbattle.BuildBattleInstanceType;
 import eu.builderscoffee.expresso.buildbattle.config.ConfigTemplate;
 import lombok.val;
 
+import java.util.Objects;
+
 public class BuildbattleInstanceType extends ConfigTemplate {
 
 
@@ -19,8 +21,9 @@ public class BuildbattleInstanceType extends ConfigTemplate {
     public ServerManagerResponse request(ServerManagerRequest request, ServerManagerResponse response) {
         System.out.println(">> Request " + this.getClass().getSimpleName());
         val type = BuildBattleInstanceType.valueOf(request.getData());
-        ExpressoBukkit.getBbGame().getBbGameTypes().getBaseBoard().removeAll();
-        ExpressoBukkit.setBbGame(new BuildBattle().setBbGameTypes(type));
+        if(Objects.nonNull(ExpressoBukkit.getBbGame()))
+            ExpressoBukkit.getBbGame().getBbGameTypes().getBaseBoard().removeAll();
+        ExpressoBukkit.setBbGame(new BuildBattle(type));
         return redirect(GameTypesConfig.class, response);
     }
 
