@@ -68,7 +68,7 @@ public class BuildBattleManager implements Cloneable {
             // Lancer la task de check
             ExpressoBukkit.getExecutionManager().getTasks().put("checkstart", new CheckStartTask().runTaskTimer(expressoBukkit, 0L, 20L));
             // Lancer la task de board
-            ExpressoBukkit.getExecutionManager().getTasks().put("board", new BoardTask().runTaskTimer(expressoBukkit, 0L, 20L));
+            //ExpressoBukkit.getExecutionManager().getTasks().put("board", new BoardTask().runTaskTimer(expressoBukkit, 0L, 20L));
         } else {
             Log.get().info("Start Clone");
             ExpressoBukkit.getBbGame().setPaused(false);

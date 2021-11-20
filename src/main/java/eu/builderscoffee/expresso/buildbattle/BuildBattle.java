@@ -1,8 +1,6 @@
 package eu.builderscoffee.expresso.buildbattle;
 
 import eu.builderscoffee.expresso.ExpressoBukkit;
-import eu.builderscoffee.expresso.events.competitor.CompetitorJoinEvent;
-import eu.builderscoffee.expresso.events.competitor.CompetitorLeaveEvent;
 import eu.builderscoffee.expresso.buildbattle.games.classic.ClassicGameType;
 import eu.builderscoffee.expresso.buildbattle.games.expressos.ExpressoGameType;
 import eu.builderscoffee.expresso.buildbattle.games.expressos.ExpressoManager;
@@ -11,6 +9,8 @@ import eu.builderscoffee.expresso.buildbattle.notation.NotationManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.buildbattle.teams.TeamManager;
 import eu.builderscoffee.expresso.buildbattle.toolbars.ToolbarManager;
+import eu.builderscoffee.expresso.events.competitor.CompetitorJoinEvent;
+import eu.builderscoffee.expresso.events.competitor.CompetitorLeaveEvent;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.bukkit.Bukkit;

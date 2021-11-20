@@ -9,8 +9,7 @@ import eu.builderscoffee.api.common.events.EventHandler;
 import eu.builderscoffee.api.common.redisson.Redis;
 import eu.builderscoffee.commons.common.redisson.topics.CommonTopics;
 import eu.builderscoffee.expresso.buildbattle.BuildBattle;
-import eu.builderscoffee.expresso.listeners.redisson.ConfigListener;
-import eu.builderscoffee.expresso.listeners.redisson.HeartBeatListener;
+import eu.builderscoffee.expresso.buildbattle.tasks.BoardTask;
 import eu.builderscoffee.expresso.commands.JuryCommand;
 import eu.builderscoffee.expresso.commands.PlotCommand;
 import eu.builderscoffee.expresso.commands.TeamCommand;
@@ -21,6 +20,8 @@ import eu.builderscoffee.expresso.listeners.bukkit.CompetitorListener;
 import eu.builderscoffee.expresso.listeners.bukkit.PlayerListener;
 import eu.builderscoffee.expresso.listeners.bukkit.PlotListener;
 import eu.builderscoffee.expresso.listeners.bukkit.TeamListeners;
+import eu.builderscoffee.expresso.listeners.redisson.ConfigListener;
+import eu.builderscoffee.expresso.listeners.redisson.HeartBeatListener;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -60,6 +61,8 @@ public class ExpressoBukkit extends JavaPlugin {
         executionManager = new ExecutionManager();
         // Start Task Manager
         executionManager.start();
+        // Add Scoreboard Task
+        ExpressoBukkit.getExecutionManager().getTasks().put("board", new BoardTask().runTaskTimer(this, 0L, 20L));
 
         // Register Bukkit Listeners
         Plugins.registerListeners(this, new PlayerListener(), new CompetitorListener(), new TeamListeners(), new PlotListener());
