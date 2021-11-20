@@ -19,6 +19,7 @@ public class GameTypesConfig extends ConfigTemplate {
     public ServerManagerResponse request(ServerManagerRequest request, ServerManagerResponse response) {
         System.out.println(">> Request " + this.getClass().getSimpleName());
         val buildbattleString = request.getData();
+        System.out.println("Expresso : " + buildbattleString);
         ExpressoBukkit.getBbGame().setExpressoGameType(ExpressoBukkit.getBbGame().getExpressoManager().fetchExpressoByName(buildbattleString));
         ExpressoBukkit.getBbGame().configureGameType(BuildBattleInstanceType.EXPRESSO);
         return redirect(PhasesConfig.class, response);
