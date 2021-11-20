@@ -17,21 +17,27 @@ public class BaseBoard {
     private Map<Class<? extends BBPhase>, Function<Player, List<String>>> boards = new HashMap<>();
 
     public void update(Player player) {
+        System.out.println("Update start");
         FastBoard fb;
         if (!playerBoards.containsKey(player.getUniqueId())) {
+            System.out.println("Update CheckPlayer");
             fb = new FastBoard(player);
             fb.updateTitle(MessageUtils.getMessageConfig(player).getBoard().getTitle());
             playerBoards.put(player.getUniqueId(), fb);
         }
         fb = playerBoards.get(player.getUniqueId());
+        System.out.println("Update getFastBoard");
 
         if (Objects.nonNull(getBoards().containsKey(ExpressoBukkit.getBbGame()))
                 && Objects.nonNull(getBoards().containsKey(ExpressoBukkit.getBbGame().getBuildBattleGameType())
                 && Objects.nonNull(getBoards().containsKey(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase()))
-                && getBoards().containsKey(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getClass())))
+                && getBoards().containsKey(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getClass()))) {
+            System.out.println("Update UpdateLines");
             fb.updateLines(getBoards().get(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getClass()).apply(player));
-        else
-            fb.updateLines("§cY\'a un soucis chef");
+        } else {
+            System.out.println("Soucis bb");
+            fb.updateLines("§cY'a un soucis chef");
+        }
     }
 
     public void remove(Player player) {
