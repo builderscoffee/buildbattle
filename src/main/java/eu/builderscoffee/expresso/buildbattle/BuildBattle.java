@@ -55,17 +55,20 @@ public class BuildBattle {
      */
 
     public BuildBattle(BuildBattleInstanceType type) {
+        System.out.println("BB A");
         this.bbGameTypes = type;
+        System.out.println("BB B");
         // Définir l'instance du BuildBattleManager
         setBbGameManager(new BuildBattleManager(this));
-
+        System.out.println("BB C");
         // Setup les managers
         teamManager = new TeamManager();
         notationManager = new NotationManager();
         toolbarManager = new ToolbarManager();
-
+        System.out.println("BB D");
         // Setup game managers
         expressoManager = new ExpressoManager(this);
+        System.out.println("BB E");
     }
 
     // CONFIGURE GAME TYPE
