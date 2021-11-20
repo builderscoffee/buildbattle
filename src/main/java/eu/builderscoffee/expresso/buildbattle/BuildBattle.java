@@ -32,7 +32,7 @@ public class BuildBattle {
     // Liste des jurys
     private List<Player> jurors = new ArrayList<>();
     // Type d'instance ( Expresso , BB , tournois )
-    private BuildBattleInstanceType bbGameTypes = BuildBattleInstanceType.NONE;
+    private BuildBattleInstanceType bbGameTypes;
     private BuildBattleGameType buildBattleGameType;
     private ExpressoGameType expressoGameType = null;
     private ClassicGameType classicGameType = null;
@@ -55,6 +55,7 @@ public class BuildBattle {
      */
 
     public BuildBattle(BuildBattleInstanceType type) {
+        this.bbGameTypes = type;
         // Définir l'instance du BuildBattleManager
         setBbGameManager(new BuildBattleManager(this));
 
@@ -65,8 +66,6 @@ public class BuildBattle {
 
         // Setup game managers
         expressoManager = new ExpressoManager(this);
-
-        this.bbGameTypes = type;
     }
 
     // CONFIGURE GAME TYPE
