@@ -16,19 +16,13 @@ public class ExpressoManager {
     private ExpressoGameType currentExpressoGameType;
 
     public ExpressoManager(BuildBattle bbGame) {
-        System.out.println("EXP A");
         this.bbGame = bbGame;
-        System.out.println("EXP B");
         this.expressoGameTypes = new ArrayList<>();
-        System.out.println("EXP C");
         setCurrentExpressoGameType(bbGame.getExpressoGameType());
-        System.out.println("EXP D");
         // Récuperer tout les expresso
         getAllExpresso();
-        System.out.println("EXP E");
         // Définir un expresso par défault
         setCurrentExpressoGameType(bbGame.getExpressoGameType());
-        System.out.println("EXP F");
     }
 
     /**

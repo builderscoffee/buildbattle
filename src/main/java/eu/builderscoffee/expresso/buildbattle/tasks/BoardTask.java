@@ -17,6 +17,7 @@ public class BoardTask extends BukkitRunnable {
         if (Objects.nonNull(ExpressoBukkit.getBbGame()) && Objects.nonNull(ExpressoBukkit.getBbGame().getBbGameTypes())) {
             System.out.println(BoardTask.class.getName());
             Bukkit.getOnlinePlayers().forEach(player -> ExpressoBukkit.getBbGame().getBbGameTypes().getBaseBoard().update(player));
+            System.out.println("BoardTaskEnd");
         }
     }
 }
