@@ -11,17 +11,17 @@ import lombok.val;
 
 import java.util.ArrayList;
 
-public class ExpressoScoreboard extends BaseBoard {
+public class ClassicScoreBoard extends BaseBoard {
 
 
-    public ExpressoScoreboard() {
+    public ClassicScoreBoard() {
         /* Add board for Launching phase */
         this.getBoards().put(LaunchingPhase.class, player -> {
             val messages = MessageUtils.getMessageConfig(player);
             val list = new ArrayList<String>();
             list.add(this.addSeparator());
             list.add("§aSaison : " + messages.getBoard().getSeasonName());
-            list.add("§aExpresso : §f" + ExpressoBukkit.getBbGame().getBuildBattleGameType().getName());
+            list.add("§aClassic : §f" + ExpressoBukkit.getBbGame().getBuildBattleGameType().getName());
             list.add("§aThème : " + "§f§kLait");
             list.add("§aTimer : §f" + TimeUtils.getDurationString(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getTime() - ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getCurrentTime()));
             list.add(this.addBlank());
@@ -36,7 +36,7 @@ public class ExpressoScoreboard extends BaseBoard {
             val list = new ArrayList<String>();
             list.add(this.addSeparator());
             list.add("§aSaison : " + messages.getBoard().getSeasonName());
-            list.add("§aExpresso : §f" + ExpressoBukkit.getBbGame().getBuildBattleGameType().getName());
+            list.add("§aClassic : §f" + ExpressoBukkit.getBbGame().getBuildBattleGameType().getName());
             if (ExpressoBukkit.getBbGame().getBbGameManager().getThemes().length() < 30)
                 list.add("§aThème : " + ExpressoBukkit.getBbGame().getBbGameManager().getThemes());
             else {
@@ -56,7 +56,7 @@ public class ExpressoScoreboard extends BaseBoard {
             val list = new ArrayList<String>();
             list.add(this.addSeparator());
             list.add("§aSaison : " + messages.getBoard().getSeasonName());
-            list.add("§aExpresso : §f" + ExpressoBukkit.getBbGame().getBuildBattleGameType().getName());
+            list.add("§aClassic : §f" + ExpressoBukkit.getBbGame().getBuildBattleGameType().getName());
             if (ExpressoBukkit.getBbGame().getBbGameManager().getThemes().length() < 30)
                 list.add("§aThème : " + ExpressoBukkit.getBbGame().getBbGameManager().getThemes());
             else {

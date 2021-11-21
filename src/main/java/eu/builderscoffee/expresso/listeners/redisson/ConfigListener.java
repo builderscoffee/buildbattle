@@ -26,8 +26,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ConfigListener implements PacketListener {
 
     @Getter
-    @Setter
-    private int plotSize = 0;
+    private static Map<Class<? extends ConfigRequestable>, ConfigRequestable> requestables = new HashMap<>();
 
     /*
     public static class ConfigStage {
@@ -43,11 +42,12 @@ public class ConfigListener implements PacketListener {
             this.previous = previous;
         }
     }*/
-
-    @Getter
-    private static Map<Class<? extends ConfigRequestable>, ConfigRequestable> requestables = new HashMap<>();
     @Getter
     private static Map<Class<? extends ConfigResponsible>, ConfigResponsible> responsibles = new HashMap<>();
+    @Getter
+    @Setter
+    private int plotSize = 0;
+    private ConfigStage configStage = ConfigStage.BBINSTANCETYPE;
 
     public ConfigListener() {
         ReflectionUtils.reflectInstances(ConfigRequestable.class.getPackage(), ConfigRequestable.class)
@@ -57,7 +57,7 @@ public class ConfigListener implements PacketListener {
     }
 
     @ProcessPacket
-    public void onConfigRequest(ServerManagerRequest request){
+    public void onConfigRequest(ServerManagerRequest request) {
         System.out.println("Request: " + request.getType());
         getRequestables().values().stream()
                 .filter(config -> request.getType().equals(config.getType()))
@@ -65,22 +65,6 @@ public class ConfigListener implements PacketListener {
                     Redis.publish(CommonTopics.SERVER_MANAGER, config.request(request, new ServerManagerResponse(request)));
                 });
     }
-
-    public enum ConfigStage {
-        BBINSTANCETYPE(null),
-        GAMETYPE_EXPRESSO(ConfigStage.BBINSTANCETYPE),
-        GAMETYPE_BUILDBATTLE(ConfigStage.BBINSTANCETYPE),
-        GAMETYPE_TOURNAMENT(ConfigStage.BBINSTANCETYPE),
-        EXPRESSO_TYPE(ConfigStage.GAMETYPE_EXPRESSO);
-
-        final ConfigStage previous;
-
-        ConfigStage(ConfigStage previous) {
-            this.previous = previous;
-        }
-    }
-
-    private ConfigStage configStage = ConfigStage.BBINSTANCETYPE;
 
     /***
      * Recevoir l'action de configuration de la partie
@@ -130,6 +114,34 @@ public class ConfigListener implements PacketListener {
                 return;
             }
         }*/
+    }
+
+    /***
+     * Sélectioner le temps de jeux d'une partie
+     * @param request
+     */
+    public void sendPlayTime(ServerManagerRequest request) {
+        // Create from the request
+        val response = new ServerManagerResponse(request);
+        val itemsAction = new ServerManagerResponse.Items();
+        itemsAction.setType("playtime");
+
+        val gameType = ExpressoBukkit.getBbGame().getBuildBattleGameType();
+
+        AtomicInteger i = new AtomicInteger(0);
+        gameType.getPhases().stream()
+                .filter(phase -> !(phase instanceof EndPhase))
+                .forEach(phase -> itemsAction.addItem(2, 2 + i.incrementAndGet(), new ItemBuilder(phase.getIcon().getType()).setName("§a" + phase.getName()).addLoreLine(Arrays.asList("§bTemps:", "§bPar défault: §f" + TimeUtils.getDurationString(phase.getDefaultTime()), "§bCustom :§f" + TimeUtils.getDurationString(phase.getTime()))).build(), phase.getClass().getSimpleName()));
+
+        itemsAction.addItem(3, 4, new ItemBuilder(Material.WOOL, 1, (short) 13).setName("§aValider les phases").build(), "setplaytime");
+
+        // Add Action to response
+        response.getActions().add(itemsAction);
+
+        // Set
+
+        // Publish the reponse
+        Redis.publish(CommonTopics.SERVER_MANAGER, response);
     }
 
     /***
@@ -375,28 +387,21 @@ public class ConfigListener implements PacketListener {
     }*/
 
     /***
-     * Sélectioner le temps de jeux d'une partie
+     * Répondre à la requète avec une confirmation pour démarrer la partie
      * @param request
      */
-    public void sendPlayTime(ServerManagerRequest request) {
+    public void sendStartConfig(ServerManagerRequest request) {
         // Create from the request
         val response = new ServerManagerResponse(request);
         val itemsAction = new ServerManagerResponse.Items();
-        itemsAction.setType("playtime");
 
-        val gameType = ExpressoBukkit.getBbGame().getBuildBattleGameType();
+        itemsAction.setType("game");
+        if (!ExpressoBukkit.getBbGame().getBbGameManager().isRunning() || ExpressoBukkit.getBbGame().isPaused()) {
+            itemsAction.addItem(2, 4, new ItemBuilder(Material.WOOL, 1, (short) 13).setName("§aDémarer").build(), "start");
 
-        AtomicInteger i = new AtomicInteger(0);
-        gameType.getPhases().stream()
-                .filter(phase -> !(phase instanceof EndPhase))
-                .forEach(phase -> itemsAction.addItem(2, 2 + i.incrementAndGet(), new ItemBuilder(phase.getIcon().getType()).setName("§a" + phase.getName()).addLoreLine(Arrays.asList("§bTemps:", "§bPar défault: §f" + TimeUtils.getDurationString(phase.getDefaultTime()), "§bCustom :§f" + TimeUtils.getDurationString(phase.getTime()))).build(), phase.getClass().getSimpleName()));
-
-        itemsAction.addItem(3, 4, new ItemBuilder(Material.WOOL, 1, (short) 13).setName("§aValider les phases").build(), "setplaytime");
-
-        // Add Action to response
-        response.getActions().add(itemsAction);
-
-        // Set
+            // Add Action to response
+            response.getActions().add(itemsAction);
+        }
 
         // Publish the reponse
         Redis.publish(CommonTopics.SERVER_MANAGER, response);
@@ -445,27 +450,6 @@ public class ConfigListener implements PacketListener {
         // Publish the reponse
         Redis.publish(CommonTopics.SERVER_MANAGER, response);
     }*/
-
-    /***
-     * Répondre à la requète avec une confirmation pour démarrer la partie
-     * @param request
-     */
-    public void sendStartConfig(ServerManagerRequest request) {
-        // Create from the request
-        val response = new ServerManagerResponse(request);
-        val itemsAction = new ServerManagerResponse.Items();
-
-        itemsAction.setType("game");
-        if (!ExpressoBukkit.getBbGame().getBbGameManager().isRunning() || ExpressoBukkit.getBbGame().isPaused()) {
-            itemsAction.addItem(2, 4, new ItemBuilder(Material.WOOL, 1, (short) 13).setName("§aDémarer").build(), "start");
-
-            // Add Action to response
-            response.getActions().add(itemsAction);
-        }
-
-        // Publish the reponse
-        Redis.publish(CommonTopics.SERVER_MANAGER, response);
-    }
 
     /***
      * Répondre à la requète en disant que la configuration est terminée
@@ -530,5 +514,19 @@ public class ConfigListener implements PacketListener {
 
         // Publish the response
         Redis.publish(CommonTopics.SERVER_MANAGER, response);
+    }
+
+    public enum ConfigStage {
+        BBINSTANCETYPE(null),
+        GAMETYPE_EXPRESSO(ConfigStage.BBINSTANCETYPE),
+        GAMETYPE_BUILDBATTLE(ConfigStage.BBINSTANCETYPE),
+        GAMETYPE_TOURNAMENT(ConfigStage.BBINSTANCETYPE),
+        EXPRESSO_TYPE(ConfigStage.GAMETYPE_EXPRESSO);
+
+        final ConfigStage previous;
+
+        ConfigStage(ConfigStage previous) {
+            this.previous = previous;
+        }
     }
 }

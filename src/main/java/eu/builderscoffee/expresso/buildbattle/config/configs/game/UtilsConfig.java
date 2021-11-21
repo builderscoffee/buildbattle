@@ -1,10 +1,8 @@
 package eu.builderscoffee.expresso.buildbattle.config.configs.game;
 
 import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
-import eu.builderscoffee.commons.common.redisson.packets.ServerManagerRequest;
 import eu.builderscoffee.commons.common.redisson.packets.ServerManagerResponse;
 import eu.builderscoffee.expresso.buildbattle.config.ConfigResponsible;
-import eu.builderscoffee.expresso.buildbattle.config.ConfigTemplate;
 import lombok.val;
 import org.bukkit.Material;
 

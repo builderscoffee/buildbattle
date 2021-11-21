@@ -3,7 +3,6 @@ package eu.builderscoffee.expresso.buildbattle;
 import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.games.expressos.ExpressoManager;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
-import eu.builderscoffee.expresso.buildbattle.tasks.BoardTask;
 import eu.builderscoffee.expresso.buildbattle.tasks.CheckStartTask;
 import eu.builderscoffee.expresso.utils.Log;
 import lombok.Getter;

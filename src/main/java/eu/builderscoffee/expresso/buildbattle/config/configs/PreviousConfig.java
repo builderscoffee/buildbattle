@@ -21,7 +21,7 @@ public class PreviousConfig implements ConfigRequestable {
                 .filter(entry -> entry.getName().equals(request.getData()))
                 .findFirst().get();
 
-        if(Objects.nonNull(responsible)){
+        if (Objects.nonNull(responsible)) {
             redirect(responsible, response);
         }
 

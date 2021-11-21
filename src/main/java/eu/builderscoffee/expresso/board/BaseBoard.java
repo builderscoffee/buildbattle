@@ -16,30 +16,35 @@ public class BaseBoard {
     @Getter
     private Map<Class<? extends BBPhase>, Function<Player, List<String>>> boards = new HashMap<>();
 
+    /***
+     * Mettre à jours le scoreboard du joueurs
+     * @param player
+     */
     public void update(Player player) {
-        System.out.println("Update start");
         FastBoard fb;
         if (!playerBoards.containsKey(player.getUniqueId())) {
-            System.out.println("Update CheckPlayer");
             fb = new FastBoard(player);
             fb.updateTitle(MessageUtils.getMessageConfig(player).getBoard().getTitle());
             playerBoards.put(player.getUniqueId(), fb);
         }
         fb = playerBoards.get(player.getUniqueId());
-        System.out.println("Update getFastBoard");
 
         if (Objects.nonNull(ExpressoBukkit.getBbGame())
                 && Objects.nonNull(ExpressoBukkit.getBbGame().getBuildBattleGameType())
                 && Objects.nonNull(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase())
                 && getBoards().containsKey(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getClass())) {
-            System.out.println("Update UpdateLines");
             fb.updateLines(getBoards().get(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getClass()).apply(player));
         } else {
-            System.out.println("Soucis bb");
+            fb.updateLines(addBlank());
             fb.updateLines("§cY'a un soucis chef");
+            fb.updateLines(addBlank());
         }
     }
 
+    /***
+     * Retirer une joueur de la map
+     * @param player - Le joueur
+     */
     public void remove(Player player) {
         if (playerBoards.containsKey(player.getUniqueId())) {
             playerBoards.get(player.getUniqueId()).delete();
@@ -47,8 +52,37 @@ public class BaseBoard {
         }
     }
 
+    /***
+     * Retirer tout les scoreboards et nettoyer la map
+     */
     public void removeAll() {
         playerBoards.values().forEach(board -> board.delete());
         playerBoards.clear();
+    }
+
+    /***
+     * Retourne un string vide
+     * @return - Un string vide
+     */
+    public String addBlank() {
+        return "";
+    }
+
+    /***
+     * Retourne un string avec line ligne de séparation
+     * et sont code couleur
+     * @return - Un string de spération
+     */
+    public String addSeparator() {
+        return "§0§8§m----------§8§m------";
+    }
+
+    /***
+     * Retourne un string avec l'ip du serveur
+     * et sont code couleur
+     * @return
+     */
+    public String addIp() {
+        return MessageUtils.getDefaultMessageConfig().getBoard().getServerIp();
     }
 }
