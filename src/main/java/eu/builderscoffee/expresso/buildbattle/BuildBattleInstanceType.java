@@ -2,6 +2,7 @@ package eu.builderscoffee.expresso.buildbattle;
 
 import eu.builderscoffee.api.bukkit.utils.ItemBuilder;
 import eu.builderscoffee.expresso.board.BaseBoard;
+import eu.builderscoffee.expresso.board.type.ClassicScoreBoard;
 import eu.builderscoffee.expresso.board.type.ExpressoScoreboard;
 import eu.builderscoffee.expresso.buildbattle.games.classic.ClassicGameType;
 import eu.builderscoffee.expresso.buildbattle.games.expressos.ExpressoGameType;
@@ -13,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
 public enum BuildBattleInstanceType {
 
     EXPRESSO(ExpressoGameType.class, "Expresso", new ItemBuilder(Material.INK_SACK, 1, (short) 3).setName("§cExpresso").addLoreLine("§7Mélange savoureux d'arôme").build(), new ExpressoScoreboard()),
-    CLASSIC(ClassicGameType.class, "Classic", new ItemBuilder(Material.WORKBENCH, 1).setName("§cClassic").addLoreLine("§7Décaféiné").build(), new ExpressoScoreboard()),
+    CLASSIC(ClassicGameType.class, "Classic", new ItemBuilder(Material.WORKBENCH, 1).setName("§cClassic").addLoreLine("§7Décaféiné").build(), new ClassicScoreBoard()),
     TOURNAMENT(TournamentGameType.class, "Tournois", new ItemBuilder(Material.BANNER, 1).setName("§cTournois").addLoreLine("§7Mélange maison").build(), new ExpressoScoreboard()),
     NONE(null, "Rien", null, new BaseBoard());
 
