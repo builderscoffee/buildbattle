@@ -5,6 +5,7 @@ import eu.builderscoffee.expresso.ExpressoBukkit;
 import eu.builderscoffee.expresso.buildbattle.phase.BBPhase;
 import eu.builderscoffee.expresso.utils.MessageUtils;
 import lombok.Getter;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -15,6 +16,8 @@ public class BaseBoard {
     private static Map<UUID, FastBoard> playerBoards = new HashMap<>();
     @Getter
     private Map<Class<? extends BBPhase>, Function<Player, List<String>>> boards = new HashMap<>();
+    private int ipCharIndex;
+    private int cooldown;
 
     /***
      * Mettre à jours le scoreboard du joueurs
@@ -84,5 +87,37 @@ public class BaseBoard {
      */
     public String addIp() {
         return MessageUtils.getDefaultMessageConfig().getBoard().getServerIp();
+    }
+
+    public String ipAnimate(String ipString) {
+        if (cooldown > 0) {
+            cooldown--;
+            return ChatColor.GOLD + ipString;
+        }
+
+        StringBuilder formattedIp = new StringBuilder();
+
+        if (ipCharIndex > 0) {
+            formattedIp.append(ipString, 0, ipCharIndex - 1);
+            formattedIp.append(ChatColor.YELLOW).append(ipString.substring(ipCharIndex - 1, ipCharIndex));
+        } else {
+            formattedIp.append(ipString, 0, ipCharIndex);
+        }
+
+        formattedIp.append(ChatColor.RED).append(ipString.charAt(ipCharIndex));
+
+        if (ipCharIndex + 1 < ipString.length()) {
+            formattedIp.append(ChatColor.YELLOW).append(ipString.charAt(ipCharIndex + 1));
+
+            if (ipCharIndex + 2 < ipString.length())
+                formattedIp.append(ChatColor.GOLD).append(ipString.substring(ipCharIndex + 2));
+
+            ipCharIndex++;
+        } else {
+            ipCharIndex = 0;
+            cooldown = 50;
+        }
+
+        return ChatColor.GOLD + formattedIp.toString();
     }
 }
