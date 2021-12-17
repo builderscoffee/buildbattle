@@ -43,7 +43,7 @@ public class BuildBattleManager implements Cloneable {
     private BBPhase bbPhase;
     @Getter
     @Setter
-    private String themes;
+    private String theme;
 
     public BuildBattleManager(final BuildBattle game) {
         // Instances

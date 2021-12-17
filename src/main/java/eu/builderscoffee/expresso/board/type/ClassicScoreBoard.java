@@ -21,7 +21,7 @@ public class ClassicScoreBoard extends BaseBoard {
             val list = new ArrayList<String>();
             list.add(this.addSeparator());
             list.add("§aSaison : " + messages.getBoard().getSeasonName());
-            if (ExpressoBukkit.getBbGame().getBuildBattleGameType().getName().length() < 30) {
+            if (("§aClassic : §f" + ExpressoBukkit.getBbGame().getBuildBattleGameType().getName()).length() < 30) {
                 list.add("§aClassic : §f" + ExpressoBukkit.getBbGame().getBuildBattleGameType().getName());
             } else {
                 list.add("§aClassic : §f");
@@ -41,17 +41,17 @@ public class ClassicScoreBoard extends BaseBoard {
             val list = new ArrayList<String>();
             list.add(this.addSeparator());
             list.add("§aSaison : " + messages.getBoard().getSeasonName());
-            if (ExpressoBukkit.getBbGame().getBuildBattleGameType().getName().length() < 30) {
+            if (("§aClassic : §f" + ExpressoBukkit.getBbGame().getBuildBattleGameType().getName()).length() < 30) {
                 list.add("§aClassic : §f" + ExpressoBukkit.getBbGame().getBuildBattleGameType().getName());
             } else {
                 list.add("§aClassic : §f");
                 list.add(ExpressoBukkit.getBbGame().getBuildBattleGameType().getName());
             }
-            if (ExpressoBukkit.getBbGame().getBbGameManager().getThemes().length() < 30)
-                list.add("§aThème : " + ExpressoBukkit.getBbGame().getBbGameManager().getThemes());
+            if (("§aThème : " + ExpressoBukkit.getBbGame().getBbGameManager().getTheme()).length() < 30)
+                list.add("§aThème : " + ExpressoBukkit.getBbGame().getBbGameManager().getTheme());
             else {
                 list.add("§aThème : ");
-                list.add(ExpressoBukkit.getBbGame().getBbGameManager().getThemes());
+                list.add(ExpressoBukkit.getBbGame().getBbGameManager().getTheme());
             }
             list.add("§aTimer : §f" + TimeUtils.getDurationString(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getTime() - ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getCurrentTime()));
             list.add(this.addBlank());
@@ -66,17 +66,17 @@ public class ClassicScoreBoard extends BaseBoard {
             val list = new ArrayList<String>();
             list.add(this.addSeparator());
             list.add("§aSaison : " + messages.getBoard().getSeasonName());
-            if (ExpressoBukkit.getBbGame().getBuildBattleGameType().getName().length() < 30) {
+            if (("§aClassic : §f" + ExpressoBukkit.getBbGame().getBuildBattleGameType().getName()).length() < 30) {
                 list.add("§aClassic : §f" + ExpressoBukkit.getBbGame().getBuildBattleGameType().getName());
             } else {
                 list.add("§aClassic : §f");
                 list.add(ExpressoBukkit.getBbGame().getBuildBattleGameType().getName());
             }
-            if (ExpressoBukkit.getBbGame().getBbGameManager().getThemes().length() < 30)
-                list.add("§aThème : " + ExpressoBukkit.getBbGame().getBbGameManager().getThemes());
+            if (("§aThème : " + ExpressoBukkit.getBbGame().getBbGameManager().getTheme()).length() < 30)
+                list.add("§aThème : " + ExpressoBukkit.getBbGame().getBbGameManager().getTheme());
             else {
                 list.add("§aThème : ");
-                list.add(ExpressoBukkit.getBbGame().getBbGameManager().getThemes());
+                list.add(ExpressoBukkit.getBbGame().getBbGameManager().getTheme());
             }
             list.add("§cPartie finie");
             list.add(this.addBlank());

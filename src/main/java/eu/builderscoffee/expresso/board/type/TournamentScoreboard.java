@@ -36,11 +36,11 @@ public class TournamentScoreboard extends BaseBoard {
             list.add(this.addSeparator());
             list.add("§aSaison : " + messages.getBoard().getSeasonName());
             list.add("§aTournois : §f" + ExpressoBukkit.getBbGame().getBuildBattleGameType().getName());
-            if (ExpressoBukkit.getBbGame().getBbGameManager().getThemes().length() < 30)
-                list.add("§aThème : " + ExpressoBukkit.getBbGame().getBbGameManager().getThemes());
+            if (("§aThème : " + ExpressoBukkit.getBbGame().getBbGameManager().getTheme()).length() < 30)
+                list.add("§aThème : " + ExpressoBukkit.getBbGame().getBbGameManager().getTheme());
             else {
                 list.add("§aThème : ");
-                list.add(ExpressoBukkit.getBbGame().getBbGameManager().getThemes());
+                list.add(ExpressoBukkit.getBbGame().getBbGameManager().getTheme());
             }
             list.add("§aTimer : §f" + TimeUtils.getDurationString(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getTime() - ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getCurrentTime()));
             list.add(this.addBlank());
@@ -56,11 +56,11 @@ public class TournamentScoreboard extends BaseBoard {
             list.add(this.addSeparator());
             list.add("§aSaison : " + messages.getBoard().getSeasonName());
             list.add("§aTournois : §f" + ExpressoBukkit.getBbGame().getBuildBattleGameType().getName());
-            if (ExpressoBukkit.getBbGame().getBbGameManager().getThemes().length() < 30)
-                list.add("§aThème : " + ExpressoBukkit.getBbGame().getBbGameManager().getThemes());
+            if (("§aThème : " + ExpressoBukkit.getBbGame().getBbGameManager().getTheme()).length() < 30)
+                list.add("§aThème : " + ExpressoBukkit.getBbGame().getBbGameManager().getTheme());
             else {
                 list.add("§aThème : ");
-                list.add(ExpressoBukkit.getBbGame().getBbGameManager().getThemes());
+                list.add(ExpressoBukkit.getBbGame().getBbGameManager().getTheme());
             }
             list.add("§cPartie finie");
             list.add(this.addBlank());

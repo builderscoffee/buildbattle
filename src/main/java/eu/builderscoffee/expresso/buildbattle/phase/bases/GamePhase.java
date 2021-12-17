@@ -62,7 +62,7 @@ public class GamePhase extends BBPhase {
                         @Override
                         public void run() {
                             getOnlinePlayers().forEach(p -> {
-                                new Title(MessageUtils.getMessageConfig(p).getGame().getThemesTitle(), ExpressoBukkit.getBbGame().getBbGameManager().getThemes(), 20, 20, 20).send(p);
+                                new Title(MessageUtils.getMessageConfig(p).getGame().getThemesTitle(), ExpressoBukkit.getBbGame().getBbGameManager().getTheme(), 20, 20, 20).send(p);
                                 p.setGameMode(CREATIVE);
                             });
                         }

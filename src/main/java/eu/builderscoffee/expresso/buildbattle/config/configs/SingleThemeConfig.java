@@ -20,7 +20,7 @@ public class SingleThemeConfig extends ConfigTemplate {
     @Override
     public ServerManagerResponse request(ServerManagerRequest request, ServerManagerResponse response) {
         System.out.println(">> Request " + this.getClass().getSimpleName());
-        ExpressoBukkit.getBbGame().getBbGameManager().setThemes(request.getData()); //TODO Register BuildbattleThemeEntity
+        ExpressoBukkit.getBbGame().getBbGameManager().setTheme(request.getData()); //TODO Register BuildbattleThemeEntity
         return redirect(PlotConfig.class, response);
     }
 
@@ -34,11 +34,9 @@ public class SingleThemeConfig extends ConfigTemplate {
                 .where(BuildbattleThemeNameEntity.LANGUAGE.eq(Profil.Languages.FR)).get();
 
         // Paginate the themes
-
         data.forEach(theme -> {
             pageItemsAction.addItem(new ItemBuilder(Material.MAP).setName("§a" + theme.getName()).build(), theme.getName());
         });
-
 
         // Add Action to response
         response.getActions().add(pageItemsAction);

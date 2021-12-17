@@ -36,7 +36,7 @@ public class RequestConfig extends ConfigTemplate {
         } else if (Objects.isNull(ExpressoBukkit.getBbGame().getInstancePhases())) {
             return redirect(PhasesConfig.class, response);
             // Le thème de la partie n'est pas définie
-        } else if (Objects.isNull(ExpressoBukkit.getBbGame().getBbGameManager().getThemes())) {
+        } else if (Objects.isNull(ExpressoBukkit.getBbGame().getBbGameManager().getTheme())) {
             return redirect(SingleThemeConfig.class, response);
             // La map n'est pas générée
         } else if (Objects.isNull(Bukkit.getWorld(ExpressoBukkit.getSettings().getPlotWorldName()))) {
