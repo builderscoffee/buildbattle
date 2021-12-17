@@ -30,7 +30,7 @@ public class ExpressoScoreboard extends BaseBoard {
             list.add("§aThème : " + "§f§kLait");
             list.add("§aTimer : §f" + TimeUtils.getDurationString(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getTime() - ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getCurrentTime()));
             list.add(this.addBlank());
-            list.add(this.ipAnimate(this.addIp()));
+            list.add(this.addIp());
             list.add(this.addSeparator());
             return list;
         });
@@ -58,7 +58,7 @@ public class ExpressoScoreboard extends BaseBoard {
             System.out.println(("§aThème : " + ExpressoBukkit.getBbGame().getBbGameManager().getTheme()).length());
             list.add("§aTimer : §f" + TimeUtils.getDurationString(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getTime() - ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getCurrentTime()));
             list.add(this.addBlank());
-            list.add(this.ipAnimate(this.addIp()));
+            list.add(this.addIp());
             list.add(this.addSeparator());
             return list;
         });
@@ -83,7 +83,7 @@ public class ExpressoScoreboard extends BaseBoard {
             }
             list.add("§cPartie finie");
             list.add(this.addBlank());
-            list.add(this.ipAnimate(this.addIp()));
+            list.add(this.addIp());
             list.add(this.addSeparator());
             return list;
         });
