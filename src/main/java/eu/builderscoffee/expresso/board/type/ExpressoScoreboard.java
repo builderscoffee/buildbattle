@@ -41,20 +41,21 @@ public class ExpressoScoreboard extends BaseBoard {
             val list = new ArrayList<String>();
             list.add(this.addSeparator());
             list.add("§aSaison : " + messages.getBoard().getSeasonName());
-            /*
             if (("§aExpresso : §f" + ExpressoBukkit.getBbGame().getBuildBattleGameType().getName()).length() < 30) {
                 list.add("§aExpresso : §f" + ExpressoBukkit.getBbGame().getBuildBattleGameType().getName());
             } else {
                 list.add("§aExpresso : §f");
                 list.add(ExpressoBukkit.getBbGame().getBuildBattleGameType().getName());
             }
-             */
-            if (("§aThème : " + ExpressoBukkit.getBbGame().getBbGameManager().getTheme()).length() < 30)
+            if (("§aThème : " + ExpressoBukkit.getBbGame().getBbGameManager().getTheme()).length() < 30) {
                 list.add("§aThème : " + ExpressoBukkit.getBbGame().getBbGameManager().getTheme());
-            else {
+            } else {
                 list.add("§aThème : ");
                 list.add(ExpressoBukkit.getBbGame().getBbGameManager().getTheme());
             }
+            System.out.println("Taille -> ");
+            System.out.println(("§aSaison : " + messages.getBoard().getSeasonName()).length());
+            System.out.println(("§aThème : " + ExpressoBukkit.getBbGame().getBbGameManager().getTheme()).length());
             list.add("§aTimer : §f" + TimeUtils.getDurationString(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getTime() - ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getCurrentTime()));
             list.add(this.addBlank());
             list.add(this.ipAnimate(this.addIp()));
