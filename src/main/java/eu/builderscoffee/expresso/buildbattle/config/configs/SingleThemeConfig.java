@@ -31,6 +31,8 @@ public class SingleThemeConfig extends ConfigTemplate {
         // Get Themes form database
         val data = DataManager.getBuildbattleThemeStore().select(BuildbattleThemeEntity.class).get();
 
+        data.forEach(theme -> System.out.println(theme.toString()));
+
         // Paginate the themes
         /*
         data.forEach(theme -> {
