@@ -33,7 +33,12 @@ public class SingleThemeConfig extends ConfigTemplate {
         val data = DataManager.getBuildbattleThemeStore().select(BuildbattleThemeEntity.class).get();
 
         // Paginate the themes
-        data.forEach(theme -> pageItemsAction.addItem(new ItemBuilder(Material.MAP).setName("§a" + theme.getNames().stream().filter(translation -> translation.getLanguage().equals(Profil.Languages.FR)).findAny().get().getName()).build(), theme.getNames().stream().filter(translation -> translation.getLanguage().equals(Profil.Languages.FR)).findAny().get().getName()));
+
+        data.forEach(theme -> {
+            val selectedTheme = theme.getNames().stream().filter(translation -> translation.getLanguage().equals(Profil.Languages.FR)).findAny().get().getName();
+            System.out.println("Theme name : " + selectedTheme);
+            pageItemsAction.addItem(new ItemBuilder(Material.MAP).setName("§a" + selectedTheme).build(), selectedTheme);
+        });
 
         // Add Action to response
         response.getActions().add(pageItemsAction);
