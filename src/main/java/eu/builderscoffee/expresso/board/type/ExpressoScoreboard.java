@@ -41,12 +41,14 @@ public class ExpressoScoreboard extends BaseBoard {
             val list = new ArrayList<String>();
             list.add(this.addSeparator());
             list.add("§aSaison : " + messages.getBoard().getSeasonName());
+            /*
             if (("§aExpresso : §f" + ExpressoBukkit.getBbGame().getBuildBattleGameType().getName()).length() < 30) {
                 list.add("§aExpresso : §f" + ExpressoBukkit.getBbGame().getBuildBattleGameType().getName());
             } else {
                 list.add("§aExpresso : §f");
                 list.add(ExpressoBukkit.getBbGame().getBuildBattleGameType().getName());
             }
+             */
             if (("§aThème : " + ExpressoBukkit.getBbGame().getBbGameManager().getTheme()).length() < 30)
                 list.add("§aThème : " + ExpressoBukkit.getBbGame().getBbGameManager().getTheme());
             else {
