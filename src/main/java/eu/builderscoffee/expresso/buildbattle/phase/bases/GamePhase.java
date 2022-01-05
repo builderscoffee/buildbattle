@@ -55,7 +55,7 @@ public class GamePhase extends BBPhase {
             public void run() {
                 if (currentTime == 0) {
                     // Démarrer la game en dévoilant le thème
-                    // et définir la gamemode en créatif pour chaques
+                    // et définir la game mode en créatif pour chaques
                     // joueurs
 
                     new BukkitRunnable() {
@@ -71,13 +71,13 @@ public class GamePhase extends BBPhase {
                     ExpressoBukkit.getInstance().getServer().getOnlinePlayers().forEach(onlinePlayer -> onlinePlayer.sendMessage(MessageUtils.getMessageConfig(onlinePlayer).getGame().getPlotAuto().replace("%prefix%", MessageUtils.getDefaultMessageConfig().getPrefix())));
 
                 }
-                // Log les minutes du jeux en console
+                // Log les minutes de jeu en console
                 if (currentTime % 60 == 0) Log.get().info(" " + currentTime / 60 + " minutes de jeux");
 
                 // Tout les X temps envoyé un broadcast pour le temps de jeux restant
                 Arrays.stream(bcTime).filter(i -> i == currentTime).forEach(i -> ExpressoBukkit.getInstance().getServer().getOnlinePlayers().forEach(player -> player.sendMessage(MessageUtils.getMessageConfig(player).getGame().getRemainingGames().replace("%prefix%", MessageUtils.getDefaultMessageConfig().getPrefix()).replace("%time%", TimeUtils.getDurationString(time - currentTime)))));
 
-                // Tout les X temps envoyé un title pour la dernière minutes restante
+                // Tout les X temps envoyé un title pour la dernière minute restante
                 Arrays.stream(titleTime).filter(i -> i == currentTime).forEach(i -> getOnlinePlayers().forEach(p -> {
                     new Title(MessageUtils.getMessageConfig(p).getGame().getRemainingTime(), TimeUtils.getDurationString(time - currentTime), 20, 5, 20).send(p);
                 }));

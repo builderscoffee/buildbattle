@@ -101,7 +101,7 @@ public class JuryNotationInventory implements InventoryProvider {
      * @param cachedValue - Valeur en cache
      * @param notationType - Type de notation
      * @param clickType - Type de click
-     * @return - Retourne la valeur calculé
+     * @return - Retourne la valeur calculée
      */
     public int changeValues(int cachedValue, Notation.NotationType notationType, ClickType clickType) {
         switch (clickType) {

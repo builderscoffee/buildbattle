@@ -6,7 +6,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class CheckStartTask extends BukkitRunnable {
 
     /***
-     * Tache permettant de checker si la partie est prète à démarrer
+     * Tache permettant de checker si la partie est prête à démarrer
      */
 
     @Override

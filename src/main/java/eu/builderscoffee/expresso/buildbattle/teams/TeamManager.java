@@ -24,7 +24,7 @@ public class TeamManager {
     // Configuration
     public SettingsConfiguration settings = ExpressoBukkit.getSettings();
     // Instance
-    private PlotAPI plotAPI = new PlotAPI();
+    private final PlotAPI plotAPI = new PlotAPI();
 
     public TeamManager() {
         // Init les variables
@@ -34,8 +34,7 @@ public class TeamManager {
 
     /***
      * Retourne la team du joueur
-     * @param player
-     * @return
+     * @param player - Joueur
      */
     public Team getPlayerTeam(Player player) {
         return teams.stream()
@@ -45,8 +44,7 @@ public class TeamManager {
 
     /***
      * Retourne si la team à atteint sont maximun de membres
-     * @param player
-     * @return
+     * @param player - Joueur
      */
     public boolean IsMembersReachLimit(Player player) {
         Team team = getPlayerTeam(player);
@@ -55,9 +53,8 @@ public class TeamManager {
 
     /***
      * Retourne si la target à la même team que le player
-     * @param player
-     * @param target
-     * @return
+     * @param player - Joueur
+     * @param target - Joueur
      */
     public boolean IsSameTeam(Player player, Player target) {
         Team team = getPlayerTeam(player);
@@ -66,8 +63,7 @@ public class TeamManager {
 
     /***
      * Retourne si player est le leader de la team
-     * @param player
-     * @return
+     * @param player - Joueur
      */
     public boolean IsTeamLeader(Player player) {
         Team team = getPlayerTeam(player);
@@ -76,8 +72,7 @@ public class TeamManager {
 
     /***
      * Retourne si le joueur à une team
-     * @param player
-     * @return
+     * @param player - Joueur
      */
     public boolean AsNoTeam(Player player) {
         return teams.stream().flatMap(team -> team.getMembers().stream()).anyMatch(member -> member.getName().equals(player.getName()));
@@ -85,7 +80,7 @@ public class TeamManager {
 
     /***
      * Voir la team du sender
-     * @param player
+     * @param player - Joueur
      */
     public void viewTeam(Player player) {
         viewTargetTeam(player, player);
@@ -93,7 +88,7 @@ public class TeamManager {
 
     /***
      * Voir la team de la target
-     * @param player
+     * @param player - Joueur
      */
     public void viewTargetTeam(Player player, Player target) {
         Team team = getPlayerTeam(target);
@@ -108,7 +103,7 @@ public class TeamManager {
                     joiner.add(displayName);
                 }
             }
-            player.sendMessage(messages.getTeam().getInfoMembers() + joiner.toString());
+            player.sendMessage(messages.getTeam().getInfoMembers() + joiner);
         } else if (!Objects.deepEquals(player, target)) {
             player.sendMessage(messages.getTeam().getNoTeam());
         } else {
@@ -118,8 +113,8 @@ public class TeamManager {
 
     /***
      * Ajouter un joueur à une team
-     * @param player
-     * @param target
+     * @param player - Joueur
+     * @param target - Joueur
      */
     public void addPlayerToTeam(Player player, Player target) {
         Team team = getPlayerTeam(player);
@@ -189,15 +184,15 @@ public class TeamManager {
 
     /***
      * Envoyer une invitation à un joueur
-     * @param player
-     * @param target
+     * @param player - Joueur
+     * @param target - Joueur
      */
     public void SendInvitation(Player player, Player target) {
         val messages = MessageUtils.getMessageConfig(player);
         // Check si le sender et la target ne sont pas les mêmes joueurs
         if (!Objects.deepEquals(player, target)) {
             Invitation invitation = new Invitation(player, target);
-            // Check si l'invitation à déja été créer
+            // Check si l'invitation à deja été créé
             invitations.add(invitation);
             player.sendMessage(messages.getInvitation().getSend().replace("%target%", target.getName()));
             new FancyMessage(messages.getInvitation().getReceiveTarget().replace("%sender%", player.getName())).then(messages.getInvitation().getReceiveAcceptance()).command("/group invite " + player.getName() + " accept").then(" ou ").then(messages.getInvitation().getReceiveDenyance()).command("/group invite " + player.getName() + " deny").send(target);
@@ -224,8 +219,8 @@ public class TeamManager {
 
     /***
      * Refuser l'invitation d'un joueur
-     * @param receiver - Joueur qui reçois l'invitation
-     * @param sender - Joueur qui envois l'invitation
+     * @param receiver - Joueur qui reçoit l'invitation
+     * @param sender - Joueur qui envoi l'invitation
      */
     public void DenyInvitation(Player receiver, Player sender) {
         val messagesReceiver = MessageUtils.getMessageConfig(receiver);
@@ -243,8 +238,8 @@ public class TeamManager {
 
     /***
      * Retourne l'invitation envoyer à un joueur
-     * @param sender
-     * @param receiver
+     * @param sender - Joueur
+     * @param receiver - Joueur
      * @return
      */
     public Invitation getInvitation(Player sender, Player receiver) {
@@ -265,7 +260,7 @@ public class TeamManager {
     // Plot part
 
     /***
-     * Ajouté tout les membres du group aux plot du leader
+     * Ajouté tous les membres du groupe aux plots du leader
      * @param team - L'object Team
      */
     public void addAllMembersToPlot(Team team, Plot plot) {
@@ -289,7 +284,7 @@ public class TeamManager {
     }
 
     /***
-     * Retiré un joueur de tout les plots de la team
+     * Retiré un joueur de tous les plots de la team
      * @param player - Joueur à retirer
      */
     public void removeMemberFromAllPlot(Player player) {

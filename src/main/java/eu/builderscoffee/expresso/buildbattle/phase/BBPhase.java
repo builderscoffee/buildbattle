@@ -17,7 +17,7 @@ public abstract class BBPhase {
 
     public int time; // Temps display d'une phase
     public int currentTime; // Temps en cours de la phase
-    public int defaultTime; // Temps par défault de la phase
+    public int defaultTime; // Temps par default de la phase
     protected String name;
     protected List<String> descriptions;
     protected ItemStack icons;

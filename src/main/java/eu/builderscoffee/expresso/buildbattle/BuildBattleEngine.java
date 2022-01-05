@@ -12,8 +12,7 @@ public interface BuildBattleEngine {
     public void load();
 
     /***
-     * Enregistrer les évenements custom du moteur de la partie
-     * @return
+     * Enregistrer les événements custom du moteur de la partie
      */
     public List<Listener> registerListener();
 

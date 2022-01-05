@@ -27,7 +27,6 @@ public class ExpressoManager {
 
     /**
      * Retourne un expresso par sont nom
-     *
      * @param name
      * @return
      */

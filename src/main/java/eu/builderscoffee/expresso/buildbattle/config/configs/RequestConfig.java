@@ -23,13 +23,13 @@ public class RequestConfig extends ConfigTemplate {
         // Le type d'instance à déja été définis ?
         if (Objects.isNull(ExpressoBukkit.getBbGame()) || ExpressoBukkit.getBbGame().getBbGameTypes().equals(BuildBattleInstanceType.NONE)) {
             return redirect(BuildbattleInstanceType.class, response);
-            // L'instance définie est expresso mais le type d'expresso n'est pas défini lui
+            // L'instance définie est expresso, mais le type d'expresso n'est pas défini lui
         } else if (ExpressoBukkit.getBbGame().getBbGameTypes().equals(BuildBattleInstanceType.EXPRESSO) && Objects.isNull(ExpressoBukkit.getBbGame().getExpressoGameType())) {
             return redirect(GameTypesConfig.class, response);
             // L'instance définie est classic mais le type n'est pas défini lui
         } else if (ExpressoBukkit.getBbGame().getBbGameTypes().equals(BuildBattleInstanceType.CLASSIC) && Objects.isNull(ExpressoBukkit.getBbGame().getClassicGameType())) {
             return redirect(GameConfig.class, response);
-            // L'instance définie est tournois mais le type n'est pas défini lui
+            // L'instance définie est tournois, mais le type n'est pas défini lui
         } else if (ExpressoBukkit.getBbGame().getBbGameTypes().equals(BuildBattleInstanceType.TOURNAMENT) && Objects.isNull(ExpressoBukkit.getBbGame().getTournamentGameType())) {
             return redirect(BuildbattleInstanceType.class, response);
             // Modifier le temps des phases de la partie
@@ -44,7 +44,7 @@ public class RequestConfig extends ConfigTemplate {
             // La partie n'est pas démarrer ou est en pause
         } else if (!ExpressoBukkit.getBbGame().isReady() || ExpressoBukkit.getBbGame().isPaused()) {
             return redirect(StartConfig.class, response);
-            // La partie est démarrer
+            // La partie est démarré
         } else {
             return redirect(GameSettings.class, response);
         }

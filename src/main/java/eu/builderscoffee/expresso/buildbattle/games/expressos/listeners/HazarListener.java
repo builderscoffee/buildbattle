@@ -28,7 +28,7 @@ public class HazarListener implements Listener {
 
     @EventHandler
     public void onBlock(BlockPlaceEvent event) {
-        // Check si la partie est commencer !
+        // Check si la partie est commencée !
         if (ExpressoBukkit.getBbGame().getGameState() == BuildBattleManager.GameState.IN_GAME) {
             // Get joueur et face du block
             val player = event.getPlayer();
@@ -40,7 +40,7 @@ public class HazarListener implements Listener {
 
             Log.get().info("Current block " + blockId + ":" + block.getData());
 
-            /* Dans le cas ou le block est un matérial de type LOG on définis un byte de 0-3 suivant sont type
+            /* Dans le cas ou le block est un material de type LOG on définit un byte de 0-3 suivant son type
             pour tromper le retour du BlockData
             */
             if (blockId == 17 && block.getData() <= 4) {
@@ -50,7 +50,7 @@ public class HazarListener implements Listener {
             // Dans le cas ou c'est des STAIRS , ne pas chercher par le short
 
             // Réaliser une recherche par l'id puis si trouvé une correspondance checker via l'id et le short en
-            // sachant qui si certaines catégorie bug si on cherche via le short
+            // sachant qui si certaines catégories bug si on cherche via le short
             // Catégorie STAIR , LOG
 
             // On check via l'engine le block à convertir
@@ -100,11 +100,11 @@ public class HazarListener implements Listener {
                 // Si la catégorie est les escaliers on applique une méthode différente
 
                 if (blockData.blockCategory.equals(BlockData.BlockCategory.STAIRS)) {
-                    // Récupère le data du blockstate
+                    // Récupère la data du blockstate
                     val stairs = (Stairs) state.getData();
                     // Met la dirrection di l'escalier
                     stairs.setFacingDirection(stairsFace);
-                    // Met l'escalier en haut ou en bas selon le cacul de la ou le joueur regarde
+                    // Met l'escalier en haut ou en bas selon le calcul de la ou le joueur regarde
                     stairs.setInverted(y > 0.5 || face == BlockFace.DOWN);
                     // Met la data dans le state
                     state.setData(stairs);
@@ -113,11 +113,11 @@ public class HazarListener implements Listener {
                     val oldLogData = LogConverter.getLogTypeByShort(blockOldData);
                     // On met en cache la data du block
                     oldLogData.setDataId(blockOldData);
-                    // On récupère le data du block à placer
+                    // On récupère la data du block à placer
                     val newLogData = LogConverter.getLogTypeByShort(blockData.shortId);
                     // On met en cache la data du block
                     newLogData.setDataId(blockData.shortId);
-                    // On applique une nouvelle data sur le block a partir du converter
+                    // On applique une nouvelle data sur le block à partir du converter
                     state.setData(LogConverter.ConvertLogType(oldLogData, newLogData));
                 }
                 // Sinon on applique simplement la data

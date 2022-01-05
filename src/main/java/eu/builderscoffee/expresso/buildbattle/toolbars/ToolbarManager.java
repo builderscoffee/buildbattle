@@ -22,21 +22,21 @@ public class ToolbarManager implements Listener {
     public static Map<Player, Toolbars> playerToolbars = new HashMap<>();
 
     public ToolbarManager() {
-        // Enregistrer les évenements de la class
+        // Enregistrer les événements de la class
         Bukkit.getPluginManager().registerEvents(this, ExpressoBukkit.getInstance());
     }
 
     /***
      * Ajouter une ToolBar à un joueur
-     * @param player
-     * @param toolbars
+     * @param player - Joueur
+     * @param toolbars - Barre à outils
      */
     public void addToolBar(@NonNull Player player, @NonNull Toolbars toolbars) {
         // Ajouter le joueur dans la liste active
         playerToolbars.put(player, toolbars);
         // Nettoyer la HotBar du joueur
         cleanHotBar(player);
-        // Set les items suivants la bar choisie en fonction de leur slot
+        // Définir les items suivants la barre choisie en fonction de leur slot
         toolbars.getToolbarItems().forEach(toolbarItem -> player.getInventory().setItem(toolbarItem.getSlot(), toolbarItem.getItem(player)));
     }
 

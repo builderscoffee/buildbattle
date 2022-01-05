@@ -70,8 +70,7 @@ public class BuildBattle {
 
     /***
      * Définir ou redéfinir l'expresso de la partie en cours
-     *
-     * @param type
+     * @param type - Type de BuildBattleInstanceType
      */
     public final void configureGameType(BuildBattleInstanceType type) {
         switch (type) {
@@ -94,8 +93,7 @@ public class BuildBattle {
 
     /**
      * Ajouter un joueur à la liste des participants
-     *
-     * @param player
+     * @param player - Joueur
      */
     public void addCompetitor(Player player) {
         competitors.add(player);
@@ -104,8 +102,7 @@ public class BuildBattle {
 
     /**
      * Retirer un joueur de la liste des participants
-     *
-     * @param player
+     * @param player - Joueur
      */
     public void removeCompetitor(Player player) {
         competitors.remove(player);
@@ -116,8 +113,7 @@ public class BuildBattle {
 
     /**
      * Ajouter un joueur à la liste des jury
-     *
-     * @param player
+     * @param player - Joueur
      */
     public void addJury(Player player) {
         jurors.add(player);
@@ -125,8 +121,7 @@ public class BuildBattle {
 
     /**
      * Retirer un joueur de la liste des jury
-     *
-     * @param player
+     * @param player - Joueur
      */
     public void removeJury(Player player) {
         jurors.remove(player);
@@ -136,7 +131,7 @@ public class BuildBattle {
 
     /***
      * Broadcast un message dans la partie
-     * @param message
+     * @param message - Message à broadcast
      */
     public void broadcast(final String message) {
         Bukkit.broadcastMessage(message);

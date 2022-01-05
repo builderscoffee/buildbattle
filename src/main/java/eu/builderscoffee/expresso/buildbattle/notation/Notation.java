@@ -27,7 +27,7 @@ public class Notation {
         Fun(4, 1, 5);
 
         @Getter
-        private final int maxValue; // Valeur maximun d'une note
+        private final int maxValue; // Valeur maximum d'une note
         @Getter
         private final int normalClickValue; // Valeur d'un clicks
         @Getter

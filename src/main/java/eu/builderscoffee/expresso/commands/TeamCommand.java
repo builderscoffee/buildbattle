@@ -65,11 +65,11 @@ public class TeamCommand implements CommandExecutor {
         Player targetLenght2 = Bukkit.getPlayer(args2);
         switch (args1) {
             case "add":
-                // Ajouter un joueur aux groupe
+                // Ajouter un joueur au groupe
                 ExpressoBukkit.getBbGame().getTeamManager().SendInvitation(player, targetLenght2.getPlayer());
                 break;
             case "remove":
-                // Retirer un joueur aux groupe
+                // Retirer un joueur au groupe
                 ExpressoBukkit.getBbGame().getTeamManager().removePlayerFromTeam(targetLenght2.getPlayer());
                 break;
             case "info":
@@ -85,7 +85,7 @@ public class TeamCommand implements CommandExecutor {
         args1 = args1.toLowerCase();
         switch (args1) {
             case "invite":
-                // Gèrer les invitation
+                // Gérer les invitations
                 switch (args3) {
                     case "accept":
                         // Accepter l'invite du joueur

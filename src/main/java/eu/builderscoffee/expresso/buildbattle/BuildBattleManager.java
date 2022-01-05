@@ -51,7 +51,7 @@ public class BuildBattleManager implements Cloneable {
         this.game = game;
         // Managers
         setExpressoManager(game.getExpressoManager());
-        // Définir la phase par défault
+        // Définir la phase par default
         this.getGame().setGameState(GameState.WAITING);
     }
 
@@ -87,7 +87,6 @@ public class BuildBattleManager implements Cloneable {
 
     /***
      * Retourne si la partie est prète à démarrer
-     * @return
      */
     public boolean shouldStart() {
         return this.getGame().getGameState() == GameState.WAITING
@@ -96,7 +95,6 @@ public class BuildBattleManager implements Cloneable {
 
     /***
      * Check l'état de la partie
-     * @return
      */
     public boolean isRunning() {
         return this.getGame().getGameState() != GameState.WAITING;
@@ -107,7 +105,7 @@ public class BuildBattleManager implements Cloneable {
      * reset le système
      */
     public void cancelGame() {
-        // On stopper la phase en cours si ce n'est déja pas fait
+        // On stoppe la phase en cours si ce n'est deja pas fait
         this.cancelPhase();
         // On stopper toutes les task
         ExpressoBukkit.getExecutionManager().cancelAllTasks();
@@ -131,7 +129,7 @@ public class BuildBattleManager implements Cloneable {
         this.getGame().setGameState(this.game.getBuildBattleGameType().getCurrentPhase().getState());
         // Couper la phase en cours
         this.cancelPhase();
-        // Désactiver les plugin de build
+        // Désactiver les plugins de build
         this.disablePlugins();
     }
 
@@ -185,11 +183,11 @@ public class BuildBattleManager implements Cloneable {
         this.getGame().setGameState(this.game.getBuildBattleGameType().getCurrentPhase().getState());
         // Lancer la Task de la prochaine phase
         this.startPhase(this.game.getBuildBattleGameType().getCurrentPhase().runnable());
-        // Lancer le moteur de la partie si il en existe un pour la phase en cours
+        // Lancer le moteur de la partie s'il en existe un pour la phase en cours
         if (this.game.getBuildBattleGameType().getCurrentPhase().getEngine() != null) {
             // Lancer le moteur de la partie
             this.game.getBuildBattleGameType().getCurrentPhase().getEngine().load();
-            // Enregister les evenements propre aux moteur de la partie
+            // Enregister les évenements propre au moteur de la partie
             this.game.getBuildBattleGameType().getCurrentPhase().getEngine().registerListener();
         }
     }
@@ -197,7 +195,7 @@ public class BuildBattleManager implements Cloneable {
     // OTHER STUFF
 
     /***
-     * Désactiver les plugin non nécessaire après la phase IN-GAME
+     * Désactiver les plugins non nécessaires après la phase IN-GAME
      */
     public void disablePlugins() {
         PluginManager pm = ExpressoBukkit.getInstance().getServer().getPluginManager();

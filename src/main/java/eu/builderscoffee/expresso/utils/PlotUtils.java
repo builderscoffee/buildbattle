@@ -59,7 +59,7 @@ public class PlotUtils {
     }
 
     /***
-     * Retourne le plot par rapport a la position dans la list
+     * Retourne le plot par rapport à la position dans la list
      * @param
      * @return
      */

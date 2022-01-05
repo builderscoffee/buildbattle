@@ -25,7 +25,7 @@ public class HazarEngine implements BuildBattleEngine {
     private ExpressoBukkit instance;
 
     public HazarEngine(ExpressoBukkit instance) {
-        // On défini l'instance de la class principale
+        // On définit l'instance de la class principale
         setInstance(instance);
         // On init le menu
         new HazardExpressoInventory(this);
@@ -70,7 +70,7 @@ public class HazarEngine implements BuildBattleEngine {
                                 .values()
                 );
 
-                // Retourné un tableaux de liste avec les 2 fraichement spliter
+                // Retourné un tableau de liste avec les 2 fraichement spliter
                 List[] twopart = new List[]{lists.get(0), lists.get(1)};
 
                 List l1 = twopart[0];

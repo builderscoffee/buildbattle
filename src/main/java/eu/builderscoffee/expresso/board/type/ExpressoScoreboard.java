@@ -53,9 +53,6 @@ public class ExpressoScoreboard extends BaseBoard {
                 list.add("§aThème : ");
                 list.add(ExpressoBukkit.getBbGame().getBbGameManager().getTheme());
             }
-            System.out.println("Taille -> ");
-            System.out.println(("§aSaison : " + messages.getBoard().getSeasonName()).length());
-            System.out.println(("§aThème : " + ExpressoBukkit.getBbGame().getBbGameManager().getTheme()).length());
             list.add("§aTimer : §f" + TimeUtils.getDurationString(ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getTime() - ExpressoBukkit.getBbGame().getBuildBattleGameType().getCurrentPhase().getCurrentTime()));
             list.add(this.addBlank());
             list.add(this.addIp());

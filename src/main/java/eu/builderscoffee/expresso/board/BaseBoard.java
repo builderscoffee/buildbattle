@@ -20,8 +20,8 @@ public class BaseBoard {
     private int cooldown;
 
     /***
-     * Mettre à jours le scoreboard du joueurs
-     * @param player
+     * Mettre à jour le scoreboard du joueur
+     * @param player - Joueur
      */
     public void update(Player player) {
         FastBoard fb;
@@ -45,7 +45,7 @@ public class BaseBoard {
     }
 
     /***
-     * Retirer une joueur de la map
+     * Retirer un joueur de la map
      * @param player - Le joueur
      */
     public void remove(Player player) {
@@ -73,7 +73,7 @@ public class BaseBoard {
 
     /***
      * Retourne un string avec line ligne de séparation
-     * et sont code couleur
+     * et son code couleur
      * @return - Un string de spération
      */
     public String addSeparator() {

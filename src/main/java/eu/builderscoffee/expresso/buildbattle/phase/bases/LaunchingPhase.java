@@ -35,7 +35,7 @@ public class LaunchingPhase extends BBPhase {
         return new BukkitRunnable() {
             @Override
             public void run() {
-                // Checker si la partie est prète à démarrer ?
+                // Checker si la partie est prête à démarrer ?
                 if (!ExpressoBukkit.getBbGame().isReady()) {
                     return;
                 }

@@ -14,7 +14,7 @@ public class CommandConfigurationPart {
 
     /* Plot Command Configuration */
     String plotDefault = "§a/eplot §b: Aide du plugin Expresso";
-    String plotInfo = "§a/eplot info§b: Voir les infoormations du plot";
+    String plotInfo = "§a/eplot info§b: Voir les information du plot";
     String plotInfoHeader = "§0§7§m--- §fPlot §0§7§m---";
     String plotInfoId = "§aId: §7 %id%";
     String plotInfoOwner = "§aOwner : §7 %owner%";

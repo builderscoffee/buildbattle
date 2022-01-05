@@ -51,7 +51,6 @@ public class ExecutionManager {
 
     /**
      * Cancel a custom tasks
-     *
      * @param task The name of tasks to cancel
      */
     public void cancel(String task) {
@@ -64,7 +63,6 @@ public class ExecutionManager {
 
     /**
      * Get all tasks running
-     *
      * @return Current running tasks list
      */
     public List<BukkitTask> getBukkitTasks() {

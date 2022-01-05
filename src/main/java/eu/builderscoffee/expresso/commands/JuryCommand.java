@@ -18,7 +18,6 @@ public class JuryCommand implements CommandExecutor {
         return true;
     }
 
-
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
@@ -33,7 +32,6 @@ public class JuryCommand implements CommandExecutor {
             if (!ret) {
                 player.sendMessage(MessageUtils.getMessageConfig(sender).getCommand().getBadSyntaxe().replace("%prefix%", MessageUtils.getDefaultMessageConfig().getPrefix()));
             }
-
             return ret;
         }
 

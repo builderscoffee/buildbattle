@@ -20,9 +20,7 @@ public abstract class BuildBattleGameType {
     }
 
     /**
-     * Retourne le nom du buildbattle
-     *
-     * @return
+     * Retourne le nom du build-battle
      */
     public final String getName() {
         return name;
@@ -30,9 +28,7 @@ public abstract class BuildBattleGameType {
 
 
     /**
-     * Retournes les phases du buildbattle
-     *
-     * @return
+     * Retournes les phases du build-battle
      */
     public final Deque<BBPhase> getPhases() {
         return phases;

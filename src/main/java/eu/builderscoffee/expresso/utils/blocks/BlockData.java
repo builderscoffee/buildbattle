@@ -500,7 +500,7 @@ public enum BlockData {
     }
 
     /***
-     * Retourne une liste des blocs dans une catégorie précisé
+     * Retourne une liste des blocs dans une catégorie précisée
      *
      * @param category - La catégorie du blockData
      * @return

@@ -37,11 +37,11 @@ public class LogConverter {
     }
 
     /***
-     * On récupere l'ancienne data du block posée & la nouvelle data du block à poser
-     * On converti l'ancienne data dans le nouveaux type de block en indiquant la BlockFace
-     * du nouveaux block et on la retourne
-     * @param oldLogType - Le type de blocs posée
-     * @param newLogType -  Le type de blocs que l'on veux rempalcer
+     * On récupère l'ancienne data du block posée & la nouvelle data du block à poser
+     * On convertit l'ancienne data dans le nouveau type de block en indiquant la BlockFace
+     * du nouveau block et on la retourne
+     * @param oldLogType - Le type de blocs posé
+     * @param newLogType -  Le type de blocs que l'on veut replacer
      * @return
      */
     public static MaterialData ConvertLogType(LogType oldLogType, LogType newLogType) {
